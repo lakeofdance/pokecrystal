@@ -1695,8 +1695,8 @@ NEXTU ; d002
 ; movement buffer data
 wMovementBufferCount:: db
 wMovementBufferObject:: db
-wUnusedMovementBufferBank:: db
-wUnusedMovementBufferPointer:: dw
+;wUnusedMovementBufferBank:: db
+;wUnusedMovementBufferPointer:: dw
 wMovementBuffer:: ds 55
 
 NEXTU ; d002
@@ -1716,9 +1716,9 @@ wTrainerHUDTiles:: ds 4
 NEXTU ; d002
 ; mobile participant nicknames
 	ds 4
-wMobileParticipant1Nickname:: ds NAME_LENGTH_JAPANESE
-wMobileParticipant2Nickname:: ds NAME_LENGTH_JAPANESE
-wMobileParticipant3Nickname:: ds NAME_LENGTH_JAPANESE
+;wMobileParticipant1Nickname:: ds NAME_LENGTH_JAPANESE
+;wMobileParticipant2Nickname:: ds NAME_LENGTH_JAPANESE
+;wMobileParticipant3Nickname:: ds NAME_LENGTH_JAPANESE
 
 NEXTU ; d002
 ; earthquake data buffer
@@ -2094,7 +2094,7 @@ wTilesetBlocksAddress:: dw ; d1dd
 wTilesetCollisionBank:: db ; d1df
 wTilesetCollisionAddress:: dw ; d1e0
 wTilesetAnim:: dw ; bank 3f ; d1e2
-	ds 2 ; unused ; d1e4
+;	ds 2 ; unused ; d1e4
 wTilesetPalettes:: dw ; bank 3f ; d1e6
 wTilesetEnd::
 
@@ -2252,8 +2252,8 @@ wBreedingCompatibility::
 wMoveGrammar::
 wApplyStatLevelMultipliersToEnemy::
 wUsePPUp::
-wd265:: ; mobile
-	db
+;wd265:: ; mobile
+;	db
 
 wFailedToFlee:: db
 wNumFleeAttempts:: db
@@ -2270,10 +2270,10 @@ UNION ; d26b
 wPokedexShowPointerAddr:: dw
 wPokedexShowPointerBank:: db
 	ds 3
-wd271:: dw ; mobile
+;wd271:: dw ; mobile
 
 NEXTU ; d26b
-wUnusedEggHatchFlag:: db
+;wUnusedEggHatchFlag:: db
 
 NEXTU ; d26b
 ; enemy party
@@ -2318,7 +2318,7 @@ wDudeBallsEnd:: db ; d2af
 wDudeBagEnd::
 ENDU ; d430
 
-wd430:: ; mobile
+;wd430:: ; mobile
 wBattleAction:: db ; d430
 
 wd431:: db ; mobile
@@ -2658,14 +2658,14 @@ wVermilionPortSceneID::                           db ; d9bb
 wFastShip1FSceneID::                              db ; d9bc
 wFastShipB1FSceneID::                             db ; d9bd
 wMountMoonSquareSceneID::                         db ; d9be
-wMobileTradeRoomSceneID::                         db ; d9bf
-wMobileBattleRoomSceneID::                        db ; d9c0
+;wMobileTradeRoomSceneID::                         db ; d9bf
+;wMobileBattleRoomSceneID::                        db ; d9c0
 
 	ds 49
 
 ; fight counts
 wJackFightCount::    db ; d9f2
-wBeverlyFightCount:: db ; unused
+;wBeverlyFightCount:: db ; unused
 wHueyFightCount::    db
 wGavenFightCount::   db
 wBethFightCount::    db
@@ -2678,18 +2678,18 @@ wLizFightCount::     db
 wAnthonyFightCount:: db
 wToddFightCount::    db
 wGinaFightCount::    db
-wIrwinFightCount::   db ; unused
+;wIrwinFightCount::   db ; unused
 wArnieFightCount::   db
 wAlanFightCount::    db
 wDanaFightCount::    db
 wChadFightCount::    db
-wDerekFightCount::   db ; unused
+;wDerekFightCount::   db ; unused
 wTullyFightCount::   db
 wBrentFightCount::   db
 wTiffanyFightCount:: db
 wVanceFightCount::   db
 wWiltonFightCount::  db
-wKenjiFightCount::   db ; unused
+;wKenjiFightCount::   db ; unused
 wParryFightCount::   db
 wErinFightCount::    db
 ; da0e
@@ -2771,10 +2771,10 @@ wLuckyNumberDayBuffer:: dw ; dc2d
 wSpecialPhoneCallID:: db ; dc31
 	ds 3
 wBugContestStartTime:: ds 4 ; day, hour, min, sec ; dc35
-wUnusedTwoDayTimerOn:: db ; dc39
-wUnusedTwoDayTimer:: db
-wUnusedTwoDayTimerStartDate:: db
-	ds 4
+;wUnusedTwoDayTimerOn:: db ; dc39
+;wUnusedTwoDayTimer:: db
+;wUnusedTwoDayTimerStartDate:: db
+;	ds 4
 wMobileOrCable_LastSelection:: db
 wdc41:: ds 1
 wdc42:: ds 8
