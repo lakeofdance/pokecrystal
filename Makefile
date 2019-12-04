@@ -1,4 +1,4 @@
-roms := pokecrystal.gbc pokecrystal11.gbc pokecrystal-au.gbc
+roms := pokeruth.gbc pokecrystal11.gbc pokecrystal-au.gbc
 
 crystal_obj := \
 audio.o \
@@ -43,7 +43,7 @@ RGBLINK ?= $(RGBDS)rgblink
 .SECONDARY:
 
 all: crystal
-crystal: pokecrystal.gbc
+crystal: pokeruth.gbc
 crystal11: pokecrystal11.gbc
 crystal-au: pokecrystal-au.gbc
 
@@ -89,7 +89,7 @@ $(foreach obj, $(crystal_obj), $(eval $(call DEP,$(obj),$(obj:.o=.asm))))
 endif
 
 
-pokecrystal.gbc: $(crystal_obj) pokecrystal.link
+pokeruth.gbc: $(crystal_obj) pokecrystal.link
 	$(RGBLINK) -n pokecrystal.sym -m pokecrystal.map -l pokecrystal.link -o $@ $(crystal_obj)
 	$(RGBFIX) -Cjv -i BYTE -k 01 -l 0x33 -m 0x10 -p 0 -r 3 -t PM_CRYSTAL $@
 	tools/sort_symfile.sh pokecrystal.sym
