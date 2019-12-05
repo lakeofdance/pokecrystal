@@ -5,7 +5,7 @@ flag_array: MACRO
 ENDM
 
 box_struct: MACRO
-\1Species::        db
+\1Species::        dw
 \1Item::           db
 \1Moves::          ds NUM_MOVES
 \1ID::             dw
@@ -77,7 +77,7 @@ red_party_struct: MACRO
 ENDM
 
 battle_struct: MACRO
-\1Species::   db
+\1Species::   dw
 \1Item::      db
 \1Moves::     ds NUM_MOVES
 \1MovesEnd::
@@ -103,7 +103,7 @@ ENDM
 
 box: MACRO
 \1Count::           db
-\1Species::         ds MONS_PER_BOX + 1
+\1Species::         ds MONS_PER_BOX + 1		;todo
 \1Mons::
 \1Mon1::            box_struct \1Mon1
 \1Mon2::            ds BOXMON_STRUCT_LENGTH * (MONS_PER_BOX + -1)
@@ -192,13 +192,13 @@ mailmsg: MACRO
 \1Author::     ds PLAYER_NAME_LENGTH
 \1AuthorNationality:: ds 2
 \1AuthorID::   dw
-\1Species::    db
+\1Species::    dw
 \1Type::       db
 \1End::
 ENDM
 
 roam_struct: MACRO
-\1Species::   db
+\1Species::   dw
 \1Level::     db
 \1MapGroup::  db
 \1MapNumber:: db
@@ -208,12 +208,12 @@ ENDM
 
 bugcontestwinner: MACRO
 \1WinnerID:: db
-\1Mon::      db
+\1Mon::      dw
 \1Score::    dw
 ENDM
 
 hof_mon: MACRO
-\1Species::  db
+\1Species::  dw
 \1ID::       dw
 \1DVs::      dw
 \1Level::    db
@@ -241,7 +241,7 @@ link_battle_record: MACRO
 ENDM
 
 trademon: MACRO
-\1Species::     db ; wc6d0 | wc702
+\1Species::     dw ; wc6d0 | wc702
 \1SpeciesName:: ds MON_NAME_LENGTH ; wc6d1 | wc703
 \1Nickname::    ds MON_NAME_LENGTH ; wc6dc | wc70e
 \1SenderName::  ds NAME_LENGTH ; wc6e7 | wc719
