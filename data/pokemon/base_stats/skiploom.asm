@@ -1,4 +1,4 @@
-	db SKIPLOOM ; 188
+	dw SKIPLOOM ; 188
 
 	db  55,  45,  50,  80,  45,  65
 	;   hp  atk  def  spd  sat  sdf

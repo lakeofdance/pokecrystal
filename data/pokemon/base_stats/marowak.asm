@@ -1,4 +1,4 @@
-	db MAROWAK ; 105
+	dw MAROWAK ; 105
 
 	db  60,  80, 110,  45,  50,  80
 	;   hp  atk  def  spd  sat  sdf

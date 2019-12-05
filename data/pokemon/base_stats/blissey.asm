@@ -1,4 +1,4 @@
-	db BLISSEY ; 242
+	dw BLISSEY ; 242
 
 	db 255,  10,  10,  55,  75, 135
 	;   hp  atk  def  spd  sat  sdf

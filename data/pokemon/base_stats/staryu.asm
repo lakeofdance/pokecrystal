@@ -1,4 +1,4 @@
-	db STARYU ; 120
+	dw STARYU ; 120
 
 	db  30,  45,  55,  85,  70,  55
 	;   hp  atk  def  spd  sat  sdf

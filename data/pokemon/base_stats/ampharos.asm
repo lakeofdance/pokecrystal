@@ -1,4 +1,4 @@
-	db AMPHAROS ; 181
+	dw AMPHAROS ; 181
 
 	db  90,  75,  75,  55, 115,  90
 	;   hp  atk  def  spd  sat  sdf

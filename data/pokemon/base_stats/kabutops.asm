@@ -1,4 +1,4 @@
-	db KABUTOPS ; 141
+	dw KABUTOPS ; 141
 
 	db  60, 115, 105,  80,  65,  70
 	;   hp  atk  def  spd  sat  sdf

@@ -1,4 +1,4 @@
-	db ALAKAZAM ; 065
+	dw ALAKAZAM ; 065
 
 	db  55,  50,  45, 120, 135,  85
 	;   hp  atk  def  spd  sat  sdf

@@ -1,4 +1,4 @@
-	db CHIKORITA ; 152
+	dw CHIKORITA ; 152
 
 	db  45,  49,  65,  45,  49,  65
 	;   hp  atk  def  spd  sat  sdf

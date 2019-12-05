@@ -1,4 +1,4 @@
-	db IGGLYBUFF ; 174
+	dw IGGLYBUFF ; 174
 
 	db  90,  30,  15,  15,  40,  20
 	;   hp  atk  def  spd  sat  sdf

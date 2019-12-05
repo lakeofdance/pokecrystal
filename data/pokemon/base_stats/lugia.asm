@@ -1,4 +1,4 @@
-	db LUGIA ; 249
+	dw LUGIA ; 249
 
 	db 106,  90, 130, 110,  90, 154
 	;   hp  atk  def  spd  sat  sdf

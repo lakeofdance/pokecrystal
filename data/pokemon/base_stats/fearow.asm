@@ -1,4 +1,4 @@
-	db FEAROW ; 022
+	dw FEAROW ; 022
 
 	db  65,  90,  65, 100,  61,  61
 	;   hp  atk  def  spd  sat  sdf

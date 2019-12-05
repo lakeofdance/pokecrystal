@@ -1,4 +1,4 @@
-	db SEAKING ; 119
+	dw SEAKING ; 119
 
 	db  80,  92,  65,  68,  65,  80
 	;   hp  atk  def  spd  sat  sdf

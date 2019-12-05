@@ -1,4 +1,4 @@
-	db UNOWN ; 201
+	dw UNOWN ; 201
 
 	db  48,  72,  48,  48,  72,  48
 	;   hp  atk  def  spd  sat  sdf

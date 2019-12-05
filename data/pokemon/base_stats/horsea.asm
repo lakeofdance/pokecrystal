@@ -1,4 +1,4 @@
-	db HORSEA ; 116
+	dw HORSEA ; 116
 
 	db  30,  40,  70,  60,  70,  25
 	;   hp  atk  def  spd  sat  sdf

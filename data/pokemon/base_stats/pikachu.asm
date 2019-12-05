@@ -1,4 +1,4 @@
-	db PIKACHU ; 025
+	dw PIKACHU ; 025
 
 	db  35,  55,  30,  90,  50,  40
 	;   hp  atk  def  spd  sat  sdf

@@ -1,4 +1,4 @@
-	db ARIADOS ; 168
+	dw ARIADOS ; 168
 
 	db  70,  90,  70,  40,  60,  60
 	;   hp  atk  def  spd  sat  sdf

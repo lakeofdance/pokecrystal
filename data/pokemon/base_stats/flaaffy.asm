@@ -1,4 +1,4 @@
-	db FLAAFFY ; 180
+	dw FLAAFFY ; 180
 
 	db  70,  55,  55,  45,  80,  60
 	;   hp  atk  def  spd  sat  sdf

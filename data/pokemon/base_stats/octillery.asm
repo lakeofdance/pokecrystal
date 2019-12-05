@@ -1,4 +1,4 @@
-	db OCTILLERY ; 224
+	dw OCTILLERY ; 224
 
 	db  75, 105,  75,  45, 105,  75
 	;   hp  atk  def  spd  sat  sdf

@@ -1,4 +1,4 @@
-	db SNORLAX ; 143
+	dw SNORLAX ; 143
 
 	db 160, 110,  65,  30,  65, 110
 	;   hp  atk  def  spd  sat  sdf

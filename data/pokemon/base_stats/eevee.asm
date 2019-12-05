@@ -1,4 +1,4 @@
-	db EEVEE ; 133
+	dw EEVEE ; 133
 
 	db  55,  55,  50,  55,  45,  65
 	;   hp  atk  def  spd  sat  sdf

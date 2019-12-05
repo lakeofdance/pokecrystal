@@ -1,4 +1,4 @@
-	db NIDOKING ; 034
+	dw NIDOKING ; 034
 
 	db  81,  92,  77,  85,  85,  75
 	;   hp  atk  def  spd  sat  sdf

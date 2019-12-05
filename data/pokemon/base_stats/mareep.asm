@@ -1,4 +1,4 @@
-	db MAREEP ; 179
+	dw MAREEP ; 179
 
 	db  55,  40,  40,  35,  65,  45
 	;   hp  atk  def  spd  sat  sdf

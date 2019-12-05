@@ -1,4 +1,4 @@
-	db STARMIE ; 121
+	dw STARMIE ; 121
 
 	db  60,  75,  85, 115, 100,  85
 	;   hp  atk  def  spd  sat  sdf

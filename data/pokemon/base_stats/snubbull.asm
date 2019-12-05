@@ -1,4 +1,4 @@
-	db SNUBBULL ; 209
+	dw SNUBBULL ; 209
 
 	db  60,  80,  50,  30,  40,  40
 	;   hp  atk  def  spd  sat  sdf

@@ -1,4 +1,4 @@
-	db KADABRA ; 064
+	dw KADABRA ; 064
 
 	db  40,  35,  30, 105, 120,  70
 	;   hp  atk  def  spd  sat  sdf

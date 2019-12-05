@@ -1,4 +1,4 @@
-	db ARBOK ; 024
+	dw ARBOK ; 024
 
 	db  60,  85,  69,  80,  65,  79
 	;   hp  atk  def  spd  sat  sdf

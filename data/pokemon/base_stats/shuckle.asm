@@ -1,4 +1,4 @@
-	db SHUCKLE ; 213
+	dw SHUCKLE ; 213
 
 	db  20,  10, 230,  05,  10, 230
 	;   hp  atk  def  spd  sat  sdf

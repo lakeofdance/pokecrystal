@@ -1,4 +1,4 @@
-	db EKANS ; 023
+	dw EKANS ; 023
 
 	db  35,  60,  44,  55,  40,  54
 	;   hp  atk  def  spd  sat  sdf

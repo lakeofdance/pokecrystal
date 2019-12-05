@@ -1,4 +1,4 @@
-	db POLIWHIRL ; 061
+	dw POLIWHIRL ; 061
 
 	db  65,  65,  65,  90,  50,  50
 	;   hp  atk  def  spd  sat  sdf

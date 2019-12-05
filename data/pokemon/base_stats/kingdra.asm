@@ -1,4 +1,4 @@
-	db KINGDRA ; 230
+	dw KINGDRA ; 230
 
 	db  75,  95,  95,  85,  95,  95
 	;   hp  atk  def  spd  sat  sdf

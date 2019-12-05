@@ -1,4 +1,4 @@
-	db GOLEM ; 076
+	dw GOLEM ; 076
 
 	db  80, 110, 130,  45,  55,  65
 	;   hp  atk  def  spd  sat  sdf

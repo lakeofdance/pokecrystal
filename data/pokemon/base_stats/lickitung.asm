@@ -1,4 +1,4 @@
-	db LICKITUNG ; 108
+	dw LICKITUNG ; 108
 
 	db  90,  55,  75,  30,  60,  75
 	;   hp  atk  def  spd  sat  sdf

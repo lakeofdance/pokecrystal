@@ -1,4 +1,4 @@
-	db CATERPIE ; 010
+	dw CATERPIE ; 010
 
 	db  45,  30,  35,  45,  20,  20
 	;   hp  atk  def  spd  sat  sdf

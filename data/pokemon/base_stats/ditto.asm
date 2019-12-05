@@ -1,4 +1,4 @@
-	db DITTO ; 132
+	dw DITTO ; 132
 
 	db  48,  48,  48,  48,  48,  48
 	;   hp  atk  def  spd  sat  sdf

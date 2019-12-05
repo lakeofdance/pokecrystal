@@ -1,4 +1,4 @@
-	db VICTREEBEL ; 071
+	dw VICTREEBEL ; 071
 
 	db  80, 105,  65,  70, 100,  60
 	;   hp  atk  def  spd  sat  sdf

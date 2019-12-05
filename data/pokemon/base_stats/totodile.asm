@@ -1,4 +1,4 @@
-	db TOTODILE ; 158
+	dw TOTODILE ; 158
 
 	db  50,  65,  64,  43,  44,  48
 	;   hp  atk  def  spd  sat  sdf

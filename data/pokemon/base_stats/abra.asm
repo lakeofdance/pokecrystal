@@ -1,4 +1,4 @@
-	db ABRA ; 063
+	dw ABRA ; 063
 
 	db  25,  20,  15,  90, 105,  55
 	;   hp  atk  def  spd  sat  sdf

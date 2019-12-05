@@ -1,4 +1,4 @@
-	db RAPIDASH ; 078
+	dw RAPIDASH ; 078
 
 	db  65, 100,  70, 105,  80,  80
 	;   hp  atk  def  spd  sat  sdf
