@@ -2094,7 +2094,7 @@ wTilesetBlocksAddress:: dw ; d1dd
 wTilesetCollisionBank:: db ; d1df
 wTilesetCollisionAddress:: dw ; d1e0
 wTilesetAnim:: dw ; bank 3f ; d1e2
-;	ds 2 ; unused ; d1e4
+	ds 2 ; unused, but not removable ; d1e4
 wTilesetPalettes:: dw ; bank 3f ; d1e6
 wTilesetEnd::
 
