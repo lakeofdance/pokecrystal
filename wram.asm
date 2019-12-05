@@ -2252,8 +2252,8 @@ wBreedingCompatibility::
 wMoveGrammar::
 wApplyStatLevelMultipliersToEnemy::
 wUsePPUp::
-;wd265:: ; mobile
-;	db
+wd265:: ; mobile
+	db
 
 wFailedToFlee:: db
 wNumFleeAttempts:: db
