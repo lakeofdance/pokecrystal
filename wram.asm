@@ -1713,9 +1713,9 @@ NEXTU ; d002
 wPlaceBallsDirection:: db
 wTrainerHUDTiles:: ds 4
 
-NEXTU ; d002
+;NEXTU ; d002
 ; mobile participant nicknames
-	ds 4
+;	ds 4
 ;wMobileParticipant1Nickname:: ds NAME_LENGTH_JAPANESE
 ;wMobileParticipant2Nickname:: ds NAME_LENGTH_JAPANESE
 ;wMobileParticipant3Nickname:: ds NAME_LENGTH_JAPANESE
@@ -1741,35 +1741,36 @@ wd002:: db
 wd003:: db
 wd004:: db
 
+; moved to "moved from WRAMX 1"
 ; mobile?
-	ds 1
-wd006:: ds 2
-wd008:: ds 2
-	ds 2
-wd00c:: ds 1
-wd00d:: ds 1
-	ds 1
-wd00f:: ds 1
-wd010:: ds 1
-wd011:: ds 1
-wd012:: ds 1
-wd013:: ds 1
-wd014:: ds 2
-	ds 1
-wd017:: ds 1
-wd018:: ds 1
-wd019:: ds 1
-	ds 19
-wd02d:: ds 1
-wd02e:: ds 1
-wd02f:: ds 1
-wd030:: ds 1
-wd031:: ds 1
-wd032:: ds 1
-wd033:: ds 1
-wd034:: ds 2
-wd036:: ds 2
-	ds 6
+;	ds 1
+;wd006:: ds 2
+;wd008:: ds 2
+;	ds 2
+;wd00c:: ds 1
+;wd00d:: ds 1
+;	ds 1
+;wd00f:: ds 1
+;wd010:: ds 1
+;wd011:: ds 1
+;wd012:: ds 1
+;wd013:: ds 1
+;wd014:: ds 2
+;	ds 1
+;wd017:: ds 1
+;wd018:: ds 1
+;wd019:: ds 1
+;	ds 19
+;wd02d:: ds 1
+;wd02e:: ds 1
+;wd02f:: ds 1
+;wd030:: ds 1
+;wd031:: ds 1
+;wd032:: ds 1
+;wd033:: ds 1
+;wd034:: ds 2
+;wd036:: ds 2
+;	ds 6
 
 UNION ; d03e
 ; trainer data
@@ -1917,7 +1918,7 @@ wBallsPocketCursor::    db
 wTMHMPocketCursor::     db
 
 wPCItemsScrollPosition::        db
-wPartyMenuScrollPosition::      db ; unused
+;wPartyMenuScrollPosition::      db ; unused
 wItemsPocketScrollPosition::    db
 wKeyItemsPocketScrollPosition:: db
 wBallsPocketScrollPosition::    db
@@ -2132,14 +2133,14 @@ wEvolutionCanceled:: db ; d1ed
 
 NEXTU ; d1ea
 ; mobile
-	ds 2
-wd1ec:: ds 1
-wd1ed:: ds 1
-wd1ee:: ds 1
-wd1ef:: ds 1
-wd1f0:: ds 1
-wd1f1:: ds 1
-wd1f2:: ds 1
+;	ds 2
+;wd1ec:: ds 1
+;wd1ed:: ds 1
+;wd1ee:: ds 1
+;wd1ef:: ds 1
+;wd1f0:: ds 1
+;wd1f1:: ds 1
+;wd1f2:: ds 1
 wd1f3:: ds 4
 
 NEXTU ; d1ea
@@ -2252,7 +2253,7 @@ wBreedingCompatibility::
 wMoveGrammar::
 wApplyStatLevelMultipliersToEnemy::
 wUsePPUp::
-wd265:: ; mobile
+;wd265:: ; mobile
 	db
 
 wFailedToFlee:: db
@@ -2272,7 +2273,7 @@ wPokedexShowPointerBank:: db
 	ds 3
 ;wd271:: dw ; mobile
 
-NEXTU ; d26b
+;NEXTU ; d26b
 ;wUnusedEggHatchFlag:: db
 
 NEXTU ; d26b
@@ -2935,6 +2936,42 @@ wPokemonDataEnd::
 wGameDataEnd::
 ; dff5
 
+SECTION "moved from WRAMX 1", WRAMX
+
+wExtraData::
+
+;prev line 1744
+; mobile?
+	ds 1
+wd006:: ds 2
+wd008:: ds 2
+	ds 2
+wd00c:: ds 1
+wd00d:: ds 1
+	ds 1
+wd00f:: ds 1
+wd010:: ds 1
+wd011:: ds 1
+wd012:: ds 1
+wd013:: ds 1
+wd014:: ds 2
+	ds 1
+wd017:: ds 1
+wd018:: ds 1
+wd019:: ds 1
+	ds 19
+wd02d:: ds 1
+wd02e:: ds 1
+wd02f:: ds 1
+wd030:: ds 1
+wd031:: ds 1
+wd032:: ds 1
+wd033:: ds 1
+wd034:: ds 2
+wd036:: ds 2
+	ds 6
+
+wExtraDataEnd::
 
 SECTION "Pic Animations", WRAMX
 
