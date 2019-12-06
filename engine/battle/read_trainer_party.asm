@@ -99,6 +99,10 @@ TrainerType1:
 	ld [wCurPartyLevel], a
 	ld a, [hli]
 	ld [wCurPartySpecies], a
+;
+	ld a, [hli]
+	ld [wCurPartySpecies + 1], a
+;
 	ld a, OTPARTYMON
 	ld [wMonType], a
 	push hl
@@ -118,6 +122,10 @@ TrainerType2:
 	ld [wCurPartyLevel], a
 	ld a, [hli]
 	ld [wCurPartySpecies], a
+;
+	ld a, [hli]
+	ld [wCurPartySpecies + 1], a
+;
 	ld a, OTPARTYMON
 	ld [wMonType], a
 
@@ -194,6 +202,10 @@ TrainerType3:
 	ld [wCurPartyLevel], a
 	ld a, [hli]
 	ld [wCurPartySpecies], a
+;
+	ld a, [hli]
+	ld [wCurPartySpecies + 1], a
+;
 	ld a, OTPARTYMON
 	ld [wMonType], a
 	push hl
@@ -222,6 +234,10 @@ TrainerType4:
 	ld [wCurPartyLevel], a
 	ld a, [hli]
 	ld [wCurPartySpecies], a
+;
+	ld a, [hli]
+	ld [wCurPartySpecies + 1], a
+;
 
 	ld a, OTPARTYMON
 	ld [wMonType], a
@@ -299,7 +315,7 @@ TrainerType4:
 .copied_pp
 
 	pop hl
-	jr .loop
+	jp .loop
 
 ComputeTrainerReward:
 	ld hl, hProduct

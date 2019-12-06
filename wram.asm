@@ -816,8 +816,8 @@ wTrademonsEnd::
 wTradeAnimAddress:: dw
 wLinkPlayer1Name:: ds NAME_LENGTH
 wLinkPlayer2Name:: ds NAME_LENGTH
-wLinkTradeSendmonSpecies:: db
-wLinkTradeGetmonSpecies::  db
+wLinkTradeSendmonSpecies:: dw
+wLinkTradeGetmonSpecies::  dw
 
 NEXTU ; c6d0
 ; naming screen
@@ -967,7 +967,7 @@ NEXTU ; c800
 ; bill's pc data
 wBillsPCData::
 wBillsPCPokemonList::
-; (species, box number, list index) x30
+; (species, box number, list index) x30     ;todo
 	ds 3 * 30
 	ds 720
 wBillsPC_ScrollPosition:: db
@@ -996,7 +996,7 @@ NEXTU ; c800
 ; link data members
 wLinkPlayerName:: ds NAME_LENGTH
 wLinkPartyCount:: db
-wLinkPartySpecies:: ds PARTY_LENGTH
+wLinkPartySpecies:: ds PARTY_LENGTH * 2
 wLinkPartyEnd:: db ; older code doesn't check PartyCount
 
 UNION ; c813
@@ -2125,8 +2125,8 @@ wCurHPAnimHighHP::  db ; d1f6
 
 NEXTU ; d1ea
 ; evolution data
-wEvolutionOldSpecies:: db ; d1ea
-wEvolutionNewSpecies:: db ; d1eb
+wEvolutionOldSpecies:: dw ; d1ea
+wEvolutionNewSpecies:: dw ; d1eb
 wEvolutionPicOffset:: db ; d1ec
 wEvolutionCanceled:: db ; d1ed
 
@@ -2170,7 +2170,7 @@ wBattleMode:: ; d22d
 ; 2: trainer battle
 	db
 
-wTempWildMonSpecies:: db
+wTempWildMonSpecies:: dw
 
 wOtherTrainerClass:: ; d22f
 ; class (Youngster, Bug Catcher, etc.) of opposing trainer
@@ -2282,7 +2282,7 @@ wOTPlayerName:: ds NAME_LENGTH ; d26b
 wOTPlayerID:: dw ; d276
 	ds 8
 wOTPartyCount::   db ; d280
-wOTPartySpecies:: ds PARTY_LENGTH ; d281
+wOTPartySpecies:: ds PARTY_LENGTH * 2 ; d281
 wOTPartyEnd::     db ; older code doesn't check PartyCount
 ENDU ; d276
 
@@ -2912,7 +2912,7 @@ wEggNick:: ds MON_NAME_LENGTH ; df65
 wEggOT::   ds NAME_LENGTH ; df70
 wEggMon::  box_struct wEggMon ; df7b
 
-wBugContestSecondPartySpecies:: db
+wBugContestSecondPartySpecies:: dw
 wContestMon:: party_struct wContestMon ; df9c
 
 wDunsparceMapGroup:: db
@@ -2952,9 +2952,9 @@ wTempTileMap::
 wPokeAnimStruct::
 wPokeAnimSceneIndex:: db
 wPokeAnimPointer:: dw
-wPokeAnimSpecies:: db
+wPokeAnimSpecies:: dw
 wPokeAnimUnownLetter:: db
-wPokeAnimSpeciesOrUnown:: db
+wPokeAnimSpeciesOrUnown:: dw
 wPokeAnimGraphicStartTile:: db
 wPokeAnimCoord:: dw
 wPokeAnimFrontpicHeight:: db
