@@ -1741,36 +1741,35 @@ wd002:: db
 wd003:: db
 wd004:: db
 
-; moved to "moved from WRAMX 1"
 ; mobile?
-;	ds 1
-;wd006:: ds 2
-;wd008:: ds 2
-;	ds 2
-;wd00c:: ds 1
-;wd00d:: ds 1
-;	ds 1
-;wd00f:: ds 1
-;wd010:: ds 1
-;wd011:: ds 1
-;wd012:: ds 1
-;wd013:: ds 1
-;wd014:: ds 2
-;	ds 1
-;wd017:: ds 1
-;wd018:: ds 1
-;wd019:: ds 1
-;	ds 19
-;wd02d:: ds 1
-;wd02e:: ds 1
-;wd02f:: ds 1
-;wd030:: ds 1
-;wd031:: ds 1
-;wd032:: ds 1
-;wd033:: ds 1
-;wd034:: ds 2
-;wd036:: ds 2
-;	ds 6
+	ds 1
+wd006:: ds 2
+wd008:: ds 2
+	ds 2
+wd00c:: ds 1
+wd00d:: ds 1
+	ds 1
+wd00f:: ds 1
+wd010:: ds 1
+wd011:: ds 1
+wd012:: ds 1
+wd013:: ds 1
+wd014:: ds 2
+	ds 1
+wd017:: ds 1
+wd018:: ds 1
+wd019:: ds 1
+	ds 19
+wd02d:: ds 1
+wd02e:: ds 1
+wd02f:: ds 1
+wd030:: ds 1
+wd031:: ds 1
+wd032:: ds 1
+wd033:: ds 1
+wd034:: ds 2
+wd036:: ds 2
+	ds 6
 
 UNION ; d03e
 ; trainer data
@@ -2236,12 +2235,11 @@ wPutativeTMHMMove:: db
 wInitListType:: db
 wBattleHasJustStarted:: db
 
+
+; d265 has many different short-term uses
 wNamedObjectIndexBuffer::
 wTempSpecies::
 wTempIconSpecies::
-    dw
-
-; d265 has many different short-term uses
 wDeciramBuffer::
 wTempByteValue::
 wNumSetBits::
@@ -2256,7 +2254,7 @@ wMoveGrammar::
 wApplyStatLevelMultipliersToEnemy::
 wUsePPUp::
 wd265:: ; mobile
-	db
+	dw
 
 wFailedToFlee:: db
 wNumFleeAttempts:: db
@@ -2664,7 +2662,7 @@ wMountMoonSquareSceneID::                         db ; d9be
 ;wMobileTradeRoomSceneID::                         db ; d9bf
 ;wMobileBattleRoomSceneID::                        db ; d9c0
 
-	ds 49
+;	ds 49
 
 ; fight counts
 wJackFightCount::    db ; d9f2
@@ -2697,7 +2695,7 @@ wParryFightCount::   db
 wErinFightCount::    db
 ; da0e
 
-	ds 100
+;	ds 100
 
 wEventFlags:: flag_array NUM_EVENTS ; da72
 ; db6c
@@ -2941,37 +2939,6 @@ wGameDataEnd::
 SECTION "moved from WRAMX 1", WRAMX
 
 wExtraData::
-
-;prev line 1744
-; mobile?
-	ds 1
-wd006:: ds 2
-wd008:: ds 2
-	ds 2
-wd00c:: ds 1
-wd00d:: ds 1
-	ds 1
-wd00f:: ds 1
-wd010:: ds 1
-wd011:: ds 1
-wd012:: ds 1
-wd013:: ds 1
-wd014:: ds 2
-	ds 1
-wd017:: ds 1
-wd018:: ds 1
-wd019:: ds 1
-	ds 19
-wd02d:: ds 1
-wd02e:: ds 1
-wd02f:: ds 1
-wd030:: ds 1
-wd031:: ds 1
-wd032:: ds 1
-wd033:: ds 1
-wd034:: ds 2
-wd036:: ds 2
-	ds 6
 
 wExtraDataEnd::
 
