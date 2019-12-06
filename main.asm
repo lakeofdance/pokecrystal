@@ -125,7 +125,7 @@ INCLUDE "engine/events/kurt_selectquantity_interpretjoypad.asm"
 
 SECTION "bankA", ROMX
 
-INCLUDE "engine/link/link.asm"
+;INCLUDE "engine/link/link.asm"		;moved to bank11
 INCLUDE "engine/overworld/wildmons.asm"
 
 ChrisBackpic:
@@ -182,6 +182,7 @@ INCLUDE "engine/events/fruit_trees.asm"
 INCLUDE "engine/battle/ai/move.asm"
 INCLUDE "engine/pokedex/pokedex_2.asm"
 INCLUDE "engine/pokemon/mail.asm"
+INCLUDE "engine/link/link.asm"
 
 
 SECTION "Crystal Features 1", ROMX

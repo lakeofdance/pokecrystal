@@ -264,7 +264,7 @@ ChooseWildEncounter:
 	inc hl
 	inc hl
 	ld a, [wTimeOfDay]
-	ld bc, NUM_GRASSMON * 2
+	ld bc, NUM_GRASSMON * 3
 	call AddNTimes
 	ld de, GrassMonProbTable
 
@@ -292,7 +292,7 @@ ChooseWildEncounter:
 	ld b, 0
 	pop hl
 	add hl, bc ; this selects our mon
-	ld a, [hli]
+	ld a, [hli]	;level. hl now points to first (lower) species byte
 	ld b, a
 ; If the Pokemon is encountered by surfing, we need to give the levels some variety.
 	call CheckOnWater
@@ -315,7 +315,7 @@ ChooseWildEncounter:
 .ok
 	ld a, b
 	ld [wCurPartyLevel], a
-	ld b, [hl]
+	ld b, [hl]	;lower species byte, higher ;todo
 	; ld a, b
 	call ValidateTempWildMonSpecies
 	jr c, .nowildbattle
@@ -779,10 +779,10 @@ RandomUnseenWildMon:
 
 .GetGrassmon:
 	push hl
-	ld bc, 5 + 4 * 2 ; Location of the level of the 5th wild Pokemon in that map
+	ld bc, 5 + 4 * 3 ; Location of the level of the 5th wild Pokemon in that map
 	add hl, bc
 	ld a, [wTimeOfDay]
-	ld bc, NUM_GRASSMON * 2
+	ld bc, NUM_GRASSMON * 3
 	call AddNTimes
 .randloop1
 	call Random
@@ -797,7 +797,7 @@ RandomUnseenWildMon:
 	inc hl
 	ld c, [hl] ; Contains the species index of this rare Pokemon
 	pop hl
-	ld de, 5 + 0 * 2
+	ld de, 5 + 0 * 3
 	add hl, de
 	inc hl ; Species index of the most common Pokemon on that route
 	ld b, 4
@@ -849,11 +849,11 @@ RandomPhoneWildMon:
 	call LookUpWildmonsForMapDE
 
 .ok
-	ld bc, 5 + 0 * 2
+	ld bc, 5 + 0 * 3
 	add hl, bc
 	ld a, [wTimeOfDay]
 	inc a
-	ld bc, NUM_GRASSMON * 2
+	ld bc, NUM_GRASSMON * 3
 .loop
 	dec a
 	jr z, .done
@@ -908,7 +908,7 @@ RandomPhoneMon:
 	cp "@"
 	jr nz, .skip_name
 
-	ld a, BANK(Trainers)
+	ld a, BANK(Trainers)       ;todo
 	call GetFarByte
 	inc hl
 	ld bc, 2 ; level, species
