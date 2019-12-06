@@ -1336,7 +1336,7 @@ wcf5d:: dw
 
 wMonType:: db ; cf5f
 
-wCurSpecies:: db ; cf60
+wCurSpecies:: dw ; cf60
 
 wNamedObjectTypeBuffer:: db
 
@@ -1988,7 +1988,7 @@ wCurItemQuantity:: ; d107
 wMartItemID::
 	db
 
-wCurPartySpecies:: db ; d108
+wCurPartySpecies:: dw ; d108
 
 wCurPartyMon:: ; d109
 ; contains which monster in a party
@@ -2156,8 +2156,8 @@ ENDU ; d1f7
 
 wLinkBattleRNs:: ds 10 ; d1fa
 
-wTempEnemyMonSpecies::  db ; d204
-wTempBattleMonSpecies:: db ; d205
+wTempEnemyMonSpecies::  dw ; d204
+wTempBattleMonSpecies:: dw ; d205
 
 wEnemyMon:: battle_struct wEnemyMon ; d206
 wEnemyMonBaseStats:: ds 5 ; d226
@@ -2236,15 +2236,17 @@ wPutativeTMHMMove:: db
 wInitListType:: db
 wBattleHasJustStarted:: db
 
-; d265 has many different short-term uses
 wNamedObjectIndexBuffer::
+wTempSpecies::
+wTempIconSpecies::
+    dw
+
+; d265 has many different short-term uses
 wDeciramBuffer::
 wTempByteValue::
 wNumSetBits::
 wTypeMatchup::
 wCurType::
-wTempSpecies::
-wTempIconSpecies::
 wTempTMHM::
 wTempPP::
 wNextBoxOrPartyIndex::
@@ -2253,7 +2255,7 @@ wBreedingCompatibility::
 wMoveGrammar::
 wApplyStatLevelMultipliersToEnemy::
 wUsePPUp::
-;wd265:: ; mobile
+wd265:: ; mobile
 	db
 
 wFailedToFlee:: db
@@ -2772,10 +2774,10 @@ wLuckyNumberDayBuffer:: dw ; dc2d
 wSpecialPhoneCallID:: db ; dc31
 	ds 3
 wBugContestStartTime:: ds 4 ; day, hour, min, sec ; dc35
-;wUnusedTwoDayTimerOn:: db ; dc39
-;wUnusedTwoDayTimer:: db
-;wUnusedTwoDayTimerStartDate:: db
-;	ds 4
+wUnusedTwoDayTimerOn:: db ; dc39
+wUnusedTwoDayTimer:: db
+wUnusedTwoDayTimerStartDate:: db
+	ds 4
 wMobileOrCable_LastSelection:: db
 wdc41:: ds 1
 wdc42:: ds 8
@@ -2851,7 +2853,7 @@ SECTION "Party", WRAMX
 wPokemonData::
 
 wPartyCount::   db ; dcd7 ; number of Pokémon in party
-wPartySpecies:: ds PARTY_LENGTH ; dcd8 ; species of each Pokémon in party
+wPartySpecies:: ds PARTY_LENGTH * 2 ; dcd8 ; species of each Pokémon in party
 wPartyEnd::     db ; dcde ; older code doesn't check wPartyCount
 
 wPartyMons::
