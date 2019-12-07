@@ -6,7 +6,7 @@ HealParty:
 	ld a, [hli]
 	cp -1
 	jr z, .done
-	cp EGG
+	cp EGG			;todo
 	jr z, .next
 
 	push hl
@@ -17,6 +17,9 @@ HealParty:
 	ld a, [wCurPartyMon]
 	inc a
 	ld [wCurPartyMon], a
+;
+	inc hl
+;
 	jr .loop
 
 .done
