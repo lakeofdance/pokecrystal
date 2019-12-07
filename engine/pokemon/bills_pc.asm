@@ -52,16 +52,19 @@ _DepositPKMN:
 	xor a
 	ldh [hBGMapMode], a
 	call ClearSprites
-	call CopyBoxmonSpecies
+	call CopyBoxmonSpecies		;todo
 	call BillsPC_BoxName
 	ld de, PCString_ChooseaPKMN
 	call BillsPC_PlaceString
 	ld a, $5
 	ld [wBillsPC_NumMonsOnScreen], a
 	call BillsPC_RefreshTextboxes
-	call PCMonInfo
+	call PCMonInfo			;todo
 	ld a, $ff
 	ld [wCurPartySpecies], a
+;
+	ld [wCurPartySpecies + 1], a
+;
 	ld a, SCGB_BILLS_PC
 	call BillsPC_ApplyPalettes
 	call WaitBGMap
@@ -94,7 +97,7 @@ _DepositPKMN:
 .a_button
 	call BillsPC_GetSelectedPokemonSpecies
 	and a
-	ret z
+	ret z		;byte1=0 ;todo
 	cp -1
 	jr z, .b_button
 	ld a, $2
@@ -112,6 +115,10 @@ _DepositPKMN:
 	call ClearSprites
 	call BillsPC_GetSelectedPokemonSpecies
 	ld [wCurPartySpecies], a
+;
+	ld a, e
+	ld [wCurPartySpecies + 1], a
+;
 	ld a, SCGB_BILLS_PC
 	call BillsPC_ApplyPalettes
 	ld de, PCString_WhatsUp
@@ -141,7 +148,7 @@ _DepositPKMN:
 	ld l, a
 	jp hl
 
-BillsPCDepositJumptable:
+BillsPCDepositJumptable:					;anchor
 	dw BillsPCDepositFuncDeposit ; Deposit Pokemon
 	dw BillsPCDepositFuncStats ; Pokemon Stats
 	dw BillsPCDepositFuncRelease ; Release Pokemon
@@ -171,6 +178,10 @@ BillsPCDepositFuncStats:
 	call PCMonInfo
 	call BillsPC_GetSelectedPokemonSpecies
 	ld [wCurPartySpecies], a
+;
+	ld a, e
+	ld [wCurPartySpecies + 1], a
+;
 	ld a, SCGB_BILLS_PC
 	call BillsPC_ApplyPalettes
 	ret
@@ -331,7 +342,7 @@ _WithdrawPKMN:
 .a_button
 	call BillsPC_GetSelectedPokemonSpecies
 	and a
-	ret z
+	ret z		; byte1=0 ;todo
 	cp -1
 	jr z, .b_button
 	ld a, $2
@@ -349,6 +360,10 @@ _WithdrawPKMN:
 	call ClearSprites
 	call BillsPC_GetSelectedPokemonSpecies
 	ld [wCurPartySpecies], a
+;
+	ld a, e
+	ld [wCurPartySpecies + 1], a
+;
 	ld a, SCGB_BILLS_PC
 	call BillsPC_ApplyPalettes
 	ld de, PCString_WhatsUp
@@ -407,6 +422,10 @@ BillsPC_Withdraw:
 	call PCMonInfo
 	call BillsPC_GetSelectedPokemonSpecies
 	ld [wCurPartySpecies], a
+;
+	ld a, e
+	ld [wCurPartySpecies + 1], a
+;
 	ld a, SCGB_BILLS_PC
 	call BillsPC_ApplyPalettes
 	ret
@@ -577,7 +596,7 @@ _MovePKMNWithoutMail:
 .a_button
 	call BillsPC_GetSelectedPokemonSpecies
 	and a
-	ret z
+	ret z			; byte1=0 ;todo
 	cp -1
 	jr z, .b_button
 	ld a, $2
@@ -595,6 +614,10 @@ _MovePKMNWithoutMail:
 	call ClearSprites
 	call BillsPC_GetSelectedPokemonSpecies
 	ld [wCurPartySpecies], a
+;
+	ld a, e
+	ld [wCurPartySpecies + 1], a
+;
 	ld a, SCGB_BILLS_PC
 	call BillsPC_ApplyPalettes
 	ld de, PCString_WhatsUp
@@ -649,6 +672,10 @@ _MovePKMNWithoutMail:
 	call PCMonInfo
 	call BillsPC_GetSelectedPokemonSpecies
 	ld [wCurPartySpecies], a
+;
+	ld a, e
+	ld [wCurPartySpecies + 1], a
+;
 	ld a, SCGB_BILLS_PC
 	call BillsPC_ApplyPalettes
 	ret
@@ -1001,11 +1028,15 @@ PCMonInfo:
 
 	call BillsPC_GetSelectedPokemonSpecies
 	and a
-	ret z
+	ret z		; byte1 0 ;todo
 	cp -1
 	ret z
 
 	ld [wTempSpecies], a
+;
+	ld a, e
+	ld [wTempSpecies + 1], a
+;
 	hlcoord 1, 4
 	xor a
 	ld b, 7
@@ -1030,6 +1061,11 @@ PCMonInfo:
 	ld a, [wTempSpecies]
 	ld [wCurPartySpecies], a
 	ld [wCurSpecies], a
+;
+	ld a, [wTempSpecies + 1]
+	ld [wCurPartySpecies + 1], a
+	ld [wCurSpecies + 1], a
+;
 	ld hl, wTempMonDVs
 	predef GetUnownLetter
 	call GetBaseData
@@ -1037,6 +1073,10 @@ PCMonInfo:
 	predef GetMonFrontpic
 	xor a
 	ld [wBillsPC_MonHasMail], a
+;
+	ld a, [wCurPartySpecies + 1]
+	ld [wTempSpecies + 1], a
+;
 	ld a, [wCurPartySpecies]
 	ld [wTempSpecies], a
 	cp EGG
@@ -1044,7 +1084,7 @@ PCMonInfo:
 
 	call GetBasePokemonName
 	hlcoord 1, 14
-	call PlaceString
+	call PlaceString		;displays in bottom left, under pic
 
 	hlcoord 1, 12
 	call PrintLevel
@@ -1085,10 +1125,15 @@ BillsPC_LoadMonStats:
 	add [hl]
 	ld e, a
 	ld d, $0
-	ld hl, wBillsPCPokemonList + 1 ; box number
+;	ld hl, wBillsPCPokemonList + 1 ; box number
+	ld hl, wBillsPCPokemonList + 2	; box number
+;
 	add hl, de
 	add hl, de
 	add hl, de
+;
+	add hl, de
+;
 	ld a, [hl]
 	and a
 	jr z, .party
@@ -1203,6 +1248,9 @@ BillsPC_RefreshTextboxes:
 	add hl, de
 	add hl, de
 	add hl, de
+;
+	add hl, de
+;
 	ld e, l
 	ld d, h
 	hlcoord 9, 4
@@ -1219,6 +1267,9 @@ BillsPC_RefreshTextboxes:
 	inc de
 	inc de
 	inc de
+;
+	inc de
+;
 	pop af
 	dec a
 	jr nz, .loop
@@ -1230,7 +1281,7 @@ BillsPC_RefreshTextboxes:
 .PlaceNickname:
 	ld a, [de]
 	and a
-	ret z
+	ret z			; return if species byte1 is zero ;todo
 	cp -1
 	jr nz, .get_nickname
 	ld de, .CancelString
@@ -1239,10 +1290,13 @@ BillsPC_RefreshTextboxes:
 
 .get_nickname
 	inc de
-	ld a, [de]
+;
+	inc de
+;
+	ld a, [de]		; box no.
 	ld b, a
 	inc de
-	ld a, [de]
+	ld a, [de]		; list index
 	ld e, a
 	ld a, b
 	and a
@@ -1287,9 +1341,12 @@ BillsPC_RefreshTextboxes:
 	ld hl, wPartySpecies
 	ld d, $0
 	add hl, de
+;
+	add hl, de
+;
 	ld a, [hl]
 	and a
-	jr z, .partyfail
+	jr z, .partyfail		; fail if species byte1 is zero ;todo
 	ld hl, wPartyMonNicknames
 	ld bc, MON_NAME_LENGTH
 	ld a, e
@@ -1313,9 +1370,12 @@ BillsPC_RefreshTextboxes:
 	ld hl, sBoxSpecies
 	ld d, $0
 	add hl, de
+;
+	add hl, de
+;
 	ld a, [hl]
 	and a
-	jr z, .sBoxFail
+	jr z, .sBoxFail			; fail if species byte1 is zero ;todo
 	ld hl, sBoxMonNicknames
 	ld bc, MON_NAME_LENGTH
 	ld a, e
@@ -1346,9 +1406,15 @@ copy_box_data: MACRO
 	cp -1
 	jr z, .done\@
 	and a
-	jr z, .done\@
+	jr z, .done\@		; is this check necessary? It stops us using 256. ;todo
 	ld [de], a
 	inc de
+;
+	inc hl
+	ld a, [hl]
+	ld [de], a
+	inc de
+;
 	ld a, [wBillsPC_LoadedBox]
 	ld [de], a
 	inc de
@@ -1377,7 +1443,9 @@ ENDM
 CopyBoxmonSpecies:
 	xor a
 	ld hl, wBillsPCPokemonList
-	ld bc, 3 * 30
+;	ld bc, 3 * 30
+	ld bc, 4 * 30
+;
 	call ByteFill
 	ld de, wBillsPCPokemonList
 	xor a
@@ -1418,7 +1486,15 @@ BillsPC_GetSelectedPokemonSpecies:
 	add hl, de
 	add hl, de
 	add hl, de
+;
+	add hl, de
+;
+;	ld a, [hl]
+	inc hl
+	ld a, [hld]
+	ld e, a
 	ld a, [hl]
+;
 	ret
 
 BillsPC_UpdateSelectionCursor:
@@ -1631,10 +1707,19 @@ StatsScreenDPad:
 	jr z, .did_nothing
 	call BillsPC_GetSelectedPokemonSpecies
 	ld [wTempSpecies], a
+;
+	ld a, e
+	ld [wTempSpecies + 1], a
+;
 	call BillsPC_LoadMonStats
 	ld a, [wTempSpecies]
 	ld [wCurPartySpecies], a
 	ld [wCurSpecies], a
+;
+	ld a, [wTempSpecies + 1]
+	ld [wCurPartySpecies + 1], a
+	ld [wCurSpecies + 1], a
+;
 	ld hl, wTempMonDVs
 	predef GetUnownLetter
 	call GetBaseData
@@ -1727,15 +1812,15 @@ DepositPokemon:
 	ld hl, wPartyMonNicknames
 	ld a, [wCurPartyMon]
 	call GetNick
-	ld a, PC_DEPOSIT
+	ld a, PC_DEPOSIT	;1
 	ld [wPokemonWithdrawDepositParameter], a
 	predef SendGetMonIntoFromBox
 	jr c, .asm_boxisfull
-	xor a ; REMOVE_PARTY
+	xor a ; REMOVE_PARTY	;0
 	ld [wPokemonWithdrawDepositParameter], a
 	farcall RemoveMonFromPartyOrBox
-	ld a, [wCurPartySpecies]
-	call PlayMonCry
+	ld a, [wCurPartySpecies]			;
+	call PlayMonCry					;todo
 	hlcoord 0, 0
 	lb bc, 15, 8
 	call ClearBox
@@ -1838,7 +1923,7 @@ ReleasePKMN_ByePKMN:
 	call Textbox
 
 	call WaitBGMap
-	ld a, [wCurPartySpecies]
+	ld a, [wCurPartySpecies]		;todo
 	call GetCryIndex
 	jr c, .skip_cry
 	ld e, c
@@ -2061,8 +2146,17 @@ CopySpeciesToTemp:
 	ld c, a
 	ld b, $0
 	add hl, bc
-	ld a, [hl]
+;
+	add hl, bc
+;
+;	ld a, [hl]
+	ld a, [hli]
+;
 	ld [wCurPartySpecies], a
+;
+	ld a, [hl]
+	ld [wCurPartySpecies + 1], a
+;
 	ret
 
 CopyNicknameToTemp:

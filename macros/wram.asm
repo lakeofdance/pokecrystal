@@ -103,7 +103,7 @@ ENDM
 
 box: MACRO
 \1Count::           db
-\1Species::         ds MONS_PER_BOX + 1		;todo
+\1Species::         ds (MONS_PER_BOX * 2) + 1
 \1Mons::
 \1Mon1::            box_struct \1Mon1
 \1Mon2::            ds BOXMON_STRUCT_LENGTH * (MONS_PER_BOX + -1)

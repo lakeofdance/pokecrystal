@@ -19,6 +19,10 @@ TryAddMonToParty:
 	ld [de], a
 	ld a, [de] ; Why are we doing this?
 	ldh [hMoveMon], a ; HRAM backup
+;
+	add a
+	dec a
+;
 	add e
 	ld e, a
 	jr nc, .loadspecies
@@ -28,6 +32,9 @@ TryAddMonToParty:
 	; Load the species of the Pokemon into the party list.
 	; The terminator is usually here, but it'll be back.
 	ld a, [wCurPartySpecies]
+	ld [de], a
+	inc de
+	ld a, [wCurPartySpecies + 1]
 	ld [de], a
 	; Load the terminator into the next slot.
 	inc de
@@ -55,6 +62,8 @@ TryAddMonToParty:
 	jr nz, .skipnickname
 	ld a, [wCurPartySpecies]
 	ld [wNamedObjectIndexBuffer], a
+	ld a, [wCurPartySpecies + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetPokemonName
 	ld hl, wPartyMonNicknames
 	ldh a, [hMoveMon]
@@ -91,8 +100,13 @@ GeneratePartyMonStats:
 	; Initialize the species
 	ld a, [wCurPartySpecies]
 	ld [wCurSpecies], a
+	ld a, [wCurPartySpecies + 1]
+	ld [wCurSpecies + 1], a
 	call GetBaseData
 	ld a, [wBaseDexNo]
+	ld [de], a
+	inc de
+	ld a, [wBaseDexNo + 1]
 	ld [de], a
 	inc de
 
@@ -186,7 +200,7 @@ endr
 	jr .initializeDVs
 
 .registerpokedex
-	ld a, [wCurPartySpecies]
+	ld a, [wCurPartySpecies]		;todo
 	ld [wTempSpecies], a
 	dec a
 	push de
@@ -215,8 +229,9 @@ endr
 	inc de
 
 	; Initialize PP.
-	push hl
+	push hl		; hl points to the wPartyMon struct.
 	push de
+	inc hl
 	inc hl
 	inc hl
 	call FillPP
@@ -405,7 +420,10 @@ AddTempmonToParty:
 	ld c, a
 	ld b, 0
 	add hl, bc
+	add hl, bc
 	ld a, [wCurPartySpecies]
+	ld [hli], a
+	ld a, [wCurPartySpecies + 1]
 	ld [hli], a
 	ld [hl], $ff
 
@@ -458,7 +476,7 @@ AddTempmonToParty:
 .egg
 
 	ld a, [wCurPartySpecies]
-	cp UNOWN
+	cp UNOWN				;todo
 	jr nz, .done
 	ld hl, wPartyMon1DVs
 	ld a, [wPartyCount]
@@ -492,7 +510,7 @@ SendGetMonIntoFromBox:
 	cp DAY_CARE_WITHDRAW
 	jr z, .check_IfPartyIsFull
 	cp DAY_CARE_DEPOSIT
-	ld hl, wBreedMon1Species
+	ld hl, wBreedMon1Species       ;todo
 	jr z, .breedmon
 
 	; we want to sent a mon into the Box
@@ -515,16 +533,32 @@ SendGetMonIntoFromBox:
 	ld c, a
 	ld b, 0
 	add hl, bc
+;
+	add hl, bc
+	dec hl
+;
 	ld a, [wPokemonWithdrawDepositParameter]
 	cp DAY_CARE_WITHDRAW
+;
+	ld a, [wBreedMon1Species + 1]
+	ld b, a
+;
 	ld a, [wBreedMon1Species]
 	jr z, .okay1
+;
+	ld a, [wCurPartySpecies + 1]
+	ld b, a
+;
 	ld a, [wCurPartySpecies]
 
 .okay1
 	ld [hli], a
+;    
+	ld a, b
+	ld [hli], a
+;    
 	ld [hl], $ff
-	ld a, [wPokemonWithdrawDepositParameter]
+	ld a, [wPokemonWithdrawDepositParameter]	;withdraw 0, deposit 1
 	dec a
 	ld hl, wPartyMon1Species
 	ld bc, PARTYMON_STRUCT_LENGTH
@@ -542,7 +576,7 @@ SendGetMonIntoFromBox:
 	push hl
 	ld e, l
 	ld d, h
-	ld a, [wPokemonWithdrawDepositParameter]
+	ld a, [wPokemonWithdrawDepositParameter]	;withdraw 0, deposit 1
 	and a
 	ld hl, sBoxMon1Species
 	ld bc, BOXMON_STRUCT_LENGTH
@@ -775,6 +809,10 @@ RestorePPOfDepositedPokemon:
 RetrieveMonFromDayCareMan:
 	ld a, [wBreedMon1Species]
 	ld [wCurPartySpecies], a
+;
+	ld a, [wBreedMon1Species + 1]
+	ld [wCurPartySpecies + 1], a
+;
 	ld de, SFX_TRANSACTION
 	call PlaySFX
 	call WaitSFX
@@ -790,6 +828,10 @@ RetrieveMonFromDayCareMan:
 RetrieveMonFromDayCareLady:
 	ld a, [wBreedMon2Species]
 	ld [wCurPartySpecies], a
+;
+	ld a, [wBreedMon2Species + 1]
+	ld [wCurPartySpecies + 1], a
+;
 	ld de, SFX_TRANSACTION
 	call PlaySFX
 	call WaitSFX
@@ -952,6 +994,10 @@ SendMonIntoBox:
 
 	ld a, [wCurPartySpecies]
 	ld [wCurSpecies], a
+;
+	ld a, [wCurPartySpecies + 1]
+	ld [wCurSpecies + 1], a
+;
 	ld c, a
 .loop
 	inc de
@@ -973,6 +1019,10 @@ SendMonIntoBox:
 
 	ld a, [wCurPartySpecies]
 	ld [wNamedObjectIndexBuffer], a
+;
+	ld a, [wCurPartySpecies + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
+;
 	call GetPokemonName
 
 	ld de, sBoxMonNicknames
@@ -982,7 +1032,9 @@ SendMonIntoBox:
 
 	ld hl, wEnemyMon
 	ld de, sBoxMon1
-	ld bc, 1 + 1 + NUM_MOVES ; species + item + moves
+;	ld bc, 1 + 1 + NUM_MOVES ; species + item + moves
+	ld bc, 2 + 1 + NUM_MOVES ; species + item + moves
+;
 	call CopyBytes
 
 	ld hl, wPlayerID
@@ -1237,15 +1289,21 @@ RemoveMonFromPartyOrBox:
 	ld c, a
 	ld b, 0
 	add hl, bc
+;
+	add hl, bc
+;
 	ld e, l
 	ld d, h
 	inc de
+;
+    inc de
+;
 .loop
 	ld a, [de]
 	inc de
 	ld [hli], a
 	inc a
-	jr nz, .loop
+	jr nz, .loop           ; i.e. a was not -1
 	ld hl, wPartyMonOT
 	ld d, PARTY_LENGTH - 1
 	ld a, [wPokemonWithdrawDepositParameter]
@@ -1649,6 +1707,10 @@ GivePoke::
 .failed
 	ld a, [wCurPartySpecies]
 	ld [wTempEnemyMonSpecies], a
+;
+	ld a, [wCurPartySpecies + 1]
+	ld [wTempEnemyMonSpecies + 1], a
+;
 	callfar LoadEnemyMon
 	call SendMonIntoBox
 	jp nc, .FailedToGiveMon
