@@ -1487,7 +1487,6 @@ FishFunction:
 	ld a, e
 ;
 	ld [wTempWildMonSpecies + 1], a
-	ld a, b
 ;
 ;	ld [wCurPartyLevel], a
 	ld a, BATTLETYPE_FISH
