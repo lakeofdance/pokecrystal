@@ -858,17 +858,30 @@ RetrieveBreedmon:
 	ld c, a
 	ld b, 0
 	add hl, bc
+;
+	add hl, bc
+	dec hl
+;
 	ld a, [wPokemonWithdrawDepositParameter]
 	and a
+	ld a, [wBreedMon1Species + 1]
+	ld b, a
 	ld a, [wBreedMon1Species]
 	ld de, wBreedMon1Nick
 	jr z, .okay
+	ld a, [wBreedMon2Species + 1]
+	ld b, a
 	ld a, [wBreedMon2Species]
 	ld de, wBreedMon2Nick
 
 .okay
 	ld [hli], a
 	ld [wCurSpecies], a
+;
+	ld a, b
+	ld [hli], a
+	ld [wCurSpecies + 1], a
+;
 	ld a, $ff
 	ld [hl], a
 	ld hl, wPartyMonNicknames
