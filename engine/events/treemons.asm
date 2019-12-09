@@ -1,6 +1,7 @@
 TreeMonEncounter:
 	xor a
 	ld [wTempWildMonSpecies], a
+	ld [wTempWildMonSpecies + 1], a
 	ld [wCurPartyLevel], a
 
 	ld hl, TreeMonMaps
@@ -173,6 +174,9 @@ SelectTreeMon:
 	inc hl
 	inc hl
 	inc hl
+;
+	inc hl
+;
 	jr .loop
 
 .ok
@@ -180,10 +184,16 @@ SelectTreeMon:
 	cp -1
 	jr z, NoTreeMon
 
+;	ld a, [hli]
+;	ld [wTempWildMonSpecies], a
+;	ld a, [hl]
+;	ld [wCurPartyLevel], a
+	ld a, [hli]
+	ld [wCurPartyLevel], a
 	ld a, [hli]
 	ld [wTempWildMonSpecies], a
 	ld a, [hl]
-	ld [wCurPartyLevel], a
+	ld [wTempWildMonSpecies + 1], a
 	scf
 	ret
 

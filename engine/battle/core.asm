@@ -6226,8 +6226,28 @@ CheckSleepingTreeMon:
 
 .Check:
 	ld a, [wTempEnemyMonSpecies]
-	ld de, 1 ; length of species id
-	call IsInArray
+;
+	ld b, a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld c, a
+;
+;	ld de, 1 ; length of species id
+;	call IsInArray
+.loop
+	ld a, [hli]
+	cp $ff
+	jr z, .NotSleeping
+	cp b
+	jr z, .ok
+	inc hl
+	jr .loop
+
+.ok
+	ld a, [hli]
+	cp c
+	jr nz, .loop
+	scf
+	
 ; If it's a match, the opponent is asleep
 	ret c
 
