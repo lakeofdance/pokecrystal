@@ -82,6 +82,7 @@ ContestDropOffMons:
 	ld a, 1
 	ld [hli], a
 	inc hl
+	inc hl
 ; ... backing up the second mon index somewhere...
 	ld a, [hl]
 	ld [wBugContestSecondPartySpecies], a
@@ -98,13 +99,14 @@ ContestDropOffMons:
 
 ContestReturnMons:
 ; Restore the species of the second mon.
-	ld hl, wPartySpecies + 1
+	ld hl, wPartySpecies + 2
 	ld a, [wBugContestSecondPartySpecies]
 	ld [hl], a
 ; Restore the party count, which must be recomputed.
 	ld b, 1
 .loop
 	ld a, [hli]
+	inc hl
 	cp -1
 	jr z, .done
 	inc b

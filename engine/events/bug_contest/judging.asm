@@ -149,6 +149,10 @@ BugContest_JudgeContestants:
 	ld [hli], a
 	ld a, [wContestMon]
 	ld [hli], a
+;
+	ld a, [wContestMon + 1]
+	ld [hli], a
+;
 	ldh a, [hProduct]
 	ld [hli], a
 	ldh a, [hProduct + 1]
@@ -256,8 +260,15 @@ ComputeAIContestantScores:
 	add hl, bc
 	add hl, bc
 	add hl, bc
+;
+	add hl, bc
+;
 	ld a, [hli]
 	ld [wBugContestTempMon], a
+;
+	ld a, [hli]
+	ld [wBugContestTempMon + 1], a
+;
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a

@@ -3,8 +3,10 @@ BugContest_SetCaughtContestMon:
 	and a
 	jr z, .firstcatch
 	ld [wNamedObjectIndexBuffer], a
-	farcall DisplayAlreadyCaughtText
-	farcall DisplayCaughtContestMonStats
+	ld a, [wContestMon + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
+	farcall DisplayAlreadyCaughtText		;todo
+	farcall DisplayCaughtContestMonStats		;todo
 	lb bc, 14, 7
 	call PlaceYesNoBox
 	ret c
@@ -13,6 +15,8 @@ BugContest_SetCaughtContestMon:
 	call .generatestats
 	ld a, [wTempEnemyMonSpecies]
 	ld [wNamedObjectIndexBuffer], a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetPokemonName
 	ld hl, .caughttext
 	call PrintText
@@ -22,6 +26,9 @@ BugContest_SetCaughtContestMon:
 	ld a, [wTempEnemyMonSpecies]
 	ld [wCurSpecies], a
 	ld [wCurPartySpecies], a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld [wCurSpecies + 1], a
+	ld [wCurPartySpecies + 1], a
 	call GetBaseData
 	xor a
 	ld bc, PARTYMON_STRUCT_LENGTH

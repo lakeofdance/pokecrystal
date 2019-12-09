@@ -37,6 +37,10 @@ DisplayCaughtContestMonStats:
 
 	ld a, [wContestMon]
 	ld [wNamedObjectIndexBuffer], a
+;
+	ld a, [wContestMon + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
+;
 	call GetPokemonName
 	ld de, wStringBuffer1
 	hlcoord 1, 2

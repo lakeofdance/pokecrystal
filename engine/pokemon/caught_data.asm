@@ -4,6 +4,11 @@ CheckPartyFullAfterContest:
 	jp z, .DidntCatchAnything
 	ld [wCurPartySpecies], a
 	ld [wCurSpecies], a
+;
+	ld a, [wContestMon + 1]
+	ld [wCurPartySpecies + 1], a
+	ld [wCurSpecies + 1], a
+;
 	call GetBaseData
 	ld hl, wPartyCount
 	ld a, [hl]
@@ -14,9 +19,18 @@ CheckPartyFullAfterContest:
 	ld c, a
 	ld b, 0
 	add hl, bc
+;
+	add hl, bc
+	dec hl
+;
 	ld a, [wContestMon]
 	ld [hli], a
 	ld [wCurSpecies], a
+;
+	ld a, [wContestMon + 1]
+	ld [hli], a
+	ld [wCurSpecies + 1], a
+;
 	ld a, -1
 	ld [hl], a
 	ld hl, wPartyMon1Species
@@ -39,6 +53,10 @@ CheckPartyFullAfterContest:
 	call CopyBytes
 	ld a, [wCurPartySpecies]
 	ld [wNamedObjectIndexBuffer], a
+;
+	ld a, [wCurPartySpecies + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
+;
 	call GetPokemonName
 	ld hl, wStringBuffer1
 	ld de, wMonOrItemNameBuffer
@@ -106,6 +124,10 @@ CheckPartyFullAfterContest:
 	callfar InsertPokemonIntoBox
 	ld a, [wCurPartySpecies]
 	ld [wNamedObjectIndexBuffer], a
+;
+	ld a, [wCurPartySpecies + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
+;
 	call GetPokemonName
 	call GiveANickname_YesNo
 	ld hl, wStringBuffer1
