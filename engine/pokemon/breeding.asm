@@ -236,11 +236,19 @@ HatchEggs:
 	ld hl, wPartyMon1Species
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call AddNTimes
-	ld a, [hl]
+;
+	inc hl
+	ld a, [hld]
+	ld [wCurPartySpecies + 1], a
+;
+	ld a, [hli]
 	ld [wCurPartySpecies], a
 	dec a
-	call SetSeenAndCaughtMon
+	call SetSeenAndCaughtMon		;todo
 
+	ld a, [wCurPartySpecies + 1]
+	and a
+	jr nz, .nottogepi			; TOGEPI < 255
 	ld a, [wCurPartySpecies]
 	cp TOGEPI
 	jr nz, .nottogepi
@@ -252,11 +260,18 @@ HatchEggs:
 
 	pop de
 
+;
+	ld a, [wCurPartySpecies + 1]
+	dec de
+	ld [de], a
+	ld [wNamedObjectIndexBuffer + 1], a
+	ld [wCurSpecies + 1], a
+;
 	ld a, [wCurPartySpecies]
 	dec de
 	ld [de], a
 	ld [wNamedObjectIndexBuffer], a
-	ld [wCurSpecies], a			;todo
+	ld [wCurSpecies], a
 	call GetPokemonName
 	xor a
 ;	ld [wUnusedEggHatchFlag], a

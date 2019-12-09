@@ -675,6 +675,7 @@ AddMobileMonToParty:
 	ld d, e
 .loop1
 	inc bc
+	inc bc
 	dec d
 	jr nz, .loop1
 	ld a, e
@@ -682,6 +683,11 @@ AddMobileMonToParty:
 	ld a, [hl]
 	ld [bc], a
 	inc bc
+;Used only for oddegg, which has 0 upper byte
+	xor a
+	ld [bc], a
+	inc bc
+;
 	ld a, -1
 	ld [bc], a
 

@@ -29,7 +29,7 @@ prob_total = 0
 
 OddEggs:
 
-	db PICHU
+	dw PICHU
 	db NO_ITEM
 	db THUNDERSHOCK, CHARM, DIZZY_PUNCH, 0
 	dw 02048 ; OT ID
@@ -55,7 +55,7 @@ OddEggs:
 	bigdw 8 ; SDef
 	db "EGG@@@@@@@@"
 
-	db PICHU
+	dw PICHU
 	db NO_ITEM
 	db THUNDERSHOCK, CHARM, DIZZY_PUNCH, 0
 	dw 00256 ; OT ID
@@ -81,7 +81,7 @@ OddEggs:
 	bigdw 9 ; SDef
 	db "EGG@@@@@@@@"
 
-	db CLEFFA
+	dw CLEFFA
 	db NO_ITEM
 	db POUND, CHARM, DIZZY_PUNCH, 0
 	dw 04096 ; OT ID
@@ -107,7 +107,7 @@ OddEggs:
 	bigdw 10 ; SDef
 	db "EGG@@@@@@@@"
 
-	db CLEFFA
+	dw CLEFFA
 	db NO_ITEM
 	db POUND, CHARM, DIZZY_PUNCH, 0
 	dw 00768 ; OT ID
@@ -133,7 +133,7 @@ OddEggs:
 	bigdw 11 ; SDef
 	db "EGG@@@@@@@@"
 
-	db IGGLYBUFF
+	dw IGGLYBUFF
 	db NO_ITEM
 	db SING, CHARM, DIZZY_PUNCH, 0
 	dw 04096 ; OT ID
@@ -159,7 +159,7 @@ OddEggs:
 	bigdw 7 ; SDef
 	db "EGG@@@@@@@@"
 
-	db IGGLYBUFF
+	dw IGGLYBUFF
 	db NO_ITEM
 	db SING, CHARM, DIZZY_PUNCH, 0
 	dw 00768 ; OT ID
@@ -185,7 +185,7 @@ OddEggs:
 	bigdw 8 ; SDef
 	db "EGG@@@@@@@@"
 
-	db SMOOCHUM
+	dw SMOOCHUM
 	db NO_ITEM
 	db POUND, LICK, DIZZY_PUNCH, 0
 	dw 03584 ; OT ID
@@ -211,7 +211,7 @@ OddEggs:
 	bigdw 11 ; SDef
 	db "EGG@@@@@@@@"
 
-	db SMOOCHUM
+	dw SMOOCHUM
 	db NO_ITEM
 	db POUND, LICK, DIZZY_PUNCH, 0
 	dw 00512 ; OT ID
@@ -237,7 +237,7 @@ OddEggs:
 	bigdw 12 ; SDef
 	db "EGG@@@@@@@@"
 
-	db MAGBY
+	dw MAGBY
 	db NO_ITEM
 	db EMBER, DIZZY_PUNCH, 0, 0
 	dw 02560 ; OT ID
@@ -263,7 +263,7 @@ OddEggs:
 	bigdw 10 ; SDef
 	db "EGG@@@@@@@@"
 
-	db MAGBY
+	dw MAGBY
 	db NO_ITEM
 	db EMBER, DIZZY_PUNCH, 0, 0
 	dw 00512 ; OT ID
@@ -289,7 +289,7 @@ OddEggs:
 	bigdw 11 ; SDef
 	db "EGG@@@@@@@@"
 
-	db ELEKID
+	dw ELEKID
 	db NO_ITEM
 	db QUICK_ATTACK, LEER, DIZZY_PUNCH, 0
 	dw 03072 ; OT ID
@@ -315,7 +315,7 @@ OddEggs:
 	bigdw 10 ; SDef
 	db "EGG@@@@@@@@"
 
-	db ELEKID
+	dw ELEKID
 	db NO_ITEM
 	db QUICK_ATTACK, LEER, DIZZY_PUNCH, 0
 	dw 00512 ; OT ID
@@ -341,7 +341,7 @@ OddEggs:
 	bigdw 11 ; SDef
 	db "EGG@@@@@@@@"
 
-	db TYROGUE
+	dw TYROGUE
 	db NO_ITEM
 	db TACKLE, DIZZY_PUNCH, 0, 0
 	dw 02560 ; OT ID
@@ -367,7 +367,7 @@ OddEggs:
 	bigdw 8 ; SDef
 	db "EGG@@@@@@@@"
 
-	db TYROGUE
+	dw TYROGUE
 	db NO_ITEM
 	db TACKLE, DIZZY_PUNCH, 0, 0
 	dw 00256 ; OT ID
