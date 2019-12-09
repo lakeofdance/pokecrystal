@@ -311,6 +311,9 @@ PlacePartyMonTMHMCompatibility:
 	ld e, b
 	ld d, 0
 	add hl, de
+;
+	add hl, de
+;
 	ld a, [hl]
 	ld [wCurPartySpecies], a
 	predef CanLearnTMHMMove
@@ -475,6 +478,9 @@ PlacePartyMonGender:
 PartyMenuCheckEgg:
 	ld a, LOW(wPartySpecies)
 	add b
+;
+	add b
+;
 	ld e, a
 	ld a, HIGH(wPartySpecies)
 	adc 0
@@ -615,6 +621,9 @@ PartyMenuSelect:
 	ld b, $0
 	ld hl, wPartySpecies
 	add hl, bc
+;
+	add hl, bc
+;
 	ld a, [hl]
 	ld [wCurPartySpecies], a
 
