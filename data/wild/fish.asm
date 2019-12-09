@@ -283,10 +283,8 @@ FishGroups:
 
 .Qwilfish_NoSwarm_Old:
 .Qwilfish_Old:
-;	db  70 percent + 1,  10
-;	dw  MAGIKARP
-	db  70 percent + 1,  17
-	dw  0				;time_group
+	db  70 percent + 1,  10
+	dw  MAGIKARP
 	db  85 percent + 1,  10
 	dw  MAGIKARP
 	db  100 percent,     10

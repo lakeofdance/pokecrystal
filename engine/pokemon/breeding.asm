@@ -178,6 +178,9 @@ DoEggStep::
 .loop
 	ld a, [de]
 	inc de
+;
+	inc de
+;
 	cp -1
 	ret z
 	cp EGG
@@ -212,6 +215,9 @@ HatchEggs:
 .loop
 	ld a, [de]
 	inc de
+;
+	inc de
+;
 	cp -1
 	jp z, .done
 	push de
@@ -250,7 +256,7 @@ HatchEggs:
 	dec de
 	ld [de], a
 	ld [wNamedObjectIndexBuffer], a
-	ld [wCurSpecies], a
+	ld [wCurSpecies], a			;todo
 	call GetPokemonName
 	xor a
 ;	ld [wUnusedEggHatchFlag], a
