@@ -995,19 +995,42 @@ SendMonIntoBox:
 	ld a, [wCurPartySpecies]
 	ld [wCurSpecies], a
 ;
+	ld h, a
 	ld a, [wCurPartySpecies + 1]
 	ld [wCurSpecies + 1], a
+	ld l, a
 ;
-	ld c, a
-.loop
+;	ld c, a
+;
 	inc de
+;
+
+.loop
+;	inc de
+;	ld a, [de]
+;	ld b, a
+;	ld a, c
+;	ld c, b
+;	ld [de], a
+;
 	ld a, [de]
 	ld b, a
-	ld a, c
-	ld c, b
+	ld a, h
+	ld h, b
 	ld [de], a
 	inc a
-	jr nz, .loop
+	jr z, .done
+	inc de
+	ld a, [de]
+	ld c, a
+	ld a, l
+	ld l, c
+	ld [de], a
+	inc de
+;
+	inc a
+	jr nz, .loop		;i.e. a was not -1
+.done
 
 	call GetBaseData
 	call ShiftBoxMon
