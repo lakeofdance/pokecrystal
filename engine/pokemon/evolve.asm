@@ -30,6 +30,11 @@ EvolveAfterBattle_MasterLoop:
 	jp z, .ReturnToMap
 
 	ld [wEvolutionOldSpecies], a
+;
+	inc hl
+	ld a, [hl]
+	ld [wEvolutionOldSpecies + 1], a
+;
 
 	push hl
 	ld a, [wCurPartyMon]
@@ -43,7 +48,7 @@ EvolveAfterBattle_MasterLoop:
 
 	ld a, [wEvolutionOldSpecies]
 	dec a
-	ld b, 0
+	ld b, 0					;todo
 	ld c, a
 	ld hl, EvosAttacksPointers
 	add hl, bc
@@ -199,7 +204,7 @@ EvolveAfterBattle_MasterLoop:
 	push hl
 
 	ld a, [hl]
-	ld [wEvolutionNewSpecies], a
+	ld [wEvolutionNewSpecies], a		;todo
 	ld a, [wCurPartyMon]
 	ld hl, wPartyMonNicknames
 	call GetNick
@@ -232,7 +237,7 @@ EvolveAfterBattle_MasterLoop:
 
 	pop hl
 
-	ld a, [hl]
+	ld a, [hl]				;todo
 	ld [wCurSpecies], a
 	ld [wTempMonSpecies], a
 	ld [wEvolutionNewSpecies], a
@@ -311,8 +316,14 @@ EvolveAfterBattle_MasterLoop:
 .skip_unown
 	pop de
 	pop hl
+;	ld a, [wTempMonSpecies]
+;	ld [hl], a
+;
+	ld a, [wTempMonSpecies + 1]
+	ld [hld], a
 	ld a, [wTempMonSpecies]
-	ld [hl], a
+	ld [hli], a
+;
 	push hl
 	ld l, e
 	ld h, d
