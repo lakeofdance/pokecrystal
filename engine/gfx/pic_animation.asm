@@ -218,8 +218,12 @@ AnimateMon_CheckIfPokemon:
 	ld a, [wCurPartySpecies]
 	cp EGG
 	jr z, .fail
+	push de
+	ld de, wCurPartySpecies
 	call IsAPokemon
+	pop de
 	jr c, .fail
+	ld a, [wCurPartySpecies]
 	and a
 	ret
 

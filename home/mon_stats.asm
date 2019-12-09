@@ -1,17 +1,46 @@
 IsAPokemon::
 ; Return carry if species a is not a Pokemon.
+;
+	push hl
+	ld hl, NUM_POKEMON	;big-endian??
+; First, if the upper byte of x is greater than that of NUM_POKEMON then we are def wrong.
+	inc de
+	ld a, [de]
 	and a
+	jr z, .nothingtosee
+	dec a
+	cp h
+	jr nc, .NotAPokemon
+.nothingtosee
+; But still it might be that the upper bytes are equal but NUM_POKEMON < x. Let's check.
+	dec de
+	ld a, [de]
+	and a
+	dec a
+	cp l
+	jr nc, .NotAPokemon
+; That's great, but there are still a couple of boxes to tick.
+;
+	and a
+	jr z, .NotAPokemon
+	cp $ff
 	jr z, .NotAPokemon
 	cp EGG
 	jr z, .Pokemon
-	cp NUM_POKEMON + 1
-	jr c, .Pokemon
+; We are here if the lower byte is not EGG, $ff, or 0. 
+; Since we already compared to NUM_POKEMON, we can conclude that all is good.
+
+;	cp NUM_POKEMON + 1
+;	jr c, .Pokemon
+	jr .Pokemon
 
 .NotAPokemon:
+	pop hl
 	scf
 	ret
 
 .Pokemon:
+	pop hl
 	and a
 	ret
 
@@ -81,7 +110,10 @@ PrepMonFrontpic::
 
 _PrepMonFrontpic::
 	ld a, [wCurPartySpecies]
+	push de
+	ld de, wCurPartySpecies
 	call IsAPokemon
+	pop de
 	jr c, .not_pokemon
 
 	push hl

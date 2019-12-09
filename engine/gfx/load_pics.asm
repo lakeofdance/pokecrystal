@@ -51,7 +51,10 @@ GetUnownLetter:
 GetMonFrontpic:
 	ld a, [wCurPartySpecies]
 	ld [wCurSpecies], a
+	push de
+	ld de, wCurPartySpecies
 	call IsAPokemon
+	pop de
 	ret c
 	ldh a, [rSVBK]
 	push af
@@ -63,7 +66,10 @@ GetMonFrontpic:
 GetAnimatedFrontpic:
 	ld a, [wCurPartySpecies]
 	ld [wCurSpecies], a
+	push de
+	ld de, wCurPartySpecies
 	call IsAPokemon
+	pop de
 	ret c
 	ldh a, [rSVBK]
 	push af
@@ -193,8 +199,11 @@ LoadFrontpicTiles:
 	ret
 
 GetMonBackpic:
-	ld a, [wCurPartySpecies]
+;	ld a, [wCurPartySpecies]
+	push de
+	ld de, wCurPartySpecies
 	call IsAPokemon
+	pop de
 	ret c
 
 	ld a, [wCurPartySpecies]

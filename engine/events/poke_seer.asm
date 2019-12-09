@@ -28,7 +28,10 @@ PokeSeer:
 	cp EGG
 	jr z, .egg
 
+	push de
+	ld de, wCurPartySpecies
 	call IsAPokemon
+	pop de
 	jr c, .no_mon
 
 	call ReadCaughtData
