@@ -1482,7 +1482,11 @@ FishFunction:
 	jr z, .nonibble
 	ld [wTempWildMonSpecies], a
 	ld a, e
-	ld [wCurPartyLevel], a
+;
+	ld [wTempWildMonSpecies + 1], a
+	ld a, b
+;
+;	ld [wCurPartyLevel], a
 	ld a, BATTLETYPE_FISH
 	ld [wBattleType], a
 	ld a, $2

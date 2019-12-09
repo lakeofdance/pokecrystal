@@ -51,11 +51,19 @@ endr
 	inc hl
 	inc hl
 	inc hl
+;
+	inc hl
+;
 	jr .loop
 .ok
 	inc hl
 
 	; Species 0 reads from a time-based encounter table.
+;
+	ld a, [hl]	;level
+	ld [wCurPartyLevel], a
+	inc hl
+;
 	ld a, [hli]
 	ld d, a
 	and a
@@ -70,10 +78,15 @@ endr
 
 .TimeEncounter:
 	; The level byte is repurposed as the index for the new table.
-	ld e, [hl]
+;
+	ld a, [wCurPartyLevel]
+	ld e, a
+;
+;	ld e, [hl]
 	ld d, 0
 	ld hl, TimeFishGroups
-rept 4
+;rept 4
+rept 6
 	add hl, de
 endr
 
@@ -83,8 +96,15 @@ endr
 	jr c, .time_species
 	inc hl
 	inc hl
+;
+	inc hl
+;
 
 .time_species
+;
+	ld a, [hli]
+	ld [wCurPartyLevel], a
+;
 	ld d, [hl]
 	inc hl
 	ret
