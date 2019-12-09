@@ -74,6 +74,9 @@ CheckPartyMove:
 	ld b, 0
 	ld hl, wPartySpecies
 	add hl, bc
+;
+	add hl, bc
+;
 	ld a, [hl]
 	and a
 	jr z, .no
