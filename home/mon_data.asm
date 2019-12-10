@@ -14,7 +14,12 @@ GetBaseData::
 
 ; Get BaseData
 	dec a
-	ld bc, BASE_DATA_SIZE
+;	ld bc, BASE_DATA_SIZE
+	ld c, a
+	ld a, [wCurSpecies + 1]
+	ld b, a
+	ld a, BASE_DATA_SIZE
+;
 	ld hl, BaseData
 	call AddNTimes
 	ld de, wCurBaseData
@@ -32,6 +37,8 @@ GetBaseData::
 ; Replace Pokedex # with species
 	ld a, [wCurSpecies]
 	ld [wBaseDexNo], a
+	ld a, [wCurSpecies + 1]
+	ld [wBaseDexNo + 1], a
 
 	pop af
 	rst Bankswitch
