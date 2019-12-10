@@ -203,8 +203,10 @@ EvolveAfterBattle_MasterLoop:
 
 	push hl
 
+	ld a, [hli]
+	ld [wEvolutionNewSpecies], a
 	ld a, [hl]
-	ld [wEvolutionNewSpecies], a		;todo
+	ld [wEvolutionNewSpecies + 1], a
 	ld a, [wCurPartyMon]
 	ld hl, wPartyMonNicknames
 	call GetNick
@@ -237,11 +239,16 @@ EvolveAfterBattle_MasterLoop:
 
 	pop hl
 
-	ld a, [hl]				;todo
+	ld a, [hli]
 	ld [wCurSpecies], a
 	ld [wTempMonSpecies], a
 	ld [wEvolutionNewSpecies], a
 	ld [wNamedObjectIndexBuffer], a
+	ld a, [hld]
+	ld [wCurSpecies + 1], a
+	ld [wTempMonSpecies + 1], a
+	ld [wEvolutionNewSpecies + 1], a
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetPokemonName
 
 	push hl
@@ -298,6 +305,8 @@ EvolveAfterBattle_MasterLoop:
 
 	ld a, [wCurSpecies]
 	ld [wTempSpecies], a
+	ld a, [wCurSpecies + 1]
+	ld [wTempSpecies + 1], a
 	xor a
 	ld [wMonType], a
 	call LearnLevelMoves
@@ -306,7 +315,7 @@ EvolveAfterBattle_MasterLoop:
 	call SetSeenAndCaughtMon
 
 	ld a, [wTempSpecies]
-	cp UNOWN
+	cp UNOWN			;todo
 	jr nz, .skip_unown
 
 	ld hl, wTempMonDVs
@@ -334,6 +343,7 @@ EvolveAfterBattle_MasterLoop:
 .dont_evolve_2
 	inc hl
 .dont_evolve_3
+	inc hl
 	inc hl
 	jp .loop
 
@@ -494,7 +504,7 @@ FillMoves:
 	push bc
 	ld hl, EvosAttacksPointers
 	ld b, 0
-	ld a, [wCurPartySpecies]
+	ld a, [wCurPartySpecies]		;todo
 	dec a
 	add a
 	rl b
@@ -506,8 +516,17 @@ FillMoves:
 .GoToAttacks:
 	ld a, [hli]
 	and a
-	jr nz, .GoToAttacks
-	jr .GetLevel
+;	jr nz, .GoToAttacks
+;	jr .GetLevel
+	jr z, .GetLevel
+	cp EVOLVE_STAT
+	jr nz, .NotTyrogue
+	inc hl
+.NotTyrogue
+	inc hl	
+	inc hl
+	inc hl
+	jr .GoToAttacks
 
 .NextMove:
 	pop de
