@@ -6,6 +6,15 @@ CopyMonToTempMon:
 	ld e, a
 	call GetMonSpecies
 	ld a, [wCurPartySpecies]
+;
+;	cp a, 255
+;	jr z, .ok
+;	ld a, 1
+;	jr .ok2
+;.ok
+;	ld a, 4
+;.ok2
+;
 	ld [wCurSpecies], a
 	call GetBaseData
 
@@ -57,7 +66,7 @@ _TempMonStatsCalculation:
 	add hl, bc
 	ld d, h
 	ld e, l
-	ld a, [wCurPartySpecies]
+	ld a, [wCurPartySpecies]		;todo
 	cp EGG
 	jr nz, .not_egg
 	xor a
@@ -115,13 +124,20 @@ GetMonSpecies:
 
 .breedmon
 	ld a, [wBreedMon1Species]
+;	ld b, a
+;	ld a, [wBreedMon1Species + 1]
 	jr .done2
 
 .done
 	ld d, 0
 	add hl, de
+	add hl, de		;does this work for boxmon? ;todo
+;	ld a, [hli]
+;	ld b, a
 	ld a, [hl]
 
 .done2
+;	ld [wCurPartySpecies + 1], a
+;	ld a, b
 	ld [wCurPartySpecies], a
 	ret

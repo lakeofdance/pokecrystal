@@ -612,6 +612,9 @@ OakSpeech:
 	ld a, WOOPER
 	ld [wCurSpecies], a
 	ld [wCurPartySpecies], a
+	xor a
+	ld [wCurSpecies + 1], a
+	ld [wCurPartySpecies + 1], a
 	call GetBaseData
 
 	hlcoord 6, 4

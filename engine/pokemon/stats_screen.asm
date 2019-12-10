@@ -183,6 +183,9 @@ StatsScreen_CopyToTempMon:
 	jr nz, .breedmon
 	ld a, [wBufferMonSpecies]
 	ld [wCurSpecies], a
+	ld a, [wBufferMonSpecies + 1]
+	xor a
+	ld [wCurSpecies + 1], a
 	call GetBaseData
 	ld hl, wBufferMon
 	ld de, wTempMon
@@ -337,6 +340,11 @@ StatsScreen_InitUpperHalf:
 	ld a, [wBaseDexNo]
 	ld [wDeciramBuffer], a
 	ld [wCurSpecies], a
+;
+	ld a, [wBaseDexNo + 1]
+	ld [wDeciramBuffer + 1], a
+	ld [wCurSpecies + 1], a
+;
 	hlcoord 8, 0
 	ld [hl], "№"
 	inc hl
@@ -345,7 +353,7 @@ StatsScreen_InitUpperHalf:
 	hlcoord 10, 0
 	lb bc, PRINTNUM_LEADINGZEROS | 1, 3
 	ld de, wDeciramBuffer
-	call PrintNum
+	call PrintNum				; need to make 2-byte, ;todo
 	hlcoord 14, 0
 	call PrintLevel
 	ld hl, .NicknamePointers
@@ -360,6 +368,8 @@ StatsScreen_InitUpperHalf:
 	ld [hli], a
 	ld a, [wBaseDexNo]
 	ld [wNamedObjectIndexBuffer], a
+	ld a, [wBaseDexNo + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetPokemonName
 	call PlaceString
 	call StatsScreen_PlaceHorizontalDivider
@@ -431,6 +441,11 @@ StatsScreen_LoadGFX:
 	ld a, [wBaseDexNo]
 	ld [wTempSpecies], a
 	ld [wCurSpecies], a
+;
+	ld a, [wBaseDexNo + 1]
+	ld [wTempSpecies + 1], a
+	ld [wCurSpecies + 1], a
+;
 	xor a
 	ldh [hBGMapMode], a
 	call .ClearBox
@@ -786,8 +801,11 @@ StatsScreen_PlaceFrontpic:
 	ret
 
 .get_animation
-	ld a, [wCurPartySpecies]
+;	ld a, [wCurPartySpecies]
+	push de
+	ld de, wCurPartySpecies
 	call IsAPokemon
+	pop de
 	ret c
 	call StatsScreen_LoadTextboxSpaceGFX
 	ld de, vTiles2 tile $00

@@ -162,6 +162,7 @@ ClearBattleRAM:
 	ld [wMenuScrollPosition], a
 	ld [wCriticalHit], a
 	ld [wBattleMonSpecies], a
+	ld [wBattleMonSpecies + 1], a
 	ld [wBattleParticipantsNotFainted], a
 	ld [wCurBattleMon], a
 	ld [wForcedSwitch], a

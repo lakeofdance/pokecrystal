@@ -406,14 +406,23 @@ PlacePartyMonEvoStoneCompatibility:
 	jr z, .nope
 	inc hl
 	inc hl
+;
+	inc hl
+;
 	cp EVOLVE_ITEM
 	jr nz, .loop2
 	dec hl
 	dec hl
+;
+	dec hl
+;
 	ld a, [wCurItem]
 	cp [hl]
 	inc hl
 	inc hl
+;
+	inc hl
+;
 	jr nz, .loop2
 	ld de, .string_able
 	ret

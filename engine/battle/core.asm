@@ -76,9 +76,14 @@ DoBattle:
 	ld c, a
 	ld b, 0
 	add hl, bc
+	add hl, bc
 	ld a, [hl]
 	ld [wCurPartySpecies], a
 	ld [wTempBattleMonSpecies], a
+	inc hl
+	ld a, [hl]
+	ld [wCurPartySpecies + 1], a
+	ld [wTempBattleMonSpecies + 1], a
 	hlcoord 1, 5
 	ld a, 9
 	call SlideBattlePicOut
@@ -3278,9 +3283,19 @@ LoadEnemyMonToSwitchTo:
 	ld c, a
 	ld b, 0
 	add hl, bc
-	ld a, [hl]
+;
+   	add hl, bc
+   	dec hl
+;
+;	ld a, [hl]
+   	ld a, [hli]
 	ld [wTempEnemyMonSpecies], a
 	ld [wCurPartySpecies], a
+;
+    	ld a, [hl]
+    	ld [wTempEnemyMonSpecies + 1], a
+	ld [wCurPartySpecies + 1], a
+;
 	call LoadEnemyMon
 
 	ld a, [wCurPartySpecies]
@@ -3392,6 +3407,9 @@ Function_SetEnemyMonAndSendOutAnimation:
 	ld a, [wTempEnemyMonSpecies]
 	ld [wCurPartySpecies], a
 	ld [wCurSpecies], a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld [wCurPartySpecies + 1], a
+	ld [wCurSpecies + 1], a
 	call GetBaseData
 	ld a, OTPARTYMON
 	ld [wMonType], a
@@ -3712,6 +3730,10 @@ InitBattleMon:
 	ld [wTempBattleMonSpecies], a
 	ld [wCurPartySpecies], a
 	ld [wCurSpecies], a
+	ld a, [wBattleMonSpecies + 1]
+	ld [wTempBattleMonSpecies + 1], a
+	ld [wCurPartySpecies + 1], a
+	ld [wCurSpecies + 1], a
 	call GetBaseData
 	ld a, [wBaseType1]
 	ld [wBattleMonType1], a
@@ -3796,6 +3818,8 @@ InitEnemyMon:
 	call CopyBytes
 	ld a, [wEnemyMonSpecies]
 	ld [wCurSpecies], a
+	ld a, [wEnemyMonSpecies + 1]
+	ld [wCurSpecies + 1], a
 	call GetBaseData
 	ld hl, wOTPartyMonNicknames
 	ld a, [wCurPartyMon]
@@ -4500,9 +4524,12 @@ PrintPlayerHUD:
 	ld a, [wCurBattleMon]
 	ld hl, wPartyMon1Species
 	call GetPartyLocation
-	ld a, [hl]
+	ld a, [hli]
 	ld [wCurPartySpecies], a
 	ld [wCurSpecies], a
+	ld a, [hl]
+	ld [wCurPartySpecies + 1], a
+	ld [wCurSpecies + 1], a
 	call GetBaseData
 
 	pop hl
@@ -4562,6 +4589,9 @@ DrawEnemyHUD:
 	ld a, [wTempEnemyMonSpecies]
 	ld [wCurSpecies], a
 	ld [wCurPartySpecies], a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld [wCurSpecies + 1], a
+	ld [wCurPartySpecies + 1], a
 	call GetBaseData
 	ld de, wEnemyMonNick
 	hlcoord 1, 0
@@ -5509,7 +5539,9 @@ MoveInfoBox:
 	inc hl
 	ld [hl], "/"
 	inc hl
-	ld de, wNamedObjectIndexBuffer
+;	ld de, wNamedObjectIndexBuffer
+    ld de, wTempPP
+;
 	lb bc, 1, 2
 	call PrintNum
 	ret
@@ -5765,6 +5797,10 @@ LoadEnemyMon:
 	ld [wEnemyMonSpecies], a
 	ld [wCurSpecies], a
 	ld [wCurPartySpecies], a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld [wEnemyMonSpecies + 1], a
+	ld [wCurSpecies + 1], a
+	ld [wCurPartySpecies + 1], a
 
 ; Grab the BaseData for this species
 	call GetBaseData
@@ -6935,8 +6971,11 @@ GiveExperiencePoints:
 	ld d, 0
 	ld hl, wPartySpecies
 	add hl, de
-	ld a, [hl]
+	add hl, de
+	ld a, [hli]
 	ld [wCurSpecies], a
+	ld a, [hl]
+	ld [wCurSpecies + 1], a
 	call GetBaseData
 	push bc
 	ld d, MAX_LEVEL
@@ -6988,9 +7027,12 @@ GiveExperiencePoints:
 	ld [hl], a
 	ld hl, MON_SPECIES
 	add hl, bc
-	ld a, [hl]
+	ld a, [hli]
 	ld [wCurSpecies], a
 	ld [wTempSpecies], a ; unused?
+	ld a, [hl]
+	ld [wCurSpecies + 1], a
+	ld [wTempSpecies + 1], a
 	call GetBaseData
 	ld hl, MON_MAXHP + 1
 	add hl, bc
@@ -7742,11 +7784,16 @@ DropEnemySub:
 	ld hl, BattleAnimCmd_MinimizeOpp
 	jr nz, GetEnemyMonFrontpic_DoAnim
 
+	ld a, [wCurPartySpecies + 1]
+	push af
 	ld a, [wCurPartySpecies]
 	push af
 	ld a, [wEnemyMonSpecies]
 	ld [wCurSpecies], a
 	ld [wCurPartySpecies], a
+	ld a, [wEnemyMonSpecies + 1]
+	ld [wCurSpecies + 1], a
+	ld [wCurPartySpecies + 1], a
 	call GetBaseData
 	ld hl, wEnemyMonDVs
 	predef GetUnownLetter
@@ -7754,6 +7801,8 @@ DropEnemySub:
 	predef GetAnimatedFrontpic
 	pop af
 	ld [wCurPartySpecies], a
+	pop af
+	ld [wCurPartySpecies + 1], a
 	ret
 
 GetEnemyMonFrontpic_DoAnim:
@@ -7788,6 +7837,7 @@ BattleIntro:
 	call LoadTrainerOrWildMonPic
 	xor a
 	ld [wTempBattleMonSpecies], a
+	ld [wTempBattleMonSpecies + 1], a
 	ld [wBattleMenuCursorBuffer], a
 	xor a
 	ldh [hMapAnims], a
@@ -7829,9 +7879,16 @@ LoadTrainerOrWildMonPic:
 	jr nz, .Trainer
 	ld a, [wTempWildMonSpecies]
 	ld [wCurPartySpecies], a
+	ld [wTempEnemyMonSpecies], a
+	ld a, [wTempWildMonSpecies + 1]
+	ld [wCurPartySpecies + 1], a
+	jr .Wild
 
 .Trainer:
 	ld [wTempEnemyMonSpecies], a
+	xor a
+.Wild
+	ld [wTempEnemyMonSpecies + 1], a
 	ret
 
 InitEnemy:
@@ -7984,6 +8041,7 @@ CleanUpBattleRAM:
 	ld [wBattleType], a
 	ld [wAttackMissed], a
 	ld [wTempWildMonSpecies], a
+	ld [wTempWildMonSpecies + 1], a
 	ld [wOtherTrainerClass], a
 	ld [wFailedToFlee], a
 	ld [wNumFleeAttempts], a
