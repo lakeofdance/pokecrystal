@@ -253,6 +253,9 @@ endr
 	call GetFarByte
 	ld [wNamedObjectIndexBuffer], a
 	ld [wCurPartySpecies], a
+	ld a, 0
+	ld [wNamedObjectIndexBuffer + 1], a		;todo
+	ld [wCurPartySpecies + 1], a
 	call GetPokemonName
 	ld hl, wStringBuffer1
 	ld de, wMonOrItemNameBuffer
@@ -320,6 +323,8 @@ OPT_OakText3:
 OaksPKMNTalk7:
 	ld a, [wCurPartySpecies]
 	ld [wNamedObjectIndexBuffer], a
+	ld a, [wCurPartySpecies + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetPokemonName
 	ld hl, OPT_MaryText1
 	ld a, OAKS_POKEMON_TALK_8
@@ -671,7 +676,7 @@ ClearBottomLine:
 PokedexShow_GetDexEntryBank:
 	push hl
 	push de
-	ld a, [wCurPartySpecies]
+	ld a, [wCurPartySpecies]		;todo
 	dec a
 	rlca
 	rlca
@@ -693,11 +698,20 @@ PokedexShow_GetDexEntryBank:
 
 PokedexShow1:
 	call StartRadioStation
+;
+	ld hl, NUM_POKEMON	;big endian
+;
 .loop
 	call Random
-	cp NUM_POKEMON
+;	cp NUM_POKEMON
+	cp l
 	jr nc, .loop
 	ld c, a
+;
+	ld a, h
+	add 1
+	call RandomRange		;currently goes nowhere. todo.
+;
 	push bc
 	ld a, c
 	call CheckCaughtMon
@@ -705,7 +719,7 @@ PokedexShow1:
 	jr z, .loop
 	inc c
 	ld a, c
-	ld [wCurPartySpecies], a
+	ld [wCurPartySpecies], a		;todo
 	ld [wNamedObjectIndexBuffer], a
 	call GetPokemonName
 	ld hl, PokedexShowText
@@ -713,7 +727,7 @@ PokedexShow1:
 	jp NextRadioLine
 
 PokedexShow2:
-	ld a, [wCurPartySpecies]
+	ld a, [wCurPartySpecies]		;todo
 	dec a
 	ld hl, PokedexDataPointerTable
 	ld c, a

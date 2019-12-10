@@ -356,14 +356,20 @@ BattleTower_UbersCheck:
 	jr z, .uber
 	cp LUGIA
 	jr c, .next
-	cp NUM_POKEMON + 1
-	jr nc, .next
+;	cp NUM_POKEMON + 1
+	push de
+	call IsAPokemon
+	pop de
+	jr c, .next
+;Why a fallthrough here?
+;	jr nc, .next
 .uber
 	ld a, [hl]
 	cp 70
 	jr c, .uber_under_70
 .next
 	add hl, bc
+	inc de
 	inc de
 	pop af
 	dec a
@@ -378,6 +384,9 @@ BattleTower_UbersCheck:
 	pop af
 	ld a, [de]
 	ld [wNamedObjectIndexBuffer], a
+	inc de
+	ld a, [de]
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetPokemonName
 	ld hl, wStringBuffer1
 	ld de, wcd49

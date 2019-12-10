@@ -639,9 +639,9 @@ GetPreEvolution:
 ; if a pre-evolution is found.
 
 	ld c, 0
+	ld b, 0
 .loop ; For each Pokemon...
 	ld hl, EvosAttacksPointers
-	ld b, 0
 	add hl, bc
 	add hl, bc
 	ld a, [hli]
@@ -659,23 +659,38 @@ GetPreEvolution:
 	inc hl
 	ld a, [wCurPartySpecies]
 	cp [hl]
-	jr z, .found_preevo
+	inc hl
+	jr z, .ok_so_far
+.no_good
 	inc hl
 	ld a, [hl]
 	and a
 	jr nz, .loop2
 
 .no_evolve
-	inc c
-	ld a, c
-	cp NUM_POKEMON
+	inc bc
+	ld hl, NUM_POKEMON		;big endian.
+;Note: needs to change if moved after EGG, $ff, and $100.
+	ld a, h
+	cp b
+	jr c, .loop
+	ret nz
+	ld a, l
+	cp c
 	jr c, .loop
 	and a
 	ret
 
+.ok_so_far
+	ld a, [wCurPartySpecies + 1]
+	cp [hl]
+	jr nz, .no_good
+
 .found_preevo
-	inc c
+	inc bc
 	ld a, c
 	ld [wCurPartySpecies], a
+	ld a, b
+	ld [wCurPartySpecies + 1], a
 	scf
 	ret

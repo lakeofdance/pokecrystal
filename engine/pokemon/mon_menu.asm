@@ -976,6 +976,9 @@ MoveScreenLoop:
 	ld b, 0
 	ld hl, wPartySpecies
 	add hl, bc
+;
+	add hl, bc
+;
 	ld a, [hl]
 	cp -1
 	jr z, .cycle_left
@@ -1106,8 +1109,13 @@ SetUpMoveScreenBG:
 	ld d, $0
 	ld hl, wPartySpecies
 	add hl, de
-	ld a, [hl]
+;
+	add hl, de
+;
+	ld a, [hli]
 	ld [wTempIconSpecies], a
+	ld a, [hl]
+	ld [wTempIconSpecies + 1], a
 	ld e, MONICON_MOVES
 	farcall LoadMenuMonIcon
 	hlcoord 0, 1
@@ -1240,6 +1248,8 @@ Function132d3:
 	ret
 
 Function132da:
+; Checking our left neighbour,
+; to see whether we can place a left arrow in move menu.
 	ld a, [wCurPartyMon]
 	and a
 	ret z
@@ -1248,16 +1258,39 @@ Function132da:
 	ld d, 0
 	ld hl, wPartyCount
 	add hl, de
+;
+	add hl, de
+	dec hl
+	ld de, NUM_POKEMON	; big endian
+;
 .loop
-	ld a, [hl]
+;	ld a, [hl]
+	ld a, [hli]
 	and a
 	jr z, .prev
 	cp EGG
 	jr z, .prev
-	cp NUM_POKEMON + 1
+	cp $ff
+	jr z, .prev
+;	cp NUM_POKEMON + 1
+	ld a, [hld]
+	cp d
+	jr c, .legal
+	and a
+	jr z, .lower
+	add -1
+	cp d
+	jr nc, .prev
+.lower
+	ld a, [hl]
+	add -1
+	cp e
 	jr c, .legal
 
 .prev
+;
+	dec hl
+;
 	dec hl
 	dec c
 	jr nz, .loop
@@ -1269,6 +1302,8 @@ Function132da:
 	ret
 
 Function132fe:
+; Checking our right neighbour,
+; to see whether we can place a right arrow in move menu.
 	ld a, [wCurPartyMon]
 	inc a
 	ld c, a
@@ -1279,18 +1314,36 @@ Function132fe:
 	ld d, 0
 	ld hl, wPartySpecies
 	add hl, de
+;
+	add hl, de
+	ld de, NUM_POKEMON	; big endian
+;
 .loop
-	ld a, [hl]
+	ld a, [hli]
 	cp -1
 	ret z
 	and a
 	jr z, .next
 	cp EGG
 	jr z, .next
-	cp NUM_POKEMON + 1
+;	cp NUM_POKEMON + 1
+;	jr c, .legal
+	ld a, [hld]
+	cp d
+	jr c, .legal
+	and a
+	jr z, .lower
+	add -1
+	cp d
+	jr nc, .next
+.lower
+	ld a, [hl]
+	add -1
+	cp e
 	jr c, .legal
 
 .next
+	inc hl
 	inc hl
 	jr .loop
 

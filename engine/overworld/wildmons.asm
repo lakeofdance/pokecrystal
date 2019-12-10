@@ -315,12 +315,12 @@ ChooseWildEncounter:
 .ok
 	ld a, b
 	ld [wCurPartyLevel], a
-	ld b, [hl]	;lower species byte, higher ;todo
-	; ld a, b
+	ld b, [hl]
+	inc hl
+	ld c, [hl]
 	call ValidateTempWildMonSpecies
 	jr c, .nowildbattle
 
-	ld a, b ; This is in the wrong place.
 	cp UNOWN
 	jr nz, .done
 
@@ -339,6 +339,8 @@ ChooseWildEncounter:
 .loadwildmon
 	ld a, b
 	ld [wTempWildMonSpecies], a
+	ld a, c
+	ld [wTempWildMonSpecies + 1], a
 
 .startwildbattle
 	xor a
@@ -751,15 +753,42 @@ _BackUpMapIndices:
 INCLUDE "data/wild/roammon_maps.asm"
 
 ValidateTempWildMonSpecies:
-; Due to a development oversight, this function is called with the wild Pokemon's level, not its species, in a.
+; Species in bc, little-endian
+;	and a
+;	jr z, .nowildmon ; = 0
+;	cp NUM_POKEMON + 1 ; 252
+;	jr nc, .nowildmon ; >= 252
+;	and a ; 1 <= Species <= 251
+
+	push hl
+	ld hl, NUM_POKEMON	;big endian
+	ld a, c
+	cp h
+	ld a, b
+	jr z, .equal
+	jr c, .strictly_less
+	jr .nowildmon		;strictly greater
+
+.equal
+	dec a
+	cp l
+	jr nc, .nowildmon
+
+.strictly_less
 	and a
-	jr z, .nowildmon ; = 0
-	cp NUM_POKEMON + 1 ; 252
-	jr nc, .nowildmon ; >= 252
-	and a ; 1 <= Species <= 251
+	jr z, .nowildmon  ; lower = 0
+	cp $ff
+	jr z, .nowildmon  ; lower = -1
+	cp EGG
+	jr z, .nowildmon  ; lower = EGG
+
+.wildmon
+	pop hl	
+	and a
 	ret
 
 .nowildmon
+	pop hl
 	scf
 	ret
 
