@@ -1032,7 +1032,7 @@ SendMonIntoBox:
 	ld h, b
 	ld [de], a
 	inc a
-	jr z, .done
+	jr z, .done		;i.e. a was not -1
 	inc de
 	ld a, [de]
 	ld c, a
@@ -1042,7 +1042,7 @@ SendMonIntoBox:
 	inc de
 ;
 	inc a
-	jr nz, .loop		;i.e. a was not -1
+	jr nz, .loop		; not sure this is necessary
 .done
 
 	call GetBaseData
@@ -1125,7 +1125,7 @@ SendMonIntoBox:
 	inc de
 	ld a, [wCurPartyLevel]
 	ld [de], a
-	ld a, [wCurPartySpecies]
+	ld a, [wCurPartySpecies]	;todo
 	dec a
 	call SetSeenAndCaughtMon
 	ld a, [wCurPartySpecies]
@@ -1271,6 +1271,10 @@ GiveEgg::
 	ld b, 0
 	ld c, a
 	add hl, bc
+;
+	add hl, bc
+	dec hl
+;
 	ld a, EGG
 	ld [hl], a
 	ld a, [wPartyCount]
@@ -1471,7 +1475,7 @@ ComputeNPCTrademonStats:
 	ld a, MON_SPECIES
 	call GetPartyParamLocation
 	ld a, [hl]
-	ld [wCurSpecies], a
+	ld [wCurSpecies], a		;todo
 	call GetBaseData
 	ld a, MON_MAXHP
 	call GetPartyParamLocation
@@ -1771,6 +1775,11 @@ GivePoke::
 	ld a, [wCurPartySpecies]
 	ld [wNamedObjectIndexBuffer], a
 	ld [wTempEnemyMonSpecies], a
+;
+	ld a, [wCurPartySpecies + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
+	ld [wTempEnemyMonSpecies + 1], a
+;
 	call GetPokemonName
 	ld hl, wStringBuffer1
 	ld de, wMonOrItemNameBuffer
@@ -1863,7 +1872,7 @@ GivePoke::
 	ld a, b
 	and a
 	jr z, .party
-	farcall SetBoxMonCaughtData
+	farcall SetBoxMonCaughtData		;todo
 	jr .set_caught_data
 
 .party
