@@ -258,5 +258,8 @@ PokemonCries::
 	mon_cry CRY_ENTEI,       $14a,  $111 ; CELEBI
 	mon_cry CRY_NIDORAN_M,      0,     0 ; 252
 	mon_cry CRY_NIDORAN_M,      0,     0 ; 253
-	mon_cry CRY_NIDORAN_M,      0,     0 ; 254
-	mon_cry CRY_NIDORAN_M,      0,     0 ; 255
+	mon_cry CRY_NIDORAN_M,      0,     0 ; EGG
+	mon_cry CRY_NIDORAN_M,      0,     0 ; DNU
+	mon_cry CRY_NIDORAN_M,      0,     0 ; DNU2
+	mon_cry CRY_NIDORAN_M,      0,     0 ; YAMASK
+	mon_cry CRY_NIDORAN_M,      0,     0 ; COFAGRIGUS

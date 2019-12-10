@@ -277,8 +277,8 @@ JOHTO_POKEMON EQU const_value
 	const EGG        ; fe
 	const DO_NOT_USE ; ff
 	const DNU2       ; 100
-	const MON_101    ; 101
-	const MON_102    ; 102
+	const YAMASK     ; 101
+	const COFAGRIGUS ; 102
 	const MON_103    ; 103
 	const MON_104    ; 104
 	const MON_105    ; 105

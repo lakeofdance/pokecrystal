@@ -252,3 +252,8 @@ MonMenuIcons:
 	db ICON_LUGIA       ; LUGIA
 	db ICON_HO_OH       ; HO_OH
 	db ICON_HUMANSHAPE  ; CELEBI
+	db ICON_BULBASAUR   ; MON_FC
+	db ICON_BULBASAUR   ; MON_FD
+	db 0, 0, 0
+	db ICON_GHOST       ; YAMASK
+	db ICON_GHOST       ; COFAGRIGUS

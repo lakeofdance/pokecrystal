@@ -808,5 +808,8 @@ LarvitarEggMoves:
 	db ANCIENTPOWER
 	db -1 ; end
 
+YamaskEggMoves:
+	db -1 ; end
+
 NoEggMoves:
 	db -1 ; end

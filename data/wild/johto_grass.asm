@@ -2133,9 +2133,11 @@ JohtoGrassWildMons:
 	dw HOPPIP
 	; day
 	db 2
-	dw PIDGEY
+;	dw PIDGEY
+	dw YAMASK
 	db 2
-	dw SENTRET
+;	dw SENTRET
+	dw YAMASK
 	db 3
 	dw PIDGEY
 	db 3

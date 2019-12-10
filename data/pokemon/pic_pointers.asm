@@ -509,5 +509,16 @@ PokemonPicPointers::
 	dba_pic CelebiBackpic
 	dbw -1, -1 ; unused
 	dbw -1, -1 ; unused
-	dba_pic EggPic
 	dbw -1, -1 ; unused
+	dbw -1, -1 ; unused
+	dba_pic EggPic
+	dbw -1, -1 ; unused	;no egg backpic
+	dbw -1, -1 ; unused
+	dbw -1, -1 ; unused
+	dbw -1, -1 ; unused
+	dbw -1, -1 ; unused
+	dba_pic YamaskFrontpic
+	dba_pic YamaskBackpic
+	dba_pic CofagrigusFrontpic
+	dba_pic CofagrigusBackpic
+

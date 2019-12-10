@@ -30,11 +30,7 @@ NidokingFrontpic:    INCBIN "gfx/pokemon/nidoking/front.animated.2bpp.lz"
 RaikouFrontpic:      INCBIN "gfx/pokemon/raikou/front.animated.2bpp.lz"
 LugiaFrontpic:       INCBIN "gfx/pokemon/lugia/front.animated.2bpp.lz"
 ArticunoFrontpic:    INCBIN "gfx/pokemon/articuno/front.animated.2bpp.lz"
-TaurosFrontpic:      INCBIN "gfx/pokemon/tauros/front.animated.2bpp.lz"
-VenusaurFrontpic:    INCBIN "gfx/pokemon/venusaur/front.animated.2bpp.lz"
-EnteiFrontpic:       INCBIN "gfx/pokemon/entei/front.animated.2bpp.lz"
-SuicuneFrontpic:     INCBIN "gfx/pokemon/suicune/front.animated.2bpp.lz"
-TyphlosionFrontpic:  INCBIN "gfx/pokemon/typhlosion/front.animated.2bpp.lz"
+
 
 
 SECTION "Pics 2", ROMX
@@ -713,6 +709,16 @@ UnownRBackpic:       INCBIN "gfx/pokemon/unown_r/back.2bpp.lz"
 
 
 SECTION "Pics 19", ROMX
+
+TaurosFrontpic:      INCBIN "gfx/pokemon/tauros/front.animated.2bpp.lz"
+VenusaurFrontpic:    INCBIN "gfx/pokemon/venusaur/front.animated.2bpp.lz"
+EnteiFrontpic:       INCBIN "gfx/pokemon/entei/front.animated.2bpp.lz"
+SuicuneFrontpic:     INCBIN "gfx/pokemon/suicune/front.animated.2bpp.lz"
+TyphlosionFrontpic:  INCBIN "gfx/pokemon/typhlosion/front.animated.2bpp.lz"
+YamaskFrontpic:      INCBIN "gfx/pokemon/yamask/front.animated.2bpp.lz"
+YamaskBackpic:       INCBIN "gfx/pokemon/yamask/back.2bpp.lz"
+CofagrigusFrontpic:  INCBIN "gfx/pokemon/cofagrigus/front.animated.2bpp.lz"
+CofagrigusBackpic:   INCBIN "gfx/pokemon/cofagrigus/back.2bpp.lz"
 
 
 ; Sections "Pics 20" to "Pics 24" are not used for any graphics,

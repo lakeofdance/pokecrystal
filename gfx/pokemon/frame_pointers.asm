@@ -250,3 +250,8 @@ FramesPointers:
 	dw LugiaFrames
 	dw HoOhFrames
 	dw CelebiFrames
+	dw CelebiFrames
+	dw CelebiFrames
+	dw 0, 0, 0
+	dw YamaskFrames
+	dw CofagrigusFrames

@@ -250,3 +250,8 @@ AnimationPointers:
 	dw LugiaAnimation
 	dw HoOhAnimation
 	dw CelebiAnimation
+	dw CelebiAnimation
+	dw CelebiAnimation
+	dw 0, 0, 0
+	dw YamaskAnimation
+	dw CofagrigusAnimation

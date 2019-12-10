@@ -3357,3 +3357,16 @@ CelebiEvosAttacks:
 	db 40, BATON_PASS
 	db 50, PERISH_SONG
 	db 0 ; no more level-up moves
+
+YamaskEvosAttacks:
+	dbbw EVOLVE_LEVEL, 34, COFAGRIGUS
+	db 0 ; no more evolutions
+	db 1, LICK
+	db 8, SWIFT
+	db 0 ; no more level-up moves
+
+CofagrigusEvosAttacks:
+	db 0 ; no more evolutions
+	db 1, LICK
+	db 8, SWIFT
+	db 0 ; no more level-up moves
