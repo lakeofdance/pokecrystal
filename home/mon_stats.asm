@@ -21,6 +21,7 @@ IsAPokemon::
 	jr nc, .NotAPokemon
 
 .strictly_less
+	inc a
 	and a
 	jr z, .NotAPokemon
 	cp $ff

@@ -187,6 +187,7 @@ TryWildEncounter::
 .no_battle
 	xor a ; BATTLETYPE_NORMAL
 	ld [wTempWildMonSpecies], a
+	ld [wTempWildMonSpecies + 1], a
 	ld [wBattleType], a
 	ld a, 1
 	and a
@@ -762,6 +763,7 @@ ValidateTempWildMonSpecies:
 
 	push hl
 	ld hl, NUM_POKEMON	;big endian
+;Upper
 	ld a, c
 	cp h
 	ld a, b
@@ -770,17 +772,19 @@ ValidateTempWildMonSpecies:
 	jr .nowildmon		;strictly greater
 
 .equal
+; Lower
 	dec a
 	cp l
 	jr nc, .nowildmon
 
 .strictly_less
+	inc a
 	and a
-	jr z, .nowildmon  ; lower = 0
+	jr z, .nowildmon
 	cp $ff
-	jr z, .nowildmon  ; lower = -1
+	jr z, .nowildmon
 	cp EGG
-	jr z, .nowildmon  ; lower = EGG
+	jr z, .nowildmon
 
 .wildmon
 	pop hl	
