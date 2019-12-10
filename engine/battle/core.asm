@@ -6213,6 +6213,8 @@ LoadEnemyMon:
 
 	ld a, [wTempEnemyMonSpecies]
 	ld [wNamedObjectIndexBuffer], a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
 
 	call GetPokemonName
 

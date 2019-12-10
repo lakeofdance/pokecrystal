@@ -23,6 +23,8 @@ GetName::
 
 	ld a, [wCurSpecies]
 	ld [wNamedObjectIndexBuffer], a
+	ld a, [wCurSpecies + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetPokemonName
 	ld hl, MON_NAME_LENGTH
 	add hl, de
@@ -118,16 +120,19 @@ GetPokemonName::
 	rst Bankswitch
 
 ; Each name is ten characters
+; Changing from little to big endian for the maths
 	ld a, [wNamedObjectIndexBuffer]
-	dec a
-	ld d, 0
 	ld e, a
-	ld h, 0
 	ld l, a
+	ld a, [wNamedObjectIndexBuffer + 1]
+	ld d, a
+	ld h, a
+	dec de
+	dec hl
 	add hl, hl ; hl = hl * 4
 	add hl, hl ; hl = hl * 4
 	add hl, de ; hl = (hl*4) + de
-	add hl, hl ; hl = (5*hl) + (5*hl)
+	add hl, hl ; hl = (5*hl) + (5*hl) = (10*a)
 	ld de, PokemonNames
 	add hl, de
 
