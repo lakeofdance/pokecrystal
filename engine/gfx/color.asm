@@ -52,7 +52,7 @@ ApplyMonOrTrainerPals:
 	ld a, e
 	and a
 	jr z, .get_trainer
-	ld a, [wCurPartySpecies]
+;	ld a, [wCurPartySpecies]
 	call GetMonPalettePointer
 	jr .load_palettes
 
@@ -387,8 +387,15 @@ GetBattlemonBackpicPalettePointer:
 	farcall GetPartyMonDVs
 	ld c, l
 	ld b, h
+;
+	push de
+	ld a, [wTempBattleMonSpecies + 1]
+	ld e, a
 	ld a, [wTempBattleMonSpecies]
+	ld d, a
 	call GetPlayerOrMonPalettePointer
+	pop de
+;
 	pop de
 	ret
 
@@ -397,8 +404,15 @@ GetEnemyFrontpicPalettePointer:
 	farcall GetEnemyMonDVs
 	ld c, l
 	ld b, h
+;
+	push de
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld e, a
 	ld a, [wTempEnemyMonSpecies]
+	ld d, a
 	call GetFrontpicPalettePointer
+	pop de
+;
 	pop de
 	ret
 
@@ -433,15 +447,24 @@ GetTrainerPalettePointer:
 	ret
 
 GetMonPalettePointer:
+	push de
+	ld a, [wCurPartySpecies]
+	ld d, a
+	ld a, [wCurPartySpecies + 1]
+	ld e, a
 	call _GetMonPalettePointer
+	pop de
 	ret
 
 BattleObjectPals:
 INCLUDE "gfx/battle_anims/battle_anims.pal"
 
 _GetMonPalettePointer:
-	ld l, a
-	ld h, $0
+;	ld l, a
+;	ld h, $0
+	ld l, d
+	ld h, e
+;
 	add hl, hl
 	add hl, hl
 	add hl, hl

@@ -82,6 +82,9 @@ InitPartyMenuIcon:
 	ld e, a
 	ld d, 0
 	add hl, de
+;
+	add hl, de
+;
 	ld a, [hl]
 	call ReadMonMenuIcon
 	ld [wCurIcon], a

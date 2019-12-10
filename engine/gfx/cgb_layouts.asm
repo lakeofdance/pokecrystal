@@ -181,9 +181,16 @@ _CGB_StatsScreenHPPals:
 	ld bc, HPBarPals
 	add hl, bc
 	call LoadPalette_White_Col1_Col2_Black ; hp palette
+;
+	push de
+	ld a, [wCurPartySpecies + 1]
+	ld e, a
 	ld a, [wCurPartySpecies]
+	ld d, a
 	ld bc, wTempMonDVs
 	call GetPlayerOrMonPalettePointer
+	pop de
+;
 	call LoadPalette_White_Col1_Col2_Black ; mon palette
 	ld hl, ExpBarPalette
 	call LoadPalette_White_Col1_Col2_Black ; exp palette
@@ -284,7 +291,15 @@ _CGB_BillsPC:
 
 .GetMonPalette:
 	ld bc, wTempMonDVs
+;
+	push de
+	ld a, [wCurPartySpecies + 1]
+	ld e, a
+	ld a, [wCurPartySpecies]
+	ld d, a
 	call GetPlayerOrMonPalettePointer
+	pop de
+;
 	call LoadPalette_White_Col1_Col2_Black
 .Resume:
 	call WipeAttrMap
@@ -420,8 +435,15 @@ _CGB_Evolution:
 	call AddNTimes
 	ld c, l
 	ld b, h
+;
+	push de
+	xor a
+	ld e, a
 	ld a, [wPlayerHPPal]
+	ld d, a
 	call GetPlayerOrMonPalettePointer
+	pop de
+;
 	call LoadPalette_White_Col1_Col2_Black
 	ld hl, BattleObjectPals
 	ld de, wOBPals1 palette PAL_BATTLE_OB_GRAY
@@ -709,9 +731,16 @@ INCLUDE "gfx/splash/logo.pal"
 
 _CGB_PlayerOrMonFrontpicPals:
 	ld de, wBGPals1
+;
+	push de
+	ld a, [wCurPartySpecies + 1]
+	ld e, a
 	ld a, [wCurPartySpecies]
+	ld d, a
 	ld bc, wTempMonDVs
 	call GetPlayerOrMonPalettePointer
+	pop de
+;
 	call LoadPalette_White_Col1_Col2_Black
 	call WipeAttrMap
 	call ApplyAttrMap
@@ -735,9 +764,16 @@ _CGB_TradeTube:
 
 _CGB_TrainerOrMonFrontpicPals:
 	ld de, wBGPals1
+;
+	push de
+	ld a, [wCurPartySpecies + 1]
+	ld e, a
 	ld a, [wCurPartySpecies]
+	ld d, a
 	ld bc, wTempMonDVs
 	call GetFrontpicPalettePointer
+	pop de
+;
 	call LoadPalette_White_Col1_Col2_Black
 	call WipeAttrMap
 	call ApplyAttrMap

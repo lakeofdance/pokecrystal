@@ -266,6 +266,9 @@ PokeAnim_InitPicAttributes:
 	ld hl, wCurPartySpecies
 	call GetFarWRAMByte
 	ld [wPokeAnimSpecies], a
+	ld hl, wCurPartySpecies + 1
+	call GetFarWRAMByte
+	ld [wPokeAnimSpecies + 1], a
 
 	ld a, BANK(wUnownLetter)
 	ld hl, wUnownLetter
@@ -273,7 +276,7 @@ PokeAnim_InitPicAttributes:
 	ld [wPokeAnimUnownLetter], a
 
 	call PokeAnim_GetSpeciesOrUnown
-	ld [wPokeAnimSpeciesOrUnown], a
+;	ld [wPokeAnimSpeciesOrUnown], a
 
 	call PokeAnim_GetFrontpicDims
 	ld a, c
@@ -405,6 +408,9 @@ PokeAnim_StopWaitAnim:
 	ret
 
 PokeAnim_IsUnown:
+	ld a, [wPokeAnimSpecies + 1]
+	and a
+	ret nz
 	ld a, [wPokeAnimSpecies]
 	cp UNOWN
 	ret
@@ -857,9 +863,14 @@ GetMonAnimPointer:
 .idles
 
 	ld a, [wPokeAnimSpeciesOrUnown]
-	dec a
+;	dec a
+;	ld e, a
+;	ld d, 0
 	ld e, a
-	ld d, 0
+	ld a, [wPokeAnimSpeciesOrUnown + 1]
+	ld d, a
+	dec de
+;
 	add hl, de
 	add hl, de
 	ld a, c
@@ -896,6 +907,8 @@ PokeAnim_GetFrontpicDims:
 	ldh [rSVBK], a
 	ld a, [wCurPartySpecies]
 	ld [wCurSpecies], a
+	ld a, [wCurPartySpecies + 1]
+	ld [wCurSpecies + 1], a
 	call GetBaseData
 	ld a, [wBasePicSize]
 	and $f
@@ -919,15 +932,24 @@ GetMonFramesPointer:
 	ld c, BANK(KantoFrames)
 	ld hl, FramesPointers
 	jr c, .got_frames
+	ld a, [wPokeAnimSpecies + 1]
+	and a
 	ld c, BANK(JohtoFrames)
+	jr z, .got_frames
+	ld c, BANK(MoreFrames)
 .got_frames
 	ld a, c
 	ld [wPokeAnimFramesBank], a
 
 	ld a, [wPokeAnimSpeciesOrUnown]
-	dec a
+;	dec a
+;	ld e, a
+;	ld d, 0
 	ld e, a
-	ld d, 0
+	ld a, [wPokeAnimSpeciesOrUnown + 1]
+	ld d, a
+	dec de
+;
 	add hl, de
 	add hl, de
 	ld a, b
@@ -963,9 +985,14 @@ GetMonBitmaskPointer:
 	ld [wPokeAnimBitmaskBank], a
 
 	ld a, [wPokeAnimSpeciesOrUnown]
-	dec a
+;	dec a
+;	ld e, a
+;	ld d, 0
 	ld e, a
-	ld d, 0
+	ld a, [wPokeAnimSpeciesOrUnown + 1]
+	ld d, a
+	dec de
+;
 	add hl, de
 	add hl, de
 	ld a, [wPokeAnimBitmaskBank]
@@ -991,6 +1018,9 @@ PokeAnim_GetSpeciesOrUnown:
 	call PokeAnim_IsUnown
 	jr z, .unown
 	ld a, [wPokeAnimSpecies]
+	ld [wPokeAnimSpeciesOrUnown], a
+	ld a, [wPokeAnimSpecies + 1]
+	ld [wPokeAnimSpeciesOrUnown + 1], a
 	ret
 
 .unown

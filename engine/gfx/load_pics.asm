@@ -66,6 +66,8 @@ GetMonFrontpic:
 GetAnimatedFrontpic:
 	ld a, [wCurPartySpecies]
 	ld [wCurSpecies], a
+	ld a, [wCurPartySpecies + 1]
+	ld [wCurSpecies + 1], a
 	push de
 	ld de, wCurPartySpecies
 	call IsAPokemon
@@ -111,7 +113,11 @@ _GetFrontpic:
 GetFrontpicPointer:
 	ld a, [wCurPartySpecies]
 	cp UNOWN
+	jr nz, .notunown
+	ld a, [wCurPartySpecies + 1]
+	and a
 	jr z, .unown
+.notunown
 	ld a, [wCurPartySpecies]
 	ld d, BANK(PokemonPicPointers)
 	jr .ok
@@ -123,7 +129,12 @@ GetFrontpicPointer:
 .ok
 	ld hl, PokemonPicPointers ; UnownPicPointers
 	dec a
-	ld bc, 6
+;	ld bc, 6
+	ld c, a
+	ld a, [wCurPartySpecies + 1]
+	ld b, a
+	ld a, 6
+;
 	call AddNTimes
 	ld a, d
 	call GetFarByte
