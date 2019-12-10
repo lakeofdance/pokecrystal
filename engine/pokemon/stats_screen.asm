@@ -184,7 +184,6 @@ StatsScreen_CopyToTempMon:
 	ld a, [wBufferMonSpecies]
 	ld [wCurSpecies], a
 	ld a, [wBufferMonSpecies + 1]
-	xor a
 	ld [wCurSpecies + 1], a
 	call GetBaseData
 	ld hl, wBufferMon
@@ -764,7 +763,7 @@ StatsScreen_PlaceFrontpic:
 .cry
 	call SetPalettes
 	call .AnimateMon
-	ld a, [wCurPartySpecies]
+	ld a, [wCurPartySpecies]	;todo
 	call PlayMonCry2
 	ret
 
@@ -773,7 +772,12 @@ StatsScreen_PlaceFrontpic:
 	set 5, [hl]
 	ld a, [wCurPartySpecies]
 	cp UNOWN
+	jr nz, .notunown
+	ld a, [wCurPartySpecies + 1]
+	and a
 	jr z, .unown
+
+.notunown
 	hlcoord 0, 0
 	call PrepMonFrontpic
 	ret

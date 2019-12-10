@@ -6,16 +6,9 @@ CopyMonToTempMon:
 	ld e, a
 	call GetMonSpecies
 	ld a, [wCurPartySpecies]
-;
-;	cp a, 255
-;	jr z, .ok
-;	ld a, 1
-;	jr .ok2
-;.ok
-;	ld a, 4
-;.ok2
-;
 	ld [wCurSpecies], a
+	ld a, [wCurPartySpecies + 1]
+	ld [wCurSpecies + 1], a
 	call GetBaseData
 
 	ld a, [wMonType]
@@ -124,20 +117,20 @@ GetMonSpecies:
 
 .breedmon
 	ld a, [wBreedMon1Species]
-;	ld b, a
-;	ld a, [wBreedMon1Species + 1]
+	ld b, a
+	ld a, [wBreedMon1Species + 1]
 	jr .done2
 
 .done
 	ld d, 0
 	add hl, de
-	add hl, de		;does this work for boxmon? ;todo
-;	ld a, [hli]
-;	ld b, a
+	add hl, de
+	ld a, [hli]
+	ld b, a
 	ld a, [hl]
 
 .done2
-;	ld [wCurPartySpecies + 1], a
-;	ld a, b
+	ld [wCurPartySpecies + 1], a
+	ld a, b
 	ld [wCurPartySpecies], a
 	ret

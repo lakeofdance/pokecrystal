@@ -77,10 +77,9 @@ DoBattle:
 	ld b, 0
 	add hl, bc
 	add hl, bc
-	ld a, [hl]
+	ld a, [hli]
 	ld [wCurPartySpecies], a
 	ld [wTempBattleMonSpecies], a
-	inc hl
 	ld a, [hl]
 	ld [wCurPartySpecies + 1], a
 	ld [wTempBattleMonSpecies + 1], a
@@ -3301,6 +3300,9 @@ LoadEnemyMonToSwitchTo:
 	ld a, [wCurPartySpecies]
 	cp UNOWN
 	jr nz, .skip_unown
+	ld a, [wCurPartySpecies + 1]
+	and a
+	jr nz, .skip_unown
 	ld a, [wFirstUnownSeen]
 	and a
 	jr nz, .skip_unown
@@ -3522,6 +3524,7 @@ CheckIfCurPartyMonIsFitToFight:
 	ld a, [wCurPartyMon]
 	ld c, a
 	ld b, 0
+	add hl, bc
 	add hl, bc
 	ld a, [hl]
 	cp EGG
@@ -3917,7 +3920,7 @@ SendOutPlayerMon:
 	jr c, .statused
 	ld a, $f0
 	ld [wCryTracks], a
-	ld a, [wCurPartySpecies]
+	ld a, [wCurPartySpecies]		;todo
 	call PlayStereoCry
 
 .statused
@@ -7751,16 +7754,22 @@ DropPlayerSub:
 	and a
 	ld hl, BattleAnimCmd_MinimizeOpp
 	jr nz, GetBattleMonBackpic_DoAnim
+	ld a, [wCurPartySpecies + 1]
+	push af
 	ld a, [wCurPartySpecies]
 	push af
 	ld a, [wBattleMonSpecies]
 	ld [wCurPartySpecies], a
+	ld a, [wBattleMonSpecies + 1]
+	ld [wCurPartySpecies + 1], a
 	ld hl, wBattleMonDVs
 	predef GetUnownLetter
 	ld de, vTiles2 tile $31
 	predef GetMonBackpic
 	pop af
 	ld [wCurPartySpecies], a
+	pop af
+	ld [wCurPartySpecies + 1], a
 	ret
 
 GetBattleMonBackpic_DoAnim:
@@ -7992,6 +8001,9 @@ InitEnemyWildmon:
 	predef GetUnownLetter
 	ld a, [wCurPartySpecies]
 	cp UNOWN
+	jr nz, .skip_unown
+	ld a, [wCurPartySpecies + 1]
+	and a
 	jr nz, .skip_unown
 	ld a, [wFirstUnownSeen]
 	and a

@@ -633,8 +633,10 @@ PartyMenuSelect:
 ;
 	add hl, bc
 ;
-	ld a, [hl]
+	ld a, [hli]
 	ld [wCurPartySpecies], a
+	ld a, [hl]
+	ld [wCurPartySpecies + 1], a
 
 	ld de, SFX_READ_TEXT_2
 	call PlaySFX

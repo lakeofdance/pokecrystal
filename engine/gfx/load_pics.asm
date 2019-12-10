@@ -51,6 +51,8 @@ GetUnownLetter:
 GetMonFrontpic:
 	ld a, [wCurPartySpecies]
 	ld [wCurSpecies], a
+	ld a, [wCurPartySpecies + 1]
+	ld [wCurSpecies + 1], a
 	push de
 	ld de, wCurPartySpecies
 	call IsAPokemon
@@ -236,8 +238,15 @@ GetMonBackpic:
 	ld a, c
 	ld d, BANK(UnownPicPointers)
 .ok
-	dec a
-	ld bc, 6
+;	dec a
+;	ld bc, 6
+	ld c, a
+	ld a, [wCurPartySpecies + 1]
+	xor a 
+	ld b, a
+	dec bc
+	ld a, 6
+;
 	call AddNTimes
 	ld bc, 3
 	add hl, bc
