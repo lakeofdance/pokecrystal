@@ -314,8 +314,10 @@ PlacePartyMonTMHMCompatibility:
 ;
 	add hl, de
 ;
-	ld a, [hl]
+	ld a, [hli]
 	ld [wCurPartySpecies], a
+	ld a, [hl]
+	ld [wCurPartySpecies + 1], a
 	predef CanLearnTMHMMove
 	pop hl
 	call .PlaceAbleNotAble
@@ -365,10 +367,11 @@ PlacePartyMonEvoStoneCompatibility:
 	ld bc, PARTYMON_STRUCT_LENGTH
 	ld hl, wPartyMon1Species
 	call AddNTimes
-	ld a, [hl]
-	dec a
+	ld a, [hli]
 	ld e, a
-	ld d, 0
+	ld a, [hl]
+	ld d, a
+	dec de
 	ld hl, EvosAttacksPointers
 	add hl, de
 	add hl, de

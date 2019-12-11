@@ -451,7 +451,15 @@ LearnLevelMoves:
 .skip_evos
 	ld a, [hli]
 	and a
-	jr nz, .skip_evos
+	jr z, .find_move
+	cp EVOLVE_STAT
+	jr nz, .not_tyrogue
+	inc hl
+.not_tyrogue
+	inc hl
+	inc hl
+	inc hl
+	jr .skip_evos
 
 .find_move
 	ld a, [hli]
@@ -497,6 +505,8 @@ LearnLevelMoves:
 .done
 	ld a, [wCurPartySpecies]
 	ld [wTempSpecies], a
+	ld a, [wCurPartySpecies + 1]
+	ld [wTempSpecies + 1], a
 	ret
 
 FillMoves:

@@ -1,6 +1,8 @@
 CanLearnTMHMMove:
 	ld a, [wCurPartySpecies]
 	ld [wCurSpecies], a
+	ld a, [wCurPartySpecies + 1]
+	ld [wCurSpecies + 1], a
 	call GetBaseData
 	ld hl, wBaseTMHM
 	push hl
