@@ -47,9 +47,10 @@ EvolveAfterBattle_MasterLoop:
 	jp z, EvolveAfterBattle_MasterLoop
 
 	ld a, [wEvolutionOldSpecies]
-	dec a
-	ld b, 0					;todo
 	ld c, a
+	ld a, [wEvolutionOldSpecies + 1]
+	ld b, a
+	dec bc
 	ld hl, EvosAttacksPointers
 	add hl, bc
 	add hl, bc
@@ -312,7 +313,7 @@ EvolveAfterBattle_MasterLoop:
 	call LearnLevelMoves
 	ld a, [wTempSpecies]
 	dec a
-	call SetSeenAndCaughtMon
+	call SetSeenAndCaughtMon	;todo
 
 	ld a, [wTempSpecies]
 	cp UNOWN			;todo
@@ -435,9 +436,11 @@ Text_WhatEvolving:
 LearnLevelMoves:
 	ld a, [wTempSpecies]
 	ld [wCurPartySpecies], a
-	dec a
-	ld b, 0
 	ld c, a
+	ld a, [wTempSpecies + 1]
+	ld [wCurPartySpecies + 1], a
+	ld b, a
+	dec bc
 	ld hl, EvosAttacksPointers
 	add hl, bc
 	add hl, bc

@@ -437,9 +437,13 @@ _CGB_Evolution:
 	ld b, h
 ;
 	push de
-	xor a
+;	xor a
+;	ld e, a
+;	ld a, [wPlayerHPPal]
+;	ld d, a
+	ld a, [wCurSpecies + 1]
 	ld e, a
-	ld a, [wPlayerHPPal]
+	ld a, [wCurSpecies]
 	ld d, a
 	call GetPlayerOrMonPalettePointer
 	pop de

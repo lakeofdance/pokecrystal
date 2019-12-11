@@ -2,6 +2,8 @@ EvolutionAnimation:
 	push hl
 	push de
 	push bc
+	ld a, [wCurSpecies + 1]
+	push af
 	ld a, [wCurSpecies]
 	push af
 	ldh a, [rOBP0]
@@ -17,6 +19,8 @@ EvolutionAnimation:
 	ldh [rOBP0], a
 	pop af
 	ld [wCurSpecies], a
+	pop af
+	ld [wCurSpecies + 1], a
 	pop bc
 	pop de
 	pop hl
@@ -48,13 +52,19 @@ EvolutionAnimation:
 	xor a
 	ldh [hBGMapMode], a
 	ld a, [wEvolutionOldSpecies]
-	ld [wPlayerHPPal], a
-
+;	ld [wPlayerHPPal], a
+	ld [wCurSpecies], a
+	ld a, [wEvolutionOldSpecies + 1]
+	ld [wCurSpecies + 1], a
+;
 	ld c, $0
 	call .GetSGBLayout
 	ld a, [wEvolutionOldSpecies]
 	ld [wCurPartySpecies], a
 	ld [wCurSpecies], a
+	ld a, [wEvolutionOldSpecies + 1]
+	ld [wCurPartySpecies + 1], a
+	ld [wCurSpecies + 1], a
 	call .PlaceFrontpic
 
 	ld de, vTiles2
@@ -68,10 +78,16 @@ EvolutionAnimation:
 	ld a, [wEvolutionNewSpecies]
 	ld [wCurPartySpecies], a
 	ld [wCurSpecies], a
+	ld a, [wEvolutionOldSpecies + 1]
+	ld [wCurPartySpecies + 1], a
+	ld [wCurSpecies + 1], a
 	call .LoadFrontpic
 	ld a, [wEvolutionOldSpecies]
 	ld [wCurPartySpecies], a
 	ld [wCurSpecies], a
+	ld a, [wEvolutionOldSpecies + 1]
+	ld [wCurPartySpecies + 1], a
+	ld [wCurSpecies + 1], a
 
 	ld a, $1
 	ldh [hBGMapMode], a
@@ -100,7 +116,11 @@ EvolutionAnimation:
 	ld [wEvolutionCanceled], a
 
 	ld a, [wEvolutionNewSpecies]
-	ld [wPlayerHPPal], a
+;	ld [wPlayerHPPal], a
+	ld [wCurSpecies], a
+	ld a, [wEvolutionOldSpecies + 1]
+	ld [wCurSpecies + 1], a
+;
 
 	ld c, $0
 	call .GetSGBLayout
@@ -113,11 +133,16 @@ EvolutionAnimation:
 	push af
 	ld a, $1
 	ld [wBoxAlignment], a
+	ld a, [wCurPartySpecies + 1]
+	push af
 	ld a, [wCurPartySpecies]
 	push af
 
-	ld a, [wPlayerHPPal]
+;	ld a, [wPlayerHPPal]
+	ld a, [wCurSpecies]
 	ld [wCurPartySpecies], a
+	ld a, [wCurSpecies + 1]
+	ld [wCurPartySpecies + 1], a
 	hlcoord 7, 2
 	ld d, $0
 	ld e, ANIM_MON_EVOLVE
@@ -125,6 +150,8 @@ EvolutionAnimation:
 
 	pop af
 	ld [wCurPartySpecies], a
+	pop af
+	ld [wCurPartySpecies + 1], a
 	pop af
 	ld [wBoxAlignment], a
 	ret
@@ -137,7 +164,11 @@ EvolutionAnimation:
 	ld [wEvolutionCanceled], a
 
 	ld a, [wEvolutionOldSpecies]
-	ld [wPlayerHPPal], a
+;	ld [wPlayerHPPal], a
+	ld [wCurSpecies], a
+	ld a, [wEvolutionOldSpecies + 1]
+	ld [wCurSpecies + 1], a
+;
 
 	ld c, $0
 	call .GetSGBLayout
@@ -146,8 +177,9 @@ EvolutionAnimation:
 	call .check_statused
 	ret c
 
-	ld a, [wPlayerHPPal]
-	call PlayMonCry
+;	ld a, [wPlayerHPPal]
+	ld a, [wCurSpecies]
+	call PlayMonCry		;todo
 	ret
 
 .GetSGBLayout:

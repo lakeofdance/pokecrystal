@@ -1,6 +1,8 @@
 CalcLevel:
 	ld a, [wTempMonSpecies]
 	ld [wCurSpecies], a
+	ld a, [wTempMonSpecies + 1]
+	ld [wCurSpecies + 1], a
 	call GetBaseData
 	ld d, 1
 .next_level

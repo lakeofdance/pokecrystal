@@ -266,7 +266,10 @@ PokeAnim_InitPicAttributes:
 	ld hl, wCurPartySpecies
 	call GetFarWRAMByte
 	ld [wPokeAnimSpecies], a
-	ld hl, wCurPartySpecies + 1
+
+	ld a, BANK(wCurPartySpecies)
+	ld hl, wCurPartySpecies
+	inc hl
 	call GetFarWRAMByte
 	ld [wPokeAnimSpecies + 1], a
 
@@ -942,13 +945,14 @@ GetMonFramesPointer:
 	ld [wPokeAnimFramesBank], a
 
 	ld a, [wPokeAnimSpeciesOrUnown]
-;	dec a
+	dec a
 ;	ld e, a
 ;	ld d, 0
 	ld e, a
 	ld a, [wPokeAnimSpeciesOrUnown + 1]
+;	xor a
 	ld d, a
-	dec de
+;	dec de
 ;
 	add hl, de
 	add hl, de

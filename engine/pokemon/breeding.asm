@@ -786,7 +786,12 @@ EggHatch_AnimationSequence:
 	ret
 
 Hatch_LoadFrontpicPal:
-	ld [wPlayerHPPal], a
+;	ld [wPlayerHPPal], a	;todo, lots todo here
+	ld [wCurSpecies], a
+	xor a
+	ld [wCurSpecies + 1], a
+	ld a, [wCurSpecies]
+;
 	ld b, SCGB_EVOLUTION
 	ld c, $0
 	jp GetSGBLayout
