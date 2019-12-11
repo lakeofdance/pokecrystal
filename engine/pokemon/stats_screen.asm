@@ -350,9 +350,24 @@ StatsScreen_InitUpperHalf:
 	ld [hl], "."
 	inc hl
 	hlcoord 10, 0
-	lb bc, PRINTNUM_LEADINGZEROS | 1, 3
+; swap
+	ld a, [wDeciramBuffer + 1]
+	ld b, a
+	ld a, [wDeciramBuffer]
+	ld [wDeciramBuffer + 1], a
+	ld a, b
+	ld [wDeciramBuffer], a
+	lb bc, PRINTNUM_LEADINGZEROS | 2, 3
 	ld de, wDeciramBuffer
-	call PrintNum				; need to make 2-byte, ;todo
+	call PrintNum
+;swap back
+	ld a, [wDeciramBuffer + 1]
+	ld b, a
+	ld a, [wDeciramBuffer]
+	ld [wDeciramBuffer + 1], a
+	ld a, b
+	ld [wDeciramBuffer], a
+;
 	hlcoord 14, 0
 	call PrintLevel
 	ld hl, .NicknamePointers
