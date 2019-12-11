@@ -212,17 +212,24 @@ LoadFrontpicTiles:
 	ret
 
 GetMonBackpic:
-;	ld a, [wCurPartySpecies]
+	ld a, [wCurPartySpecies]
 	push de
 	ld de, wCurPartySpecies
 	call IsAPokemon
 	pop de
 	ret c
 
-	ld a, [wCurPartySpecies]
-	ld b, a
 	ld a, [wUnownLetter]
 	ld c, a
+	xor a
+	ld b, a
+	push bc
+
+	ld a, [wCurPartySpecies]
+	ld c, a
+	ld a, [wCurPartySpecies + 1]
+	ld b, a	
+
 	ldh a, [rSVBK]
 	push af
 	ld a, BANK(wDecompressScratch)
@@ -231,22 +238,21 @@ GetMonBackpic:
 
 	; These are assumed to be at the same address in their respective banks.
 	ld hl, PokemonPicPointers ; UnownPicPointers
-	ld a, b
+	ld a, c
 	ld d, BANK(PokemonPicPointers)
 	cp UNOWN
-	jr nz, .ok
-	ld a, c
+	jr nz, .notunown
+	ld a, b
+	and a
+	jr nz, .notunown
+
+	pop bc
 	ld d, BANK(UnownPicPointers)
-.ok
-;	dec a
-;	ld bc, 6
-	ld c, a
-	ld a, [wCurPartySpecies + 1]
-	xor a 
-	ld b, a
+	push bc	; everything in its right place
+
+.notunown
 	dec bc
 	ld a, 6
-;
 	call AddNTimes
 	ld bc, 3
 	add hl, bc
@@ -270,7 +276,9 @@ GetMonBackpic:
 	call Get2bpp
 	pop af
 	ldh [rSVBK], a
+	pop bc
 	ret
+
 
 FixPicBank:
 ; This is a thing for some reason.
