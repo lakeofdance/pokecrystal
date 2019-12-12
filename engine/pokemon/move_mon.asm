@@ -558,7 +558,7 @@ SendGetMonIntoFromBox:
 	ld [hli], a
 ;    
 	ld [hl], $ff
-	ld a, [wPokemonWithdrawDepositParameter]	;withdraw 0, deposit 1
+	ld a, [wPokemonWithdrawDepositParameter]
 	dec a
 	ld hl, wPartyMon1Species
 	ld bc, PARTYMON_STRUCT_LENGTH
@@ -576,7 +576,7 @@ SendGetMonIntoFromBox:
 	push hl
 	ld e, l
 	ld d, h
-	ld a, [wPokemonWithdrawDepositParameter]	;withdraw 0, deposit 1
+	ld a, [wPokemonWithdrawDepositParameter]
 	and a
 	ld hl, sBoxMon1Species
 	ld bc, BOXMON_STRUCT_LENGTH
@@ -919,7 +919,9 @@ RetrieveBreedmon:
 	add hl, bc
 	ld d, h
 	ld e, l
-	ld hl, $a
+;	ld hl, $a
+	ld hl, $b
+;
 	add hl, bc
 	push bc
 	ld b, TRUE
@@ -942,7 +944,9 @@ RetrieveBreedmon:
 	ld d, a
 	callfar CalcExpAtLevel
 	pop bc
-	ld hl, $8
+;	ld hl, $8
+	ld hl, $9
+;
 	add hl, bc
 	ldh a, [hMultiplicand]
 	ld [hli], a
