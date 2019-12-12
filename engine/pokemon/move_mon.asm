@@ -1336,14 +1336,20 @@ RemoveMonFromPartyOrBox:
 	ld d, h
 	inc de
 ;
-    inc de
+  	inc de
 ;
 .loop
 	ld a, [de]
 	inc de
 	ld [hli], a
 	inc a
-	jr nz, .loop           ; i.e. a was not -1
+	jr z, .noloop
+	ld a, [de]
+	inc de
+	ld [hli], a
+;	jr nz, .loop           ; i.e. a was not -1
+	jr .loop
+.noloop
 	ld hl, wPartyMonOT
 	ld d, PARTY_LENGTH - 1
 	ld a, [wPokemonWithdrawDepositParameter]
