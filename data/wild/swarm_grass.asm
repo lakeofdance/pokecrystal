@@ -6,98 +6,56 @@ SwarmGrassWildMons:
 	map_id DARK_CAVE_VIOLET_ENTRANCE
 	db 4 percent, 4 percent, 4 percent ; encounter rates: morn/day/nite
 	; morn
-	db 3
-	dw GEODUDE
-	db 3
-	dw DUNSPARCE
-	db 2
-	dw ZUBAT
-	db 2
-	dw GEODUDE
-	db 2
-	dw DUNSPARCE
-	db 4
-	dw DUNSPARCE
-	db 4
-	dw DUNSPARCE
+	dbw 3, GEODUDE
+	dbw 3, DUNSPARCE
+	dbw 2, ZUBAT
+	dbw 2, GEODUDE
+	dbw 2, DUNSPARCE
+	dbw 4, DUNSPARCE
+	dbw 4, DUNSPARCE
 	; day
-	db 3
-	dw GEODUDE
-	db 3
-	dw DUNSPARCE
-	db 2
-	dw ZUBAT
-	db 2
-	dw GEODUDE
-	db 2
-	dw DUNSPARCE
-	db 4
-	dw DUNSPARCE
-	db 4
-	dw DUNSPARCE
+	dbw 3, GEODUDE
+	dbw 3, DUNSPARCE
+	dbw 2, ZUBAT
+	dbw 2, GEODUDE
+	dbw 2, DUNSPARCE
+	dbw 4, DUNSPARCE
+	dbw 4, DUNSPARCE
 	; nite
-	db 3
-	dw GEODUDE
-	db 3
-	dw DUNSPARCE
-	db 2
-	dw ZUBAT
-	db 2
-	dw GEODUDE
-	db 2
-	dw DUNSPARCE
-	db 4
-	dw DUNSPARCE
-	db 4
-	dw DUNSPARCE
+	dbw 3, GEODUDE
+	dbw 3, DUNSPARCE
+	dbw 2, ZUBAT
+	dbw 2, GEODUDE
+	dbw 2, DUNSPARCE
+	dbw 4, DUNSPARCE
+	dbw 4, DUNSPARCE
 
 ; Yanma swarm
 	map_id ROUTE_35
 	db 10 percent, 10 percent, 10 percent ; encounter rates: morn/day/nite
 	; morn
-	db 12
-	dw NIDORAN_M
-	db 12
-	dw NIDORAN_F
-	db 12
-	dw YANMA
-	db 14
-	dw YANMA
-	db 14
-	dw PIDGEY
-	db 10
-	dw DITTO
-	db 10
-	dw DITTO
+	dbw 12, NIDORAN_M
+	dbw 12, NIDORAN_F
+	dbw 12, YANMA
+	dbw 14, YANMA
+	dbw 14, PIDGEY
+	dbw 10, DITTO
+	dbw 10, DITTO
 	; day
-	db 12
-	dw NIDORAN_M
-	db 12
-	dw NIDORAN_F
-	db 12
-	dw YANMA
-	db 14
-	dw YANMA
-	db 14
-	dw PIDGEY
-	db 10
-	dw DITTO
-	db 10
-	dw DITTO
+	dbw 12, NIDORAN_M
+	dbw 12, NIDORAN_F
+	dbw 12, YANMA
+	dbw 14, YANMA
+	dbw 14, PIDGEY
+	dbw 10, DITTO
+	dbw 10, DITTO
 	; nite
-	db 12
-	dw NIDORAN_M
-	db 12
-	dw NIDORAN_F
-	db 12
-	dw YANMA
-	db 14
-	dw YANMA
-	db 14
-	dw HOOTHOOT
-	db 10
-	dw DITTO
-	db 10
-	dw DITTO
+	dbw 12, NIDORAN_M
+	dbw 12, NIDORAN_F
+	dbw 12, YANMA
+	dbw 14, YANMA
+	dbw 14, HOOTHOOT
+	dbw 10, DITTO
+	dbw 10, DITTO
 
 	db -1 ; end

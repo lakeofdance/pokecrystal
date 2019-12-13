@@ -18,187 +18,113 @@ TreeMons:
 TreeMonSet_City:
 TreeMonSet_Canyon:
 ; common
-	db 50,   	10
-	dw SPEAROW
-	db 15, 		10
-	dw SPEAROW
-	db 15, 		10
-	dw SPEAROW
-	db 10, 		10
-	dw AIPOM
-	db  5, 		10
-	dw AIPOM
-	db  5, 		10
-	dw AIPOM
+	dbbw 50, 10, SPEAROW
+	dbbw 15, 10, SPEAROW
+	dbbw 15, 10, SPEAROW
+	dbbw 10, 10, AIPOM
+	dbbw  5, 10, AIPOM
+	dbbw  5, 10, AIPOM
 	db -1
 ; rare
-	db 50, 		10
-	dw SPEAROW
-	db 15, 		10
-	dw HERACROSS
-	db 15, 		10
-	dw HERACROSS
-	db 10, 		10
-	dw AIPOM
-	db  5, 		10
-	dw AIPOM
-	db  5, 		10
-	dw AIPOM
+	dbbw 50, 10, SPEAROW
+	dbbw 15, 10, HERACROSS
+	dbbw 15, 10, HERACROSS
+	dbbw 10, 10, AIPOM
+	dbbw  5, 10, AIPOM
+	dbbw  5, 10, AIPOM
 	db -1
 
 TreeMonSet_Town:
 ; common
-	db 50, 		10
-	dw SPEAROW
-	db 15, 		10
-	dw EKANS
-	db 15, 		10
-	dw SPEAROW
-	db 10, 		10
-	dw AIPOM
-	db  5, 		10
-	dw AIPOM
-	db  5, 		10
-	dw AIPOM
+	dbbw 50, 10, SPEAROW
+	dbbw 15, 10, EKANS
+	dbbw 15, 10, SPEAROW
+	dbbw 10, 10, AIPOM
+	dbbw  5, 10, AIPOM
+	dbbw  5, 10, AIPOM
 	db -1
 ; rare
-	db 50, 		10
-	dw SPEAROW
-	db 15, 		10
-	dw HERACROSS
-	db 15, 		10
-	dw HERACROSS
-	db 10, 		10
-	dw AIPOM
-	db  5, 		10
-	dw AIPOM
-	db  5, 		10
-	dw AIPOM
+	dbbw 50, 10, SPEAROW
+	dbbw 15, 10, HERACROSS
+	dbbw 15, 10, HERACROSS
+	dbbw 10, 10, AIPOM
+	dbbw  5, 10, AIPOM
+	dbbw  5, 10, AIPOM
 	db -1
 
 TreeMonSet_Route:
 ; common
-	db 50, 		10
-	dw HOOTHOOT
-	db 15, 		10
-	dw SPINARAK
-	db 15, 		10
-	dw LEDYBA
-	db 10, 		10
-	dw EXEGGCUTE
-	db  5, 		10
-	dw EXEGGCUTE
-	db  5, 		10
-	dw EXEGGCUTE
+	dbbw 50, 10, HOOTHOOT
+	dbbw 15, 10, SPINARAK
+	dbbw 15, 10, LEDYBA
+	dbbw 10, 10, EXEGGCUTE
+	dbbw  5, 10, EXEGGCUTE
+	dbbw  5, 10, EXEGGCUTE
 	db -1
 ; rare
-	db 50, 		10
-	dw HOOTHOOT
-	db 15, 		10
-	dw PINECO
-	db 15, 		10
-	dw PINECO
-	db 10, 		10
-	dw EXEGGCUTE
-	db  5, 		10
-	dw EXEGGCUTE
-	db  5, 		10
-	dw EXEGGCUTE
+	dbbw 50, 10, HOOTHOOT
+	dbbw 15, 10, PINECO
+	dbbw 15, 10, PINECO
+	dbbw 10, 10, EXEGGCUTE
+	dbbw  5, 10, EXEGGCUTE
+	dbbw  5, 10, EXEGGCUTE
 	db -1
 
 TreeMonSet_Kanto:
 ; common
-	db 50, 		10
-	dw HOOTHOOT
-	db 15, 		10
-	dw EKANS
-	db 15, 		10
-	dw HOOTHOOT
-	db 10, 		10
-	dw EXEGGCUTE
-	db  5, 		10
-	dw EXEGGCUTE
-	db  5, 		10
-	dw EXEGGCUTE
+	dbbw 50, 10, HOOTHOOT
+	dbbw 15, 10, EKANS
+	dbbw 15, 10, HOOTHOOT
+	dbbw 10, 10, EXEGGCUTE
+	dbbw  5, 10, EXEGGCUTE
+	dbbw  5, 10, EXEGGCUTE
 	db -1
 ; rare
-	db 50, 		10
-	dw HOOTHOOT
-	db 15, 		10
-	dw PINECO
-	db 15,		10
-	dw PINECO
-	db 10, 		10
-	dw EXEGGCUTE
-	db  5, 		10
-	dw EXEGGCUTE
-	db  5, 		10
-	dw EXEGGCUTE
+	dbbw 50, 10, HOOTHOOT
+	dbbw 15, 10, PINECO
+	dbbw 15,10, PINECO
+	dbbw 10, 10, EXEGGCUTE
+	dbbw  5, 10, EXEGGCUTE
+	dbbw  5, 10, EXEGGCUTE
 	db -1
 
 TreeMonSet_Lake:
 ; common
-	db 50, 		10
-	dw HOOTHOOT
-	db 15, 		10
-	dw VENONAT
-	db 15, 		10
-	dw HOOTHOOT
-	db 10, 		10
-	dw EXEGGCUTE
-	db  5, 		10
-	dw EXEGGCUTE
-	db  5, 		10
-	dw EXEGGCUTE
+	dbbw 50, 10, HOOTHOOT
+	dbbw 15, 10, VENONAT
+	dbbw 15, 10, HOOTHOOT
+	dbbw 10, 10, EXEGGCUTE
+	dbbw  5, 10, EXEGGCUTE
+	dbbw  5, 10, EXEGGCUTE
 	db -1
 ; rare
-	db 50, 		10
-	dw HOOTHOOT
-	db 15, 		10
-	dw PINECO
-	db 15, 		10
-	dw PINECO
-	db 10, 		10
-	dw EXEGGCUTE
-	db  5, 		10
-	dw EXEGGCUTE
-	db  5, 		10
-	dw EXEGGCUTE
+	dbbw 50, 10, HOOTHOOT
+	dbbw 15, 10, PINECO
+	dbbw 15, 10, PINECO
+	dbbw 10, 10, EXEGGCUTE
+	dbbw  5, 10, EXEGGCUTE
+	dbbw  5, 10, EXEGGCUTE
 	db -1
 
 TreeMonSet_Forest:
 ; common
-	db 50, 		10
-	dw HOOTHOOT
-	db 15, 		10
-	dw PINECO
-	db 15, 		10
-	dw PINECO
-	db 10, 		10
-	dw NOCTOWL
-	db  5, 		10
-	dw BUTTERFREE
-	db  5, 		10
-	dw BEEDRILL
+	dbbw 50, 10, HOOTHOOT
+	dbbw 15, 10, PINECO
+	dbbw 15, 10, PINECO
+	dbbw 10, 10, NOCTOWL
+	dbbw  5, 10, BUTTERFREE
+	dbbw  5, 10, BEEDRILL
 	db -1
 ; rare
-	db 50, 		10
-	dw HOOTHOOT
-	db 15, 		10
-	dw CATERPIE
-	db 15, 		10
-	dw WEEDLE
-	db 10, 		10
-	dw HOOTHOOT
-	db  5, 		10
-	dw METAPOD
-	db  5, 		10
-	dw KAKUNA
+	dbbw 50, 10, HOOTHOOT
+	dbbw 15, 10, CATERPIE
+	dbbw 15, 10, WEEDLE
+	dbbw 10, 10, HOOTHOOT
+	dbbw  5, 10, METAPOD
+	dbbw  5, 10, KAKUNA
 	db -1
 
 TreeMonSet_Rock:
-	db 90, 		15
-	dw KRABBY
-	db 10, 		15
-	dw SHUCKLE
+	dbbw 90, 15, KRABBY
+	dbbw 10, 15, SHUCKLE
 	db -1
