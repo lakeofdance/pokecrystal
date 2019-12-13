@@ -199,19 +199,15 @@ GetMonSprite:
 	jr .Mon
 
 .BreedMon1
-	ld hl, wBreedMon1Species
-	ld a, [hli]
+	ld a, [wBreedMon1Species]
 	jr .Mon
 
 .BreedMon2
-	ld hl, wBreedMon2Species
-	ld a, [hli]
+	ld a, [wBreedMon2Species]
 
 .Mon:
 	ld e, a
 	and a
-	ld a, [hl]
-	ld d, a
 	jr z, .NoBreedmon
 
 	farcall LoadOverworldMonIcon
