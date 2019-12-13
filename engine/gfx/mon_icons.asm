@@ -1,6 +1,14 @@
 LoadOverworldMonIcon:
 	ld a, e
-	call ReadMonMenuIcon
+;	call ReadMonMenuIcon
+	cp EGG
+	ld a, ICON_EGG
+	jr z, .egg
+	dec de
+	ld hl, MonMenuIcons
+	add hl, de
+	ld a, [hl]
+.egg
 	ld l, a
 	ld h, 0
 	add hl, hl
@@ -86,7 +94,19 @@ InitPartyMenuIcon:
 	add hl, de
 ;
 	ld a, [hl]
-	call ReadMonMenuIcon
+;	call ReadMonMenuIcon
+	cp EGG
+	ld a, ICON_EGG
+	jr z, .egg
+	ld a, [hli]
+	ld e, a
+	ld a, [hl]
+	ld d, a
+	dec de
+	ld hl, MonMenuIcons
+	add hl, de
+	ld a, [hl]
+.egg
 	ld [wCurIcon], a
 	call GetMemIconGFX
 	ldh a, [hObjectStructIndexBuffer]
@@ -342,10 +362,12 @@ HoldSwitchmonIcon:
 ReadMonMenuIcon:
 	cp EGG
 	jr z, .egg
-	dec a
-	ld hl, MonMenuIcons
+;	dec a
 	ld e, a
-	ld d, 0
+	ld a, [wTempIconSpecies + 1]
+	ld d, a
+	dec de
+	ld hl, MonMenuIcons
 	add hl, de
 	ld a, [hl]
 	ret
