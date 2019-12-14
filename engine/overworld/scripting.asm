@@ -2238,6 +2238,8 @@ Script_giveegg:
 	call GetScriptByte
 	ld [wCurPartySpecies], a
 	call GetScriptByte
+	ld [wCurPartySpecies + 1], a
+	call GetScriptByte
 	ld [wCurPartyLevel], a
 	farcall GiveEgg
 	ret nc

@@ -310,7 +310,7 @@ ENDM
 	enum giveegg_command ; $2e
 giveegg: MACRO
 	db giveegg_command
-	db \1 ; pkmn
+	dw \1 ; pkmn
 	db \2 ; level
 ENDM
 

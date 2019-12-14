@@ -471,18 +471,25 @@ DayCare_GiveEgg:
 	ld hl, wPartyCount
 	ld a, [hl]
 	cp PARTY_LENGTH
-	jr nc, .PartyFull
+	jp nc, .PartyFull
 	inc a
 	ld [hl], a
 
 	ld c, a
 	ld b, 0
 	add hl, bc
+	add hl, bc
+	dec hl
 	ld a, EGG
+	ld [hli], a
+	xor a
 	ld [hli], a
 	ld a, [wEggMonSpecies]
 	ld [wCurSpecies], a
 	ld [wCurPartySpecies], a
+	ld a, [wEggMonSpecies + 1]
+	ld [wCurSpecies + 1], a
+	ld [wCurPartySpecies + 1], a
 	ld a, -1
 	ld [hl], a
 
@@ -554,10 +561,10 @@ DayCare_InitBreeding:
 	ret z
 	callfar CheckBreedmonCompatibility
 	ld a, [wBreedingCompatibility]
-	and a
-	ret z
-	inc a
-	ret z
+;	and a
+;	ret z
+;	inc a
+;	ret z
 	ld hl, wDayCareMan
 	set DAYCAREMAN_MONS_COMPATIBLE_F, [hl]
 .loop
@@ -584,16 +591,26 @@ DayCare_InitBreeding:
 	ld [wTempMonDVs + 1], a
 	ld a, [wBreedMon1Species]
 	ld [wCurPartySpecies], a
+	ld a, [wBreedMon1Species + 1]
+	ld [wCurPartySpecies + 1], a
 	ld a, $3
 	ld [wMonType], a
 	ld a, [wBreedMon1Species]
 	cp DITTO
+	jr nz, .noditto
+	ld a, [wBreedMon1Species + 1]
+	and a
 	ld a, $1
 	jr z, .LoadWhichBreedmonIsTheMother
+.noditto
 	ld a, [wBreedMon2Species]
 	cp DITTO
+	jr nz, .noditto2
+	ld a, [wBreedMon2Species]
+	and a
 	ld a, $0
 	jr z, .LoadWhichBreedmonIsTheMother
+.noditto2
 	farcall GetGender
 	ld a, $0
 	jr z, .LoadWhichBreedmonIsTheMother

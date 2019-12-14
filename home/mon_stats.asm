@@ -18,10 +18,10 @@ IsAPokemon::
 ; Lower
 	dec a
 	cp l
+	inc a
 	jr nc, .NotAPokemon
 
 .strictly_less
-	inc a
 	and a
 	jr z, .NotAPokemon
 	cp $ff
