@@ -8,6 +8,11 @@ GetTrademonFrontpic:
 	pop af
 	ld [wCurPartySpecies], a
 	ld [wCurSpecies], a
+;
+	ld a, [wOTTrademonSpecies + 1]
+	ld [wCurPartySpecies + 1], a
+	ld [wCurSpecies + 1], a
+;
 	call GetBaseData
 	pop de
 	predef GetAnimatedFrontpic
@@ -23,6 +28,8 @@ AnimateTrademonFrontpic:
 	farcall ShowOTTrademonStats
 	ld a, [wOTTrademonSpecies]
 	ld [wCurPartySpecies], a
+	ld a, [wOTTrademonSpecies + 1]
+	ld [wCurPartySpecies + 1], a
 	ld a, [wOTTrademonDVs]
 	ld [wTempMonDVs], a
 	ld a, [wOTTrademonDVs + 1]
@@ -33,6 +40,8 @@ AnimateTrademonFrontpic:
 	call DmgToCgbBGPals
 	farcall TradeAnim_ShowGetmonFrontpic
 	ld a, [wOTTrademonSpecies]
+	ld [wCurPartySpecies], a
+	ld a, [wOTTrademonSpecies + 1]
 	ld [wCurPartySpecies], a
 	hlcoord 7, 2
 	ld d, $0

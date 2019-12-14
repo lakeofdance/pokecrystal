@@ -26,6 +26,11 @@ NPCTrade::
 	cp [hl]
 	ld a, TRADE_DIALOG_WRONG
 	jr nz, .done
+	inc hl
+	ld a, [wCurPartySpecies + 1]
+	cp [hl]
+	ld a, TRADE_DIALOG_WRONG
+	jr nz, .done
 
 	call CheckTradeGender
 	ld a, TRADE_DIALOG_WRONG
@@ -113,20 +118,26 @@ Trade_GetDialog:
 DoNPCTrade:
 	ld e, NPCTRADE_GIVEMON
 	call GetTradeAttribute
-	ld a, [hl]
+	ld a, [hli]
 	ld [wPlayerTrademonSpecies], a
+	ld a, [hl]
+	ld [wPlayerTrademonSpecies + 1], a
 
 	ld e, NPCTRADE_GETMON
 	call GetTradeAttribute
-	ld a, [hl]
+	ld a, [hli]
 	ld [wOTTrademonSpecies], a
+	ld a, [hl]
+	ld [wOTTrademonSpecies + 1], a
 
 	ld a, [wPlayerTrademonSpecies]
+	ld hl, wPlayerTrademonSpecies
 	ld de, wPlayerTrademonSpeciesName
 	call GetTradeMonName
 	call CopyTradeName
 
 	ld a, [wOTTrademonSpecies]
+	ld hl, wOTTrademonSpecies
 	ld de, wOTTrademonSpeciesName
 	call GetTradeMonName
 	call CopyTradeName
@@ -179,6 +190,8 @@ DoNPCTrade:
 	ld [wCurPartyLevel], a
 	ld a, [wOTTrademonSpecies]
 	ld [wCurPartySpecies], a
+	ld a, [wOTTrademonSpecies + 1]
+	ld [wCurPartySpecies + 1], a
 	xor a
 	ld [wMonType], a ; PARTYMON
 	ld [wPokemonWithdrawDepositParameter], a ; REMOVE_PARTY
@@ -273,8 +286,21 @@ DoNPCTrade:
 
 GetTradeAttribute:
 	ld d, 0
+	push bc
+	ld a, [wJumptableIndex]	;trade ID
+	ld b, 0
+	ld c, NPCTRADE_PADDING
+	inc c
+	ld hl, NPCTrades
+	call AddNTimes
+	pop bc
+	add hl, de
+	ret
+
+;GetTradeAttribute:
+	ld d, 0
 	push de
-	ld a, [wJumptableIndex]
+	ld a, [wJumptableIndex]	;trade ID
 	and $f
 	swap a
 	ld e, a
@@ -302,6 +328,9 @@ Trade_GetAttributeOfLastPartymon:
 GetTradeMonName:
 	push de
 	ld [wNamedObjectIndexBuffer], a
+	inc hl
+	ld a, [hl]
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetBasePokemonName
 	ld hl, wStringBuffer1
 	pop de

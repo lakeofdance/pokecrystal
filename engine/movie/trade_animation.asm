@@ -190,17 +190,33 @@ RunTradeAnimScript:
 	call EnableLCD
 	call LoadTradeBallAndCableGFX
 	ld a, [wPlayerTrademonSpecies]
+	ld [wCurPartySpecies], a
+	ld [wCurSpecies], a
+	ld a, [wPlayerTrademonSpecies + 1]
+	ld [wCurPartySpecies + 1], a
+	ld [wCurSpecies + 1], a
 	ld hl, wPlayerTrademonDVs
 	ld de, vTiles0
 	call TradeAnim_GetFrontpic
 	ld a, [wOTTrademonSpecies]
+	ld [wCurPartySpecies], a
+	ld [wCurSpecies], a
+	ld a, [wOTTrademonSpecies + 1]
+	ld [wCurPartySpecies + 1], a
+	ld [wCurSpecies + 1], a
 	ld hl, wOTTrademonDVs
 	ld de, vTiles0 tile $31
 	call TradeAnim_GetFrontpic
 	ld a, [wPlayerTrademonSpecies]
+	ld [wNamedObjectIndexBuffer], a
+	ld a, [wPlayerTrademonSpecies + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
 	ld de, wPlayerTrademonSpeciesName
 	call TradeAnim_GetNickname
 	ld a, [wOTTrademonSpecies]
+	ld [wNamedObjectIndexBuffer], a
+	ld a, [wOTTrademonSpecies + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
 	ld de, wOTTrademonSpeciesName
 	call TradeAnim_GetNickname
 	call TradeAnim_NormalPals
@@ -314,6 +330,8 @@ TradeAnim_TubeToOT1:
 	call TradeAnim_PlaceTrademonStatsOnTubeAnim
 	ld a, [wLinkTradeSendmonSpecies]
 	ld [wTempIconSpecies], a
+	ld a, [wLinkTradeSendmonSpecies + 1]
+	ld [wTempIconSpecies + 1], a
 	xor a
 	depixel 5, 11, 4, 0
 	ld b, $0
@@ -324,6 +342,8 @@ TradeAnim_TubeToPlayer1:
 	call TradeAnim_PlaceTrademonStatsOnTubeAnim
 	ld a, [wLinkTradeGetmonSpecies]
 	ld [wTempIconSpecies], a
+	ld a, [wLinkTradeGetmonSpecies + 1]
+	ld [wTempIconSpecies + 1], a
 	ld a, TRADEANIMSTATE_2
 	depixel 9, 18, 4, 4
 	ld b, $4
@@ -760,6 +780,8 @@ TradeAnim_ShowGivemonData:
 	call ShowPlayerTrademonStats
 	ld a, [wPlayerTrademonSpecies]
 	ld [wCurPartySpecies], a
+	ld a, [wPlayerTrademonSpecies + 1]
+	ld [wCurPartySpecies + 1], a
 	ld a, [wPlayerTrademonDVs]
 	ld [wTempMonDVs], a
 	ld a, [wPlayerTrademonDVs + 1]
@@ -771,7 +793,7 @@ TradeAnim_ShowGivemonData:
 	call TradeAnim_ShowGivemonFrontpic
 
 	ld a, [wPlayerTrademonSpecies]
-	call GetCryIndex
+	call GetCryIndex		;todo
 	jr c, .skip_cry
 	ld e, c
 	ld d, b
@@ -785,6 +807,8 @@ TradeAnim_ShowGetmonData:
 	call ShowOTTrademonStats
 	ld a, [wOTTrademonSpecies]
 	ld [wCurPartySpecies], a
+	ld a, [wOTTrademonSpecies + 1]
+	ld [wCurPartySpecies + 1], a
 	ld a, [wOTTrademonDVs]
 	ld [wTempMonDVs], a
 	ld a, [wOTTrademonDVs + 1]
@@ -807,8 +831,8 @@ TradeAnim_GetFrontpic:
 	push af
 	predef GetUnownLetter
 	pop af
-	ld [wCurPartySpecies], a
-	ld [wCurSpecies], a
+;	ld [wCurPartySpecies], a
+;	ld [wCurSpecies], a
 	call GetBaseData
 	pop de
 	predef GetMonFrontpic
@@ -816,7 +840,7 @@ TradeAnim_GetFrontpic:
 
 TradeAnim_GetNickname:
 	push de
-	ld [wNamedObjectIndexBuffer], a
+;	ld [wNamedObjectIndexBuffer], a
 	call GetPokemonName
 	ld hl, wStringBuffer1
 	pop de
@@ -967,11 +991,30 @@ TrademonStats_WaitBGMap:
 	ret
 
 TrademonStats_PrintSpeciesNumber:
+	call .swap
+	push de
 	hlcoord 10, 0
-	lb bc, PRINTNUM_LEADINGZEROS | 1, 3
+	lb bc, PRINTNUM_LEADINGZEROS | 2, 3
 	call PrintNum
 	ld [hl], " "
+	pop de
+	call .swap
 	ret
+
+.swap
+;swap de
+	ld a, [de]
+	ld b, a
+	inc de
+	ld a, [de]
+	ld c, a
+	ld a, b
+	ld [de], a
+	dec de
+	ld a, c
+	ld [de], a
+	ret
+;
 
 TrademonStats_PrintSpeciesName:
 	hlcoord 4, 2
@@ -1326,10 +1369,15 @@ LinkTradeAnim_LoadTradePlayerNames:
 	ret
 
 LinkTradeAnim_LoadTradeMonSpecies:
-	ld a, [hl]
+	ld a, [hli]
 	ld [wLinkTradeSendmonSpecies], a
+	ld a, [hl]
+	ld [wLinkTradeSendmonSpecies + 1], a
 	ld a, [de]
 	ld [wLinkTradeGetmonSpecies], a
+	inc de
+	ld a, [de]
+	ld [wLinkTradeGetmonSpecies + 1], a
 	ret
 
 TradeAnim_FlashBGPals:
