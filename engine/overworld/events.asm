@@ -1106,7 +1106,7 @@ ChooseWildEncounter_BugContest::
 	srl a
 
 	ld hl, ContestMons
-	ld de, 4
+	ld de, 5
 .CheckMon:
 	sub [hl]
 	jr c, .GotMon
@@ -1119,6 +1119,8 @@ ChooseWildEncounter_BugContest::
 ; Species
 	ld a, [hli]
 	ld [wTempWildMonSpecies], a
+	ld a, [hli]
+	ld [wTempWildMonSpecies + 1], a
 
 ; Min level
 	ld a, [hli]
