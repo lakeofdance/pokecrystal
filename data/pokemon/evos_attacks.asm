@@ -3361,12 +3361,26 @@ CelebiEvosAttacks:
 YamaskEvosAttacks:
 	dbbw EVOLVE_LEVEL, 34, COFAGRIGUS
 	db 0 ; no more evolutions
-	db 1, LICK
-	db 8, SWIFT
+	db 1, PROTECT
+	db 5, DISABLE
+	db 9, HAZE
+	db 13, NIGHT_SHADE
+	db 19, SPITE
+	db 29, CURSE
+	db 37, SHADOW_BALL
+	db 45, MEAN_LOOK
+	db 49, DESTINY_BOND
 	db 0 ; no more level-up moves
 
 CofagrigusEvosAttacks:
 	db 0 ; no more evolutions
-	db 1, LICK
-	db 8, SWIFT
+	db 1, PROTECT
+	db 5, DISABLE
+	db 9, HAZE
+	db 13, NIGHT_SHADE
+	db 19, SPITE
+	db 29, CURSE
+	db 39, SHADOW_BALL
+	db 51, MEAN_LOOK
+	db 57, DESTINY_BOND
 	db 0 ; no more level-up moves

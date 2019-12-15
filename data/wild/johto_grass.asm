@@ -1336,10 +1336,8 @@ JohtoGrassWildMons:
 	dbw 10, DITTO
 	dbw 10, DITTO
 	; day
-;	dbw 10, SNUBBULL
-;	dbw 11, RATTATA
-	dbw 20, YAMASK
-	dbw 20, YAMASK
+	dbw 10, SNUBBULL
+	dbw 11, RATTATA
 	dbw 12, PIDGEY
 	dbw 10, ABRA
 	dbw 12, JIGGLYPUFF

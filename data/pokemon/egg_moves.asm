@@ -809,6 +809,7 @@ LarvitarEggMoves:
 	db -1 ; end
 
 YamaskEggMoves:
+	db PAIN_SPLIT
 	db -1 ; end
 
 NoEggMoves:

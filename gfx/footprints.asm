@@ -585,3 +585,21 @@ INCBIN "gfx/footprints/253.1bpp",        footprint_bottom
 INCBIN "gfx/footprints/254.1bpp",        footprint_bottom
 INCBIN "gfx/footprints/255.1bpp",        footprint_bottom
 INCBIN "gfx/footprints/256.1bpp",        footprint_bottom
+; 257-264 top halves
+INCBIN "gfx/footprints/yamask.1bpp",     footprint_top
+INCBIN "gfx/footprints/cofagrigus.1bpp", footprint_top
+INCBIN "gfx/footprints/celebi.1bpp",     footprint_top
+INCBIN "gfx/footprints/celebi.1bpp",     footprint_top
+INCBIN "gfx/footprints/celebi.1bpp",     footprint_top
+INCBIN "gfx/footprints/celebi.1bpp",     footprint_top
+INCBIN "gfx/footprints/celebi.1bpp",     footprint_top
+INCBIN "gfx/footprints/celebi.1bpp",     footprint_top
+; 257-264 bottom halves
+INCBIN "gfx/footprints/yamask.1bpp",     footprint_bottom
+INCBIN "gfx/footprints/cofagrigus.1bpp", footprint_bottom
+INCBIN "gfx/footprints/celebi.1bpp",     footprint_top
+INCBIN "gfx/footprints/celebi.1bpp",     footprint_top
+INCBIN "gfx/footprints/celebi.1bpp",     footprint_top
+INCBIN "gfx/footprints/celebi.1bpp",     footprint_top
+INCBIN "gfx/footprints/celebi.1bpp",     footprint_top
+INCBIN "gfx/footprints/celebi.1bpp",     footprint_top
