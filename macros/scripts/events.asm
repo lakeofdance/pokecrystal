@@ -557,7 +557,7 @@ ENDM
 	enum loadwildmon_command ; $5d
 loadwildmon: MACRO
 	db loadwildmon_command
-	db \1 ; pokemon
+	dw \1 ; pokemon
 	db \2 ; level
 ENDM
 

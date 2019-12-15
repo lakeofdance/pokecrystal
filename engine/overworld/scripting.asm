@@ -1253,6 +1253,8 @@ Script_loadwildmon:
 	call GetScriptByte
 	ld [wTempWildMonSpecies], a
 	call GetScriptByte
+	ld [wTempWildMonSpecies + 1], a
+	call GetScriptByte
 	ld [wCurPartyLevel], a
 	ret
 
