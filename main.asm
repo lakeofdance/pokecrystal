@@ -462,6 +462,7 @@ SECTION "Pic Animations 3", ROMX
 INCLUDE "gfx/pokemon/johto_frames.asm"
 INCLUDE "gfx/pokemon/unown_frame_pointers.asm"
 INCLUDE "gfx/pokemon/unown_frames.asm"
+INCLUDE "gfx/pokemon/more_frames.asm"
 
 
 SECTION "bank38", ROMX

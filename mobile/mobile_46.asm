@@ -697,7 +697,7 @@ AddMobileMonToParty:
 	ld [bc], a
 	inc bc
 ;
-	ld a, -1
+	ld a, $ff
 	ld [bc], a
 
 	ld hl, wPartyMon1Species

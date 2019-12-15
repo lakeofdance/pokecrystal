@@ -364,13 +364,19 @@ EvolveAfterBattle_MasterLoop:
 	ret
 
 UpdateSpeciesNameIfNotNicknamed:
+	ld a, [wCurSpecies + 1]
+	push af
 	ld a, [wCurSpecies]
 	push af
 	ld a, [wBaseDexNo]
 	ld [wNamedObjectIndexBuffer], a
+	ld a, [wBaseDexNo + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetPokemonName
 	pop af
 	ld [wCurSpecies], a
+	pop af
+	ld [wCurSpecies + 1], a
 	ld hl, wStringBuffer1
 	ld de, wStringBuffer2
 .loop
