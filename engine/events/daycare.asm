@@ -561,10 +561,10 @@ DayCare_InitBreeding:
 	ret z
 	callfar CheckBreedmonCompatibility
 	ld a, [wBreedingCompatibility]
-;	and a
-;	ret z
-;	inc a
-;	ret z
+	and a
+	ret z
+	inc a
+	ret z
 	ld hl, wDayCareMan
 	set DAYCAREMAN_MONS_COMPATIBLE_F, [hl]
 .loop
@@ -620,18 +620,26 @@ DayCare_InitBreeding:
 	ld [wBreedMotherOrNonDitto], a
 	and a
 	ld a, [wBreedMon1Species]
+	ld [wCurPartySpecies], a
+	ld a, [wBreedMon1Species + 1]
+	ld [wCurPartySpecies + 1], a
 	jr z, .GotMother
 	ld a, [wBreedMon2Species]
+	ld [wCurPartySpecies], a
+	ld a, [wBreedMon2Species + 1]
+	ld [wCurPartySpecies + 1], a
 
 .GotMother:
-	ld [wCurPartySpecies], a
 	callfar GetPreEvolution
 	callfar GetPreEvolution
 	ld a, EGG_LEVEL
 	ld [wCurPartyLevel], a
 
 ; Nidoran♀ can give birth to either gender of Nidoran
+	ld a, [wCurPartySpecies + 1]
+	and a
 	ld a, [wCurPartySpecies]
+	jr nz, .GotEggSpecies
 	cp NIDORAN_F
 	jr nz, .GotEggSpecies
 	call Random
@@ -639,11 +647,20 @@ DayCare_InitBreeding:
 	ld a, NIDORAN_F
 	jr c, .GotEggSpecies
 	ld a, NIDORAN_M
+	ld [wCurPartySpecies], a
+	ld [wCurSpecies], a
+	ld [wEggMonSpecies], a
+	xor a
+	jr .nidoran
 .GotEggSpecies:
 	ld [wCurPartySpecies], a
 	ld [wCurSpecies], a
 	ld [wEggMonSpecies], a
-
+	ld a, [wCurPartySpecies + 1]
+.nidoran
+	ld [wCurPartySpecies + 1], a
+	ld [wCurSpecies + 1], a
+	ld [wEggMonSpecies + 1], a
 	call GetBaseData
 	ld hl, wEggNick
 	ld de, .String_EGG
@@ -691,11 +708,19 @@ DayCare_InitBreeding:
 	ld de, wBreedMon1DVs
 	ld a, [wBreedMon1Species]
 	cp DITTO
+	jr nz, .notditto
+	ld a, [wBreedMon1Species + 1]
+	xor a
 	jr z, .GotDVs
+.notditto
 	ld de, wBreedMon2DVs
 	ld a, [wBreedMon2Species]
 	cp DITTO
+	jr nz, .notditto2
+	ld a, [wBreedMon2Species + 1]
+	xor a
 	jr z, .GotDVs
+.notditto2
 	ld a, TEMPMON
 	ld [wMonType], a
 	push hl

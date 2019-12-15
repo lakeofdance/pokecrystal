@@ -4,6 +4,8 @@ CheckBreedmonCompatibility:
 	jp nc, .done
 	ld a, [wBreedMon1Species]
 	ld [wCurPartySpecies], a
+	ld a, [wBreedMon1Species + 1]
+	ld [wCurPartySpecies + 1], a
 	ld a, [wBreedMon1DVs]
 	ld [wTempMonDVs], a
 	ld a, [wBreedMon1DVs + 1]
@@ -20,6 +22,8 @@ CheckBreedmonCompatibility:
 	push bc
 	ld a, [wBreedMon2Species]
 	ld [wCurPartySpecies], a
+	ld a, [wBreedMon2Species + 1]
+	ld [wCurPartySpecies + 1], a
 	ld a, [wBreedMon2DVs]
 	ld [wTempMonDVs], a
 	ld a, [wBreedMon2DVs + 1]
@@ -41,15 +45,25 @@ CheckBreedmonCompatibility:
 	ld c, $0
 	ld a, [wBreedMon1Species]
 	cp DITTO
+	jr nz, .noditto1
+	ld a, [wBreedMon1Species + 1]
+	and a	
 	jr z, .ditto1
+.noditto1
 	ld a, [wBreedMon2Species]
 	cp DITTO
+	jr nz, .done
+	ld a, [wBreedMon2Species + 1]
+	and a
 	jr nz, .done
 	jr .compute
 
 .ditto1
 	ld a, [wBreedMon2Species]
 	cp DITTO
+	jr nz, .compute
+	ld a, [wBreedMon1Species + 1]
+	and a
 	jr z, .done
 
 .compute
@@ -60,9 +74,14 @@ CheckBreedmonCompatibility:
 	ld b, a
 	ld a, [wBreedMon1Species]
 	cp b
-	ld c, 254
-	jr z, .compare_ids
 	ld c, 128
+	jr nz, .compare_ids
+	ld a, [wBreedMon2Species + 1]
+	ld b, a
+	ld a, [wBreedMon1Species + 1]
+	cp b
+	jr nz, .compare_ids
+	ld c, 254
 .compare_ids
 	; Speed up
 	ld a, [wBreedMon1ID]
@@ -107,6 +126,8 @@ CheckBreedmonCompatibility:
 ; they are not compatible.
 	ld a, [wBreedMon2Species]
 	ld [wCurSpecies], a
+	ld a, [wBreedMon2Species + 1]
+	ld [wCurSpecies + 1], a
 	call GetBaseData
 	ld a, [wBaseEggGroups]
 	cp EGG_NONE * $11
@@ -114,6 +135,8 @@ CheckBreedmonCompatibility:
 
 	ld a, [wBreedMon1Species]
 	ld [wCurSpecies], a
+	ld a, [wBreedMon1Species + 1]
+	ld [wCurSpecies + 1], a
 	call GetBaseData
 	ld a, [wBaseEggGroups]
 	cp EGG_NONE * $11
@@ -123,8 +146,15 @@ CheckBreedmonCompatibility:
 ; If not Ditto, load the breeding groups into b/c and d/e.
 	ld a, [wBreedMon2Species]
 	cp DITTO
+	jr nz, .noditto
+	ld a, [wBreedMon2Species + 1]
+	and a
 	jr z, .Compatible
+.noditto
+	ld a, [wBreedMon2Species]
 	ld [wCurSpecies], a
+	ld a, [wBreedMon2Species + 1]
+	ld [wCurSpecies + 1], a
 	call GetBaseData
 	ld a, [wBaseEggGroups]
 	push af
@@ -137,8 +167,15 @@ CheckBreedmonCompatibility:
 
 	ld a, [wBreedMon1Species]
 	cp DITTO
+	jr nz, .noditto2
+	ld a, [wBreedMon1Species + 1]
+	and a
 	jr z, .Compatible
+.noditto2
+	ld a, [wBreedMon1Species]
 	ld [wCurSpecies], a
+	ld a, [wBreedMon1Species + 1]
+	ld [wCurSpecies + 1], a
 	push bc
 	call GetBaseData
 	pop bc
@@ -226,7 +263,7 @@ HatchEggs:
 	jp nz, .next
 	ld a, [hl]
 	and a
-	jp nz, .next
+;	jp nz, .next	;anchor
 	ld [hl], $78
 
 	push de
@@ -383,6 +420,8 @@ HatchEggs:
 	push hl
 	push de
 	push bc
+	ld a, [wCurPartySpecies + 1]
+	push af
 	ld a, [wCurPartySpecies]
 	push af
 	call EggHatch_AnimationSequence
@@ -390,6 +429,8 @@ HatchEggs:
 	call PrintText
 	pop af
 	ld [wCurPartySpecies], a
+	pop af
+	ld [wCurPartySpecies + 1], a
 	pop bc
 	pop de
 	pop hl
@@ -444,9 +485,14 @@ InitEggMoves:
 GetEggMove:
 	push bc
 	ld a, [wEggMonSpecies]
-	dec a
+;	dec a
+;	ld c, a
+;	ld b, 0
 	ld c, a
-	ld b, 0
+	ld a, [wEggMonSpecies + 1]
+	ld b, a
+	dec bc
+;
 	ld hl, EggMovePointers
 	add hl, bc
 	add hl, bc
@@ -478,9 +524,14 @@ GetEggMove:
 
 .found_eggmove
 	ld a, [wEggMonSpecies]
-	dec a
+;	dec a
+;	ld c, a
+;	ld b, 0
 	ld c, a
-	ld b, 0
+	ld a, [wEggMonSpecies + 1]
+	ld b, a
+	dec bc
+;
 	ld hl, EvosAttacksPointers
 	add hl, bc
 	add hl, bc
@@ -573,10 +624,18 @@ GetHeritableMoves:
 	ld hl, wBreedMon2Moves
 	ld a, [wBreedMon1Species]
 	cp DITTO
+	jr nz, .notditto1
+	ld a, [wBreedMon1Species + 1]
+	and a
 	jr z, .ditto1
+.notditto1
 	ld a, [wBreedMon2Species]
 	cp DITTO
+	jr nz, .notditto2
+	ld a, [wBreedMon2Species + 1]
+	and a
 	jr z, .ditto2
+.notditto2
 	ld a, [wBreedMotherOrNonDitto]
 	and a
 	ret z
@@ -584,10 +643,14 @@ GetHeritableMoves:
 	ret
 
 .ditto1
+	ld a, [wCurPartySpecies + 1]
+	push af
 	ld a, [wCurPartySpecies]
 	push af
 	ld a, [wBreedMon2Species]
 	ld [wCurPartySpecies], a
+	ld a, [wBreedMon2Species + 1]
+	ld [wCurPartySpecies + 1], a
 	ld a, [wBreedMon2DVs]
 	ld [wTempMonDVs], a
 	ld a, [wBreedMon2DVs + 1]
@@ -600,10 +663,14 @@ GetHeritableMoves:
 	jr .inherit_mon1_moves
 
 .ditto2
+	ld a, [wCurPartySpecies + 1]
+	push af
 	ld a, [wCurPartySpecies]
 	push af
 	ld a, [wBreedMon1Species]
 	ld [wCurPartySpecies], a
+	ld a, [wBreedMon1Species + 1]
+	ld [wCurPartySpecies + 1], a
 	ld a, [wBreedMon1DVs]
 	ld [wTempMonDVs], a
 	ld a, [wBreedMon1DVs + 1]
@@ -618,12 +685,16 @@ GetHeritableMoves:
 	ld hl, wBreedMon2Moves
 	pop af
 	ld [wCurPartySpecies], a
+	pop af
+	ld [wCurPartySpecies + 1], a
 	ret
 
 .inherit_mon1_moves
 	ld hl, wBreedMon1Moves
 	pop af
 	ld [wCurPartySpecies], a
+	pop af
+	ld [wCurPartySpecies + 1], a
 	ret
 
 GetBreedmonMovePointer:
@@ -646,6 +717,9 @@ GetEggFrontpic:
 	push de
 	ld [wCurPartySpecies], a
 	ld [wCurSpecies], a
+	xor a
+	ld [wCurPartySpecies + 1], a
+	ld [wCurSpecies + 1], a
 	call GetBaseData
 	ld hl, wBattleMonDVs
 	predef GetUnownLetter
@@ -654,8 +728,12 @@ GetEggFrontpic:
 
 GetHatchlingFrontpic:
 	push de
+	ld a, [wNamedObjectIndexBuffer]
 	ld [wCurPartySpecies], a
 	ld [wCurSpecies], a
+	ld a, [wNamedObjectIndexBuffer + 1]
+	ld [wCurPartySpecies + 1], a
+	ld [wCurSpecies + 1], a
 	call GetBaseData
 	ld hl, wBattleMonDVs
 	predef GetUnownLetter
@@ -698,6 +776,8 @@ EggHatch_DoAnimFrame:
 EggHatch_AnimationSequence:
 	ld a, [wNamedObjectIndexBuffer]
 	ld [wJumptableIndex], a
+	ld a, [wCurSpecies + 1]
+	push af
 	ld a, [wCurSpecies]
 	push af
 	ld de, MUSIC_NONE
@@ -711,7 +791,7 @@ EggHatch_AnimationSequence:
 	call FarCopyBytes
 	farcall ClearSpriteAnims
 	ld de, vTiles2 tile $00
-	ld a, [wJumptableIndex]
+;	ld a, [wJumptableIndex]
 	call GetHatchlingFrontpic
 	ld de, vTiles2 tile $31
 	ld a, EGG
@@ -776,19 +856,24 @@ EggHatch_AnimationSequence:
 	call Hatch_ShellFragmentLoop
 	call WaitSFX
 	ld a, [wJumptableIndex]
-	ld [wCurPartySpecies], a
 	hlcoord 6, 3
 	ld d, $0
 	ld e, ANIM_MON_HATCH
 	predef AnimateFrontpic
 	pop af
 	ld [wCurSpecies], a
+	pop af
+	ld [wCurSpecies + 1], a
 	ret
 
 Hatch_LoadFrontpicPal:
 ;	ld [wPlayerHPPal], a	;todo, lots todo here
 	ld [wCurSpecies], a
+	cp EGG
+	ld a, [wNamedObjectIndexBuffer + 1]
+	jr nz, .notegg
 	xor a
+.notegg
 	ld [wCurSpecies + 1], a
 	ld a, [wCurSpecies]
 ;

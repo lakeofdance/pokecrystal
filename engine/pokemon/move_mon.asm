@@ -510,7 +510,7 @@ SendGetMonIntoFromBox:
 	cp DAY_CARE_WITHDRAW
 	jr z, .check_IfPartyIsFull
 	cp DAY_CARE_DEPOSIT
-	ld hl, wBreedMon1Species       ;todo
+	ld hl, wBreedMon1Species
 	jr z, .breedmon
 
 	; we want to sent a mon into the Box
@@ -1210,6 +1210,8 @@ ShiftBoxMon:
 	ret
 
 GiveEgg::
+	ld a, [wCurPartySpecies + 1]
+	push af
 	ld a, [wCurPartySpecies]
 	push af
 	callfar GetPreEvolution
@@ -1221,7 +1223,7 @@ GiveEgg::
 ; when it is successful.  This routine will make
 ; sure that we aren't newly setting flags.
 	push af
-	call CheckCaughtMon
+	call CheckCaughtMon	;todo
 	pop af
 	push bc
 	call CheckSeenMon
@@ -1263,13 +1265,19 @@ GiveEgg::
 .skip_seen_flag
 	pop af
 	ld [wCurPartySpecies], a
+	pop af
+	ld [wCurPartySpecies + 1], a
 	ld a, [wPartyCount]
 	dec a
 	ld bc, PARTYMON_STRUCT_LENGTH
 	ld hl, wPartyMon1Species
 	call AddNTimes
 	ld a, [wCurPartySpecies]
+	ld [hli], a
+;
+	ld a, [wCurPartySpecies + 1]
 	ld [hl], a
+;
 	ld hl, wPartyCount
 	ld a, [hl]
 	ld b, 0
@@ -1280,7 +1288,11 @@ GiveEgg::
 	dec hl
 ;
 	ld a, EGG
+	ld [hli], a
+;
+	xor a
 	ld [hl], a
+;
 	ld a, [wPartyCount]
 	dec a
 	ld hl, wPartyMonNicknames

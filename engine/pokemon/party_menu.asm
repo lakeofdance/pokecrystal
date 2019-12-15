@@ -452,6 +452,11 @@ PlacePartyMonGender:
 	call PartyMenuCheckEgg
 	jr z, .next
 	ld [wCurPartySpecies], a
+;
+	inc de
+	ld a, [de]
+	ld [wCurPartySpecies + 1], a
+;
 	push hl
 	ld a, b
 	ld [wCurPartyMon], a

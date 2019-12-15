@@ -693,11 +693,11 @@ GetPreEvolution:
 ;Note: needs to change if moved after EGG, $ff, and $100.
 	ld a, h
 	cp b
-	jr c, .loop
+	jr nc, .loop
 	ret nz
 	ld a, l
 	cp c
-	jr c, .loop
+	jr nc, .loop
 	and a
 	ret
 
