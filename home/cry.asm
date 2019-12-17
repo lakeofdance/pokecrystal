@@ -85,9 +85,37 @@ endr
 	ret
 
 GetCryIndex::
+; now redesigned, to take pkmn species as little endian word in de
+	ld a, d
 	and a
 	jr z, .no
-	cp NUM_POKEMON + 1
+	inc a
+	jr z, .no
+	ld hl, NUM_POKEMON ;big endian
+	ld a, h
+	cp e
+	jr c, .no
+	jr nz, .ok
+	ld a, l
+	cp d
+	jr c, .no
+.ok		
+	ld a, d
+	ld c, a
+	ld a, e
+	ld b, a
+	dec bc
+	and a
+	ret
+
+.no
+	scf
+	ret
+
+GetCryIndexOld::
+	and a
+	jr z, .no
+;	cp NUM_POKEMON + 1
 	jr nc, .no
 
 	dec a

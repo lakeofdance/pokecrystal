@@ -778,7 +778,10 @@ StatsScreen_PlaceFrontpic:
 .cry
 	call SetPalettes
 	call .AnimateMon
-	ld a, [wCurPartySpecies]	;todo
+	ld a, [wCurPartySpecies]
+	ld d, a
+	ld a, [wCurPartySpecies + 1]
+	ld e, a
 	call PlayMonCry2
 	ret
 

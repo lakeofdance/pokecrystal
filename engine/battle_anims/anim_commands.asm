@@ -1166,12 +1166,18 @@ endr
 	ld a, $f0
 	ld [wCryTracks], a
 	ld a, [wBattleMonSpecies]
+	ld d, a
+	ld a, [wBattleMonSpecies + 1]
+	ld e, a	
 	jr .done_cry_tracks
 
 .enemy
 	ld a, $0f
 	ld [wCryTracks], a
 	ld a, [wEnemyMonSpecies]
+	ld d, a
+	ld a, [wEnemyMonSpecies + 1]
+	ld e, a
 
 .done_cry_tracks
 	push hl

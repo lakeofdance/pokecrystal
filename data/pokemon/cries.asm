@@ -262,4 +262,4 @@ PokemonCries::
 	mon_cry CRY_NIDORAN_M,      0,     0 ; DNU
 	mon_cry CRY_NIDORAN_M,      0,     0 ; DNU2
 	mon_cry CRY_NIDORAN_M,      0,     0 ; YAMASK
-	mon_cry CRY_NIDORAN_M,      0,     0 ; COFAGRIGUS
+	mon_cry CRY_CYNDAQUIL,   $347,  $080 ; COFAGRIGUS

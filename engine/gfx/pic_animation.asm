@@ -177,6 +177,9 @@ PokeAnim_Finish:
 
 PokeAnim_Cry:
 	ld a, [wPokeAnimSpecies]
+	ld d, a
+	ld a, [wPokeAnimSpecies + 1]
+	ld e, a
 	call _PlayMonCry
 	ld a, [wPokeAnimSceneIndex]
 	inc a
@@ -185,6 +188,9 @@ PokeAnim_Cry:
 
 PokeAnim_CryNoWait:
 	ld a, [wPokeAnimSpecies]
+	ld d, a
+	ld a, [wPokeAnimSpecies + 1]
+	ld e, a
 	call PlayMonCry2
 	ld a, [wPokeAnimSceneIndex]
 	inc a
@@ -195,6 +201,9 @@ PokeAnim_StereoCry:
 	ld a, $f
 	ld [wCryTracks], a
 	ld a, [wPokeAnimSpecies]
+	ld d, a
+	ld a, [wPokeAnimSpecies + 1]
+	ld e, a
 	call PlayStereoCry2
 	ld a, [wPokeAnimSceneIndex]
 	inc a

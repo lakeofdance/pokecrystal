@@ -179,7 +179,10 @@ EvolutionAnimation:
 
 ;	ld a, [wPlayerHPPal]
 	ld a, [wCurSpecies]
-	call PlayMonCry		;todo
+	ld d, a
+	ld a, [wCurSpecies + 1]
+	ld e, a
+	call PlayMonCry
 	ret
 
 .GetSGBLayout:

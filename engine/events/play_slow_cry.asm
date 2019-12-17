@@ -1,5 +1,11 @@
 PlaySlowCry:
+; A temporary and unsatisfactory sol.
+; Used for lighthouse amph in OlivineLighthouse6F
+; and miltank in Route39Barn
 	ld a, [wScriptVar]
+	ld d, a
+	xor a
+	ld e, a
 	call LoadCry
 	jr c, .done
 

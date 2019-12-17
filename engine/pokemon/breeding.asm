@@ -978,6 +978,9 @@ DayCareMon1:
 	ld hl, DayCareMon1Text
 	call PrintText
 	ld a, [wBreedMon1Species]
+	ld d, a
+	ld a, [wBreedMon1Species + 1]
+	ld e, a
 	call PlayMonCry
 	ld a, [wDayCareLady]
 	bit DAYCARELADY_HAS_MON_F, a
@@ -991,6 +994,9 @@ DayCareMon2:
 	ld hl, DayCareMon2Text
 	call PrintText
 	ld a, [wBreedMon2Species]
+	ld d, a
+	ld a, [wBreedMon2Species + 1]
+	ld e, a
 	call PlayMonCry
 	ld a, [wDayCareMan]
 	bit DAYCAREMAN_HAS_MON_F, a

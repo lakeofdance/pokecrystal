@@ -793,7 +793,10 @@ TradeAnim_ShowGivemonData:
 	call TradeAnim_ShowGivemonFrontpic
 
 	ld a, [wPlayerTrademonSpecies]
-	call GetCryIndex		;todo
+	ld d, a
+	ld a, [wPlayerTrademonSpecies + 1]
+	ld e, a
+	call GetCryIndex
 	jr c, .skip_cry
 	ld e, c
 	ld d, b

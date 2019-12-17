@@ -335,6 +335,9 @@ SnorlaxAwake:
 
 PlayCurMonCry:
 	ld a, [wCurPartySpecies]
+	ld d, a
+	ld a, [wCurPartySpecies + 1]
+	ld e, a
 	jp PlayMonCry
 
 FadeOutMusic:
