@@ -296,7 +296,7 @@ elif _NARG == 3
 	givepoke \1, \2, \3, FALSE
 else
 	db givepoke_command
-	db \1 ; pokemon
+	dw \1 ; pokemon
 	db \2 ; level
 	db \3 ; item
 	db \4 ; trainer

@@ -856,13 +856,9 @@ Script_cry:
 ; parameters: cry_id
 
 	call GetScriptByte
-	push af
+	ld d, a
 	call GetScriptByte
-	pop af
-	and a
-	jr nz, .ok
-	ld a, [wScriptVar]
-.ok
+	ld e, a
 	call PlayMonCry
 	ret
 
@@ -2207,6 +2203,8 @@ Script_givepoke:
 
 	call GetScriptByte
 	ld [wCurPartySpecies], a
+	call GetScriptByte
+	ld [wCurPartySpecies + 1], a
 	call GetScriptByte
 	ld [wCurPartyLevel], a
 	call GetScriptByte
