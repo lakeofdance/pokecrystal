@@ -104,7 +104,12 @@ FindNest:
 	push af
 	ld a, [wNamedObjectIndexBuffer]
 	cp [hl]
+	inc hl
+	jr nz, .notfound
+	ld a, [wNamedObjectIndexBuffer + 1]
+	cp [hl]
 	jr z, .found
+.notfound
 	inc hl
 	inc hl
 	pop af
