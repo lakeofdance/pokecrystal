@@ -83,7 +83,8 @@ InsertSpeciesIntoBoxOrParty:
 	ld a, [hl]
 	ld [hl], c
 	inc hl
-	inc c		; ?
+	inc c
+	jr z, .done
 	ld c, a
 ;
 	ld a, [hl]
@@ -91,7 +92,8 @@ InsertSpeciesIntoBoxOrParty:
 	inc hl
 	ld b, a
 ;
-	jr nz, .loop
+	jr .loop
+.done
 	ret
 
 InsertDataIntoBoxOrParty:
