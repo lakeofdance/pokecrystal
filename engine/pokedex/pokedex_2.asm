@@ -82,6 +82,8 @@ DisplayDexEntry:
 	call PlaceString ; mon species
 	ld a, [wTempSpecies]
 	ld b, a
+	ld a, [wTempSpecies + 1]
+	ld c, a
 	call GetDexEntryPointer
 	ld a, b
 	push af
@@ -109,6 +111,8 @@ DisplayDexEntry:
 ; Get the height of the Pokemon.
 	ld a, [wCurPartySpecies]
 	ld [wCurSpecies], a
+	ld a, [wCurPartySpecies + 1]
+	ld [wCurSpecies + 1], a
 	inc hl
 	ld a, b
 	push af
@@ -212,13 +216,14 @@ DisplayDexEntry:
 	ret
 
 GetDexEntryPointer:
-; return dex entry pointer b:de
+; return dex entry pointer bc:de
 	push hl
 	ld hl, PokedexDataPointerTable
+	ld a, c
+	ld d, a
 	ld a, b
-	dec a
-	ld d, 0
 	ld e, a
+	dec de
 	add hl, de
 	add hl, de
 	ld e, [hl]

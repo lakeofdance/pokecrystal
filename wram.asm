@@ -762,7 +762,7 @@ ENDU ; c6d0
 UNION ; c6d0
 ; pokedex
 wPokedexDataStart:: ; c6d0
-wPokedexOrder:: ds $100 ; >= NUM_POKEMON
+wPokedexOrder:: ds $100 ; >= NUM_POKEMON, now used purely for search
 wPokedexOrderEnd::
 wDexListingScrollOffset:: db ; offset of the first displayed entry from the start
 wDexListingCursor:: db ; Dex cursor
