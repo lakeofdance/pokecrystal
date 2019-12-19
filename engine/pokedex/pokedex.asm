@@ -91,6 +91,7 @@ InitPokedex:
 	ld [wJumptableIndex], a
 	ld [wPrevDexEntryJumptableIndex], a
 	ld [wPrevDexEntryBackup], a
+	ld [wPrevDexEntryBackup + 1], a
 	ld [wcf66], a
 
 	call Pokedex_CheckUnlockedUnownMode
@@ -132,7 +133,16 @@ Pokedex_InitCursorPosition:
 	
 ;	cp NUM_POKEMON + 1		;todo
 ;	jr nc, .done
+	ld bc, NUM_POKEMON		;big endian
+	ld a, b
+	cp e
+	jr c, .done
+	jr nz, .ok
+	ld a, c
+	cp d
+	jr c, .done
 
+.ok
 ;	ld b, a
 	xor a
 	ld c, a
@@ -193,9 +203,9 @@ Pokedex_InitCursorPosition:
 	jr z, .done
 .no2
 	inc hl
-	ld a, [wDexListingCursor]		;todo
+	ld a, [wDexListingCursor]
 	inc a
-	ld [wDexListingCursor], a		;todo
+	ld [wDexListingCursor], a
 	and a
 	jr nz, .nobytechange3
 	ld a, [wDexListingCursor + 1]
@@ -388,14 +398,9 @@ Pokedex_InitDexEntryScreen:
 	call Pokedex_InitArrowCursor
 	call Pokedex_GetSelectedMon
 	ld a, [wTempSpecies]
-	ld [wPrevDexEntry], a	;todo
-	
-;
-;	ld a, 1
-;	ld [wTempSpecies], a
-;	xor a	
-;	ld [wTempSpecies + 1], a
-;
+	ld [wPrevDexEntry], a
+	ld a, [wTempSpecies + 1]
+	ld [wPrevDexEntry + 1], a
 	farcall DisplayDexEntry
 	call Pokedex_DrawFootprint
 	call WaitBGMap
@@ -455,8 +460,10 @@ Pokedex_Page:
 	xor 1 ; toggle page
 	ld [wPokedexStatus], a
 	call Pokedex_GetSelectedMon
-	ld a, [wTempSpecies]		;todo
+	ld a, [wTempSpecies]
 	ld [wPrevDexEntry], a
+	ld a, [wTempSpecies + 1]
+	ld [wPrevDexEntry + 1], a
 	farcall DisplayDexEntry
 	call WaitBGMap
 	ret
@@ -472,8 +479,10 @@ Pokedex_ReinitDexEntryScreen:
 	call Pokedex_InitArrowCursor
 	call Pokedex_LoadCurrentFootprint
 	call Pokedex_GetSelectedMon
-	ld a, [wTempSpecies]		;todo
+	ld a, [wTempSpecies]
 	ld [wPrevDexEntry], a
+	ld a, [wTempSpecies + 1]
+	ld [wPrevDexEntry + 1], a
 	farcall DisplayDexEntry
 	call Pokedex_DrawFootprint
 	call Pokedex_LoadSelectedMonTiles
@@ -553,7 +562,7 @@ DexEntryScreen_MenuActionJumptable:
 	call PlayCry
 	ret
 
-.Print:
+.Print:							;hmm. ;todo
 	call Pokedex_ApplyPrintPals
 	xor a
 	ldh [hSCX], a
@@ -1752,7 +1761,7 @@ Pokedex_GetOrderPointer:
 .FindLastSeen:
 	push hl
 	push de
-	ld de, NUM_REAL_MONS	;big endian
+	ld de, NUM_DEX_MONS	;big endian
 	add hl, de
 	add hl, de
 	dec hl
