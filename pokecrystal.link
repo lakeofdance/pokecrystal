@@ -242,6 +242,7 @@ ROMX $5f
 ROMX $60
 	"Map Scripts 13"
 	"Pokedex Entries 001-064"
+	"Pokedex Entries 257+"
 ROMX $61
 	"Map Scripts 14"
 ROMX $62
@@ -291,6 +292,7 @@ ROMX $78
 	"Tileset Data 8"
 ROMX $7b
 	"Battle Tower Text"
+	"Dex Engine"
 ROMX $7c
 	"Battle Tower Trainer Data"
 ROMX $7e

@@ -1005,9 +1005,9 @@ Pokedex_NextOrPreviousDexEntry:
 	ld [wBackupDexListingCursor + 1], a
 	ld a, [wDexListingScrollOffset]
 ;	ld [wBackupDexListingPage], a		;huh?
-	ld [wDexListingScrollOffsetBackup]
+	ld [wDexListingScrollOffsetBackup], a
 	ld a, [wDexListingScrollOffset + 1]
-	ld [wDexListingScrollOffsetBackup + 1]
+	ld [wDexListingScrollOffsetBackup + 1], a
 	ld hl, hJoyLast
 	ld a, [hl]
 	and D_UP
@@ -2568,24 +2568,38 @@ Pokedex_LoadSelectedMonTiles:
 Pokedex_LoadCurrentFootprint:
 	call Pokedex_GetSelectedMon
 
-Pokedex_LoadAnyFootprint:		;todo
+Pokedex_LoadAnyFootprint:
 	ld a, [wTempSpecies]
 	dec a
-	and %11111000
-	srl a
-	srl a
-	srl a
+	and %11111000			;round down to nearest multiple of 8
+	srl a				;divide by 2
+	srl a				;again
+	srl a				;and again. Now a contains floor(wTempSpecies/8)
 	ld e, 0
-	ld d, a
+	ld d, a				;NB: in the big byte
 	ld a, [wTempSpecies]
 	dec a
-	and %111
-	swap a ; * $10
+	and %111			;mod 16
+	swap a 				;* 16, the length of each footprint
 	ld l, a
 	ld h, 0
 	add hl, de
 	ld de, Footprints
 	add hl, de
+
+;But we aren't finished: species is now a word
+	ld de, 16 tiles
+	ld a, [wTempSpecies + 1]
+	ld c, a
+	and a
+.loop
+	jr z, .done
+rept 32
+	add hl, de
+endr
+	dec c
+	jr .loop
+.done
 
 	push hl
 	ld e, l
@@ -2703,6 +2717,8 @@ _NewPokedexEntry:
 	call Pokedex_LoadAnyFootprint
 	ld a, [wTempSpecies]
 	ld [wCurPartySpecies], a
+	ld a, [wTempSpecies + 1]
+	ld [wCurPartySpecies + 1], a
 	call Pokedex_DrawDexEntryScreenBG
 	call Pokedex_DrawFootprint
 	hlcoord 0, 17

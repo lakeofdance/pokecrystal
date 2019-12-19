@@ -149,11 +149,11 @@ wUnusedScriptByteBuffer:: db
 
 wMapTimeOfDay:: db
 
-	ds 3
+;	ds 3
 
 wPrinterConnectionOpen:: db
 wPrinterOpcode:: db
-wPrevDexEntry:: db
+wPrevDexEntry:: dw
 wDisableTextAcceleration:: db
 wPrevLandmark:: db
 wCurLandmark:: db
@@ -764,10 +764,10 @@ UNION ; c6d0
 wPokedexDataStart:: ; c6d0
 wPokedexOrder:: ds $100 ; >= NUM_POKEMON, now used purely for search
 wPokedexOrderEnd::
-wDexListingScrollOffset:: db ; offset of the first displayed entry from the start
-wDexListingCursor:: db ; Dex cursor
-wDexListingEnd:: db ; Last mon to display
-wDexListingHeight:: db ; number of entries displayed at once in the dex listing
+wDexListingScrollOffset:: dw ; offset of the first displayed entry from the start
+wDexListingCursor:: dw ; Dex cursor
+wDexListingEnd:: dw ; Last mon to display
+wDexListingHeight:: dw ; number of entries displayed at once in the dex listing
 wCurDexMode:: db ; Pokedex Mode
 wDexSearchMonType1:: db ; first type to search
 wDexSearchMonType2:: db ; second type to search
@@ -780,8 +780,8 @@ wUnlockedUnownMode:: db
 wDexCurUnownIndex:: db
 wDexUnownCount:: db
 wDexConvertedMonType:: db ; mon type converted from dex search mon type
-wDexListingScrollOffsetBackup:: db
-wDexListingCursorBackup:: db
+wDexListingScrollOffsetBackup:: dw
+wDexListingCursorBackup:: dw
 wBackupDexListingCursor:: db
 wBackupDexListingPage:: db
 wDexCurLocation:: db
@@ -1371,10 +1371,10 @@ NEXTU ; cf64
 ; pokedex
 wPrevDexEntryJumptableIndex:: db
 if DEF(_CRYSTAL11)
-wPrevDexEntryBackup:: db
+wPrevDexEntryBackup:: dw
 else
 wPrevDexEntryBackup::
-wPokedexStatus:: db
+wPokedexStatus:: dw
 endc
 
 NEXTU ; cf64

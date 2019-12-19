@@ -745,6 +745,9 @@ ParkBallMultiplier:
 GetPokedexEntryBank:
 	push hl
 	push de
+	ld a, [wEnemyMonSpecies + 1]
+	and a
+	jr nz, .MorePokedexEntryBanks
 	ld a, [wEnemyMonSpecies]
 	rlca
 	rlca
@@ -763,6 +766,12 @@ GetPokedexEntryBank:
 	db BANK("Pokedex Entries 065-128")
 	db BANK("Pokedex Entries 129-192")
 	db BANK("Pokedex Entries 193-251")
+
+.MorePokedexEntryBanks
+	ld a, BANK("Pokedex Entries 257+")
+	pop de
+	pop hl
+	ret
 
 HeavyBallMultiplier:
 ; subtract 20 from catch rate if weight < 102.4 kg

@@ -99,10 +99,14 @@ DisplayDexEntry:
 	ld a, $5d ; .
 	ld [hli], a
 	ld de, wTempSpecies
-	lb bc, PRINTNUM_LEADINGZEROS | 1, 3
+	call .swap
+	push de
+	lb bc, PRINTNUM_LEADINGZEROS | 2, 3
 	call PrintNum
+	pop de
+	call .swap
 ; Check to see if we caught it.  Get out of here if we haven't.
-	ld a, [wTempSpecies]
+	ld a, [wTempSpecies]		;todo
 	dec a
 	call CheckCaughtMon
 	pop hl
@@ -215,6 +219,20 @@ DisplayDexEntry:
 	call FarString
 	ret
 
+.swap
+;swap de
+	ld a, [de]
+	ld b, a
+	inc de
+	ld a, [de]
+	ld c, a
+	ld a, b
+	ld [de], a
+	dec de
+	ld a, c
+	ld [de], a
+	ret
+
 GetDexEntryPointer:
 ; return dex entry pointer bc:de
 	push hl
@@ -230,6 +248,10 @@ GetDexEntryPointer:
 	inc hl
 	ld d, [hl]
 	push de
+	ld a, c
+	and a
+	jr nz, .MorePokedexEntryBanks
+	ld a, b
 	rlca
 	rlca
 	maskbits NUM_DEX_ENTRY_BANKS
@@ -247,6 +269,14 @@ GetDexEntryPointer:
 	db BANK("Pokedex Entries 065-128")
 	db BANK("Pokedex Entries 129-192")
 	db BANK("Pokedex Entries 193-251")
+
+
+.MorePokedexEntryBanks
+	ld a, BANK("Pokedex Entries 257+")
+	ld b, a
+	pop de
+	pop hl
+	ret
 
 GetDexEntryPagePointer:
 	call GetDexEntryPointer

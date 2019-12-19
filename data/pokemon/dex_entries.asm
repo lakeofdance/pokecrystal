@@ -266,3 +266,8 @@ TyranitarPokedexEntry::  INCLUDE "data/pokemon/dex_entries/tyranitar.asm"
 LugiaPokedexEntry::      INCLUDE "data/pokemon/dex_entries/lugia.asm"
 HoOhPokedexEntry::       INCLUDE "data/pokemon/dex_entries/ho_oh.asm"
 CelebiPokedexEntry::     INCLUDE "data/pokemon/dex_entries/celebi.asm"
+
+SECTION "Pokedex Entries 257+", ROMX
+
+YamaskPokedexEntry::     INCLUDE "data/pokemon/dex_entries+/yamask.asm"
+CofagrigusPokedexEntry:: INCLUDE "data/pokemon/dex_entries+/cofagrigus.asm"

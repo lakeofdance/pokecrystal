@@ -676,7 +676,10 @@ ClearBottomLine:
 PokedexShow_GetDexEntryBank:
 	push hl
 	push de
-	ld a, [wCurPartySpecies]		;todo
+	ld a, [wCurPartySpecies + 1]
+	and a
+	jr nz, .MorePokedexEntryBanks
+	ld a, [wCurPartySpecies]
 	dec a
 	rlca
 	rlca
@@ -695,6 +698,13 @@ PokedexShow_GetDexEntryBank:
 	db BANK("Pokedex Entries 065-128")
 	db BANK("Pokedex Entries 129-192")
 	db BANK("Pokedex Entries 193-251")
+
+.MorePokedexEntryBanks
+	ld a, BANK("Pokedex Entries 257+")
+	ld b, a
+	pop de
+	pop hl
+	ret
 
 PokedexShow1:
 	call StartRadioStation
