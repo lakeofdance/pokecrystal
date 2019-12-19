@@ -284,6 +284,8 @@ JOHTO_POKEMON EQU const_value
 	const MON_105    ; 105
 NUM_POKEMON EQU const_value + -1
 
+NUM_REAL_MONS EQU NUM_POKEMON + -8 	;used in the pokedex
+
 ; Unown forms
 ; indexes for:
 ; - UnownWords (see data/pokemon/unown_words.asm)

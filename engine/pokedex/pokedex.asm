@@ -123,45 +123,72 @@ Pokedex_CheckUnlockedUnownMode:
 
 Pokedex_InitCursorPosition:
 ;	ld hl, wPokedexOrder
-	ld a, [wPrevDexEntry]
+	ld a, [wPrevDexEntry]		;species, little endian
 	and a
 	jr z, .done
+	ld d, a
+	ld a, [wPrevDexEntry + 1]
+	ld e, a
+	
 ;	cp NUM_POKEMON + 1		;todo
 ;	jr nc, .done
 
-	ld b, a
-	xor a				;todo: 2nd byte of wPrevDexEntry
+;	ld b, a
+	xor a
 	ld c, a
-	ld a, [wDexListingEnd]
+	ld [wDexListingScrollOffset], a	
+	ld a, [wDexListingEnd + 1]
+	and a
+	ld a, [wDexListingEnd]		;dex entry offset, little endian
+	jr nz, .more_than_one_page
 	cp $8
 	jr c, .only_one_page
 
-	sub $7
+.more_than_one_page
+	sub $7				;todo
 	ld c, a
+	ld a, [wDexListingEnd + 1]
+	jr nc, .nobytechange
+	dec a
+.nobytechange
+	ld b, a
 .loop1
-	ld a, b
+	ld a, d
 	cp [hl]
 	inc hl
 	jr nz, .no1
-	ld c, a
+;	ld c, a
+	ld a, e
 	cp [hl]
 	jr z, .done
 .no1
 	inc hl
-	ld a, [wDexListingScrollOffset] 	;todo
+	ld a, [wDexListingScrollOffset]
 	inc a
-	ld [wDexListingScrollOffset], a		;todo
-	dec c
+	ld [wDexListingScrollOffset], a
+	and a
+	jr nz, .nobytechange2
+	ld a, [wDexListingScrollOffset + 1]
+	inc a
+	ld [wDexListingScrollOffset + 1], a
+.nobytechange2
+	dec bc
+	ld a, c
+	and a
+	jr nz, .loop1
+	ld a, b
+	and a
 	jr nz, .loop1
 
 .only_one_page
 	ld c, $7
 .loop2
-	ld a, b
+	ld a, d
 	cp [hl]
 	inc hl
 	jr nz, .no2
-	ld c, a
+;	ld a, c
+	ld a, e
 	cp [hl]
 	jr z, .done
 .no2
@@ -169,7 +196,18 @@ Pokedex_InitCursorPosition:
 	ld a, [wDexListingCursor]		;todo
 	inc a
 	ld [wDexListingCursor], a		;todo
-	dec c
+	and a
+	jr nz, .nobytechange3
+	ld a, [wDexListingCursor + 1]
+	inc a
+	ld [wDexListingCursor + 1], a
+.nobytechange3
+	dec bc
+	ld a, c
+	and a
+	jr nz, .loop2
+	ld a, b
+	and a
 	jr nz, .loop2
 
 .done
@@ -727,6 +765,8 @@ Pokedex_UpdateSearchScreen:
 
 ; No mon with matching types was found.
 ;	call Pokedex_OrderMonsByMode
+	call Pokedex_GetOrderPointer
+;
 	call Pokedex_DisplayTypeNotFoundMessage
 	xor a
 	ldh [hBGMapMode], a
@@ -738,15 +778,26 @@ Pokedex_UpdateSearchScreen:
 
 .show_search_results
 	ld [wDexListingEnd], a
+; wDexSearchResultCount is assumed to be 8bit
+	xor a
+	ld [wDexListingEnd + 1], a
 	ld a, [wDexListingScrollOffset]
 	ld [wDexListingScrollOffsetBackup], a
+	ld a, [wDexListingScrollOffset + 1]
+	ld [wDexListingScrollOffsetBackup + 1], a
 	ld a, [wDexListingCursor]
 	ld [wDexListingCursorBackup], a
+	ld a, [wDexListingCursor + 1]
+	ld [wDexListingCursorBackup + 1], a
 	ld a, [wPrevDexEntry]
 	ld [wPrevDexEntryBackup], a
+	ld a, [wPrevDexEntry + 1]
+	ld [wPrevDexEntryBackup + 1], a
 	xor a
 	ld [wDexListingScrollOffset], a
+	ld [wDexListingScrollOffset + 1], a
 	ld [wDexListingCursor], a
+	ld [wDexListingCursor + 1], a
 	call Pokedex_BlackOutBG
 	ld a, DEXSTATE_SEARCH_RESULTS_SCR
 	ld [wJumptableIndex], a
@@ -824,13 +875,20 @@ Pokedex_UpdateSearchResultsScreen:
 .return_to_search_screen
 	ld a, [wDexListingScrollOffsetBackup]
 	ld [wDexListingScrollOffset], a
+	ld a, [wDexListingScrollOffsetBackup + 1]
+	ld [wDexListingScrollOffset + 1], a
 	ld a, [wDexListingCursorBackup]
 	ld [wDexListingCursor], a
+	ld a, [wDexListingCursorBackup + 1]
+	ld [wDexListingCursor + 1], a
 	ld a, [wPrevDexEntryBackup]
 	ld [wPrevDexEntry], a
+	ld a, [wPrevDexEntryBackup + 1]
+	ld [wPrevDexEntry + 1], a
 	call Pokedex_BlackOutBG
 	call ClearSprites
 ;	call Pokedex_OrderMonsByMode
+	call Pokedex_GetOrderPointer
 	ld a, DEXSTATE_SEARCH_SCR
 	ld [wJumptableIndex], a
 	xor a
@@ -943,8 +1001,13 @@ endr
 Pokedex_NextOrPreviousDexEntry:
 	ld a, [wDexListingCursor]
 	ld [wBackupDexListingCursor], a
+	ld a, [wDexListingCursor + 1]
+	ld [wBackupDexListingCursor + 1], a
 	ld a, [wDexListingScrollOffset]
-	ld [wBackupDexListingPage], a
+;	ld [wBackupDexListingPage], a		;huh?
+	ld [wDexListingScrollOffsetBackup]
+	ld a, [wDexListingScrollOffset + 1]
+	ld [wDexListingScrollOffsetBackup + 1]
 	ld hl, hJoyLast
 	ld a, [hl]
 	and D_UP
@@ -986,8 +1049,13 @@ Pokedex_NextOrPreviousDexEntry:
 .nope
 	ld a, [wBackupDexListingCursor]
 	ld [wDexListingCursor], a
-	ld a, [wBackupDexListingPage]
+	ld a, [wBackupDexListingCursor + 1]
+	ld [wDexListingCursor + 1], a
+;	ld a, [wBackupDexListingPage]
+	ld a, [wDexListingScrollOffsetBackup]
 	ld [wDexListingScrollOffset], a
+	ld a, [wDexListingScrollOffsetBackup + 1]
+	ld [wDexListingScrollOffset + 1], a
 	and a
 	ret
 
@@ -1558,14 +1626,36 @@ Pokedex_PrintNumberIfOldMode:
 	jr z, .printnum
 	ret
 
-.printnum				;todo
+.printnum
 	push hl
 	ld de, -SCREEN_WIDTH
 	add hl, de
 	ld de, wTempSpecies
-	lb bc, PRINTNUM_LEADINGZEROS | 1, 3
+	ld a, [de]
+	and a
+	jr z, .dontprint				;for the search screen
+	call .swap
+	push de
+	lb bc, PRINTNUM_LEADINGZEROS | 2, 3
 	call PrintNum
+	pop de
+	call .swap
+.dontprint
 	pop hl
+	ret
+
+.swap
+;swap de
+	ld a, [de]
+	ld b, a
+	inc de
+	ld a, [de]
+	ld c, a
+	ld a, b
+	ld [de], a
+	dec de
+	ld a, c
+	ld [de], a
 	ret
 
 Pokedex_PlaceCaughtSymbolIfCaught:
@@ -1652,7 +1742,7 @@ Pokedex_GetOrderPointer:
 	ld hl, NewPokedexOrder
 	cp DEXMODE_NEW
 	jr z, .FindLastSeen
-	ld hl, OldPokedexOrder	;todo
+	ld hl, OldPokedexOrder
 	cp DEXMODE_OLD
 	jr z, .FindLastSeen
 	ld hl, AlphabeticalPokedexOrder
@@ -1662,8 +1752,7 @@ Pokedex_GetOrderPointer:
 .FindLastSeen:
 	push hl
 	push de
-;	ld de, NUM_POKEMON	;big endian
-	ld de, 251		;temp
+	ld de, NUM_REAL_MONS	;big endian
 	add hl, de
 	add hl, de
 	dec hl
@@ -1677,9 +1766,10 @@ Pokedex_GetOrderPointer:
 	dec de
 	jr nz, .loopfindend
 .foundend
-;	ld a, d			;todo
-	ld a, e			;temp
-	ld [wDexListingEnd], a	;todo
+	ld a, e
+	ld [wDexListingEnd], a
+	ld a, d
+	ld [wDexListingEnd + 1], a
 	pop de
 	pop hl
 	ret
@@ -1687,6 +1777,8 @@ Pokedex_GetOrderPointer:
 .searchfindend
 	ld a, [wDexSearchResultCount]
 	ld [wDexListingEnd], a
+	xor a				; not more than 255 mons of any 1 type
+	ld [wDexListingEnd + 1], a
 	ret
 
 Pokedex_OrderMonsByMode:
@@ -1972,7 +2064,8 @@ Pokedex_SearchForMons:
 	ld a, [hl]
 	ld [wDexConvertedMonType], a
 ;	ld hl, wPokedexOrder
-	call Pokedex_GetOrderPointer
+;	call Pokedex_GetOrderPointer
+	ld hl, OldPokedexOrder
 	ld de, wPokedexOrder
 ;	ld bc, NUM_POKEMON		;todo
 	ld bc, 251			;

@@ -230,6 +230,7 @@ OldPokedexOrder:
 	dw SKARMORY
 	dw HOUNDOUR
 	dw HOUNDOOM
+	dw KINGDRA
 	dw PHANPY
 	dw DONPHAN
 	dw PORYGON2
