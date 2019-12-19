@@ -130,9 +130,7 @@ Pokedex_InitCursorPosition:
 	ld d, a
 	ld a, [wPrevDexEntry + 1]
 	ld e, a
-	
-;	cp NUM_POKEMON + 1		;todo
-;	jr nc, .done
+
 	ld bc, NUM_POKEMON		;big endian
 	ld a, b
 	cp e
@@ -155,7 +153,7 @@ Pokedex_InitCursorPosition:
 	jr c, .only_one_page
 
 .more_than_one_page
-	sub $7				;todo
+	sub $7
 	ld c, a
 	ld a, [wDexListingEnd + 1]
 	jr nc, .nobytechange
@@ -1068,7 +1066,7 @@ Pokedex_NextOrPreviousDexEntry:
 	and a
 	ret
 
-Pokedex_ListingHandleDPadInput:
+Pokedex_ListingHandleDPadInput: ;major todo
 ; Handles D-pad input for a list of Pokémon.
 	ld a, [wDexListingHeight]
 	ld d, a
@@ -1755,7 +1753,7 @@ Pokedex_GetOrderPointer:
 	cp DEXMODE_OLD
 	jr z, .FindLastSeen
 	ld hl, AlphabeticalPokedexOrder
-;	cp DEXMODE_ABC		;not sure what to do for unown
+;	cp DEXMODE_ABC		;not sure what to do for unown, todo
 ;	jr z, .FindLastSeen
 ;	ld hl, 
 .FindLastSeen:
@@ -1791,6 +1789,7 @@ Pokedex_GetOrderPointer:
 	ret
 
 Pokedex_OrderMonsByMode:
+;Retired
 	ld hl, wPokedexOrder
 	ld bc, wPokedexOrderEnd - wPokedexOrder
 	xor a
