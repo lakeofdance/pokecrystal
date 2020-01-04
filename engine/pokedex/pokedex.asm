@@ -144,10 +144,11 @@ Pokedex_InitCursorPosition:
 ;	ld b, a
 	xor a
 	ld c, a
-	ld [wDexListingScrollOffset], a	
+	ld [wDexListingScrollOffset], a
+	ld [wDexListingScrollOffset + 1], a	
 	ld a, [wDexListingEnd + 1]
 	and a
-	ld a, [wDexListingEnd]		;dex entry offset, little endian
+	ld a, [wDexListingEnd]		;dex entry offset, big endian
 	jr nz, .more_than_one_page
 	cp $8
 	jr c, .only_one_page
@@ -190,6 +191,7 @@ Pokedex_InitCursorPosition:
 
 .only_one_page
 	ld c, $7
+	ld b, 0
 .loop2
 	ld a, d
 	cp [hl]
@@ -204,20 +206,8 @@ Pokedex_InitCursorPosition:
 	ld a, [wDexListingCursor]
 	inc a
 	ld [wDexListingCursor], a
-	and a
-	jr nz, .nobytechange3
-	ld a, [wDexListingCursor + 1]
-	inc a
-	ld [wDexListingCursor + 1], a
-.nobytechange3
-	dec bc
-	ld a, c
-	and a
+	dec c
 	jr nz, .loop2
-	ld a, b
-	and a
-	jr nz, .loop2
-
 .done
 	ret
 
@@ -683,6 +673,7 @@ Pokedex_UpdateOptionScreen:
 	call Pokedex_DisplayChangingModesMessage
 	xor a
 	ld [wDexListingScrollOffset], a
+	ld [wDexListingScrollOffset + 1], a
 	ld [wDexListingCursor], a
 	call Pokedex_GetOrderPointer
 	call Pokedex_InitCursorPosition
@@ -784,18 +775,16 @@ Pokedex_UpdateSearchScreen:
 	ret
 
 .show_search_results
-	ld [wDexListingEnd], a
+	ld [wDexListingEnd + 1], a
 ; wDexSearchResultCount is assumed to be 8bit
 	xor a
-	ld [wDexListingEnd + 1], a
+	ld [wDexListingEnd], a
 	ld a, [wDexListingScrollOffset]
 	ld [wDexListingScrollOffsetBackup], a
 	ld a, [wDexListingScrollOffset + 1]
 	ld [wDexListingScrollOffsetBackup + 1], a
 	ld a, [wDexListingCursor]
 	ld [wDexListingCursorBackup], a
-	ld a, [wDexListingCursor + 1]
-	ld [wDexListingCursorBackup + 1], a
 	ld a, [wPrevDexEntry]
 	ld [wPrevDexEntryBackup], a
 	ld a, [wPrevDexEntry + 1]
@@ -804,7 +793,6 @@ Pokedex_UpdateSearchScreen:
 	ld [wDexListingScrollOffset], a
 	ld [wDexListingScrollOffset + 1], a
 	ld [wDexListingCursor], a
-	ld [wDexListingCursor + 1], a
 	call Pokedex_BlackOutBG
 	ld a, DEXSTATE_SEARCH_RESULTS_SCR
 	ld [wJumptableIndex], a
@@ -886,8 +874,6 @@ Pokedex_UpdateSearchResultsScreen:
 	ld [wDexListingScrollOffset + 1], a
 	ld a, [wDexListingCursorBackup]
 	ld [wDexListingCursor], a
-	ld a, [wDexListingCursorBackup + 1]
-	ld [wDexListingCursor + 1], a
 	ld a, [wPrevDexEntryBackup]
 	ld [wPrevDexEntry], a
 	ld a, [wPrevDexEntryBackup + 1]
@@ -1007,9 +993,7 @@ endr
 
 Pokedex_NextOrPreviousDexEntry:
 	ld a, [wDexListingCursor]
-	ld [wBackupDexListingCursor], a
-	ld a, [wDexListingCursor + 1]
-	ld [wBackupDexListingCursor + 1], a
+	ld [wBackupDexListingCursor], a		; different from wDexListingCursorBackup
 	ld a, [wDexListingScrollOffset]
 ;	ld [wBackupDexListingPage], a		;huh?
 	ld [wDexListingScrollOffsetBackup], a
@@ -1029,7 +1013,9 @@ Pokedex_NextOrPreviousDexEntry:
 	ld a, [wDexListingHeight]
 	ld d, a
 	ld a, [wDexListingEnd]
-	ld e, a
+	ld b, a
+	ld a, [wDexListingEnd + 1]
+	ld c, a
 	call Pokedex_ListingMoveCursorUp
 	jr nc, .nope
 	call Pokedex_GetSelectedMon
@@ -1041,7 +1027,9 @@ Pokedex_NextOrPreviousDexEntry:
 	ld a, [wDexListingHeight]
 	ld d, a
 	ld a, [wDexListingEnd]
-	ld e, a
+	ld b, a
+	ld a, [wDexListingEnd + 1]
+	ld c, a
 	call Pokedex_ListingMoveCursorDown
 	jr nc, .nope
 	call Pokedex_GetSelectedMon
@@ -1056,8 +1044,6 @@ Pokedex_NextOrPreviousDexEntry:
 .nope
 	ld a, [wBackupDexListingCursor]
 	ld [wDexListingCursor], a
-	ld a, [wBackupDexListingCursor + 1]
-	ld [wDexListingCursor + 1], a
 ;	ld a, [wBackupDexListingPage]
 	ld a, [wDexListingScrollOffsetBackup]
 	ld [wDexListingScrollOffset], a
@@ -1066,12 +1052,14 @@ Pokedex_NextOrPreviousDexEntry:
 	and a
 	ret
 
-Pokedex_ListingHandleDPadInput: ;major todo
+Pokedex_ListingHandleDPadInput:
 ; Handles D-pad input for a list of Pokémon.
 	ld a, [wDexListingHeight]
 	ld d, a
 	ld a, [wDexListingEnd]
-	ld e, a
+	ld b, a
+	ld a, [wDexListingEnd + 1]
+	ld c, a
 	ld hl, hJoyLast
 	ld a, [hl]
 	and D_UP
@@ -1079,16 +1067,20 @@ Pokedex_ListingHandleDPadInput: ;major todo
 	ld a, [hl]
 	and D_DOWN
 	jr nz, Pokedex_ListingMoveCursorDown
+	ld a, b
+	and a
+	jr nz, .end_greater_than_height
 	ld a, d
-	cp e
-	jr nc, Pokedex_ListingPosStayedSame
+	cp c
+	jp nc, Pokedex_ListingPosStayedSame
+.end_greater_than_height
 	ld a, [hl]
 	and D_LEFT
 	jr nz, Pokedex_ListingMoveUpOnePage
 	ld a, [hl]
 	and D_RIGHT
 	jr nz, Pokedex_ListingMoveDownOnePage
-	jr Pokedex_ListingPosStayedSame
+	jp Pokedex_ListingPosStayedSame
 
 Pokedex_ListingMoveCursorUp:
 	ld hl, wDexListingCursor
@@ -1096,36 +1088,76 @@ Pokedex_ListingMoveCursorUp:
 	and a
 	jr z, .try_scrolling
 	dec [hl]
-	jr Pokedex_ListingPosChanged
+	jp Pokedex_ListingPosChanged
 .try_scrolling
-	ld hl, wDexListingScrollOffset
+	ld hl, wDexListingScrollOffset		;little endian
 	ld a, [hl]
 	and a
-	jr z, Pokedex_ListingPosStayedSame
+	jr nz, .scrollup
+	inc hl
+	ld a, [hl]
+	and a
+	jp z, Pokedex_ListingPosStayedSame
 	dec [hl]
-	jr Pokedex_ListingPosChanged
+	dec hl
+.scrollup
+	dec [hl]
+	jp Pokedex_ListingPosChanged
 
 Pokedex_ListingMoveCursorDown:
 	ld hl, wDexListingCursor
 	ld a, [hl]
 	inc a
-	cp e
+; We want to compare the cursor position to wDexListingEnd (in bc), which is big endian.
+; But this only has relevance if bc < 8
+	ld e, a
+	ld a, b
+	and a
+	ld a, e
+	jr nz, .twobyteend
+	cp c
 	jr nc, Pokedex_ListingPosStayedSame
+.twobyteend
 	cp d
 	jr nc, .try_scrolling
 	inc [hl]
 	jr Pokedex_ListingPosChanged
 .try_scrolling
-	ld hl, wDexListingScrollOffset
-	add [hl]
-	cp e
-	jr nc, Pokedex_ListingPosStayedSame
-	inc [hl]
+	ld hl, wDexListingScrollOffset		;little endian
+; We'd like to compare our current position with wDexListingEnd (big endian)
+;	add [hl]
+	ld e, [hl]
+	inc hl
+	ld d, [hl]
+	add a, e
+;	cp e
+	jr nc, .noupperbytechange
+	inc d
+.noupperbytechange
+	ld e, a
+	ld a, d
+	cp b
+	jr c, .noughttocheck
+	jr nz, Pokedex_ListingPosStayedSame
+	ld a, e
+	cp c
+	jr nc, Pokedex_ListingPosStayedSame	; z here means we are at the end
+.noughttocheck
+	dec hl
+	ld e, [hl]
+	inc de				; big endian
+	ld [hl], e
+	inc hl
+	ld [hl], d
 	jr Pokedex_ListingPosChanged
 
 Pokedex_ListingMoveUpOnePage:
-	ld hl, wDexListingScrollOffset
+	ld hl, wDexListingScrollOffset		;little endian
+	inc hl
+	ld a, [hld]
+	and a
 	ld a, [hl]
+	jr nz, .not_near_top
 	and a
 	jr z, Pokedex_ListingPosStayedSame
 	cp d
@@ -1136,27 +1168,65 @@ Pokedex_ListingMoveUpOnePage:
 	jr Pokedex_ListingPosChanged
 .not_near_top
 	sub d
-	ld [hl], a
+	ld [hli], a
+	jr nc, Pokedex_ListingPosChanged
+	dec [hl]
 	jr Pokedex_ListingPosChanged
 
 Pokedex_ListingMoveDownOnePage:
 ; When moving down a page, the return value always report a change in position.
-	ld hl, wDexListingScrollOffset
+	ld hl, wDexListingScrollOffset		;little endian
+;
+	ld a, [hli]
+	ld e, a
+	ld a, [hl]
+	ld h, a
+	ld a, e
+	ld l, a
+;
 	ld a, d
-	add a
-	add [hl]
-	jr c, .near_bottom
-	cp e
+;	add a
+;
+	ld e, a
+	xor a
+	ld d, a
+;
+	add hl, de
+; 	jr c, .near_bottom
+; Now compare hl (DexListingScrollOffset, reversed) wih bc (DexListingEnd), both big endian
+	push hl
+	add hl, de
+	ld a, h
+	cp b
+	jr c, .not_near_bottom
+	jr nz, .near_bottom
+	ld a, l
+	cp c
 	jr c, .not_near_bottom
 .near_bottom
-	ld a, e
-	sub d
+	pop hl
+	ld hl, wDexListingScrollOffset
+;	ld a, e
+;	sub d
+	ld a, c
+	sub e
+	ld [hli], a
+	jr nc, Pokedex_ListingPosChanged
+	ld a, b
+	and a
+	jr z, Pokedex_ListingPosChanged
+	dec a
 	ld [hl], a
 	jr Pokedex_ListingPosChanged
 .not_near_bottom
-	ld a, [hl]
-	add d
-	ld [hl], a
+	pop hl
+;	ld a, [hl]
+;	add d
+;	ld [hl], a
+	ld a, l
+	ld [wDexListingScrollOffset], a
+	ld a, h
+	ld [wDexListingScrollOffset + 1], a
 	jr Pokedex_ListingPosChanged
 
 Pokedex_ListingPosStayedSame:
@@ -1741,6 +1811,7 @@ Pokedex_CheckSeen:
 	ret
 
 Pokedex_GetOrderPointer:
+;New
 	ld a, [wDexListingHeight]
 	cp 4				;in this case we are viewing search results
 	ld hl, wPokedexOrder
@@ -1774,9 +1845,9 @@ Pokedex_GetOrderPointer:
 	jr nz, .loopfindend
 .foundend
 	ld a, e
-	ld [wDexListingEnd], a
-	ld a, d
 	ld [wDexListingEnd + 1], a
+	ld a, d
+	ld [wDexListingEnd], a
 	pop de
 	pop hl
 	ret
@@ -2328,40 +2399,67 @@ Pokedex_LoadCursorOAM:
 Pokedex_PutScrollbarOAM:
 ; Writes the OAM data for the scrollbar in the new mode and ABC mode.
 	push de
-	ld a, [wDexListingEnd]
-	dec a
+	ld a, [wDexListingEnd]			; big endian
+;	dec a
+	ld d, a
+	ld a, [wDexListingEnd + 1]
 	ld e, a
-	ld a, [wDexListingCursor]
-	ld hl, wDexListingScrollOffset
-	add [hl]
-	cp e
+;	dec de
+;
+	xor a
+	ld b, a
+	ld a, [wDexListingCursor]		; 0-7
+	ld c, a
+;	ld hl, wDexListingScrollOffset		; little endian
+;	add [hl]
+	ld a, [wDexListingScrollOffset]		; make big endian
+	ld l, a
+	ld a, [wDexListingScrollOffset + 1]
+	ld h, a
+	add hl, bc
+;
+;	cp e
+	ld a, h
+	cp a, d 
+	jr c, .not_max
+	ld a, l
+	cp a, e
 	jr z, .max
+.not_max
+	ld a, 121 ; max y - min y
+	ld b, h
+	ld c, l
 	ld hl, 0
-	ld bc, 121 ; max y - min y
+;	ld bc, 121 ; max y - min y
 	call AddNTimes
 	ld e, l
 	ld d, h
-	ld b, 0
+;	ld b, 0
+	ld h, 0
 	ld a, d
 	or e
-	jr z, .done
+	jr z, .done			; checks for d = e = 0
 	ld a, [wDexListingEnd]
+	ld b, a
+	ld a, [wDexListingEnd + 1]
 	ld c, a
 .loop
 	ld a, e
 	sub c
 	ld e, a
 	ld a, d
-	sbc 0
+	sbc b				; subtract the carry flag (+ 0) from a
 	ld d, a
 	jr c, .done
-	inc b
+;	inc b
+	inc h
 	jr .loop
 .max
 	ld b, 121 ; max y - min y
 .done
 	ld a, 20 ; min y
-	add b
+;	add b
+	add h
 	pop hl
 	ld [hli], a
 	ld a, 161 ; x
