@@ -2126,9 +2126,8 @@ endr
 INCLUDE "data/types/search_strings.asm"
 
 Pokedex_SearchForMons:
-	ld de, wPokedexOrder
-	xor a
-	ld [wDexSearchResultCount], a
+	ld hl, OldPokedexOrder
+	ld bc, NUM_DEX_MONS
 ;
 	ld a, [wDexSearchMonType2]
 	and a
@@ -2139,7 +2138,7 @@ Pokedex_SearchForMons:
 	ret
 
 .Search:
-	push de
+	push hl
 	dec a
 	ld e, a
 	ld d, 0
@@ -2149,10 +2148,12 @@ Pokedex_SearchForMons:
 	ld [wDexConvertedMonType], a
 ;	ld hl, wPokedexOrder
 ;	call Pokedex_GetOrderPointer
-	ld hl, OldPokedexOrder
-;	ld de, wPokedexOrder
-	pop de
-	ld bc, NUM_DEX_MONS
+;	ld hl, OldPokedexOrder
+	xor a
+	ld [wDexSearchResultCount], a
+	ld de, wPokedexOrder
+;	ld bc, NUM_DEX_MONS
+	pop hl
 .loop
 	push bc
 	ld a, [hli]
@@ -2193,10 +2194,7 @@ Pokedex_SearchForMons:
 	pop bc
 	dec bc
 	ld a, c
-	and a
-	jr nz, .loop
-	ld a, b
-	and a
+	or b
 	jr nz, .loop
 
 	ld l, e
@@ -2206,6 +2204,18 @@ Pokedex_SearchForMons:
 	ld c, 0
 
 .zero_remaining_mons
+	cp 128			;in wram
+	jr z, .done
+	ld [hl], 0
+	inc hl
+	ld [hl], 0
+	inc hl
+	inc a
+	jr .zero_remaining_mons
+
+.done
+	ld hl, wPokedexOrder
+	ld bc, NUM_SEARCH_MONS
 	ret
 
 INCLUDE "data/types/search_types.asm"

@@ -285,6 +285,7 @@ JOHTO_POKEMON EQU const_value
 NUM_POKEMON EQU const_value + -1
 
 NUM_DEX_MONS EQU NUM_POKEMON + -8 	;used in the pokedex
+NUM_SEARCH_MONS EQU 128
 
 ; Unown forms
 ; indexes for:
