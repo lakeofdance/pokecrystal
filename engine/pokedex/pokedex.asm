@@ -1130,12 +1130,10 @@ Pokedex_ListingMoveCursorDown:
 	inc hl
 	ld d, [hl]
 	add a, e
-;	cp e
-	jr nc, .noupperbytechange
-	inc d
-.noupperbytechange
 	ld e, a
 	ld a, d
+	adc 0
+	ld d, a
 	cp b
 	jr c, .noughttocheck
 	jr nz, Pokedex_ListingPosStayedSame
@@ -1143,6 +1141,7 @@ Pokedex_ListingMoveCursorDown:
 	cp c
 	jr nc, Pokedex_ListingPosStayedSame	; z here means we are at the end
 .noughttocheck
+	ld d, [hl]
 	dec hl
 	ld e, [hl]
 	inc de				; big endian
@@ -1178,7 +1177,7 @@ Pokedex_ListingMoveDownOnePage:
 	ld hl, wDexListingScrollOffset		;little endian
 ;
 	ld a, [hli]
-	ld e, a
+	ld e, a					;temporary
 	ld a, [hl]
 	ld h, a
 	ld a, e
@@ -1211,11 +1210,8 @@ Pokedex_ListingMoveDownOnePage:
 	ld a, c
 	sub e
 	ld [hli], a
-	jr nc, Pokedex_ListingPosChanged
 	ld a, b
-	and a
-	jr z, Pokedex_ListingPosChanged
-	dec a
+	sbc 0
 	ld [hl], a
 	jr Pokedex_ListingPosChanged
 .not_near_bottom
@@ -1651,9 +1647,10 @@ Pokedex_PrintListing:
 	call Pokedex_FillBox
 
 ; Load de with wPokedexOrder + [wDexListingScrollOffset]
-	ld a, [wDexListingScrollOffset]				;todo
+	ld a, [wDexListingScrollOffset]
 	ld e, a
-	ld d, $0
+	ld a, [wDexListingScrollOffset + 1]
+	ld d, a
 ;	ld hl, wPokedexOrder
 	call Pokedex_GetOrderPointer
 	add hl, de
@@ -1775,11 +1772,17 @@ Pokedex_GetSelectedMon:
 ; Gets the species of the currently selected Pokémon. This corresponds to the
 ; position of the cursor in the main listing, but this function can be used
 ; on all Pokédex screens.
+;	ld hl, wDexListingScrollOffset
+	ld a, [wDexListingScrollOffset]
+	ld l, a
+	ld a, [wDexListingScrollOffset + 1]
+	ld h, a
 	ld a, [wDexListingCursor]
-	ld hl, wDexListingScrollOffset
-	add [hl]
 	ld e, a
 	ld d, $0
+	add hl, de
+	ld d, h
+	ld e, l
 ;	ld hl, wPokedexOrder
 	call Pokedex_GetOrderPointer
 	add hl, de
