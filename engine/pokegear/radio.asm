@@ -712,36 +712,45 @@ PokedexShow1:
 	ld hl, NUM_POKEMON	;big endian
 ;
 .loop
-	call Random
+;	call Random
 ;	cp NUM_POKEMON
+;	jr nc, .loop
+;	ld c, a
+	ld a, l
+	call RandomRange
 	cp l
 	jr nc, .loop
-	ld c, a
+	ld e, a
 ;
 	ld a, h
 	add 1
-	call RandomRange		;currently goes nowhere. todo.
+	call RandomRange
+	ld d, a
 ;
 	push bc
-	ld a, c
+	dec de
 	call CheckCaughtMon
 	pop bc
 	jr z, .loop
-	inc c
-	ld a, c
-	ld [wCurPartySpecies], a		;todo
+	inc de
+	ld a, e
+	ld [wCurPartySpecies], a
 	ld [wNamedObjectIndexBuffer], a
+	ld a, d
+	ld [wCurPartySpecies + 1], a
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetPokemonName
 	ld hl, PokedexShowText
 	ld a, POKEDEX_SHOW_2
 	jp NextRadioLine
 
 PokedexShow2:
-	ld a, [wCurPartySpecies]		;todo
-	dec a
-	ld hl, PokedexDataPointerTable
+	ld a, [wCurPartySpecies]
 	ld c, a
+	ld a, [wCurPartySpecies + 1]
 	ld b, 0
+	dec bc
+	ld hl, PokedexDataPointerTable
 	add hl, bc
 	add hl, bc
 	ld a, BANK(PokedexDataPointerTable)

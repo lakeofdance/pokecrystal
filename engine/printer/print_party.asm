@@ -27,7 +27,10 @@ PrintPage1:
 	lb bc, 5, 18
 	call ClearBox
 	ld a, [wTempSpecies]
-	dec a
+	ld e, a
+	ld a, [wTempSpecies + 1]
+	ld d, a
+	dec de
 	call CheckCaughtMon
 	push af
 	ld a, [wTempSpecies]
@@ -76,7 +79,10 @@ PrintPage2:
 	ld a, $32
 	call ByteFill
 	ld a, [wTempSpecies]
-	dec a
+	ld e, a
+	ld a, [wTempSpecies + 1]
+	ld d, a
+	dec de
 	call CheckCaughtMon
 	push af
 	ld a, [wTempSpecies]

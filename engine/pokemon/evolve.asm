@@ -312,11 +312,17 @@ EvolveAfterBattle_MasterLoop:
 	ld [wMonType], a
 	call LearnLevelMoves
 	ld a, [wTempSpecies]
-	dec a
-	call SetSeenAndCaughtMon	;todo
+	ld e, a
+	ld a, [wTempSpecies + 1]
+	ld d, a
+	dec de
+	call SetSeenAndCaughtMon
 
+	ld a, [wTempSpecies + 1]
+	and a
+	jr nz, .skip_unown
 	ld a, [wTempSpecies]
-	cp UNOWN			;todo
+	cp UNOWN
 	jr nz, .skip_unown
 
 	ld hl, wTempMonDVs

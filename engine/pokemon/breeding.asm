@@ -277,11 +277,13 @@ HatchEggs:
 	inc hl
 	ld a, [hld]
 	ld [wCurPartySpecies + 1], a
+	ld d, a
 ;
 	ld a, [hli]
 	ld [wCurPartySpecies], a
-	dec a
-	call SetSeenAndCaughtMon		;todo
+	ld e, a
+	dec de
+	call SetSeenAndCaughtMon
 
 	ld a, [wCurPartySpecies + 1]
 	and a

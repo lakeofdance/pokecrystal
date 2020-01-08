@@ -200,10 +200,14 @@ endr
 	jr .initializeDVs
 
 .registerpokedex
-	ld a, [wCurPartySpecies]		;todo
-	ld [wTempSpecies], a
-	dec a
 	push de
+	ld a, [wCurPartySpecies]
+	ld [wTempSpecies], a
+	ld e, a
+	ld a, [wCurPartySpecies + 1]
+	ld [wTempSpecies + 1], a
+	ld d, a
+	dec de
 	call CheckCaughtMon
 	ld a, [wTempSpecies]
 	dec a
@@ -463,9 +467,13 @@ AddTempmonToParty:
 
 	ld a, [wCurPartySpecies]
 	ld [wNamedObjectIndexBuffer], a
+	ld e, a
 	cp EGG
 	jr z, .egg
-	dec a
+	ld a, [wCurPartySpecies + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
+	ld d, a
+	dec de
 	call SetSeenAndCaughtMon
 	ld hl, wPartyMon1Happiness
 	ld a, [wPartyCount]
@@ -475,8 +483,11 @@ AddTempmonToParty:
 	ld [hl], BASE_HAPPINESS
 .egg
 
+	ld a, [wCurPartySpecies + 1]
+	and a
+	jr nz, .done
 	ld a, [wCurPartySpecies]
-	cp UNOWN				;todo
+	cp UNOWN
 	jr nz, .done
 	ld hl, wPartyMon1DVs
 	ld a, [wPartyCount]
@@ -1129,9 +1140,15 @@ SendMonIntoBox:
 	inc de
 	ld a, [wCurPartyLevel]
 	ld [de], a
-	ld a, [wCurPartySpecies]	;todo
-	dec a
+	ld a, [wCurPartySpecies]
+	ld e, a
+	ld a, [wCurPartySpecies + 1]
+	ld d, a
+	dec de
 	call SetSeenAndCaughtMon
+	ld a, [wCurPartySpecies + 1]
+	and a
+	jr nz, .not_unown
 	ld a, [wCurPartySpecies]
 	cp UNOWN
 	jr nz, .not_unown
@@ -1217,13 +1234,16 @@ GiveEgg::
 	callfar GetPreEvolution
 	callfar GetPreEvolution
 	ld a, [wCurPartySpecies]
-	dec a
+	ld e, a
+	ld a, [wCurPartySpecies + 1]
+	ld d, a
+	dec de
 
 ; TryAddMonToParty sets Seen and Caught flags
 ; when it is successful.  This routine will make
 ; sure that we aren't newly setting flags.
 	push af
-	call CheckCaughtMon	;todo
+	call CheckCaughtMon
 	pop af
 	push bc
 	call CheckSeenMon
@@ -1239,12 +1259,19 @@ GiveEgg::
 	and a
 	jr nz, .skip_caught_flag
 	ld a, [wCurPartySpecies]
-	dec a
-	ld c, a
-	ld d, $0
+;
+	ld e, a
+	ld a, [wCurPartySpecies + 1]
+	ld d, a
+	dec de
+;	ld a, e
+;
+;	ld c, a
+;	ld d, $0
 	ld hl, wPokedexCaught
 	ld b, RESET_FLAG
-	predef SmallFarFlagAction
+;	predef SmallFarFlagAction
+	predef FlagAction
 
 .skip_caught_flag
 ; If we haven't seen this Pokemon before receiving
@@ -1255,12 +1282,19 @@ GiveEgg::
 	and a
 	jr nz, .skip_seen_flag
 	ld a, [wCurPartySpecies]
-	dec a
-	ld c, a
-	ld d, $0
+;
+	ld e, a
+	ld a, [wCurPartySpecies + 1]
+	ld d, a
+	dec de
+;	ld a, e
+;
+;	ld c, a
+;	ld d, $0
 	ld hl, wPokedexSeen
 	ld b, RESET_FLAG
-	predef SmallFarFlagAction
+;	predef SmallFarFlagAction
+	predef FlagAction
 
 .skip_seen_flag
 	pop af

@@ -106,8 +106,11 @@ DisplayDexEntry:
 	pop de
 	call .swap
 ; Check to see if we caught it.  Get out of here if we haven't.
-	ld a, [wTempSpecies]		;todo
-	dec a
+	ld a, [wTempSpecies]
+	ld e, a
+	ld a, [wTempSpecies + 1]
+	ld d, a
+	dec de
 	call CheckCaughtMon
 	pop hl
 	pop bc

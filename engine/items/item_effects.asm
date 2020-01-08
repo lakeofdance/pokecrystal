@@ -500,13 +500,19 @@ PokeBallEffect:
 	call ClearSprites
 
 	ld a, [wTempSpecies]
-	dec a
+	ld e, a
+	ld a, [wTempSpecies + 1]
+	ld d, a
+	dec de
 	call CheckCaughtMon
 
 	ld a, c
 	push af
 	ld a, [wTempSpecies]
-	dec a
+	ld e, a
+	ld a, [wTempSpecies + 1]
+	ld d, a
+	dec de
 	call SetSeenAndCaughtMon
 	pop af
 	and a
@@ -522,6 +528,8 @@ PokeBallEffect:
 
 	ld a, [wEnemyMonSpecies]
 	ld [wTempSpecies], a
+	ld a, [wEnemyMonSpecies + 1]
+	ld [wTempSpecies + 1], a
 	predef NewPokedexEntry
 
 .skip_pokedex

@@ -6246,11 +6246,15 @@ LoadEnemyMon:
 
 ; Saw this mon
 	ld a, [wTempEnemyMonSpecies]
-	dec a
-	ld c, a
+	ld e, a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld d, a
+	dec de
+;	ld c, a
 	ld b, SET_FLAG
 	ld hl, wPokedexSeen
-	predef SmallFarFlagAction
+;	predef SmallFarFlagAction
+	predef FlagAction
 
 	ld hl, wEnemyMonStats
 	ld de, wEnemyStats

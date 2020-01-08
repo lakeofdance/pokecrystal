@@ -834,30 +834,45 @@ RandomUnseenWildMon:
 ; We now have the pointer to one of the last (rarest) three wild Pokemon found in that area.
 	inc hl
 	ld c, [hl] ; Contains the species index of this rare Pokemon
+	ld e, [hl]
+	inc hl
+	ld d, [hl]
 	pop hl
+	push de
 	ld de, 5 + 0 * 3
 	add hl, de
+	pop de
 	inc hl ; Species index of the most common Pokemon on that route
 	ld b, 4
 .loop2
 	ld a, [hli]
-	cp c ; Compare this most common Pokemon with the rare one stored in c.
+	cp e ; Compare this most common Pokemon with the rare one stored in e.
+	jr nz, .next
+	ld a, [hli]
+	cp d
 	jr z, .done
-	inc hl
+.next
 	dec b
 	jr nz, .loop2
 ; This Pokemon truly is rare.
 	push bc
-	dec c
-	ld a, c
+;	dec c
+;	ld a, c
+	dec de
 	call CheckSeenMon
 	pop bc
 	jr nz, .done
 ; Since we haven't seen it, have the caller tell us about it.
+	push de
 	ld de, wStringBuffer1
 	call CopyName1
-	ld a, c
+	pop de
+	inc de
+;	ld a, c
+	ld a, e
 	ld [wNamedObjectIndexBuffer], a
+	ld a, d
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetPokemonName
 	ld hl, .SawRareMonText
 	call PrintText
@@ -906,8 +921,10 @@ RandomPhoneWildMon:
 	add hl, bc
 	add hl, bc
 	inc hl
-	ld a, [hl]
+	ld a, [hli]
 	ld [wNamedObjectIndexBuffer], a
+	ld a, [hl]
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetPokemonName
 	ld hl, wStringBuffer1
 	ld de, wStringBuffer4
@@ -946,20 +963,20 @@ RandomPhoneMon:
 	cp "@"
 	jr nz, .skip_name
 
-	ld a, BANK(Trainers)       ;todo
+	ld a, BANK(Trainers)
 	call GetFarByte
 	inc hl
-	ld bc, 2 ; level, species
+	ld bc, 3 ; level, species
 	cp TRAINERTYPE_NORMAL
 	jr z, .got_mon_length
-	ld bc, 2 + NUM_MOVES ; level, species, moves
+	ld bc, 3 + NUM_MOVES ; level, species, moves
 	cp TRAINERTYPE_MOVES
 	jr z, .got_mon_length
-	ld bc, 2 + 1 ; level, species, item
+	ld bc, 3 + 1 ; level, species, item
 	cp TRAINERTYPE_ITEM
 	jr z, .got_mon_length
 	; TRAINERTYPE_ITEM_MOVES
-	ld bc, 2 + 1 + NUM_MOVES ; level, species, item, moves
+	ld bc, 3 + 1 + NUM_MOVES ; level, species, item, moves
 .got_mon_length
 
 	ld e, 0
@@ -968,7 +985,7 @@ RandomPhoneMon:
 	inc e
 	add hl, bc
 	ld a, BANK(Trainers)
-	call GetFarByte
+	call GetFarByte			;todo
 	cp -1
 	jr nz, .count_mon
 	pop hl

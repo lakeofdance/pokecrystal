@@ -1,29 +1,39 @@
 SetSeenAndCaughtMon::
 	push af
-	ld c, a
+; Monspecies now comes in de, big endian
+;	ld c, a
 	ld hl, wPokedexCaught
 	ld b, SET_FLAG
-	call PokedexFlagAction
+	call PokedexFlagAction2
 	pop af
 	; fallthrough
 
 SetSeenMon::
-	ld c, a
+; Monspecies now comes in de, big endian
+;	ld c, a
 	ld hl, wPokedexSeen
 	ld b, SET_FLAG
-	jr PokedexFlagAction
+	jr PokedexFlagAction2
 
 CheckCaughtMon::
-	ld c, a
+; Monspecies now comes in de, big endian
+;	ld c, a
 	ld hl, wPokedexCaught
 	ld b, CHECK_FLAG
-	jr PokedexFlagAction
+	jr PokedexFlagAction2
 
 CheckSeenMon::
-	ld c, a
+; Monspecies now comes in de, big endian
+;	ld c, a
 	ld hl, wPokedexSeen
 	ld b, CHECK_FLAG
 	; fallthrough
+
+PokedexFlagAction2::
+	predef FlagAction
+	ld a, c
+	and a
+	ret
 
 PokedexFlagAction::
 	ld d, 0

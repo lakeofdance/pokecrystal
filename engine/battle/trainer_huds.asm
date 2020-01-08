@@ -142,7 +142,10 @@ DrawEnemyHUDBorder:
 	dec a
 	ret nz
 	ld a, [wTempEnemyMonSpecies]
-	dec a
+	ld e, a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld d, a
+	dec de
 	call CheckCaughtMon
 	ret z
 	hlcoord 1, 1

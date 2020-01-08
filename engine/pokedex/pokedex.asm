@@ -1796,8 +1796,11 @@ Pokedex_GetSelectedMon:
 Pokedex_CheckCaught:
 	push de
 	push hl
-	ld a, [wTempSpecies]	;todo
-	dec a
+	ld a, [wTempSpecies]
+	ld e, a
+	ld a, [wTempSpecies + 1]
+	ld d, a
+	dec de
 	call CheckCaughtMon
 	pop hl
 	pop de
@@ -1806,8 +1809,11 @@ Pokedex_CheckCaught:
 Pokedex_CheckSeen:
 	push de
 	push hl
-	ld a, [wTempSpecies]	;todo
-	dec a
+	ld a, [wTempSpecies]
+	ld e, a
+	ld a, [wTempSpecies + 1]
+	ld d, a
+	dec de
 	call CheckSeenMon
 	pop hl
 	pop de
@@ -1921,6 +1927,7 @@ Pokedex_OrderMonsByMode:
 	ret
 
 Pokedex_ABCMode:
+; Retired
 	xor a
 	ld [wDexListingEnd], a
 	ld hl, wPokedexOrder
