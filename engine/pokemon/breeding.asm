@@ -869,7 +869,7 @@ EggHatch_AnimationSequence:
 	ret
 
 Hatch_LoadFrontpicPal:
-;	ld [wPlayerHPPal], a	;todo, lots todo here
+;	ld [wPlayerHPPal], a
 	ld [wCurSpecies], a
 	cp EGG
 	ld a, [wNamedObjectIndexBuffer + 1]

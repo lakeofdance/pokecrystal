@@ -7161,6 +7161,8 @@ GiveExperiencePoints:
 	ld [wMonType], a
 	ld a, [wCurSpecies]
 	ld [wTempSpecies], a ; unused?
+	ld a, [wCurSpecies + 1]
+	ld [wTempSpecies + 1], a
 	ld a, [wCurPartyLevel]
 	push af
 	ld c, a

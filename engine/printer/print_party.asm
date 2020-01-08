@@ -175,6 +175,9 @@ PrintPartyMonPage1:
 	ld de, wTempMonMaxHP
 	lb bc, 2, 3
 	call PrintNum
+	ld a, [wCurPartySpecies + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
+	ld [wCurSpecies + 1], a
 	ld a, [wCurPartySpecies]
 	ld [wNamedObjectIndexBuffer], a
 	ld [wCurSpecies], a

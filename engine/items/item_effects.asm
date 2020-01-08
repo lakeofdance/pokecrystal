@@ -1275,6 +1275,9 @@ RareCandy_StatBooster_GetParameters:
 	ld a, [wCurPartySpecies]
 	ld [wCurSpecies], a
 	ld [wTempSpecies], a
+	ld a, [wCurPartySpecies + 1]
+	ld [wCurSpecies + 1], a
+	ld [wTempSpecies + 1], a
 	ld a, MON_LEVEL
 	call GetPartyParamLocation
 	ld a, [hl]

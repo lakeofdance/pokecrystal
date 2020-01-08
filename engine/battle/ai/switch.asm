@@ -366,8 +366,10 @@ FindEnemyMonsImmuneToLastCounterMove:
 	pop hl
 	jr z, .next
 
-	ld a, [hl]
+	ld a, [hli]
 	ld [wCurSpecies], a
+	ld a, [hl]
+	ld [wCurSpecies + 1], a
 	call GetBaseData
 
 	; the player's last move is damaging...
@@ -554,8 +556,10 @@ FindEnemyMonsThatResistPlayer:
 	cp $ff
 	jr z, .done
 
-	push hl
 	ld [wCurSpecies], a
+	ld a, [hli]
+	ld [wCurSpecies + 1], a
+	push hl
 	call GetBaseData
 	ld a, [wLastPlayerCounterMove]
 	and a

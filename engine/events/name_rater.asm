@@ -31,6 +31,9 @@ _NameRater:
 	ld a, [wCurPartySpecies]
 	ld [wNamedObjectIndexBuffer], a
 	ld [wCurSpecies], a
+	ld a, [wCurPartySpecies + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
+	ld [wCurSpecies + 1], a
 	call GetBaseData
 	ld b, NAME_MON
 	ld de, wStringBuffer2

@@ -13,11 +13,11 @@ GetBaseData::
 	jr z, .egg
 
 ; Get BaseData
-	dec a
 ;	ld bc, BASE_DATA_SIZE
 	ld c, a
 	ld a, [wCurSpecies + 1]
 	ld b, a
+	dec bc
 	ld a, BASE_DATA_SIZE
 ;
 	ld hl, BaseData

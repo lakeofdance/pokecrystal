@@ -1533,8 +1533,10 @@ ComputeNPCTrademonStats:
 	ld [MON_LEVEL], a ; wow
 	ld a, MON_SPECIES
 	call GetPartyParamLocation
+	ld a, [hli]
+	ld [wCurSpecies], a
 	ld a, [hl]
-	ld [wCurSpecies], a		;todo
+	ld [wCurSpecies + 1], a
 	call GetBaseData
 	ld a, MON_MAXHP
 	call GetPartyParamLocation

@@ -401,6 +401,8 @@ UpdateSpeciesNameIfNotNicknamed:
 	push hl
 	ld a, [wCurSpecies]
 	ld [wNamedObjectIndexBuffer], a
+	ld a, [wCurSpecies + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetPokemonName
 	ld hl, wStringBuffer1
 	pop de
