@@ -370,6 +370,9 @@ endr
 	ld a, [wMonType]
 	and $f
 	jr nz, .done
+	ld a, [wCurPartySpecies + 1]
+	and a
+	jr nz, .done
 	ld a, [wCurPartySpecies]
 	cp UNOWN
 	jr nz, .done

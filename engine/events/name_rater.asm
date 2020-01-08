@@ -8,7 +8,7 @@ _NameRater:
 	ld hl, NameRaterWhichMonText
 	call PrintText
 	farcall SelectMonFromParty
-	jr c, .cancel
+	jp c, .cancel
 ; He can't rename an egg...
 	ld a, [wCurPartySpecies]
 	cp EGG

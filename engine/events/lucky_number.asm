@@ -11,6 +11,7 @@ CheckForLuckyNumberWinners:
 .PartyLoop:
 	ld a, [bc]
 	inc bc
+	inc bc
 	cp EGG
 	call nz, .CompareLuckyNumberToMonID
 	push bc
@@ -29,6 +30,7 @@ CheckForLuckyNumberWinners:
 	ld bc, sBoxSpecies
 .OpenBoxLoop:
 	ld a, [bc]
+	inc bc
 	inc bc
 	cp EGG
 	jr z, .SkipOpenBoxMon
@@ -108,6 +110,8 @@ CheckForLuckyNumberWinners:
 	push af
 	ld a, [wCurPartySpecies]
 	ld [wNamedObjectIndexBuffer], a
+	ld a, [wCurPartySpecies + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetPokemonName
 	ld hl, .FoundPartymonText
 	pop af

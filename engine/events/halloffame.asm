@@ -168,6 +168,9 @@ GetHallOfFameParty:
 
 	ld hl, MON_SPECIES
 	add hl, bc
+	ld a, [hli]
+	ld [de], a
+	inc de
 	ld a, [hl]
 	ld [de], a
 	inc de
@@ -228,6 +231,9 @@ AnimateHOFMonEntrance:
 	ld a, [hli]
 	ld [wTempMonSpecies], a
 	ld [wCurPartySpecies], a
+	ld a, [hli]
+	ld [wTempMonSpecies + 1], a
+	ld [wCurPartySpecies + 1], a
 	inc hl
 	inc hl
 	ld a, [hli]
@@ -436,6 +442,8 @@ DisplayHOFMon:
 	ld a, [hli]
 	ld [wTempMonSpecies], a
 	ld a, [hli]
+	ld [wTempMonSpecies + 1], a
+	ld a, [hli]
 	ld [wTempMonID], a
 	ld a, [hli]
 	ld [wTempMonID + 1], a
@@ -462,6 +470,9 @@ DisplayHOFMon:
 	call Textbox
 	ld a, [wTempMonSpecies]
 	ld [wCurPartySpecies], a
+	ld [wDeciramBuffer + 1], a
+	ld a, [wTempMonSpecies + 1]
+	ld [wCurPartySpecies + 1], a
 	ld [wDeciramBuffer], a
 	ld hl, wTempMonDVs
 	predef GetUnownLetter
@@ -478,7 +489,7 @@ DisplayHOFMon:
 	ld [hl], "<DOT>"
 	hlcoord 3, 13
 	ld de, wDeciramBuffer
-	lb bc, PRINTNUM_LEADINGZEROS | 1, 3
+	lb bc, PRINTNUM_LEADINGZEROS | 2, 3
 	call PrintNum
 	call GetBasePokemonName
 	hlcoord 7, 13
@@ -540,6 +551,7 @@ HOF_AnimatePlayerPic:
 	xor a
 	ldh [hBGMapMode], a
 	ld [wCurPartySpecies], a
+	ld [wCurPartySpecies + 1], a
 	ld b, SCGB_PLAYER_OR_MON_FRONTPIC_PALS
 	call GetSGBLayout
 	call SetPalettes

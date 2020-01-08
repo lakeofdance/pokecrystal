@@ -231,6 +231,9 @@ GivePokeMail::
 	ld a, [wCurPartySpecies]
 	ld [de], a
 	inc de
+	ld a, [wCurPartySpecies + 1]
+	ld [de], a
+	inc de
 	pop bc
 	ld a, b
 	ld [de], a

@@ -526,7 +526,7 @@ ENDM
 	enum pokepic_command ; $56
 pokepic: MACRO
 	db pokepic_command
-	db \1 ; pokemon
+	dw \1 ; pokemon
 ENDM
 
 	enum closepokepic_command ; $57

@@ -808,9 +808,13 @@ StatsScreen_PlaceFrontpic:
 	ret
 
 .AnimateEgg:
+	ld a, [wCurPartySpecies + 1]
+	and a
+	jr nz, .notunown2
 	ld a, [wCurPartySpecies]
 	cp UNOWN
 	jr z, .unownegg
+.notunown2
 	ld a, TRUE
 	ld [wBoxAlignment], a
 	call .get_animation

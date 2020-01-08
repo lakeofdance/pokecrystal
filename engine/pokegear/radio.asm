@@ -253,8 +253,10 @@ endr
 	call GetFarByte
 	ld [wNamedObjectIndexBuffer], a
 	ld [wCurPartySpecies], a
-	ld a, 0
-	ld [wNamedObjectIndexBuffer + 1], a		;todo
+	inc hl
+	ld a, BANK(JohtoGrassWildMons)
+	call GetFarByte
+	ld [wNamedObjectIndexBuffer + 1], a
 	ld [wCurPartySpecies + 1], a
 	call GetPokemonName
 	ld hl, wStringBuffer1

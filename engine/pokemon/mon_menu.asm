@@ -459,6 +459,9 @@ ComposeMailMessage:
 	ld a, [wCurPartySpecies]
 	ld [de], a
 	inc de
+	ld a, [wCurPartySpecies + 1]
+	ld [de], a
+	inc de
 	ld a, [wCurItem]
 	ld [de], a
 	ld a, [wCurPartyMon]

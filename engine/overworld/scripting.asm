@@ -437,6 +437,8 @@ Script_pokepic:
 	ld a, [wScriptVar]
 .ok
 	ld [wCurPartySpecies], a
+	call GetScriptByte
+	ld [wCurPartySpecies + 1], a
 	farcall Pokepic
 	ret
 

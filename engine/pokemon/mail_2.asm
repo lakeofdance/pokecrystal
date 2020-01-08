@@ -78,6 +78,8 @@ ReadAnyMail:
 	ld [wBuffer2], a
 	ld a, [hli]
 	ld [wCurPartySpecies], a
+	ld a, [hli]
+	ld [wCurPartySpecies + 1], a
 	ld b, [hl]
 	call CloseSRAM
 	ld hl, MailGFXPointers

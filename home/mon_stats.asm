@@ -128,6 +128,7 @@ _PrepMonFrontpic::
 .not_pokemon
 	xor a
 	ld [wBoxAlignment], a
+	ld [wCurPartySpecies + 1], a
 	inc a
 	ld [wCurPartySpecies], a
 	ret

@@ -1602,8 +1602,11 @@ LinkTrade:
 	ld c, a
 	ld b, 0
 	add hl, bc
-	ld a, [hl]
+	add hl, bc
+	ld a, [hli]
 	ld [wNamedObjectIndexBuffer], a
+	ld a, [hl]
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetPokemonName
 	ld hl, wStringBuffer1
 	ld de, wd004
@@ -1614,8 +1617,9 @@ LinkTrade:
 	ld c, a
 	ld b, 0
 	add hl, bc
+	add hl, bc
 	ld a, [hl]
-	ld [wNamedObjectIndexBuffer], a
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetPokemonName
 	ld hl, UnknownText_0x28eb8
 	bccoord 1, 14
@@ -1735,8 +1739,11 @@ LinkTrade:
 	ld b, 0
 	ld c, a
 	add hl, bc
-	ld a, [hl]
+	add hl, bc
+	ld a, [hli]
 	ld [wPlayerTrademonSpecies], a
+	ld a, [hl]
+	ld [wPlayerTrademonSpecies + 1], a
 	push af
 	ld a, [wd002]
 	ld hl, wPartyMonOT
@@ -1775,8 +1782,11 @@ LinkTrade:
 	ld b, 0
 	ld c, a
 	add hl, bc
-	ld a, [hl]
+	add hl, bc
+	ld a, [hli]
 	ld [wOTTrademonSpecies], a
+	ld a, [hl]
+	ld [wOTTrademonSpecies + 1], a
 	ld a, [wd003]
 	ld hl, wOTPartyMonOT
 	call SkipNames
@@ -1811,7 +1821,8 @@ LinkTrade:
 	ld b, 0
 	ld c, a
 	add hl, bc
-	ld a, [hl]
+	add hl, bc
+	ld a, [hl]	;todo, maybe
 	ld [wd002], a
 	xor a ; REMOVE_PARTY
 	ld [wPokemonWithdrawDepositParameter], a
@@ -1827,7 +1838,8 @@ LinkTrade:
 	ld b, 0
 	ld c, a
 	add hl, bc
-	ld a, [hl]
+	add hl, bc
+	ld a, [hl]	;todo, maybe
 	ld [wd003], a
 	ld c, 100
 	call DelayFrames
@@ -1852,8 +1864,11 @@ LinkTrade:
 	ld d, 0
 	ld e, a
 	add hl, de
-	ld a, [hl]
+	add hl, de
+	ld a, [hli]
 	ld [wCurPartySpecies], a
+	ld a, [hl]
+	ld [wCurPartySpecies + 1], a
 	ld hl, wOTPartyMon1Species
 	ld a, c
 	call GetPartyLocation
@@ -1874,14 +1889,14 @@ LinkTrade:
 	ld c, a
 	cp MEW
 	jr z, .loop
-	ld a, [wCurPartySpecies]
+	ld a, [wCurPartySpecies]		;todo, maybe
 	cp MEW
 	jr z, .loop
 	ld b, $2
 	ld a, c
 	cp CELEBI
 	jr z, .loop
-	ld a, [wCurPartySpecies]
+	ld a, [wCurPartySpecies]		;todo, maybe
 	cp CELEBI
 	jr z, .loop
 	ld b, $0

@@ -224,9 +224,13 @@ PrintPartyMonPage1:
 	ld hl, wBoxAlignment
 	xor a
 	ld [hl], a
+	ld a, [wCurPartySpecies + 1]
+	and a
+	jr nz, .notunown
 	ld a, [wCurPartySpecies]
 	cp UNOWN
 	jr z, .asm_1dc469
+.notunown
 	inc [hl]
 
 .asm_1dc469

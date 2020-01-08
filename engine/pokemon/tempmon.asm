@@ -59,7 +59,7 @@ _TempMonStatsCalculation:
 	add hl, bc
 	ld d, h
 	ld e, l
-	ld a, [wCurPartySpecies]		;todo
+	ld a, [wCurPartySpecies]
 	cp EGG
 	jr nz, .not_egg
 	xor a

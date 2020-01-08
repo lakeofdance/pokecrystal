@@ -25,8 +25,10 @@ BattleCommand_Attract:
 CheckOppositeGender:
 	ld a, MON_SPECIES
 	call BattlePartyAttr
-	ld a, [hl]
+	ld a, [hli]
 	ld [wCurPartySpecies], a
+	ld a, [hl]
+	ld [wCurPartySpecies + 1], a
 
 	ld a, [wCurBattleMon]
 	ld [wCurPartyMon], a
@@ -44,6 +46,8 @@ CheckOppositeGender:
 	push bc
 	ld a, [wTempEnemyMonSpecies]
 	ld [wCurPartySpecies], a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld [wCurPartySpecies + 1], a
 	ld hl, wEnemyMonDVs
 	ld a, [wEnemySubStatus5]
 	bit SUBSTATUS_TRANSFORMED, a

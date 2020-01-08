@@ -86,12 +86,16 @@ NamingScreen:
 .Pokemon:
 	ld a, [wCurPartySpecies]
 	ld [wTempIconSpecies], a
+	ld a, [wCurPartySpecies + 1]
+	ld [wTempIconSpecies + 1], a
 	ld hl, LoadMenuMonIcon
 	ld a, BANK(LoadMenuMonIcon)
 	ld e, MONICON_NAMINGSCREEN
 	rst FarCall
 	ld a, [wCurPartySpecies]
 	ld [wNamedObjectIndexBuffer], a
+	ld a, [wCurPartySpecies + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetPokemonName
 	hlcoord 5, 2
 	call PlaceString
