@@ -210,7 +210,10 @@ endr
 	dec de
 	call CheckCaughtMon
 	ld a, [wTempSpecies]
-	dec a
+	ld e, a
+	ld a, [wTempSpecies + 1]
+	ld d, a
+	dec de
 	call SetSeenAndCaughtMon
 	pop de
 

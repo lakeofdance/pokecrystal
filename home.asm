@@ -161,6 +161,38 @@ CountSetBits::
 	ld [wNumSetBits], a
 	ret
 
+CountSetBits2::
+; Count the number of set bits in b bytes starting from hl.
+; Return in a, c and [wNumSetBits].
+	ld de, 0
+.next
+	push bc
+	ld a, [hli]
+	ld c, a
+	ld b, 8
+
+.count
+	srl c
+	ld a, 0
+	adc e
+	ld e, a
+	ld a, d
+	adc 0
+	ld d, a
+	dec b
+	jr nz, .count
+
+	pop bc
+	dec b
+	jr nz, .next
+
+; big endian
+	ld a, d
+	ld [wNumSetBits], a
+	ld a, e
+	ld [wNumSetBits + 1], a	
+	ret
+
 GetWeekday::
 	ld a, [wCurDay]
 .mod

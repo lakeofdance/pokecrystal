@@ -43,6 +43,7 @@ Rate:
 	ld [wd003], a
 
 ; print appropriate rating
+; todo
 	call .UpdateRatingBuffers
 	ld hl, OakPCText3
 	call PrintText

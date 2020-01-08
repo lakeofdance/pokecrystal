@@ -215,10 +215,10 @@ TrainerCard_Page1_PrintDexCaught_GameTime:
 	call PlaceString
 	ld hl, wPokedexCaught
 	ld b, wEndPokedexCaught - wPokedexCaught
-	call CountSetBits
+	call CountSetBits2
 	ld de, wNumSetBits
 	hlcoord 15, 10
-	lb bc, 1, 3
+	lb bc, 2, 3
 	call PrintNum
 	call TrainerCard_Page1_PrintGameTime
 	hlcoord 2, 8

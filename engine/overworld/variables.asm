@@ -71,17 +71,23 @@ _GetVarAction::
 ; Caught mons.
 	ld hl, wPokedexCaught
 	ld b, wEndPokedexCaught - wPokedexCaught
-	call CountSetBits
+	call CountSetBits2
 	ld a, [wNumSetBits]
-	jp .loadstringbuffer2
+	ld [wStringBuffer2], a
+	ld a, [wNumSetBits + 1]
+	ld [wStringBuffer2 + 1], a
+	ret
 
 .CountSeenMons:
 ; Seen mons.
 	ld hl, wPokedexSeen
 	ld b, wEndPokedexSeen - wPokedexSeen
-	call CountSetBits
+	call CountSetBits2
 	ld a, [wNumSetBits]
-	jp .loadstringbuffer2
+	ld [wStringBuffer2], a
+	ld a, [wNumSetBits + 1]
+	ld [wStringBuffer2 + 1], a
+	ret
 
 .CountBadges:
 ; Number of owned badges.
