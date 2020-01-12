@@ -846,32 +846,40 @@ BattleAnimCmd_Transform:
 	push af
 	ld a, BANK(wCurPartySpecies)
 	ldh [rSVBK], a
-	ld a, [wCurPartySpecies] ; CurPartySpecies
+	ld a, [wCurPartySpecies]
+	push af
+	ld a, [wCurPartySpecies + 1]
 	push af
 
 	ldh a, [hBattleTurn]
 	and a
 	jr z, .player
 
-	ld a, [wTempBattleMonSpecies] ; TempBattleMonSpecies
-	ld [wCurPartySpecies], a ; CurPartySpecies
-	ld hl, wBattleMonDVs ; BattleMonDVs
+	ld a, [wTempBattleMonSpecies]
+	ld [wCurPartySpecies], a
+	ld a, [wTempBattleMonSpecies + 1]
+	ld [wCurPartySpecies + 1], a
+	ld hl, wBattleMonDVs
 	predef GetUnownLetter
 	ld de, vTiles0 tile $00
 	predef GetMonFrontpic
 	jr .done
 
 .player
-	ld a, [wTempEnemyMonSpecies] ; TempEnemyMonSpecies
-	ld [wCurPartySpecies], a ; CurPartySpecies
-	ld hl, wEnemyMonDVs ; EnemyMonDVs
+	ld a, [wTempEnemyMonSpecies]
+	ld [wCurPartySpecies], a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld [wCurPartySpecies + 1], a
+	ld hl, wEnemyMonDVs
 	predef GetUnownLetter
 	ld de, vTiles0 tile $00
 	predef GetMonBackpic
 
 .done
 	pop af
-	ld [wCurPartySpecies], a ; CurPartySpecies
+	ld [wCurPartySpecies + 1], a
+	pop af
+	ld [wCurPartySpecies], a
 	pop af
 	ldh [rSVBK], a
 	ret
@@ -1044,7 +1052,9 @@ BattleAnimCmd_DropSub:
 	ld a, BANK(wCurPartySpecies)
 	ldh [rSVBK], a
 
-	ld a, [wCurPartySpecies] ; CurPartySpecies
+	ld a, [wCurPartySpecies]
+	push af
+	ld a, [wCurPartySpecies + 1]
 	push af
 	ldh a, [hBattleTurn]
 	and a
@@ -1058,7 +1068,9 @@ BattleAnimCmd_DropSub:
 
 .done
 	pop af
-	ld [wCurPartySpecies], a ; CurPartySpecies
+	ld [wCurPartySpecies + 1], a
+	pop af
+	ld [wCurPartySpecies], a
 	pop af
 	ldh [rSVBK], a
 	ret
@@ -1068,11 +1080,13 @@ BattleAnimCmd_BeatUp:
 	push af
 	ld a, BANK(wCurPartySpecies)
 	ldh [rSVBK], a
-	ld a, [wCurPartySpecies] ; CurPartySpecies
+	ld a, [wCurPartySpecies]
+	push af
+	ld a, [wCurPartySpecies + 1]
 	push af
 
 	ld a, [wBattleAnimParam]
-	ld [wCurPartySpecies], a ; CurPartySpecies
+	ld [wCurPartySpecies], a
 
 	ldh a, [hBattleTurn]
 	and a
@@ -1092,7 +1106,9 @@ BattleAnimCmd_BeatUp:
 
 .done
 	pop af
-	ld [wCurPartySpecies], a ; CurPartySpecies
+	ld [wCurPartySpecies + 1], a
+	pop af
+	ld [wCurPartySpecies], a
 	ld b, SCGB_BATTLE_COLORS
 	call GetSGBLayout
 	pop af
