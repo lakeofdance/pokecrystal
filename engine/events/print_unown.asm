@@ -59,6 +59,7 @@ _UnownPrinter:
 	ld a, UNOWN
 	ld [wCurPartySpecies], a
 	xor a
+	ld [wCurPartySpecies + 1], a
 	ld [wTempMonDVs], a
 	ld [wTempMonDVs + 1], a
 
@@ -139,6 +140,7 @@ _UnownPrinter:
 	ld a, UNOWN
 	ld [wCurPartySpecies], a
 	xor a
+	ld [wCurPartySpecies + 1], a
 	ld [wBoxAlignment], a
 	ld de, vTiles2
 	predef GetMonFrontpic
