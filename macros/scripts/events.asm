@@ -970,31 +970,3 @@ wait: MACRO
 	db wait_command
 	db \1 ; duration
 ENDM
-
-	enum ifequalword_command ; $a9
-ifequalword: MACRO
-	db ifequalword_command
-	dw \1 ; word
-	dw \2 ; pointer
-ENDM
-
-	enum ifnotequalword_command ; $aa
-ifnotequalword: MACRO
-	db ifnotequalword_command
-	dw \1 ; word
-	dw \2 ; pointer
-ENDM
-
-	enum ifgreaterword_command ; $ab
-ifgreaterword: MACRO
-	db ifgreaterword_command
-	dw \1 ; word
-	dw \2 ; pointer
-ENDM
-
-	enum iflessword_command ; $ac
-iflessword: MACRO
-	db iflessword_command
-	dw \1 ; word
-	dw \2 ; pointer
-ENDM

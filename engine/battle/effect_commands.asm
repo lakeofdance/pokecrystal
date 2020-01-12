@@ -5319,7 +5319,8 @@ BattleCommand_EndLoop:
 	ld a, BATTLE_VARS_SUBSTATUS3
 	call GetBattleVarAddr
 	res SUBSTATUS_IN_LOOP, [hl]
-	ret
+	call BattleCommand_BeatUpFailText
+	jp EndMoveEffect
 
 .not_triple_kick
 	call BattleRandom

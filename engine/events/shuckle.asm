@@ -8,8 +8,6 @@ GiveShuckle:
 ; Level 15 Shuckle.
 	ld a, SHUCKLE
 	ld [wCurPartySpecies], a
-	xor a
-	ld [wCurPartySpecies + 1], a
 	ld a, 15
 	ld [wCurPartyLevel], a
 
@@ -79,9 +77,6 @@ ReturnShuckle:
 
 	ld a, [wCurPartySpecies]
 	cp SHUCKLE
-	jr nz, .DontReturn
-	ld a, [wCurPartySpecies + 1]
-	and a
 	jr nz, .DontReturn
 
 	ld a, [wCurPartyMon]

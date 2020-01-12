@@ -39,7 +39,7 @@ BattleCommand_BeatUp:
 	ld a, [wCurBattleMon]
 	; BUG: this can desynchronize link battles
 	; Change "cp [hl]" to "cp c" to fix
-	cp c
+	cp [hl]
 	ld hl, wBattleMonStatus
 	jr z, .active_mon
 	ld a, MON_STATUS
@@ -121,11 +121,8 @@ BattleCommand_BeatUp:
 	ld b, 0
 	ld hl, wOTPartySpecies
 	add hl, bc
-	add hl, bc
-	ld a, [hli]
-	ld [wNamedObjectIndexBuffer], a
 	ld a, [hl]
-	ld [wNamedObjectIndexBuffer + 1], a
+	ld [wNamedObjectIndexBuffer], a
 	call GetPokemonName
 	jr .got_enemy_nick
 
@@ -164,8 +161,6 @@ BattleCommand_BeatUp:
 .wild
 	ld a, [wEnemyMonSpecies]
 	ld [wNamedObjectIndexBuffer], a
-	ld a, [wEnemyMonSpecies + 1]
-	ld [wNamedObjectIndexBuffer + 1], a
 	call GetPokemonName
 	ld hl, BeatUpAttackText
 	call StdBattleTextbox

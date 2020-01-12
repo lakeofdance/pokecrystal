@@ -40,9 +40,6 @@ BattleCommand_Transform:
 	push hl
 	ld a, [hli]
 	ld [de], a
-	inc de
-	ld a, [hli]
-	ld [de], a
 	inc hl
 	inc de
 	inc de
@@ -101,10 +98,8 @@ BattleCommand_Transform:
 	dec b
 	jr nz, .pp_loop
 	pop hl
-	ld a, [hli]
-	ld [wNamedObjectIndexBuffer], a
 	ld a, [hl]
-	ld [wNamedObjectIndexBuffer + 1], a
+	ld [wNamedObjectIndexBuffer], a
 	call GetPokemonName
 	ld hl, wEnemyStats
 	ld de, wPlayerStats

@@ -1063,5 +1063,4 @@ HOF_AnimateFrontpic:
 	ld [wBoxAlignment], a
 	inc a
 	ld [wCurPartySpecies], a
-	ld [wCurPartySpecies + 1], a
 	ret
