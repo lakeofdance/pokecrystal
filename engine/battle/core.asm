@@ -5986,6 +5986,9 @@ LoadEnemyMon:
 	ld a, [wTempEnemyMonSpecies]
 	cp UNOWN
 	jr nz, .Magikarp
+	ld a, [wTempEnemyMonSpecies + 1]
+	and a
+	jr nz, .Magikarp
 
 ; Get letter based on DVs
 	ld hl, wEnemyMonDVs
@@ -6006,6 +6009,9 @@ LoadEnemyMon:
 ; since the largest possible Magikarp is 5'3", and $0503 = 1283 mm.
 	ld a, [wTempEnemyMonSpecies]
 	cp MAGIKARP
+	jr nz, .Happiness
+	ld a, [wTempEnemyMonSpecies + 1]
+	and a
 	jr nz, .Happiness
 
 ; Get Magikarp's length
@@ -6376,6 +6382,7 @@ INCLUDE "data/wild/unlocked_unowns.asm"
 BattleWinSlideInEnemyTrainerFrontpic:
 	xor a
 	ld [wTempEnemyMonSpecies], a
+	ld [wTempEnemyMonSpecies + 1], a
 	call FinishBattleAnim
 	ld a, [wOtherTrainerClass]
 	ld [wTrainerClass], a
@@ -7963,6 +7970,7 @@ InitEnemyTrainer:
 	ld [wTrainerClass], a
 	xor a
 	ld [wTempEnemyMonSpecies], a
+	ld [wTempEnemyMonSpecies + 1], a
 	callfar GetTrainerAttributes
 	callfar ReadTrainerParty
 

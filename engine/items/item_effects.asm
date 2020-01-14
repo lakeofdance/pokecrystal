@@ -905,9 +905,10 @@ MoonBallMultiplier:
 ; Reality: no boost
 	push bc
 	ld a, [wTempEnemyMonSpecies]
-	dec a
 	ld c, a
-	ld b, 0
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld b, a
+	dec bc
 	ld hl, EvosAttacksPointers
 	add hl, bc
 	add hl, bc
@@ -954,7 +955,13 @@ LoveBallMultiplier:
 	ld a, [wTempEnemyMonSpecies]
 	ld c, a
 	ld a, [wTempBattleMonSpecies]
-	cp c
+	sub c
+	ld c, a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld b, a
+	ld a, [wTempBattleMonSpecies + 1]
+	sub b
+	or c
 	ret nz
 
 	; check player mon species
