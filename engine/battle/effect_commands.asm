@@ -2527,12 +2527,16 @@ DittoMetalPowder:
 	call BattlePartyAttr
 	ldh a, [hBattleTurn]
 	and a
-	ld a, [hl]
+	ld a, [hli]
 	jr nz, .Ditto
-	ld a, [wTempEnemyMonSpecies]
+	ld hl, wTempEnemyMonSpecies
+	ld a, [hli]
 
 .Ditto:
 	cp DITTO
+	ret nz
+	ld a, [hl]
+	and a
 	ret nz
 
 	push bc
