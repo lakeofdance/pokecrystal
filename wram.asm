@@ -163,7 +163,7 @@ wLinkMode::
 ; a LINK_* value for the link type
 	db ; c2dc
 
-wScriptVar:: db ; c2dd
+wScriptVar:: dw ; c2dd
 
 wPlayerNextMovement:: db
 wPlayerMovement:: db
@@ -762,12 +762,12 @@ ENDU ; c6d0
 UNION ; c6d0
 ; pokedex
 wPokedexDataStart:: ; c6d0
-wPokedexOrder:: ds $100 ; >= NUM_POKEMON, now used purely for search
+wPokedexOrder:: ds (NUM_SEARCH_MONS * 2) ; now used purely for search
 wPokedexOrderEnd::
 wDexListingScrollOffset:: dw ; offset of the first displayed entry from the start
-wDexListingCursor:: dw ; Dex cursor
+wDexListingCursor:: db ; Dex cursor
 wDexListingEnd:: dw ; Last mon to display
-wDexListingHeight:: dw ; number of entries displayed at once in the dex listing
+wDexListingHeight:: db ; number of entries displayed at once in the dex listing
 wCurDexMode:: db ; Pokedex Mode
 wDexSearchMonType1:: db ; first type to search
 wDexSearchMonType2:: db ; second type to search
@@ -781,7 +781,7 @@ wDexCurUnownIndex:: db
 wDexUnownCount:: db
 wDexConvertedMonType:: db ; mon type converted from dex search mon type
 wDexListingScrollOffsetBackup:: dw
-wDexListingCursorBackup:: dw
+wDexListingCursorBackup:: db
 wBackupDexListingCursor:: db
 wBackupDexListingPage:: db
 wDexCurLocation:: db
@@ -2274,7 +2274,7 @@ wPokedexShowPointerBank:: db
 ;wd271:: dw ; mobile
 
 ;NEXTU ; d26b
-;wUnusedEggHatchFlag:: db
+wUnusedEggHatchFlag:: db
 
 NEXTU ; d26b
 ; enemy party

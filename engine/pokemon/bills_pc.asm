@@ -52,14 +52,14 @@ _DepositPKMN:
 	xor a
 	ldh [hBGMapMode], a
 	call ClearSprites
-	call CopyBoxmonSpecies		;todo
+	call CopyBoxmonSpecies
 	call BillsPC_BoxName
 	ld de, PCString_ChooseaPKMN
 	call BillsPC_PlaceString
 	ld a, $5
 	ld [wBillsPC_NumMonsOnScreen], a
 	call BillsPC_RefreshTextboxes
-	call PCMonInfo			;todo
+	call PCMonInfo
 	ld a, $ff
 	ld [wCurPartySpecies], a
 ;
@@ -311,6 +311,8 @@ _WithdrawPKMN:
 	call PCMonInfo
 	ld a, $ff
 	ld [wCurPartySpecies], a
+	xor a
+	ld [wCurPartySpecies + 1], a
 	ld a, SCGB_BILLS_PC
 	call BillsPC_ApplyPalettes
 	call WaitBGMap
@@ -555,6 +557,8 @@ _MovePKMNWithoutMail:
 	call PCMonInfo
 	ld a, $ff
 	ld [wCurPartySpecies], a
+	xor a
+	ld [wCurPartySpecies + 1], a
 	ld a, SCGB_BILLS_PC
 	call BillsPC_ApplyPalettes
 	call WaitBGMap
@@ -1406,7 +1410,7 @@ copy_box_data: MACRO
 	cp -1
 	jr z, .done\@
 	and a
-	jr z, .done\@		; is this check necessary? It stops us using 256. ;todo
+	jr z, .done\@
 	ld [de], a
 	inc de
 ;
@@ -1819,8 +1823,11 @@ DepositPokemon:
 	xor a ; REMOVE_PARTY	;0
 	ld [wPokemonWithdrawDepositParameter], a
 	farcall RemoveMonFromPartyOrBox
-	ld a, [wCurPartySpecies]			;
-	call PlayMonCry					;todo
+	ld a, [wCurPartySpecies]
+	ld d, a	
+	ld a, [wCurPartySpecies + 1]
+	ld e, a
+	call PlayMonCry
 	hlcoord 0, 0
 	lb bc, 15, 8
 	call ClearBox
@@ -1875,6 +1882,9 @@ TryWithdrawPokemon:
 	ld [wPokemonWithdrawDepositParameter], a
 	farcall RemoveMonFromPartyOrBox
 	ld a, [wCurPartySpecies]
+	ld d, a	
+	ld a, [wCurPartySpecies + 1]
+	ld e, a
 	call PlayMonCry
 	hlcoord 0, 0
 	lb bc, 15, 8
@@ -1923,7 +1933,10 @@ ReleasePKMN_ByePKMN:
 	call Textbox
 
 	call WaitBGMap
-	ld a, [wCurPartySpecies]		;todo
+	ld a, [wCurPartySpecies]
+	ld d, a
+	ld a, [wCurPartySpecies + 1]
+	ld e, a
 	call GetCryIndex
 	jr c, .skip_cry
 	ld e, c
@@ -1933,6 +1946,8 @@ ReleasePKMN_ByePKMN:
 
 	ld a, [wCurPartySpecies]
 	ld [wTempSpecies], a
+	ld a, [wCurPartySpecies + 1]
+	ld [wTempSpecies + 1], a
 	call GetPokemonName
 	hlcoord 1, 16
 	ld de, PCString_ReleasedPKMN

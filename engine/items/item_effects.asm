@@ -430,9 +430,7 @@ PokeBallEffect:
 	push af
 	set SUBSTATUS_TRANSFORMED, [hl]
 
-; This code is buggy. Any wild Pokémon that has Transformed will be
-; caught as a Ditto, even if it was something else like Mew.
-; To fix, do not set [wTempEnemyMonSpecies] to DITTO.
+; DITTO bug fixed.
 	bit SUBSTATUS_TRANSFORMED, a
 	jr nz, .load_data
 

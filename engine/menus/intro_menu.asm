@@ -568,10 +568,10 @@ if NUM_POKEMON % 8
 else
 	ld b, NUM_POKEMON / 8
 endc
-	call CountSetBits
+	call CountSetBits2
 	pop hl
 	ld de, wNumSetBits
-	lb bc, 1, 3
+	lb bc, 2, 3
 	jp PrintNum
 
 Continue_DisplayGameTime:
@@ -596,6 +596,7 @@ OakSpeech:
 	call RotateThreePalettesRight
 	xor a
 	ld [wCurPartySpecies], a
+	ld [wCurPartySpecies + 1], a
 	ld a, POKEMON_PROF
 	ld [wTrainerClass], a
 	call Intro_PrepTrainerPic
@@ -609,10 +610,11 @@ OakSpeech:
 	call RotateThreePalettesRight
 	call ClearTileMap
 
-	ld a, WOOPER
+	ld hl, WOOPER
+	ld a, l
 	ld [wCurSpecies], a
 	ld [wCurPartySpecies], a
-	xor a
+	ld a, h
 	ld [wCurSpecies + 1], a
 	ld [wCurPartySpecies + 1], a
 	call GetBaseData
@@ -637,6 +639,7 @@ OakSpeech:
 
 	xor a
 	ld [wCurPartySpecies], a
+	ld [wCurPartySpecies + 1], a
 	ld a, POKEMON_PROF
 	ld [wTrainerClass], a
 	call Intro_PrepTrainerPic
@@ -651,7 +654,8 @@ OakSpeech:
 	call ClearTileMap
 
 	xor a
-	ld [wCurPartySpecies], a
+	ld [wCurPartySpecies], a	
+	ld [wCurPartySpecies + 1], a
 	farcall DrawIntroPlayerPic
 
 	ld b, SCGB_TRAINER_OR_MON_FRONTPIC_PALS
@@ -672,9 +676,10 @@ OakText1:
 OakText2:
 	text_far _OakText2
 	text_asm
-	ld a, WOOPER
+	ld hl, WOOPER
+	ld a, l
 	ld d, a
-	xor a
+	ld a, h
 	ld e, a
 	call PlayMonCry
 	call WaitSFX
@@ -725,6 +730,7 @@ NamePlayer:
 
 	xor a
 	ld [wCurPartySpecies], a
+	ld [wCurPartySpecies + 1], a
 	farcall DrawIntroPlayerPic
 
 	ld b, SCGB_TRAINER_OR_MON_FRONTPIC_PALS

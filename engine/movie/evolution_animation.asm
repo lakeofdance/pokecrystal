@@ -8,6 +8,8 @@ EvolutionAnimation:
 	push af
 	ldh a, [rOBP0]
 	push af
+	ld a, [wBaseDexNo + 1]
+	push af
 	ld a, [wBaseDexNo]
 	push af
 
@@ -15,6 +17,8 @@ EvolutionAnimation:
 
 	pop af
 	ld [wBaseDexNo], a
+	pop af
+	ld [wBaseDexNo + 1], a
 	pop af
 	ldh [rOBP0], a
 	pop af
@@ -78,7 +82,7 @@ EvolutionAnimation:
 	ld a, [wEvolutionNewSpecies]
 	ld [wCurPartySpecies], a
 	ld [wCurSpecies], a
-	ld a, [wEvolutionOldSpecies + 1]
+	ld a, [wEvolutionNewSpecies + 1]
 	ld [wCurPartySpecies + 1], a
 	ld [wCurSpecies + 1], a
 	call .LoadFrontpic
@@ -95,6 +99,9 @@ EvolutionAnimation:
 	jr c, .skip_cry
 
 	ld a, [wEvolutionOldSpecies]
+	ld d, a
+	ld a, [wEvolutionOldSpecies + 1]
+	ld e, a
 	call PlayMonCry
 
 .skip_cry
@@ -118,7 +125,7 @@ EvolutionAnimation:
 	ld a, [wEvolutionNewSpecies]
 ;	ld [wPlayerHPPal], a
 	ld [wCurSpecies], a
-	ld a, [wEvolutionOldSpecies + 1]
+	ld a, [wEvolutionNewSpecies + 1]
 	ld [wCurSpecies + 1], a
 ;
 

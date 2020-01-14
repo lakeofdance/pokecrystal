@@ -146,9 +146,9 @@ Pokedex_InitCursorPosition:
 	ld c, a
 	ld [wDexListingScrollOffset], a
 	ld [wDexListingScrollOffset + 1], a	
-	ld a, [wDexListingEnd + 1]
+	ld a, [wDexListingEnd]
 	and a
-	ld a, [wDexListingEnd]		;dex entry offset, big endian
+	ld a, [wDexListingEnd + 1]		;dex entry offset, big endian
 	jr nz, .more_than_one_page
 	cp $8
 	jr c, .only_one_page
@@ -156,10 +156,8 @@ Pokedex_InitCursorPosition:
 .more_than_one_page
 	sub $7
 	ld c, a
-	ld a, [wDexListingEnd + 1]
-	jr nc, .nobytechange
-	dec a
-.nobytechange
+	ld a, [wDexListingEnd]
+	sbc 0
 	ld b, a
 .loop1
 	ld a, d
@@ -176,17 +174,13 @@ Pokedex_InitCursorPosition:
 	inc a
 	ld [wDexListingScrollOffset], a
 	and a
-	jr nz, .nobytechange2
 	ld a, [wDexListingScrollOffset + 1]
-	inc a
+	adc a
 	ld [wDexListingScrollOffset + 1], a
-.nobytechange2
 	dec bc
 	ld a, c
 	and a
-	jr nz, .loop1
-	ld a, b
-	and a
+	or b
 	jr nz, .loop1
 
 .only_one_page
@@ -834,6 +828,8 @@ Pokedex_InitSearchResultsScreen:
 	call Pokedex_UpdateSearchResultsCursorOAM
 	ld a, -1
 	ld [wCurPartySpecies], a
+	xor a
+	ld [wCurPartySpecies + 1], a
 	ld a, SCGB_POKEDEX
 	call Pokedex_GetSGBLayout
 	call Pokedex_IncrementDexPointer
@@ -1266,20 +1262,20 @@ Pokedex_DrawMainScreenBG:
 	call Pokedex_PlaceString
 	ld hl, wPokedexSeen
 	ld b, wEndPokedexSeen - wPokedexSeen
-	call CountSetBits
+	call CountSetBits2
 	ld de, wNumSetBits
 	hlcoord 5, 12
-	lb bc, 1, 3
+	lb bc, 2, 3
 	call PrintNum
 	hlcoord 1, 14
 	ld de, String_OWN
 	call Pokedex_PlaceString
 	ld hl, wPokedexCaught
 	ld b, wEndPokedexCaught - wPokedexCaught
-	call CountSetBits
+	call CountSetBits2
 	ld de, wNumSetBits
 	hlcoord 5, 15
-	lb bc, 1, 3
+	lb bc, 2, 3
 	call PrintNum
 	hlcoord 1, 17
 	ld de, String_SELECT_OPTION
@@ -1682,8 +1678,10 @@ Pokedex_PrintListing:
 
 .PrintEntry:
 ; Prints one entry in the list of Pokémon on the main Pokédex screen.
-;	and a
-;	ret z
+	ld de, wTempSpecies
+	ld a, [de]
+	and a
+	ret z
 	call Pokedex_PrintNumberIfOldMode
 	call Pokedex_PlaceDefaultStringIfNotSeen
 	ret c
@@ -1705,9 +1703,6 @@ Pokedex_PrintNumberIfOldMode:
 	ld de, -SCREEN_WIDTH
 	add hl, de
 	ld de, wTempSpecies
-	ld a, [de]
-	and a
-	jr z, .dontprint				;for the search screen
 	call .swap
 	push de
 	lb bc, PRINTNUM_LEADINGZEROS | 2, 3
@@ -1851,6 +1846,8 @@ Pokedex_GetOrderPointer:
 	call Pokedex_CheckSeen
 	jr nz, .foundend
 	dec de
+	ld a, e
+	or d
 	jr nz, .loopfindend
 .foundend
 	ld a, e
@@ -2214,7 +2211,7 @@ Pokedex_SearchForMons:
 	ld c, 0
 
 .zero_remaining_mons
-	cp 128			;in wram
+	cp 9			;only used by search screen, but a little extra can't hurt
 	jr z, .done
 	ld [hl], 0
 	inc hl
@@ -2457,6 +2454,7 @@ Pokedex_PutScrollbarOAM:
 	ld b, a
 	ld a, [wDexListingEnd + 1]
 	ld c, a
+	dec bc
 .loop
 	ld a, e
 	sub c
@@ -2818,6 +2816,8 @@ Pokedex_LoadUnownFrontpicTiles:
 	ld [wUnownLetter], a
 	ld a, UNOWN
 	ld [wCurPartySpecies], a
+	xor a
+	ld [wCurPartySpecies + 1], a
 	call GetBaseData
 	ld de, vTiles2 tile $00
 	predef GetMonFrontpic

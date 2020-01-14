@@ -170,6 +170,9 @@ DayCare_DepositPokemonText:
 	ld a, DAYCARETEXT_DEPOSIT
 	call PrintDayCareText
 	ld a, [wCurPartySpecies]
+	ld d, a
+	ld a, [wCurPartySpecies + 1]
+	ld e, a
 	call PlayMonCry
 	ld a, DAYCARETEXT_COME_BACK_LATER
 	call PrintDayCareText
@@ -228,6 +231,9 @@ DayCare_GetBackMonForMoney:
 	ld a, DAYCARETEXT_WITHDRAW
 	call PrintDayCareText
 	ld a, [wCurPartySpecies]
+	ld d, a
+	ld a, [wCurPartySpecies + 1]
+	ld e, a
 	call PlayMonCry
 	ld a, DAYCARETEXT_GOT_BACK
 	call PrintDayCareText
