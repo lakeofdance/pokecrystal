@@ -1015,25 +1015,28 @@ LoveBallMultiplier:
 	ret
 
 FastBallMultiplier:
-; This function is buggy.
-; Intent:  multiply catch rate by 4 if enemy mon is in one of the three
-;          FleeMons tables.
-; Reality: multiply catch rate by 4 if enemy mon is one of the first three in
-;          the first FleeMons table.
-	ld a, [wTempEnemyMonSpecies]
-	ld c, a
 	ld hl, FleeMons
 	ld d, 3
 
 .loop
+	ld a, [wTempEnemyMonSpecies]
+	ld c, a
 	ld a, BANK(FleeMons)
 	call GetFarByte
 
 	inc hl
 	cp -1
 	jr z, .next
-	cp c
-	jr nz, .next ; for the intended effect, this should be "jr nz, .loop"
+	sub c
+	ld e, a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld c, a
+	ld a, BANK(FleeMons)
+	call GetFarByte
+	inc hl
+	sub c
+	or e
+	jr nz, .loop
 	sla b
 	jr c, .max
 

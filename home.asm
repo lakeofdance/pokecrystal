@@ -101,6 +101,39 @@ IsInArray::
 	scf
 	ret
 
+IsWordInArray::
+; Find value bc for every e bytes (well, that's the skip) in array hl.
+; Return index in a and carry if found.
+
+	xor a
+.loop
+	push af
+	ld a, [hli]
+	cp -1
+	jr z, .NotInArray
+	sub b
+	ld d, a
+	ld a, [hl]
+	sub c
+	or d
+	jr z, .InArray
+	xor a
+	ld d, a
+	add hl, de
+	pop af
+	inc a
+	jr .loop
+
+.NotInArray:
+	pop af
+	and a
+	ret
+
+.InArray:
+	pop af
+	scf
+	ret
+
 SkipNames::
 ; Skip a names.
 	ld bc, NAME_LENGTH

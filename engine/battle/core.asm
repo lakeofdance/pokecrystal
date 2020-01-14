@@ -731,9 +731,12 @@ TryEnemyFlee:
 	jr nz, .Stay
 
 	ld a, [wTempEnemyMonSpecies]
-	ld de, 1
+	ld b, a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld c, a
+	ld e, 1
 	ld hl, AlwaysFleeMons
-	call IsInArray
+	call IsWordInArray
 	jr c, .Flee
 
 	call BattleRandom
@@ -743,9 +746,12 @@ TryEnemyFlee:
 
 	push bc
 	ld a, [wTempEnemyMonSpecies]
-	ld de, 1
+	ld b, a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld c, a
+	ld e, 1
 	ld hl, OftenFleeMons
-	call IsInArray
+	call IsWordInArray
 	pop bc
 	jr c, .Flee
 
@@ -754,9 +760,12 @@ TryEnemyFlee:
 	jr nc, .Stay
 
 	ld a, [wTempEnemyMonSpecies]
-	ld de, 1
+	ld b, a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld c, a
+	ld e, 1
 	ld hl, SometimesFleeMons
-	call IsInArray
+	call IsWordInArray
 	jr c, .Flee
 
 .Stay:
