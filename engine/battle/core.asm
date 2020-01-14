@@ -6183,6 +6183,7 @@ LoadEnemyMon:
 	ld [hl], a
 ; Make sure the predef knows this isn't a partymon
 	ld [wEvolutionOldSpecies], a
+	ld [wEvolutionOldSpecies + 1], a
 ; Fill moves based on level
 	predef FillMoves
 
@@ -8358,6 +8359,8 @@ BattleEnd_HandleRoamMons:
 	call GetRoamMonMapNumber
 	ld [hl], MAP_N_A
 	call GetRoamMonSpecies
+	ld [hl], 0	
+	inc hl
 	ld [hl], 0
 	ret
 
@@ -8374,11 +8377,25 @@ GetRoamMonMapGroup:
 	ld a, [wTempEnemyMonSpecies]
 	ld b, a
 	ld a, [wRoamMon1Species]
-	cp b
+	sub b
+	ld b, a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld c, a
+	ld a, [wRoamMon1Species + 1]
+	sub c
+	or b
 	ld hl, wRoamMon1MapGroup
 	ret z
+	ld a, [wTempEnemyMonSpecies]
+	ld b, a
 	ld a, [wRoamMon2Species]
-	cp b
+	sub b
+	ld b, a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld c, a
+	ld a, [wRoamMon2Species + 1]
+	sub c
+	or b
 	ld hl, wRoamMon2MapGroup
 	ret z
 	ld hl, wRoamMon3MapGroup
@@ -8388,11 +8405,25 @@ GetRoamMonMapNumber:
 	ld a, [wTempEnemyMonSpecies]
 	ld b, a
 	ld a, [wRoamMon1Species]
-	cp b
+	sub b
+	ld b, a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld c, a
+	ld a, [wRoamMon1Species + 1]
+	sub c
+	or b
 	ld hl, wRoamMon1MapNumber
 	ret z
+	ld a, [wTempEnemyMonSpecies]
+	ld b, a
 	ld a, [wRoamMon2Species]
-	cp b
+	sub b
+	ld b, a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld c, a
+	ld a, [wRoamMon2Species + 1]
+	sub c
+	or b
 	ld hl, wRoamMon2MapNumber
 	ret z
 	ld hl, wRoamMon3MapNumber
@@ -8403,11 +8434,25 @@ GetRoamMonHP:
 	ld a, [wTempEnemyMonSpecies]
 	ld b, a
 	ld a, [wRoamMon1Species]
-	cp b
+	sub b
+	ld b, a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld c, a
+	ld a, [wRoamMon1Species + 1]
+	sub c
+	or b
 	ld hl, wRoamMon1HP
 	ret z
+	ld a, [wTempEnemyMonSpecies]
+	ld b, a
 	ld a, [wRoamMon2Species]
-	cp b
+	sub b
+	ld b, a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld c, a
+	ld a, [wRoamMon2Species + 1]
+	sub c
+	or b
 	ld hl, wRoamMon2HP
 	ret z
 	ld hl, wRoamMon3HP
@@ -8418,11 +8463,25 @@ GetRoamMonDVs:
 	ld a, [wTempEnemyMonSpecies]
 	ld b, a
 	ld a, [wRoamMon1Species]
-	cp b
+	sub b
+	ld b, a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld c, a
+	ld a, [wRoamMon1Species + 1]
+	sub c
+	or b
 	ld hl, wRoamMon1DVs
 	ret z
+	ld a, [wTempEnemyMonSpecies]
+	ld b, a
 	ld a, [wRoamMon2Species]
-	cp b
+	sub b
+	ld b, a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld c, a
+	ld a, [wRoamMon2Species + 1]
+	sub c
+	or b
 	ld hl, wRoamMon2DVs
 	ret z
 	ld hl, wRoamMon3DVs
@@ -8431,10 +8490,21 @@ GetRoamMonDVs:
 GetRoamMonSpecies:
 	ld a, [wTempEnemyMonSpecies]
 	ld hl, wRoamMon1Species
-	cp [hl]
+	sub [hl]
+	ld b, a
+	ld a, [wTempEnemyMonSpecies + 1]
+	inc hl
+	sub [hl]
+	or b	
 	ret z
+	ld a, [wTempEnemyMonSpecies]
 	ld hl, wRoamMon2Species
-	cp [hl]
+	sub [hl]
+	ld b, a
+	ld a, [wTempEnemyMonSpecies + 1]
+	inc hl
+	sub [hl]
+	or b
 	ret z
 	ld hl, wRoamMon3Species
 	ret

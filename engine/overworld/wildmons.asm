@@ -152,6 +152,11 @@ FindNest:
 	ld a, [wNamedObjectIndexBuffer]
 	cp b
 	ret nz
+	ld a, [wRoamMon1Species + 1]
+	ld b, a
+	ld a, [wNamedObjectIndexBuffer + 1]
+	cp b
+	ret nz
 	ld a, [wRoamMon1MapGroup]
 	ld b, a
 	ld a, [wRoamMon1MapNumber]
@@ -166,6 +171,11 @@ FindNest:
 	ld a, [wRoamMon2Species]
 	ld b, a
 	ld a, [wNamedObjectIndexBuffer]
+	cp b
+	ret nz
+	ld a, [wRoamMon2Species + 1]
+	ld b, a
+	ld a, [wNamedObjectIndexBuffer + 1]
 	cp b
 	ret nz
 	ld a, [wRoamMon2MapGroup]
@@ -506,6 +516,9 @@ InitRoamMons:
 	ld [wRoamMon1Species], a
 	ld a, ENTEI
 	ld [wRoamMon2Species], a
+	xor a
+	ld [wRoamMon1Species + 1], a
+	ld [wRoamMon2Species + 1], a	
 
 ; level
 	ld a, 40
@@ -549,7 +562,7 @@ CheckEncounterRoamMon:
 	ld hl, wRoamMon1MapGroup
 	ld c, a
 	ld b, 0
-	ld a, 7 ; length of the roam_struct
+	ld a, 8 ; length of the roam_struct
 	call AddNTimes
 	ld a, d
 	cp [hl]
@@ -562,8 +575,11 @@ CheckEncounterRoamMon:
 	dec hl
 	dec hl
 	dec hl
+	dec hl
 	ld a, [hli]
 	ld [wTempWildMonSpecies], a
+	ld a, [hli]
+	ld [wTempWildMonSpecies + 1], a
 	ld a, [hl]
 	ld [wCurPartyLevel], a
 	ld a, BATTLETYPE_ROAMING
