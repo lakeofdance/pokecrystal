@@ -2747,10 +2747,22 @@ ThickClubBoost:
 ; it's holding a Thick Club, double it.
 	push bc
 	push de
-	ld b, CUBONE
-	ld c, MAROWAK
+	ld bc, CUBONE
+	call CompareSpecies
+	jr z, .go
+	ld bc, MAROWAK
+	call CompareSpecies
+	jr z, .go
+
+	ld a, [hli]
+	ld l, [hl]
+	ld h, a
+	jr .ret
+
+.go
 	ld d, THICK_CLUB
 	call SpeciesItemBoost
+.ret
 	pop de
 	pop bc
 	ret
@@ -2762,10 +2774,19 @@ LightBallBoost:
 ; holding a Light Ball, double it.
 	push bc
 	push de
-	ld b, PIKACHU
-	ld c, PIKACHU
+	ld bc, PIKACHU
+	call CompareSpecies
+	jr z, .go
+
+	ld a, [hli]
+	ld l, [hl]
+	ld h, a
+	jr .ret
+
+.go
 	ld d, LIGHT_BALL
 	call SpeciesItemBoost
+.ret
 	pop de
 	pop bc
 	ret
@@ -2773,29 +2794,11 @@ LightBallBoost:
 SpeciesItemBoost:
 ; Return in hl the stat value at hl.
 
-; If the attacking monster is species b or c and
-; it's holding item d, double it.
+; If the attacking monster is holding item d, double it.
 
 	ld a, [hli]
 	ld l, [hl]
 	ld h, a
-
-	push hl
-	ld a, MON_SPECIES
-	call BattlePartyAttr
-
-	ldh a, [hBattleTurn]
-	and a
-	ld a, [hl]
-	jr z, .CompareSpecies
-	ld a, [wTempEnemyMonSpecies]
-.CompareSpecies:
-	pop hl
-
-	cp b
-	jr z, .GetItemHeldEffect
-	cp c
-	ret nz
 
 .GetItemHeldEffect:
 	push hl
@@ -2808,6 +2811,33 @@ SpeciesItemBoost:
 ; Double the stat
 	sla l
 	rl h
+	ret
+
+CompareSpecies:
+; Return z if the attacking mon matches the (big endian) species in bc
+	push hl
+	ld a, MON_SPECIES
+	call BattlePartyAttr
+	ld a, [hli]
+	ld l, [hl]
+	ld h, a
+
+	ldh a, [hBattleTurn]
+	and a
+	jr z, .CompareSpecies
+	ld a, [wTempEnemyMonSpecies]
+	ld h, a
+	ld a, [wTempEnemyMonSpecies + 1]
+	ld l, a
+
+.CompareSpecies:
+	ld a, l
+	sub b
+	ld b, a
+	ld a, c
+	sub h
+	or b
+	pop hl
 	ret
 
 EnemyAttackDamage:
