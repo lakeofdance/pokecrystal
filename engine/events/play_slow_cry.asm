@@ -5,7 +5,7 @@ PlaySlowCry:
 	ld a, [wScriptVar]
 	ld d, a
 	xor a
-	ld e, a
+	ld e, a	
 	call LoadCry
 	jr c, .done
 

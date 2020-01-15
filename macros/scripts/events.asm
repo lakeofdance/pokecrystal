@@ -998,3 +998,9 @@ iflessword: MACRO
 	dw \1 ; word
 	dw \2 ; pointer
 ENDM
+
+	enum slowcry_command ; $84
+slowcry: MACRO
+	db slowcry_command
+	dw \1 ; cry_id
+ENDM

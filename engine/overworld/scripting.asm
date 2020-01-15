@@ -221,6 +221,7 @@ ScriptCommandTable:
 	dw Script_ifnotequalword	     ; aa
 	dw Script_ifgreaterword		     ; ab
 	dw Script_iflessword		     ; ac
+	dw Script_slowcry		     ; ad
 
 StartScript:
 	ld hl, wScriptFlags
@@ -2693,3 +2694,14 @@ Script_iflessword:
 	cp b
 	jp c, Script_sjump
 	jp SkipTwoScriptBytes
+
+Script_slowcry:
+; script command 0xad
+; parameters: cry_id
+
+	call GetScriptByte
+	ld d, a
+	call GetScriptByte
+	ld e, a
+	call PlaySlowCry	; the one in home/cry.asm
+	ret
