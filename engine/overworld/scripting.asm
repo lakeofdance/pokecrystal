@@ -217,6 +217,10 @@ ScriptCommandTable:
 	dw Script_gettrainerclassname        ; a6
 	dw Script_getname                    ; a7
 	dw Script_wait                       ; a8
+	dw Script_ifequalword		     ; a9
+	dw Script_ifnotequalword	     ; aa
+	dw Script_ifgreaterword		     ; ab
+	dw Script_iflessword		     ; ac
 
 StartScript:
 	ld hl, wScriptFlags
@@ -2627,3 +2631,65 @@ Script_wait:
 	jr nz, .loop
 	pop bc
 	ret
+
+Script_ifequalword:
+; script command 0xa9
+; parameters: word, pointer
+
+	call GetScriptByte
+	ld hl, wScriptVar
+	cp [hl]
+	call GetScriptByte
+	jp nz, SkipTwoScriptBytes
+	inc hl
+	cp [hl]
+	jp z, Script_sjump
+	jp SkipTwoScriptBytes
+
+Script_ifnotequalword:
+; script command 0xaa
+; parameters: word, pointer
+
+	call GetScriptByte
+	ld hl, wScriptVar
+	cp [hl]
+	call GetScriptByte
+	jp nz, Script_sjump
+	inc hl
+	cp [hl]
+	jp nz, Script_sjump
+	jp SkipTwoScriptBytes
+
+Script_ifgreaterword:
+; script command 0xab
+; parameters: word, pointer
+
+	ld a, [wScriptVar + 1]
+	ld b, a
+	call GetScriptByte
+	cp b
+	ld a, [wScriptVar]
+	ld b, a
+	call GetScriptByte
+	jp c, Script_sjump
+	jp nz, SkipTwoScriptBytes
+	cp b
+	jp c, Script_sjump
+	jp SkipTwoScriptBytes
+
+Script_iflessword:
+; script command 0xac
+; parameters: word, pointer
+
+	call GetScriptByte
+	ld b, a
+	call GetScriptByte
+	ld c, a
+	ld a, [wScriptVar + 1]
+	cp c
+	jp c, Script_sjump
+	jp nz, SkipTwoScriptBytes
+	ld a, [wScriptVar]
+	cp b
+	jp c, Script_sjump
+	jp SkipTwoScriptBytes
