@@ -135,9 +135,11 @@ ReadBTTrainerParty:
 	pop de
 	pop bc
 	pop af
+	inc bc
 	dec a
 	and a
 	jr nz, .otpartymon_loop
+	inc bc
 	ld a, -1
 	ld [bc], a
 	ret
