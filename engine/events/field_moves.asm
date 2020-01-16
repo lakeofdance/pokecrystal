@@ -406,8 +406,11 @@ FlyFunction_InitGFX:
 	ld e, a
 	ld d, 0
 	add hl, de
+	add hl, de
 	ld a, [hl]
 	ld [wTempIconSpecies], a
+	ld a, [hli]
+	ld [wTempIconSpecies + 1], a
 	ld e, FIELDMOVE_FLY
 	farcall FlyFunction_GetMonIcon
 	xor a
