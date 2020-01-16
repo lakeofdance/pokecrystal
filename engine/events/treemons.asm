@@ -28,6 +28,7 @@ TreeMonEncounter:
 RockMonEncounter:
 	xor a
 	ld [wTempWildMonSpecies], a
+	ld [wTempWildMonSpecies + 1], a
 	ld [wCurPartyLevel], a
 
 	ld hl, RockMonMaps
@@ -184,10 +185,6 @@ SelectTreeMon:
 	cp -1
 	jr z, NoTreeMon
 
-;	ld a, [hli]
-;	ld [wTempWildMonSpecies], a
-;	ld a, [hl]
-;	ld [wCurPartyLevel], a
 	ld a, [hli]
 	ld [wCurPartyLevel], a
 	ld a, [hli]
@@ -200,6 +197,7 @@ SelectTreeMon:
 NoTreeMon:
 	xor a
 	ld [wTempWildMonSpecies], a
+	ld [wTempWildMonSpecies + 1], a
 	ld [wCurPartyLevel], a
 	ret
 
