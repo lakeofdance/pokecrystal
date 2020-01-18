@@ -152,6 +152,7 @@ GetHallOfFameParty:
 	cp EGG
 	jr nz, .mon
 	inc c
+	inc hl
 	jr .next
 
 .mon
@@ -470,10 +471,10 @@ DisplayHOFMon:
 	call Textbox
 	ld a, [wTempMonSpecies]
 	ld [wCurPartySpecies], a
-	ld [wDeciramBuffer + 1], a
+	ld [wDeciramBuffer], a
 	ld a, [wTempMonSpecies + 1]
 	ld [wCurPartySpecies + 1], a
-	ld [wDeciramBuffer], a
+	ld [wDeciramBuffer + 1], a
 	ld hl, wTempMonDVs
 	predef GetUnownLetter
 	xor a
@@ -490,7 +491,9 @@ DisplayHOFMon:
 	hlcoord 3, 13
 	ld de, wDeciramBuffer
 	lb bc, PRINTNUM_LEADINGZEROS | 2, 3
-	call PrintNum
+	call .swap
+	call PrintNum			
+	call .swap
 	call GetBasePokemonName
 	hlcoord 7, 13
 	call PlaceString
@@ -525,6 +528,15 @@ DisplayHOFMon:
 	ld de, wTempMonID
 	lb bc, PRINTNUM_LEADINGZEROS | 2, 5
 	call PrintNum
+	ret
+
+.swap
+	ld a, [wDeciramBuffer + 1]
+	push af
+	ld a, [wDeciramBuffer]
+	ld [wDeciramBuffer + 1], a
+	pop af
+	ld [wDeciramBuffer], a
 	ret
 
 HOF_AnimatePlayerPic:
