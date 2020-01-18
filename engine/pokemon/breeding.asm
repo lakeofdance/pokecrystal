@@ -702,10 +702,16 @@ GetHeritableMoves:
 GetBreedmonMovePointer:
 	ld hl, wBreedMon1Moves
 	ld a, [wBreedMon1Species]
-	cp DITTO
+	sub DITTO
+	ld b, a
+	ld a, [wBreedMon1Species + 1]
+	or b
 	ret z
 	ld a, [wBreedMon2Species]
-	cp DITTO
+	sub DITTO
+	ld b, a
+	ld a, [wBreedMon2Species + 1]
+	or b
 	jr z, .ditto
 	ld a, [wBreedMotherOrNonDitto]
 	and a
