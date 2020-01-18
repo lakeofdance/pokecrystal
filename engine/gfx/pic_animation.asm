@@ -1038,6 +1038,9 @@ PokeAnim_GetSpeciesOrUnown:
 
 .unown
 	ld a, [wPokeAnimUnownLetter]
+	ld [wPokeAnimSpeciesOrUnown], a
+	xor a
+	ld [wPokeAnimSpeciesOrUnown + 1], a	
 	ret
 
 HOF_AnimateFrontpic:

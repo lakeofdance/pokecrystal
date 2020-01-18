@@ -219,17 +219,23 @@ GetMonBackpic:
 	pop de
 	ret c
 
-	ld a, [wUnownLetter]
-	ld c, a
-	xor a
-	ld b, a
-	push bc
-
-	ld a, [wCurPartySpecies]
-	ld c, a
 	ld a, [wCurPartySpecies + 1]
 	ld b, a	
+	ld a, [wCurPartySpecies]
+	ld c, a
 
+	push bc
+	sub UNOWN
+	ld c, a
+	or b
+	pop bc
+	; z flag set if we have an unown
+	jr nz, .notunown1
+	ld a, [wUnownLetter]
+	ld c, a
+; b is already 0
+	
+.notunown1
 	ldh a, [rSVBK]
 	push af
 	ld a, BANK(wDecompressScratch)
@@ -238,17 +244,12 @@ GetMonBackpic:
 
 	; These are assumed to be at the same address in their respective banks.
 	ld hl, PokemonPicPointers ; UnownPicPointers
-	ld a, c
+	jr z, .unown
 	ld d, BANK(PokemonPicPointers)
-	cp UNOWN
-	jr nz, .notunown
-	ld a, b
-	and a
-	jr nz, .notunown
+	jr .notunown
 
-	pop bc
+.unown
 	ld d, BANK(UnownPicPointers)
-	push bc	; everything in its right place
 
 .notunown
 	dec bc
@@ -276,7 +277,6 @@ GetMonBackpic:
 	call Get2bpp
 	pop af
 	ldh [rSVBK], a
-	pop bc
 	ret
 
 
