@@ -12,6 +12,7 @@
 ; - AlphabeticalPokedexOrder (see data/pokemon/dex_order_alpha.asm)
 ; - EZChat_SortedPokemon (see data/pokemon/ezchat_order.asm)
 ; - NewPokedexOrder (see data/pokemon/dex_order_new.asm)
+; - OldPokedexOrder (see data/pokemon/dex_order_old.asm)
 ; - Pokered_MonIndices (see data/pokemon/gen1_order.asm)
 ; - AnimationPointers (see gfx/pokemon/anim_pointers.asm)
 ; - AnimationIdlePointers (see gfx/pokemon/idle_pointers.asm)
@@ -279,12 +280,54 @@ JOHTO_POKEMON EQU const_value
 	const DNU2       ; 100
 	const YAMASK     ; 101
 	const COFAGRIGUS ; 102
-	const MON_103    ; 103
-	const MON_104    ; 104
-	const MON_105    ; 105
+	const MON_103
+	const MON_104
+	const MON_105
 NUM_POKEMON EQU const_value + -1
-
 NUM_DEX_MONS EQU NUM_POKEMON + -8 	;used in the pokedex
+	const MON_106
+	const MON_107
+	const MON_108
+	const MON_109
+	const MON_10A
+	const MON_10B
+	const MON_10C
+	const MON_10D
+	const MON_10E
+	const MON_10F
+	const MON_110
+	const MON_111
+	const MON_112
+	const MON_113
+	const MON_114
+	const MON_115
+	const MON_116
+	const MON_117
+	const MON_118
+	const MON_119
+	const MON_11A
+	const MON_11B
+	const MON_11C
+	const MON_11D
+	const MON_11E
+	const MON_11F
+	const MON_120
+	const MON_121
+	const MON_122
+	const MON_123
+	const MON_124
+	const MON_125
+	const MON_126
+	const MON_127
+	const MON_128
+	const MON_129
+	const MON_12A
+	const MON_12B
+	const MON_12C	; 300
+	const MON_12D
+	const MON_12E
+	const MON_12F
+
 NUM_SEARCH_MONS EQU 128
 
 ; Unown forms

@@ -252,8 +252,53 @@ EvosAttacksPointers::
 	dw LugiaEvosAttacks
 	dw HoOhEvosAttacks
 	dw CelebiEvosAttacks
-	dw CelebiEvosAttacks
-	dw CelebiEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
 	dw 0, 0, 0
 	dw YamaskEvosAttacks
 	dw CofagrigusEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks

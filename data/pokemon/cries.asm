@@ -256,10 +256,55 @@ PokemonCries::
 	mon_cry CRY_TYPHLOSION,  $000,  $100 ; LUGIA
 	mon_cry CRY_AIPOM,       $000,  $180 ; HO_OH
 	mon_cry CRY_ENTEI,       $14a,  $111 ; CELEBI
-	mon_cry CRY_NIDORAN_M,      0,     0 ; 252
-	mon_cry CRY_NIDORAN_M,      0,     0 ; 253
+	mon_cry CRY_NIDORAN_M,      0,     0 ; FC
+	mon_cry CRY_NIDORAN_M,      0,     0 ; FD
 	mon_cry CRY_NIDORAN_M,      0,     0 ; EGG
 	mon_cry CRY_NIDORAN_M,      0,     0 ; DNU
 	mon_cry CRY_NIDORAN_M,      0,     0 ; DNU2
 	mon_cry CRY_NATU,       -$020,  $150 ; YAMASK
 	mon_cry CRY_SLOWKING,   -$100,  $180 ; COFAGRIGUS
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 103
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 104
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 105
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 106
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 107
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 108
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 109
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 10A
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 10B
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 10C
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 10D
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 10E
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 10F
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 110
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 111
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 112
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 113
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 114
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 115
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 116
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 117
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 118
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 119
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 11A
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 11B
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 11C
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 11D
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 11E
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 11F
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 120
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 121
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 122
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 123
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 124
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 125
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 126
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 127
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 128
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 129
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 12A
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 12B
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 12C
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 12D
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 12E
+	mon_cry CRY_NIDORAN_M,      0,     0 ; 12F

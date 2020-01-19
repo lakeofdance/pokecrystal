@@ -588,18 +588,108 @@ INCBIN "gfx/footprints/256.1bpp",        footprint_bottom
 ; 257-264 top halves
 INCBIN "gfx/footprints/yamask.1bpp",     footprint_top
 INCBIN "gfx/footprints/cofagrigus.1bpp", footprint_top
-INCBIN "gfx/footprints/celebi.1bpp",     footprint_top
-INCBIN "gfx/footprints/celebi.1bpp",     footprint_top
-INCBIN "gfx/footprints/celebi.1bpp",     footprint_top
-INCBIN "gfx/footprints/celebi.1bpp",     footprint_top
-INCBIN "gfx/footprints/celebi.1bpp",     footprint_top
-INCBIN "gfx/footprints/celebi.1bpp",     footprint_top
+INCBIN "gfx/footprints/mon_103.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_104.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_105.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_106.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_107.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_108.1bpp",    footprint_top
 ; 257-264 bottom halves
 INCBIN "gfx/footprints/yamask.1bpp",     footprint_bottom
 INCBIN "gfx/footprints/cofagrigus.1bpp", footprint_bottom
-INCBIN "gfx/footprints/celebi.1bpp",     footprint_bottom
-INCBIN "gfx/footprints/celebi.1bpp",     footprint_bottom
-INCBIN "gfx/footprints/celebi.1bpp",     footprint_bottom
-INCBIN "gfx/footprints/celebi.1bpp",     footprint_bottom
-INCBIN "gfx/footprints/celebi.1bpp",     footprint_bottom
+INCBIN "gfx/footprints/mon_103.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_104.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_105.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_106.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_107.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_108.1bpp",    footprint_bottom
+; 265-272 top halves
+INCBIN "gfx/footprints/mon_109.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_10A.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_10B.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_10C.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_10D.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_10E.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_10F.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_110.1bpp",    footprint_top
+; 265-272 bottom halves
+INCBIN "gfx/footprints/mon_109.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_10A.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_10B.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_10C.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_10D.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_10E.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_10F.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_110.1bpp",    footprint_bottom
+; 273-280 top halves
+INCBIN "gfx/footprints/mon_111.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_112.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_113.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_114.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_115.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_116.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_117.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_118.1bpp",    footprint_top
+; 273-280 bottom halves
+INCBIN "gfx/footprints/mon_111.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_112.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_113.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_114.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_115.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_116.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_117.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_118.1bpp",    footprint_bottom
+; 281-288 top halves
+INCBIN "gfx/footprints/mon_119.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_11A.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_11B.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_11C.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_11D.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_11E.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_11F.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_120.1bpp",    footprint_top
+; 281-288 bottom halves
+INCBIN "gfx/footprints/mon_119.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_11A.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_11B.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_11C.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_11D.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_11E.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_11F.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_120.1bpp",    footprint_bottom
+; 289-296 top halves
+INCBIN "gfx/footprints/mon_121.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_122.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_123.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_124.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_125.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_126.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_127.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_128.1bpp",    footprint_top
+; 289-296 bottom halves
+INCBIN "gfx/footprints/mon_121.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_122.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_123.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_124.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_125.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_126.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_127.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_128.1bpp",    footprint_bottom
+; 297-304 top halves
+INCBIN "gfx/footprints/mon_129.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_12A.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_12B.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_12C.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_12D.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_12E.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_12F.1bpp",    footprint_top
+INCBIN "gfx/footprints/celebi.1bpp",     footprint_top
+; 297-304 bottom halves
+INCBIN "gfx/footprints/mon_129.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_12A.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_12B.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_12C.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_12D.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_12E.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_12F.1bpp",    footprint_bottom
 INCBIN "gfx/footprints/celebi.1bpp",     footprint_bottom

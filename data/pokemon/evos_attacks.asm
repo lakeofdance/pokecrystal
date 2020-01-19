@@ -3384,3 +3384,8 @@ CofagrigusEvosAttacks:
 	db 51, MEAN_LOOK
 	db 57, DESTINY_BOND
 	db 0 ; no more level-up moves
+
+MonEvosAttacks:
+	db 0 ; no more evolutions
+	db 1, TACKLE
+	db 0 ; no more level-up moves
