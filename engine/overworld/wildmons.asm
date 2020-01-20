@@ -853,6 +853,7 @@ RandomUnseenWildMon:
 	ld b, 0
 	add hl, bc
 	add hl, bc
+	add hl, bc
 ; We now have the pointer to one of the last (rarest) three wild Pokemon found in that area.
 	inc hl
 	ld c, [hl] ; Contains the species index of this rare Pokemon
@@ -865,23 +866,29 @@ RandomUnseenWildMon:
 	add hl, de
 	pop de
 	inc hl ; Species index of the most common Pokemon on that route
+; But beware: that's the most common from the morning!
+; So the mon we have chosen could still be common if it is currently day or night.
 	ld b, 4
 .loop2
 	ld a, [hli]
-	cp e ; Compare this most common Pokemon with the rare one stored in e.
-	jr nz, .next
+	sub e ; Compare this most common morning Pokemon with the rare one stored in e.
+	ld c, a
 	ld a, [hli]
-	cp d
+	sub d
+	or c
 	jr z, .done
 .next
 	dec b
+	inc hl
 	jr nz, .loop2
 ; This Pokemon truly is rare.
 	push bc
 ;	dec c
 ;	ld a, c
+	push de
 	dec de
 	call CheckSeenMon
+	pop de
 	pop bc
 	jr nz, .done
 ; Since we haven't seen it, have the caller tell us about it.
@@ -889,7 +896,6 @@ RandomUnseenWildMon:
 	ld de, wStringBuffer1
 	call CopyName1
 	pop de
-	inc de
 ;	ld a, c
 	ld a, e
 	ld [wNamedObjectIndexBuffer], a
