@@ -349,25 +349,27 @@ BattleTower_UbersCheck:
 	ld a, [wPartyCount]
 .loop
 	push af
-	ld a, [de]
-	cp MEWTWO
+	push bc
+	ld bc, MEWTWO
+	call .compare
 	jr z, .uber
-	cp MEW
+	ld bc, MEW
+	call .compare
 	jr z, .uber
-	cp LUGIA
-	jr c, .next
-;	cp NUM_POKEMON + 1
+	ld bc, LUGIA
+	call .compare
+	jr z, .uber
 	push de
 	call IsAPokemon
 	pop de
-	jr c, .next
-;Why a fallthrough here?
-;	jr nc, .next
+	jr nc, .next
+; c means we are not a pokemon. Fallthrough is a bit odd.
 .uber
 	ld a, [hl]
 	cp 70
 	jr c, .uber_under_70
 .next
+	pop bc
 	add hl, bc
 	inc de
 	inc de
@@ -382,6 +384,7 @@ BattleTower_UbersCheck:
 
 .uber_under_70
 	pop af
+	pop bc
 	ld a, [de]
 	ld [wNamedObjectIndexBuffer], a
 	inc de
@@ -398,6 +401,17 @@ BattleTower_UbersCheck:
 	ldh [rSVBK], a
 	scf
 	ret
+
+.compare
+	ld a, [de]
+	cp c
+	ret nz
+	inc de
+	ld a, [de]
+	dec de
+	cp b
+	ret
+	
 
 BattleTowerRoomMenu_IncrementJumptable:
 	ld hl, wcf66
