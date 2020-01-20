@@ -222,6 +222,7 @@ ScriptCommandTable:
 	dw Script_ifgreaterword		     ; ab
 	dw Script_iflessword		     ; ac
 	dw Script_slowcry		     ; ad
+	dw Script_readcaughtseenvar	     ; ae
 
 StartScript:
 	ld hl, wScriptFlags
@@ -2706,4 +2707,17 @@ Script_slowcry:
 	call GetScriptByte
 	ld e, a
 	call PlaySlowCry	; the one in home/cry.asm
+	ret
+
+Script_readcaughtseenvar:
+; script command 0xae
+; parameters: variable_id
+
+	call GetScriptByte
+	call GetVarAction
+; in big, out little
+	ld a, [wStringBuffer2]
+	ld [wScriptVar + 1], a
+	ld a, [wStringBuffer2 + 1]
+	ld [wScriptVar], a
 	ret

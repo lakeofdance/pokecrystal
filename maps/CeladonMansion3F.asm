@@ -13,8 +13,8 @@ GameFreakGameDesignerScript:
 	faceplayer
 	opentext
 	writetext GameFreakGameDesignerText
-	readvar VAR_DEXCAUGHT
-	ifgreater NUM_POKEMON - 2 - 1, .CompletedPokedex ; ignore Mew and Celebi
+	readcaughtseenvar VAR_DEXCAUGHT
+	ifgreaterword NUM_DEX_MONS - 2 - 1, .CompletedPokedex ; ignore Mew and Celebi
 	waitbutton
 	closetext
 	end

@@ -999,8 +999,14 @@ iflessword: MACRO
 	dw \2 ; pointer
 ENDM
 
-	enum slowcry_command ; $84
+	enum slowcry_command ; $ad
 slowcry: MACRO
 	db slowcry_command
 	dw \1 ; cry_id
+ENDM
+
+	enum readcaughtseenvar_command ; $ae
+readcaughtseenvar: MACRO
+	db readcaughtseenvar_command
+	db \1 ; variable_id
 ENDM
