@@ -2665,15 +2665,17 @@ Script_ifgreaterword:
 ; script command 0xab
 ; parameters: word, pointer
 
-	ld a, [wScriptVar + 1]
-	ld b, a
-	call GetScriptByte
-	cp b
 	ld a, [wScriptVar]
 	ld b, a
+	ld a, [wScriptVar + 1]
+	ld c, a
 	call GetScriptByte
+	ld d, a
+	call GetScriptByte
+	cp c
 	jp c, Script_sjump
 	jp nz, SkipTwoScriptBytes
+	ld a, d
 	cp b
 	jp c, Script_sjump
 	jp SkipTwoScriptBytes
