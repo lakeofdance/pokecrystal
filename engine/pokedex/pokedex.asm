@@ -544,7 +544,7 @@ DexEntryScreen_MenuActionJumptable:
 	call PlayCry
 	ret
 
-.Print:							;hmm. ;todo
+.Print:
 	call Pokedex_ApplyPrintPals
 	xor a
 	ldh [hSCX], a
@@ -1828,9 +1828,6 @@ Pokedex_GetOrderPointer:
 	cp DEXMODE_OLD
 	jr z, .FindLastSeen
 	ld hl, AlphabeticalPokedexOrder
-;	cp DEXMODE_ABC		;not sure what to do for unown, todo
-;	jr z, .FindLastSeen
-;	ld hl, 
 .FindLastSeen:
 	push hl
 	push de
@@ -1884,7 +1881,7 @@ Pokedex_OrderMonsByMode:
 .NewMode:
 	ld de, NewPokedexOrder
 	ld hl, wPokedexOrder
-;	ld c, NUM_POKEMON		;todo
+;	ld c, NUM_POKEMON
 .loopnew
 	ld a, [de]
 	inc de
@@ -1897,7 +1894,7 @@ Pokedex_OrderMonsByMode:
 .OldMode:
 	ld hl, wPokedexOrder
 	ld a, $1
-;	ld c, NUM_POKEMON		;todo
+;	ld c, NUM_POKEMON
 .loopold
 	ld [hli], a
 	inc a
@@ -1908,7 +1905,7 @@ Pokedex_OrderMonsByMode:
 
 .FindLastSeen:
 	ld hl, wPokedexOrder + NUM_POKEMON - 1
-;	ld d, NUM_POKEMON		;todo
+;	ld d, NUM_POKEMON
 	ld e, d
 .loopfindend
 	ld a, [hld]
@@ -1929,7 +1926,7 @@ Pokedex_ABCMode:
 	ld [wDexListingEnd], a
 	ld hl, wPokedexOrder
 	ld de, AlphabeticalPokedexOrder
-;	ld c, NUM_POKEMON		;todo
+;	ld c, NUM_POKEMON
 .loop1abc
 	push bc
 	ld a, [de]
@@ -1950,7 +1947,7 @@ Pokedex_ABCMode:
 	ld a, [wDexListingEnd]
 	ld c, 0
 .loop2abc
-;	cp NUM_POKEMON		;todo
+;	cp NUM_POKEMON
 	jr z, .doneabc
 	ld [hl], c
 	inc hl

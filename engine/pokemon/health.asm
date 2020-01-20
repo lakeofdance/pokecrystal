@@ -6,7 +6,7 @@ HealParty:
 	ld a, [hli]
 	cp -1
 	jr z, .done
-	cp EGG			;todo
+	cp EGG
 	jr z, .next
 
 	push hl

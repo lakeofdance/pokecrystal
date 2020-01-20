@@ -97,7 +97,7 @@ _DepositPKMN:
 .a_button
 	call BillsPC_GetSelectedPokemonSpecies
 	and a
-	ret z		;byte1=0 ;todo
+	ret z		;byte1=0
 	cp -1
 	jr z, .b_button
 	ld a, $2
@@ -344,7 +344,7 @@ _WithdrawPKMN:
 .a_button
 	call BillsPC_GetSelectedPokemonSpecies
 	and a
-	ret z		; byte1=0 ;todo
+	ret z		; byte1=0
 	cp -1
 	jr z, .b_button
 	ld a, $2
@@ -600,7 +600,7 @@ _MovePKMNWithoutMail:
 .a_button
 	call BillsPC_GetSelectedPokemonSpecies
 	and a
-	ret z			; byte1=0 ;todo
+	ret z			; byte1=0
 	cp -1
 	jr z, .b_button
 	ld a, $2
@@ -1032,7 +1032,7 @@ PCMonInfo:
 
 	call BillsPC_GetSelectedPokemonSpecies
 	and a
-	ret z		; byte1 0 ;todo
+	ret z		; byte1=0
 	cp -1
 	ret z
 
@@ -1285,7 +1285,7 @@ BillsPC_RefreshTextboxes:
 .PlaceNickname:
 	ld a, [de]
 	and a
-	ret z			; return if species byte1 is zero ;todo
+	ret z			; return if species byte1 is zero
 	cp -1
 	jr nz, .get_nickname
 	ld de, .CancelString
@@ -1350,7 +1350,7 @@ BillsPC_RefreshTextboxes:
 ;
 	ld a, [hl]
 	and a
-	jr z, .partyfail		; fail if species byte1 is zero ;todo
+	jr z, .partyfail		; fail if species byte1 is zero
 	ld hl, wPartyMonNicknames
 	ld bc, MON_NAME_LENGTH
 	ld a, e
@@ -1379,7 +1379,7 @@ BillsPC_RefreshTextboxes:
 ;
 	ld a, [hl]
 	and a
-	jr z, .sBoxFail			; fail if species byte1 is zero ;todo
+	jr z, .sBoxFail			; fail if species byte1 is zero
 	ld hl, sBoxMonNicknames
 	ld bc, MON_NAME_LENGTH
 	ld a, e

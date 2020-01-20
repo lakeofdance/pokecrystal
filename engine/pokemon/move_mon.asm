@@ -1936,7 +1936,7 @@ GivePoke::
 	ld a, b
 	and a
 	jr z, .party
-	farcall SetBoxMonCaughtData		;todo
+	farcall SetBoxMonCaughtData
 	jr .set_caught_data
 
 .party
