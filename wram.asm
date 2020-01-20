@@ -2912,7 +2912,7 @@ wEggNick:: ds MON_NAME_LENGTH ; df65
 wEggOT::   ds NAME_LENGTH ; df70
 wEggMon::  box_struct wEggMon ; df7b
 
-wBugContestSecondPartySpecies:: dw
+wBugContestSecondPartySpecies:: dw		;only first byte used
 wContestMon:: party_struct wContestMon ; df9c
 
 wDunsparceMapGroup:: db
@@ -2935,12 +2935,6 @@ wMagikarpRecordHoldersName:: ds NAME_LENGTH
 wPokemonDataEnd::
 wGameDataEnd::
 ; dff5
-
-SECTION "moved from WRAMX 1", WRAMX
-
-wExtraData::
-
-wExtraDataEnd::
 
 SECTION "Pic Animations", WRAMX
 

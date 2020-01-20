@@ -95,11 +95,6 @@ _ResetWRAM:
 	xor a
 	call ByteFill
 
-	ld hl, wExtraData
-	ld bc, wExtraDataEnd - wExtraData
-	xor a
-	call ByteFill
-
 	ldh a, [rLY]
 	ldh [hSecondsBackup], a
 	call DelayFrame
