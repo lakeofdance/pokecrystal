@@ -522,7 +522,9 @@ InitRoamMons:
 	ld [wRoamMon2Species], a
 	xor a
 	ld [wRoamMon1Species + 1], a
-	ld [wRoamMon2Species + 1], a	
+	ld [wRoamMon2Species + 1], a
+	ld [wRoamMon3Species], a
+	ld [wRoamMon3Species + 1], a	
 
 ; level
 	ld a, 40
@@ -940,6 +942,7 @@ RandomPhoneWildMon:
 	ld b, 0
 	add hl, bc
 	add hl, bc
+	add hl, bc
 	inc hl
 	ld a, [hli]
 	ld [wNamedObjectIndexBuffer], a
@@ -1005,7 +1008,7 @@ RandomPhoneMon:
 	inc e
 	add hl, bc
 	ld a, BANK(Trainers)
-	call GetFarByte			;todo
+	call GetFarByte
 	cp -1
 	jr nz, .count_mon
 	pop hl
@@ -1028,6 +1031,10 @@ RandomPhoneMon:
 	ld a, BANK(Trainers)
 	call GetFarByte
 	ld [wNamedObjectIndexBuffer], a
+	inc hl
+	ld a, BANK(Trainers)
+	call GetFarByte
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetPokemonName
 	ld hl, wStringBuffer1
 	ld de, wStringBuffer4

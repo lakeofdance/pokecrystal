@@ -398,7 +398,7 @@ ENDM
 	enum getmonname_command ; $40
 getmonname: MACRO
 	db getmonname_command
-	db \2 ; pokemon
+	dw \2 ; pokemon
 	db \1 ; string_buffer
 ENDM
 

@@ -1796,6 +1796,11 @@ Script_getmonname:
 	ld a, [wScriptVar]
 .gotit
 	ld [wNamedObjectIndexBuffer], a
+	call GetScriptByte
+	jr nz, .stillgotit
+	ld a, [wScriptVar + 1]
+.stillgotit
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetPokemonName
 	ld de, wStringBuffer1
 
