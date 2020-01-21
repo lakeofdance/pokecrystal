@@ -7,17 +7,23 @@ GetFirstPokemonHappiness:
 	cp EGG
 	jr nz, .done
 	inc de
+	inc de
 	add hl, bc
 	jr .loop
 
 .done
 	ld [wNamedObjectIndexBuffer], a
+	inc de
+	ld a, [de]
+	ld [wNamedObjectIndexBuffer + 1], a
 	ld a, [hl]
 	ld [wScriptVar], a
 	call GetPokemonName
 	jp CopyPokemonName_Buffer1_Buffer3
 
 CheckFirstMonIsEgg:
+	ld a, [wPartySpecies + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
 	ld a, [wPartySpecies]
 	ld [wNamedObjectIndexBuffer], a
 	cp EGG
@@ -39,6 +45,8 @@ ChangeHappiness:
 	ld d, 0
 	ld hl, wPartySpecies - 1
 	add hl, de
+	add hl, de
+	dec hl
 	ld a, [hl]
 	cp EGG
 	ret z
@@ -135,6 +143,7 @@ StepHappiness::
 	ld de, PARTYMON_STRUCT_LENGTH
 	add hl, de
 	pop de
+	inc de
 	dec c
 	jr nz, .loop
 	ret
