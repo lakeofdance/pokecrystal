@@ -2208,7 +2208,7 @@ Pokedex_SearchForMons:
 	ld c, 0
 
 .zero_remaining_mons
-	cp 9			;only used by search screen, but a little extra can't hurt
+	cp NUM_SEARCH_MONS
 	jr nc, .done
 	ld [hl], 0
 	inc hl
