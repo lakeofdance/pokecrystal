@@ -35,12 +35,18 @@ Rate:
 ; calculate Seen/Owned
 	ld hl, wPokedexSeen
 	ld b, wEndPokedexSeen - wPokedexSeen
-	call CountSetBits
+	call CountSetBits2
+	ld a, d
 	ld [wd002], a
+	ld a, e
+	ld [wd002 + 1], a
 	ld hl, wPokedexCaught
 	ld b, wEndPokedexCaught - wPokedexCaught
-	call CountSetBits
+	call CountSetBits2
+	ld a, d
 	ld [wd003], a
+	ld a, e
+	ld [wd003 + 1], a
 
 ; print appropriate rating
 ; todo
@@ -49,6 +55,9 @@ Rate:
 	call PrintText
 	call JoyWaitAorB
 	ld a, [wd003]
+	ld d, a
+	ld a, [wd003 + 1]
+	ld e, a
 	ld hl, OakRatings
 	call FindOakRating
 	push de
@@ -71,18 +80,24 @@ Rate:
 	ld bc, ITEM_NAME_LENGTH
 	call ByteFill
 	pop hl
-	lb bc, PRINTNUM_RIGHTALIGN | 1, 3
+	lb bc, PRINTNUM_RIGHTALIGN | 2, 3
 	call PrintNum
 	ret
 
 FindOakRating:
 ; return sound effect in de
 ; return text pointer in hl
-	ld c, a
 .loop
 	ld a, [hli]
-	cp c
+	ld c, a
+	ld a, [hli]
+	cp d
+	jr c, .nextone
+	jr nz, .match
+	ld a, c
+	cp e
 	jr nc, .match
+.nextone
 rept 4
 	inc hl
 endr
