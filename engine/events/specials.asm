@@ -23,29 +23,41 @@ SetPlayerPalette:
 
 GameCornerPrizeMonCheckDex:
 	ld a, [wScriptVar]
-	dec a
+	ld e, a
+	ld a, [wScriptVar + 1]
+	ld d, a
+	dec de
 	call CheckCaughtMon
 	ret nz
 	ld a, [wScriptVar]
-	dec a
+	ld e, a
+	ld a, [wScriptVar + 1]
+	ld d, a
+	dec de
 	call SetSeenAndCaughtMon
 	call FadeToMenu
 	ld a, [wScriptVar]
 	ld [wNamedObjectIndexBuffer], a
+	ld a, [wScriptVar + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
 	farcall NewPokedexEntry
 	call ExitAllMenus
 	ret
 
 FindPartyMonThatSpecies:
 	ld a, [wScriptVar]
-	ld b, a
+	ld d, a
+	ld a, [wScriptVar + 1]
+	ld e, a
 	farcall _FindPartyMonThatSpecies
 	jr z, FoundNone
 	jr FoundOne
 
 FindPartyMonThatSpeciesYourTrainerID:
 	ld a, [wScriptVar]
-	ld b, a
+	ld d, a
+	ld a, [wScriptVar + 1]
+	ld e, a
 	farcall _FindPartyMonThatSpeciesYourTrainerID
 	jr z, FoundNone
 	jr FoundOne

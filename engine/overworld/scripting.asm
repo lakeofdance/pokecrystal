@@ -223,6 +223,7 @@ ScriptCommandTable:
 	dw Script_iflessword		     ; ac
 	dw Script_slowcry		     ; ad
 	dw Script_readcaughtseenvar	     ; ae
+	dw Script_setvalword		     ; af
 
 StartScript:
 	ld hl, wScriptFlags
@@ -2725,4 +2726,14 @@ Script_readcaughtseenvar:
 	ld [wScriptVar + 1], a
 	ld a, [wStringBuffer2 + 1]
 	ld [wScriptVar], a
+	ret
+
+Script_setvalword:
+; script command 0xaf
+; parameters: value
+
+	call GetScriptByte
+	ld [wScriptVar], a
+	call GetScriptByte
+	ld [wScriptVar + 1], a
 	ret

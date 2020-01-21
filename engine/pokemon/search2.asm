@@ -26,7 +26,7 @@ _FindPartyMonThatSpeciesYourTrainerID:
 	ret
 
 FindThatSpecies:
-; Find species b in your party.
+; Find species de in your party.
 ; If you have no Pokemon, returns c = -1 and z.
 ; If that species is in your party, returns its location in c, and nz.
 ; Otherwise, returns z.
@@ -37,7 +37,11 @@ FindThatSpecies:
 	cp -1
 	ret z
 	inc c
-	cp b
+	sub d
+	ld b, a
+	ld a, [hli]
+	sub e
+	or b	
 	jr nz, .loop
 	ld a, $1
 	and a

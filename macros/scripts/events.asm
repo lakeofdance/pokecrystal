@@ -1010,3 +1010,9 @@ readcaughtseenvar: MACRO
 	db readcaughtseenvar_command
 	db \1 ; variable_id
 ENDM
+
+	enum setvalword_command ; $af
+setvalword: MACRO
+	db setvalword_command
+	dw \1 ; value
+ENDM
