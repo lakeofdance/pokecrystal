@@ -234,7 +234,7 @@ endr
 	cp DARKNESS_F
 	jr z, .loop2
 
-	ld bc, 2 * NUM_GRASSMON
+	ld bc, 3 * NUM_GRASSMON
 	call AddNTimes
 .loop3
 	; Choose one of the middle three Pokemon.
@@ -246,6 +246,7 @@ endr
 	jr nc, .loop3
 	ld e, a
 	ld d, 0
+	add hl, de
 	add hl, de
 	add hl, de
 	inc hl ; skip level
@@ -1653,7 +1654,7 @@ GetBuenasPassword:
 	dw .RawString ; BUENA_STRING
 
 .Mon:
-	call .GetTheIndex
+	call .GetTheIndexWord
 	call GetPokemonName
 	ret
 
@@ -1673,6 +1674,17 @@ GetBuenasPassword:
 	add hl, de
 	ld a, [hl]
 	ld [wNamedObjectIndexBuffer], a
+	ret
+
+.GetTheIndexWord:
+	ld h, 0
+	ld l, c
+	add hl, hl
+	add hl, de
+	ld a, [hli]
+	ld [wNamedObjectIndexBuffer], a
+	ld a, [hl]
+	ld [wNamedObjectIndexBuffer + 1], a
 	ret
 
 .RawString:

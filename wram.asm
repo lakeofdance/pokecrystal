@@ -1737,8 +1737,8 @@ wEndFlypoint:: db
 
 NEXTU ; d002
 ; unidentified
-wd002:: db
-wd003:: db
+wd002:: dw		;now a word because used by prof oaks pc as num seen
+wd003:: dw		;now a word because used by prof oaks pc as num caught
 wd004:: db
 
 ; mobile?

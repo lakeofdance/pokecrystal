@@ -78,6 +78,7 @@ CheckForLuckyNumberWinners:
 .BoxNLoop:
 	ld a, [bc]
 	inc bc
+	inc bc
 	cp EGG
 	jr z, .SkipBoxMon
 
@@ -151,12 +152,15 @@ CheckForLuckyNumberWinners:
 .done
 	pop hl
 	push hl
-	ld de, -6
+	ld de, -6			; good grief
 	add hl, de
+	ld a, [hld]
+	ld c, a
 	ld a, [hl]
+	ld b, a
 	pop hl
 	pop de
-	push af
+	push bc
 	ld a, c
 	ld b, 1
 	cp 5
@@ -183,6 +187,8 @@ CheckForLuckyNumberWinners:
 	pop bc
 	ld a, b
 	ld [wCurPartySpecies], a
+	ld a, c
+	ld [wCurPartySpecies + 1], a
 	pop bc
 	scf
 	ret
