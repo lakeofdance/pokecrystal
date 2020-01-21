@@ -2209,7 +2209,7 @@ Pokedex_SearchForMons:
 
 .zero_remaining_mons
 	cp 9			;only used by search screen, but a little extra can't hurt
-	jr z, .done
+	jr nc, .done
 	ld [hl], 0
 	inc hl
 	ld [hl], 0
