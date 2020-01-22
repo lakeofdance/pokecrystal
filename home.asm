@@ -196,7 +196,7 @@ CountSetBits::
 
 CountSetBits2::
 ; Count the number of set bits in b bytes starting from hl.
-; Return in a, c and [wNumSetBits].
+; Return in de and [wNumSetBits].
 	ld de, 0
 .next
 	push bc

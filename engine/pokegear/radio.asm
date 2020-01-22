@@ -711,28 +711,50 @@ PokedexShow_GetDexEntryBank:
 
 PokedexShow1:
 	call StartRadioStation
-;
 	ld hl, NUM_POKEMON	;big endian
-;
 .loop
 ;	call Random
 ;	cp NUM_POKEMON
 ;	jr nc, .loop
 ;	ld c, a
-	ld a, l
-	call RandomRange
-	cp l
-	jr nc, .loop
-	ld e, a
 ;
 	ld a, h
-	add 1
-	call RandomRange
+	call RandomRange ; 0 - (a-1)
 	ld d, a
-;
-	push bc
+; The following aims to give a proportional chance of having the max upper byte
+	ld c, h
+	inc c
+	ld a, l
+	call SimpleDivide	; divide a by c, return in b
+	call Random
+	cp b
+	jr nc, .keeploop
+	ld d, h
+.loopL
+	call Random
+	and a
+	jr z, .loopL
+	dec a
+	cp l
+	jr nc, .loopL
+	inc a
+	cp EGG
+	jr nc, .loopL	; also covers -1
+	jr .otherwise
+.keeploop
+	call Random
+	and a
+	jr z, .keeploop
+	cp EGG
+	jr nc, .keeploop
+.otherwise
+	ld e, a
+
 	dec de
+	push bc
+	push de
 	call CheckCaughtMon
+	pop de
 	pop bc
 	jr z, .loop
 	inc de
@@ -751,7 +773,7 @@ PokedexShow2:
 	ld a, [wCurPartySpecies]
 	ld c, a
 	ld a, [wCurPartySpecies + 1]
-	ld b, 0
+	ld b, a
 	dec bc
 	ld hl, PokedexDataPointerTable
 	add hl, bc
