@@ -138,6 +138,8 @@ StartMenu_PrintBugContestStatus:
 	ld de, .None
 	jr z, .no_contest_mon
 	ld [wNamedObjectIndexBuffer], a
+	ld a, [wContestMon + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetPokemonName
 
 .no_contest_mon

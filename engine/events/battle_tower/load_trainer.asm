@@ -121,60 +121,96 @@ Function_LoadRandomBattleTowerMon:
 
 	; Check if mon was already loaded before
 	; Check current and the 2 previous teams
-	; includes check if item is double at the current team
 	ld bc, NICKNAMED_MON_STRUCT_LENGTH
 	call AddNTimes
 	ld a, [hli]
 	ld b, a
-	ld a, [hld]
+	ld a, [hli]
 	ld c, a
 	ld a, [wBT_OTMon1]
 	cp b
-	jr z, .FindARandomBattleTowerMon
-	ld a, [wBT_OTMon1Item]
+	jr nz, .checkitem
+	ld a, [wBT_OTMon1 + 1]
 	cp c
 	jr z, .FindARandomBattleTowerMon
 	ld a, [wBT_OTMon2]
 	cp b
-	jr z, .FindARandomBattleTowerMon
-	ld a, [wBT_OTMon2Item]
+	jr nz, .checkitem
+	ld a, [wBT_OTMon2 + 1]
 	cp c
 	jr z, .FindARandomBattleTowerMon
 	ld a, [wBT_OTMon3]
 	cp b
-	jr z, .FindARandomBattleTowerMon
-	ld a, [wBT_OTMon3Item]
+	jr nz, .checkitem
+	ld a, [wBT_OTMon3 + 1]
 	cp c
 	jr z, .FindARandomBattleTowerMon
 	ld a, [sBTMonPrevTrainer1]
 	cp b
+	jr nz, .checkitem
+	ld a, [sBTMonPrevTrainer1 + 1]
+	cp c
 	jr z, .FindARandomBattleTowerMon
 	ld a, [sBTMonPrevTrainer2]
 	cp b
+	jr nz, .checkitem
+	ld a, [sBTMonPrevTrainer2 + 1]
+	cp c
 	jr z, .FindARandomBattleTowerMon
 	ld a, [sBTMonPrevTrainer3]
 	cp b
+	jr nz, .checkitem
+	ld a, [sBTMonPrevTrainer3 + 1]
+	cp c
 	jr z, .FindARandomBattleTowerMon
 	ld a, [sBTMonPrevPrevTrainer1]
 	cp b
+	jr nz, .checkitem
+	ld a, [sBTMonPrevPrevTrainer1 + 1]
+	cp c
 	jr z, .FindARandomBattleTowerMon
 	ld a, [sBTMonPrevPrevTrainer2]
 	cp b
-	jr z, .FindARandomBattleTowerMon
+	jr nz, .checkitem
+	ld a, [sBTMonPrevPrevTrainer2 + 1]
+	cp c
+	jp z, .FindARandomBattleTowerMon
 	ld a, [sBTMonPrevPrevTrainer3]
 	cp b
-	jr z, .FindARandomBattleTowerMon
+	jr nz, .checkitem
+	ld a, [sBTMonPrevPrevTrainer3 + 1]
+	cp c
+	jp z, .FindARandomBattleTowerMon
+
+	; check for duplicate items in team
+.checkitem
+	ld a, [hld]
+	ld c, a
+	dec hl
+	ld a, [wBT_OTMon1Item]
+	cp c
+	jp z, .FindARandomBattleTowerMon
+	ld a, [wBT_OTMon2Item]
+	cp c
+	jp z, .FindARandomBattleTowerMon
+	ld a, [wBT_OTMon3Item]
+	cp c
+	jp z, .FindARandomBattleTowerMon
 
 	ld bc, NICKNAMED_MON_STRUCT_LENGTH
 	call CopyBytes
 
 	ld a, [wNamedObjectIndexBuffer]
 	push af
+	ld a, [wNamedObjectIndexBuffer + 1]
+	push af
 	push de
 	ld hl, -NICKNAMED_MON_STRUCT_LENGTH
 	add hl, de
-	ld a, [hl]
+	ld a, [hli]
 	ld [wNamedObjectIndexBuffer], a
+	ld a, [hld]
+	ld [wNamedObjectIndexBuffer + 1], a
 	ld bc, PARTYMON_STRUCT_LENGTH
 	add hl, bc
 	push hl
@@ -186,6 +222,8 @@ Function_LoadRandomBattleTowerMon:
 	call CopyBytes
 
 	pop de
+	pop af
+	ld [wNamedObjectIndexBuffer + 1], a
 	pop af
 	ld [wNamedObjectIndexBuffer], a
 	pop bc
