@@ -417,7 +417,7 @@ PopulateDecoCategoryMenu:
 
 GetDecorationData:
 	ld hl, DecorationAttributes
-	ld bc, 6
+	ld bc, 7
 	call AddNTimes
 	ret
 
@@ -441,7 +441,7 @@ DecorationMenuFunction:
 DoDecorationAction2:
 	ld a, [wMenuSelection]
 	call GetDecorationData
-	ld de, 2 ; function 2
+	ld de, 3 ; function 2
 	add hl, de
 	ld a, [hl]
 	ld hl, .DecoActions
@@ -467,7 +467,7 @@ DoDecorationAction2:
 
 GetDecorationFlag:
 	call GetDecorationData
-	ld de, 3 ; event flag
+	ld de, 4 ; event flag
 	add hl, de
 	ld a, [hli]
 	ld d, [hl]
@@ -484,7 +484,7 @@ DecorationFlagAction:
 GetDecorationSprite:
 	ld a, c
 	call GetDecorationData
-	ld de, 5 ; sprite
+	ld de, 6 ; sprite
 	add hl, de
 	ld a, [hl]
 	ld c, a
@@ -497,6 +497,8 @@ INCLUDE "data/decorations/names.asm"
 GetDecoName:
 	ld a, [hli]
 	ld e, [hl]
+	inc hl
+	ld d, [hl]
 	ld bc, wStringBuffer2
 	push bc
 	ld hl, .NameFunctions
@@ -552,6 +554,8 @@ GetDecoName:
 .getpokename
 	push bc
 	ld [wNamedObjectIndexBuffer], a
+	ld a, d
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetPokemonName
 	pop bc
 	jr .copy

@@ -1,6 +1,8 @@
 decoration: MACRO
 	; type, name, command, event flag, tile/sprite
-	db \1, \2, \3
+	db \1 
+	dw \2 
+	db \3
 	dw \4
 	db \5
 ENDM
