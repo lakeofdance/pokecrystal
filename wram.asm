@@ -388,7 +388,7 @@ wBattleMon:: battle_struct wBattleMon ; c62c
 
 	ds 2
 
-wWildMon:: db ; c64e
+wWildMon:: dw ; c64e		;don't think this needs to be a word
 	ds 1
 wEnemyTrainerItem1:: db ; c650
 wEnemyTrainerItem2:: db ; c651
@@ -1891,7 +1891,7 @@ wPoisonStepPartyFlags:: ds PARTY_LENGTH
 wPoisonStepDataEnd::
 ENDU ; d04f
 
-	ds 23
+;	ds 23
 ENDU ; d066
 
 wTMHMMoveNameBackup:: ds MOVE_NAME_LENGTH ; d066
@@ -2464,7 +2464,7 @@ wObjectStructsEnd:: ; d6de
 
 wCmdQueue:: ds CMDQUEUE_CAPACITY * CMDQUEUE_ENTRY_SIZE
 
-	ds 40
+;	ds 40
 
 wMapObjects:: ; d71e
 wPlayerObject:: map_object wPlayer
@@ -2805,7 +2805,7 @@ wSafariTimeRemaining:: dw ; dc7a
 
 wPhoneList:: ds CONTACT_LIST_SIZE ; dc7c
 ; dc86
-	ds 23
+;	ds 23
 
 wLuckyNumberShowFlag:: db ; dc9d
 	ds 1
@@ -2867,12 +2867,15 @@ wPartyMonOT:: ds NAME_LENGTH * PARTY_LENGTH ; ddff
 wPartyMonNicknames:: ds MON_NAME_LENGTH * PARTY_LENGTH ; de41
 wPartyMonNicknamesEnd::
 
-	ds 22
+;	ds 22
 
-wPokedexCaught:: flag_array NUM_POKEMON ; de99
+; prev an array of length NUM_POKEMON
+; this way adding mons doesn't break saves
+; but make sure to increase if NUM_POKEMON goes above 600.
+wPokedexCaught:: flag_array $258 ; de99
 wEndPokedexCaught::
 
-wPokedexSeen:: flag_array NUM_POKEMON ; deb9
+wPokedexSeen:: flag_array $258 ; deb9
 wEndPokedexSeen::
 
 wUnownDex:: ds NUM_UNOWN ; ded9

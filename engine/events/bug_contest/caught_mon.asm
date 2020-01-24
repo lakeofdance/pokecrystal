@@ -5,8 +5,8 @@ BugContest_SetCaughtContestMon:
 	ld [wNamedObjectIndexBuffer], a
 	ld a, [wContestMon + 1]
 	ld [wNamedObjectIndexBuffer + 1], a
-	farcall DisplayAlreadyCaughtText		;todo
-	farcall DisplayCaughtContestMonStats		;todo
+	farcall DisplayAlreadyCaughtText
+	farcall DisplayCaughtContestMonStats
 	lb bc, 14, 7
 	call PlaceYesNoBox
 	ret c
