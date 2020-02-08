@@ -2,9 +2,9 @@ MoreFrames:
 
 YamaskFrames:     INCLUDE "gfx/pokemon/yamask/frames.asm"
 CofagrigusFrames: INCLUDE "gfx/pokemon/cofagrigus/frames.asm"
-Mon_103Frames:    INCLUDE "gfx/pokemon/mon_103/frames.asm"
-Mon_104Frames:    INCLUDE "gfx/pokemon/mon_104/frames.asm"
-Mon_105Frames:    INCLUDE "gfx/pokemon/mon_105/frames.asm"
+FroakieFrames:    INCLUDE "gfx/pokemon/froakie/frames.asm"
+FrogadierFrames:  INCLUDE "gfx/pokemon/frogadier/frames.asm"
+GreninjaFrames:   INCLUDE "gfx/pokemon/greninja/frames.asm"
 Mon_106Frames:    INCLUDE "gfx/pokemon/mon_106/frames.asm"
 Mon_107Frames:    INCLUDE "gfx/pokemon/mon_107/frames.asm"
 Mon_108Frames:    INCLUDE "gfx/pokemon/mon_108/frames.asm"

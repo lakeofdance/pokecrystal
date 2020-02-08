@@ -521,12 +521,12 @@ PokemonPicPointers::
 	dba YamaskBackpic
 	dba CofagrigusFrontpic
 	dba CofagrigusBackpic
-	dba Mon103Frontpic
-	dba Mon103Backpic
-	dba Mon104Frontpic
-	dba Mon104Backpic
-	dba Mon105Frontpic
-	dba Mon105Backpic
+	dba FroakieFrontpic
+	dba FroakieBackpic
+	dba FrogadierFrontpic
+	dba FrogadierBackpic
+	dba GreninjaFrontpic
+	dba GreninjaBackpic
 	dba Mon106Frontpic
 	dba Mon106Backpic
 	dba Mon107Frontpic

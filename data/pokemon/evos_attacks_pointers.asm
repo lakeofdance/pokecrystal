@@ -257,9 +257,9 @@ EvosAttacksPointers::
 	dw 0, 0, 0
 	dw YamaskEvosAttacks
 	dw CofagrigusEvosAttacks
-	dw MonEvosAttacks
-	dw MonEvosAttacks
-	dw MonEvosAttacks
+	dw FroakieEvosAttacks
+	dw FrogadierEvosAttacks
+	dw GreninjaEvosAttacks
 	dw MonEvosAttacks
 	dw MonEvosAttacks
 	dw MonEvosAttacks

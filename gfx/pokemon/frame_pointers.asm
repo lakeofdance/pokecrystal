@@ -255,9 +255,9 @@ FramesPointers:
 	dw 0, 0, 0
 	dw YamaskFrames
 	dw CofagrigusFrames
-	dw Mon_103Frames
-	dw Mon_104Frames
-	dw Mon_105Frames
+	dw FroakieFrames
+	dw FrogadierFrames
+	dw GreninjaFrames
 	dw Mon_106Frames
 	dw Mon_107Frames
 	dw Mon_108Frames

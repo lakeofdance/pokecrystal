@@ -255,7 +255,7 @@ EggMovePointers::
 	dw 0, 0, 0
 	dw YamaskEggMoves
 	dw NoEggMoves
-	dw NoEggMoves
+	dw FroakieEggMoves
 	dw NoEggMoves
 	dw NoEggMoves
 	dw NoEggMoves

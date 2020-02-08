@@ -812,5 +812,9 @@ YamaskEggMoves:
 	db PAIN_SPLIT
 	db -1 ; end
 
+FroakieEggMoves:
+	db MIND_READER
+	db -1 ; end
+
 NoEggMoves:
 	db -1 ; end

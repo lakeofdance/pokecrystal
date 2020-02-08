@@ -251,14 +251,14 @@ PokedexDataPointerTable:
 	dw LugiaPokedexEntry
 	dw HoOhPokedexEntry
 	dw CelebiPokedexEntry
-	dw Mon_103PokedexEntry
-	dw Mon_103PokedexEntry
+	dw CelebiPokedexEntry
+	dw CelebiPokedexEntry
 	dw 0, 0, 0		; EGG, -1, 256
 	dw YamaskPokedexEntry
 	dw CofagrigusPokedexEntry
-	dw Mon_103PokedexEntry
-	dw Mon_104PokedexEntry
-	dw Mon_105PokedexEntry
+	dw FroakiePokedexEntry
+	dw FrogadierPokedexEntry
+	dw GreninjaPokedexEntry
 	dw Mon_106PokedexEntry
 	dw Mon_107PokedexEntry
 	dw Mon_108PokedexEntry

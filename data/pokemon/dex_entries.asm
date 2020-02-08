@@ -271,9 +271,9 @@ SECTION "Pokedex Entries 257-320", ROMX
 
 YamaskPokedexEntry::     INCLUDE "data/pokemon/dex_entries+/yamask.asm"
 CofagrigusPokedexEntry:: INCLUDE "data/pokemon/dex_entries+/cofagrigus.asm"
-Mon_103PokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_103.asm"
-Mon_104PokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_104.asm"
-Mon_105PokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_105.asm"
+FroakiePokedexEntry::    INCLUDE "data/pokemon/dex_entries+/froakie.asm"
+FrogadierPokedexEntry::  INCLUDE "data/pokemon/dex_entries+/frogadier.asm"
+GreninjaPokedexEntry::   INCLUDE "data/pokemon/dex_entries+/greninja.asm"
 Mon_106PokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_106.asm"
 Mon_107PokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_107.asm"
 Mon_108PokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_108.asm"

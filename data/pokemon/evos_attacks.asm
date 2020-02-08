@@ -3385,6 +3385,56 @@ CofagrigusEvosAttacks:
 	db 57, DESTINY_BOND
 	db 0 ; no more level-up moves
 
+FroakieEvosAttacks:
+	dbbw EVOLVE_LEVEL, 16, FROGADIER
+	db 0 ; no more evolutions
+	db 1, POUND
+	db 1, GROWL
+	db 5, BUBBLE
+	db 8, QUICK_ATTACK
+	db 10, LICK
+	db 14, WATER_GUN
+	db 18, SMOKESCREEN
+	db 35, SUBSTITUTE
+	db 43, DOUBLE_TEAM
+	db 48, HYDRO_PUMP
+	db 0 ; no more level-up moves
+
+FrogadierEvosAttacks:
+	dbbw EVOLVE_LEVEL, 36, GRENINJA
+	db 0 ; no more evolutions
+	db 1, POUND
+	db 1, GROWL
+	db 1, BUBBLE
+	db 5, BUBBLE
+	db 8, QUICK_ATTACK
+	db 10, LICK
+	db 14, WATER_GUN
+	db 19, SMOKESCREEN
+	db 40, SUBSTITUTE
+	db 50, DOUBLE_TEAM
+	db 56, HYDRO_PUMP
+	db 0 ; no more level-up moves
+
+GreninjaEvosAttacks:
+	db 0 ; no more evolutions
+	db 1, POUND
+	db 1, GROWL
+	db 1, HAZE
+	db 1, QUICK_ATTACK
+	db 5, BUBBLE
+	db 8, QUICK_ATTACK
+	db 10, LICK
+	db 14, WATER_GUN
+	db 19, SMOKESCREEN
+	db 28, SPIKES
+	db 33, FAINT_ATTACK
+	db 42, SUBSTITUTE
+	db 56, DOUBLE_TEAM
+	db 68, HYDRO_PUMP
+	db 70, HAZE
+	db 0 ; no more level-up moves
+
 MonEvosAttacks:
 	db 0 ; no more evolutions
 	db 1, TACKLE

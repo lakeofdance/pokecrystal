@@ -255,9 +255,9 @@ AnimationIdlePointers:
 	dw 0, 0, 0
 	dw YamaskAnimationIdle
 	dw CofagrigusAnimationIdle
-	dw Mon_103AnimationIdle
-	dw Mon_104AnimationIdle
-	dw Mon_105AnimationIdle
+	dw FroakieAnimationIdle
+	dw FrogadierAnimationIdle
+	dw GreninjaAnimationIdle
 	dw Mon_106AnimationIdle
 	dw Mon_107AnimationIdle
 	dw Mon_108AnimationIdle

@@ -589,18 +589,18 @@ INCBIN "gfx/footprints/256.1bpp",        footprint_bottom
 ; 257-264 top halves
 INCBIN "gfx/footprints/yamask.1bpp",     footprint_top
 INCBIN "gfx/footprints/cofagrigus.1bpp", footprint_top
-INCBIN "gfx/footprints/mon_103.1bpp",    footprint_top
-INCBIN "gfx/footprints/mon_104.1bpp",    footprint_top
-INCBIN "gfx/footprints/mon_105.1bpp",    footprint_top
+INCBIN "gfx/footprints/froakie.1bpp",    footprint_top
+INCBIN "gfx/footprints/frogadier.1bpp",  footprint_top
+INCBIN "gfx/footprints/greninja.1bpp",   footprint_top
 INCBIN "gfx/footprints/mon_106.1bpp",    footprint_top
 INCBIN "gfx/footprints/mon_107.1bpp",    footprint_top
 INCBIN "gfx/footprints/mon_108.1bpp",    footprint_top
 ; 257-264 bottom halves
 INCBIN "gfx/footprints/yamask.1bpp",     footprint_bottom
 INCBIN "gfx/footprints/cofagrigus.1bpp", footprint_bottom
-INCBIN "gfx/footprints/mon_103.1bpp",    footprint_bottom
-INCBIN "gfx/footprints/mon_104.1bpp",    footprint_bottom
-INCBIN "gfx/footprints/mon_105.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/froakie.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/frogadier.1bpp",  footprint_bottom
+INCBIN "gfx/footprints/greninja.1bpp",   footprint_bottom
 INCBIN "gfx/footprints/mon_106.1bpp",    footprint_bottom
 INCBIN "gfx/footprints/mon_107.1bpp",    footprint_bottom
 INCBIN "gfx/footprints/mon_108.1bpp",    footprint_bottom

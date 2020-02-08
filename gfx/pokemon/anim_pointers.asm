@@ -255,9 +255,9 @@ AnimationPointers:
 	dw 0, 0, 0
 	dw YamaskAnimation
 	dw CofagrigusAnimation
-	dw Mon_103Animation
-	dw Mon_104Animation
-	dw Mon_105Animation
+	dw FroakieAnimation
+	dw FrogadierAnimation
+	dw GreninjaAnimation
 	dw Mon_106Animation
 	dw Mon_107Animation
 	dw Mon_108Animation

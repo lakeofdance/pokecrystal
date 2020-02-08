@@ -254,3 +254,6 @@ OldPokedexOrder:
 	dw CELEBI
 	dw YAMASK
 	dw COFAGRIGUS
+	dw FROAKIE
+	dw FROGADIER
+	dw GRENINJA

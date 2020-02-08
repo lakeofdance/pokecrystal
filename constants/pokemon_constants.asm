@@ -280,10 +280,10 @@ JOHTO_POKEMON EQU const_value
 	const MON_100    ; 100, don't use
 	const YAMASK     ; 101
 	const COFAGRIGUS ; 102
-	const MON_103
-	const MON_104
-	const MON_105
-NUM_DEX_MONS EQU const_value + -8 	;used in the pokedex
+	const FROAKIE    ; 103
+	const FROGADIER  ; 104
+	const GRENINJA   ; 105
+NUM_DEX_MONS EQU const_value + -5 	;used in the pokedex
 	const MON_106
 	const MON_107
 	const MON_108

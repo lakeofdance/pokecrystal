@@ -255,9 +255,9 @@ BitmasksPointers:
 	dw 0, 0, 0
 	dw YamaskBitmasks
 	dw CofagrigusBitmasks
-	dw Mon_103Bitmasks
-	dw Mon_104Bitmasks
-	dw Mon_105Bitmasks
+	dw FroakieBitmasks
+	dw FrogadierBitmasks
+	dw GreninjaBitmasks
 	dw Mon_106Bitmasks
 	dw Mon_107Bitmasks
 	dw Mon_108Bitmasks

@@ -263,9 +263,9 @@ PokemonCries::
 	mon_cry CRY_NIDORAN_M,      0,     0 ; DNU2
 	mon_cry CRY_NATU,       -$020,  $150 ; YAMASK
 	mon_cry CRY_SLOWKING,   -$100,  $180 ; COFAGRIGUS
-	mon_cry CRY_NIDORAN_M,      0,     0 ; 103
-	mon_cry CRY_NIDORAN_M,      0,     0 ; 104
-	mon_cry CRY_NIDORAN_M,      0,     0 ; 105
+	mon_cry CRY_PIDGEY,      $060,  $17f ; FROAKIE
+	mon_cry CRY_PIDGEY,      $030,  $17f ; FROGADIER
+	mon_cry CRY_EKANS,       $110,  $0f0 ; GRENINJA
 	mon_cry CRY_NIDORAN_M,      0,     0 ; 106
 	mon_cry CRY_NIDORAN_M,      0,     0 ; 107
 	mon_cry CRY_NIDORAN_M,      0,     0 ; 108

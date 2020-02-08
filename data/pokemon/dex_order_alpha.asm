@@ -65,6 +65,8 @@ AlphabeticalPokedexOrder:
 	dw FLAAFFY
 	dw FLAREON
 	dw FORRETRESS
+	dw FROAKIE
+	dw FROGADIER
 	dw FURRET
 	dw GASTLY
 	dw GENGAR
@@ -78,6 +80,7 @@ AlphabeticalPokedexOrder:
 	dw GOLEM
 	dw GRANBULL
 	dw GRAVELER
+	dw GRENINJA
 	dw GRIMER
 	dw GROWLITHE
 	dw GYARADOS
