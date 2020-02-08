@@ -251,9 +251,6 @@ GetDexEntryPointer:
 	inc hl
 	ld d, [hl]
 	push de
-	ld a, c
-	and a
-	jr nz, .MorePokedexEntryBanks
 	ld a, b
 	rlca
 	rlca
@@ -261,7 +258,14 @@ GetDexEntryPointer:
 	ld hl, .PokedexEntryBanks
 	ld d, 0
 	ld e, a
+	ld a, c
+	inc a
+.loop
+	dec a
 	add hl, de
+	ld e, 4
+	and a
+	jr nz, .loop
 	ld b, [hl]
 	pop de
 	pop hl
@@ -271,15 +275,11 @@ GetDexEntryPointer:
 	db BANK("Pokedex Entries 001-064")
 	db BANK("Pokedex Entries 065-128")
 	db BANK("Pokedex Entries 129-192")
-	db BANK("Pokedex Entries 193-251")
-
-
-.MorePokedexEntryBanks
-	ld a, BANK("Pokedex Entries 257+")
-	ld b, a
-	pop de
-	pop hl
-	ret
+	db BANK("Pokedex Entries 193-253")
+	db BANK("Pokedex Entries 257-320")
+	db BANK("Pokedex Entries 321-384")
+	db BANK("Pokedex Entries 385-448")
+	db BANK("Pokedex Entries 449-509")
 
 GetDexEntryPagePointer:
 	call GetDexEntryPointer

@@ -3184,7 +3184,7 @@ IsThePlayerMonTypesEffectiveAgainstOTMon:
 	ld c, a
 	ld a, [hl]
 	ld b, a
-	call CheckForBaseDataBank1
+	call .CheckForBaseDataBank
 .checked
 	push af
 	ld a, BASE_DATA_SIZE

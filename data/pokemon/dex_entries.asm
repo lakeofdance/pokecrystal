@@ -205,7 +205,7 @@ SunkernPokedexEntry::    INCLUDE "data/pokemon/dex_entries/sunkern.asm"
 SunfloraPokedexEntry::   INCLUDE "data/pokemon/dex_entries/sunflora.asm"
 
 
-SECTION "Pokedex Entries 193-251", ROMX
+SECTION "Pokedex Entries 193-253", ROMX
 
 YanmaPokedexEntry::      INCLUDE "data/pokemon/dex_entries/yanma.asm"
 WooperPokedexEntry::     INCLUDE "data/pokemon/dex_entries/wooper.asm"
@@ -267,7 +267,7 @@ LugiaPokedexEntry::      INCLUDE "data/pokemon/dex_entries/lugia.asm"
 HoOhPokedexEntry::       INCLUDE "data/pokemon/dex_entries/ho_oh.asm"
 CelebiPokedexEntry::     INCLUDE "data/pokemon/dex_entries/celebi.asm"
 
-SECTION "Pokedex Entries 257-456", ROMX
+SECTION "Pokedex Entries 257-320", ROMX
 
 YamaskPokedexEntry::     INCLUDE "data/pokemon/dex_entries+/yamask.asm"
 CofagrigusPokedexEntry:: INCLUDE "data/pokemon/dex_entries+/cofagrigus.asm"
@@ -333,6 +333,9 @@ Mon_13DPokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_13D.asm"
 Mon_13EPokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_13E.asm"
 Mon_13FPokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_13F.asm"
 Mon_140PokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_140.asm"
+
+SECTION "Pokedex Entries 321-384", ROMX
+
 Mon_141PokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_141.asm"
 Mon_142PokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_142.asm"
 Mon_143PokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_143.asm"
@@ -397,6 +400,9 @@ Mon_17DPokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_17D.asm"
 Mon_17EPokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_17E.asm"
 Mon_17FPokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_17F.asm"
 Mon_180PokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_180.asm"
+
+SECTION "Pokedex Entries 385-448", ROMX
+
 Mon_181PokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_181.asm"
 Mon_182PokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_182.asm"
 Mon_183PokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_183.asm"
@@ -461,6 +467,9 @@ Mon_1BDPokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_1BD.asm"
 Mon_1BEPokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_1BE.asm"
 Mon_1BFPokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_1BF.asm"
 Mon_1C0PokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_1C0.asm"
+
+SECTION "Pokedex Entries 449-509", ROMX
+
 Mon_1C1PokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_1C1.asm"
 Mon_1C2PokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_1C2.asm"
 Mon_1C3PokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_1C3.asm"
@@ -469,9 +478,6 @@ Mon_1C5PokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_1C5.asm"
 Mon_1C6PokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_1C6.asm"
 Mon_1C7PokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_1C7.asm"
 Mon_1C8PokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_1C8.asm"
-
-SECTION "Pokedex Entries 457-509", ROMX
-
 Mon_1C9PokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_1C9.asm"
 Mon_1CAPokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_1CA.asm"
 Mon_1CBPokedexEntry::    INCLUDE "data/pokemon/dex_entries+/mon_1CB.asm"

@@ -241,13 +241,15 @@ ROMX $5e
 	"Pics 23"
 ROMX $5f
 	"Mobile 5F"
-	"Pokedex Entries 257-456"
+	"Pokedex Entries 257-320"
+	"Pokedex Entries 321-384"
+	"Pokedex Entries 385-448"
 ROMX $60
 	"Map Scripts 13"
 	"Pokedex Entries 001-064"
 ROMX $61
 	"Map Scripts 14"
-	"Pokedex Entries 457-509"
+	"Pokedex Entries 449-509"
 ROMX $62
 	"Map Scripts 15"
 ROMX $63
@@ -289,7 +291,7 @@ ROMX $72
 	"Pics 27"
 ROMX $73
 	"Pokedex Entries 129-192"
-	"Pokedex Entries 193-251"
+	"Pokedex Entries 193-253"
 ROMX $74
 	"Pics 28"
 ROMX $75
