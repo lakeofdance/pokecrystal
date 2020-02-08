@@ -493,17 +493,16 @@ PlacePartyMonGender:
 	db "…UNKNOWN@"
 
 PartyMenuCheckEgg:
-	ld a, LOW(wPartySpecies)
-	add b
-;
-	add b
-;
+	push hl
+	ld hl, wPartySpecies
+	ld a, b
 	ld e, a
-	ld a, HIGH(wPartySpecies)
-	adc 0
-	ld d, a
-	ld a, [de]
+	ld d, 0
+	add hl, de
+	add hl, de
+	ld a, [hl]
 	cp EGG
+	pop hl
 	ret
 
 GetPartyMenuQualityIndexes:
