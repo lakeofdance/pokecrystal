@@ -270,6 +270,7 @@ EvosAttacksPointers::
 	dw MonEvosAttacks
 	dw MonEvosAttacks
 	dw MonEvosAttacks
+	dw MonEvosAttacks ;110
 	dw MonEvosAttacks
 	dw MonEvosAttacks
 	dw MonEvosAttacks
@@ -285,6 +286,7 @@ EvosAttacksPointers::
 	dw MonEvosAttacks
 	dw MonEvosAttacks
 	dw MonEvosAttacks
+	dw MonEvosAttacks ;120
 	dw MonEvosAttacks
 	dw MonEvosAttacks
 	dw MonEvosAttacks
@@ -300,5 +302,212 @@ EvosAttacksPointers::
 	dw MonEvosAttacks
 	dw MonEvosAttacks
 	dw MonEvosAttacks
+	dw MonEvosAttacks ;130
 	dw MonEvosAttacks
 	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks ;140
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks ;150
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks ;160
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks ;170
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks ;180
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks ;190
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks ;1A0
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks ;1B0
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks ;1C0
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks ;1D0
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks ;1E0
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks ;1F0
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks
+	dw MonEvosAttacks ;200

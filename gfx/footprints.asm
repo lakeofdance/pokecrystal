@@ -9,6 +9,7 @@ footprint_bottom EQUS "2 * LEN_1BPP_TILE, 2 * LEN_1BPP_TILE"
 
 ; Entries correspond to Pokémon species, two apiece, 8 tops then 8 bottoms
 
+Footprints:
 ; 001-008 top halves
 INCBIN "gfx/footprints/bulbasaur.1bpp",  footprint_top
 INCBIN "gfx/footprints/ivysaur.1bpp",    footprint_top
@@ -683,7 +684,7 @@ INCBIN "gfx/footprints/mon_12C.1bpp",    footprint_top
 INCBIN "gfx/footprints/mon_12D.1bpp",    footprint_top
 INCBIN "gfx/footprints/mon_12E.1bpp",    footprint_top
 INCBIN "gfx/footprints/mon_12F.1bpp",    footprint_top
-INCBIN "gfx/footprints/celebi.1bpp",     footprint_top
+INCBIN "gfx/footprints/mon_130.1bpp",    footprint_top
 ; 297-304 bottom halves
 INCBIN "gfx/footprints/mon_129.1bpp",    footprint_bottom
 INCBIN "gfx/footprints/mon_12A.1bpp",    footprint_bottom
@@ -692,4 +693,472 @@ INCBIN "gfx/footprints/mon_12C.1bpp",    footprint_bottom
 INCBIN "gfx/footprints/mon_12D.1bpp",    footprint_bottom
 INCBIN "gfx/footprints/mon_12E.1bpp",    footprint_bottom
 INCBIN "gfx/footprints/mon_12F.1bpp",    footprint_bottom
-INCBIN "gfx/footprints/celebi.1bpp",     footprint_bottom
+INCBIN "gfx/footprints/mon_130.1bpp",    footprint_bottom
+; 305-312 top halves
+INCBIN "gfx/footprints/mon_131.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_132.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_133.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_134.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_135.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_136.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_137.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_138.1bpp",    footprint_top
+; 305-312 bottom halves
+INCBIN "gfx/footprints/mon_131.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_132.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_133.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_134.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_135.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_136.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_137.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_138.1bpp",    footprint_bottom
+; 313-320 top halves
+INCBIN "gfx/footprints/mon_139.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_13A.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_13B.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_13C.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_13D.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_13E.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_13F.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_140.1bpp",    footprint_top
+; 313-320 bottom halves
+INCBIN "gfx/footprints/mon_139.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_13A.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_13B.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_13C.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_13D.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_13E.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_13F.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_140.1bpp",    footprint_bottom
+; 321-328 top halves
+INCBIN "gfx/footprints/mon_141.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_142.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_143.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_144.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_145.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_146.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_147.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_148.1bpp",    footprint_top
+; 321-328 bottom halves
+INCBIN "gfx/footprints/mon_141.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_142.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_143.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_144.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_145.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_146.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_147.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_148.1bpp",    footprint_bottom
+; 329-336 top halves
+INCBIN "gfx/footprints/mon_149.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_14A.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_14B.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_14C.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_14D.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_14E.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_14F.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_150.1bpp",    footprint_top
+; 329-336 bottom halves
+INCBIN "gfx/footprints/mon_149.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_14A.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_14B.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_14C.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_14D.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_14E.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_14F.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_150.1bpp",    footprint_bottom
+; 337-344 top halves
+INCBIN "gfx/footprints/mon_151.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_152.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_153.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_154.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_155.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_156.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_157.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_158.1bpp",    footprint_top
+; 337-344 bottom halves
+INCBIN "gfx/footprints/mon_151.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_152.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_153.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_154.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_155.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_156.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_157.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_158.1bpp",    footprint_bottom
+; 345-352 top halves
+INCBIN "gfx/footprints/mon_159.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_15A.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_15B.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_15C.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_15D.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_15E.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_15F.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_160.1bpp",    footprint_top
+; 345-352 bottom halves
+INCBIN "gfx/footprints/mon_159.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_15A.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_15B.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_15C.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_15D.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_15E.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_15F.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_160.1bpp",    footprint_bottom
+; 353-360 top halves
+INCBIN "gfx/footprints/mon_161.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_162.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_163.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_164.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_165.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_166.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_167.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_168.1bpp",    footprint_top
+; 353-360 bottom halves
+INCBIN "gfx/footprints/mon_161.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_162.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_163.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_164.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_165.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_166.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_167.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_168.1bpp",    footprint_bottom
+; 361-368 top halves
+INCBIN "gfx/footprints/mon_169.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_16A.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_16B.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_16C.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_16D.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_16E.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_16F.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_170.1bpp",    footprint_top
+; 361-368 bottom halves
+INCBIN "gfx/footprints/mon_169.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_16A.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_16B.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_16C.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_16D.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_16E.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_16F.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_170.1bpp",    footprint_bottom
+; 369-376 top halves
+INCBIN "gfx/footprints/mon_171.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_172.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_173.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_174.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_175.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_176.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_177.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_178.1bpp",    footprint_top
+; 369-376 bottom halves
+INCBIN "gfx/footprints/mon_171.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_172.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_173.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_174.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_175.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_176.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_177.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_178.1bpp",    footprint_bottom
+; 377-384 top halves
+INCBIN "gfx/footprints/mon_179.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_17A.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_17B.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_17C.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_17D.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_17E.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_17F.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_180.1bpp",    footprint_top
+; 377-384 bottom halves
+INCBIN "gfx/footprints/mon_179.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_17A.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_17B.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_17C.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_17D.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_17E.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_17F.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_180.1bpp",    footprint_bottom
+; 385-392 top halves
+INCBIN "gfx/footprints/mon_181.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_182.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_183.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_184.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_185.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_186.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_187.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_188.1bpp",    footprint_top
+; 385-392 bottom halves
+INCBIN "gfx/footprints/mon_181.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_182.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_183.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_184.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_185.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_186.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_187.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_188.1bpp",    footprint_bottom
+; 393-400 top halves
+INCBIN "gfx/footprints/mon_189.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_18A.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_18B.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_18C.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_18D.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_18E.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_18F.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_190.1bpp",    footprint_top
+; 393-400 bottom halves
+INCBIN "gfx/footprints/mon_189.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_18A.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_18B.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_18C.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_18D.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_18E.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_18F.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_190.1bpp",    footprint_bottom
+; 401-408 top halves
+INCBIN "gfx/footprints/mon_191.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_192.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_193.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_194.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_195.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_196.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_197.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_198.1bpp",    footprint_top
+; 401-408 bottom halves
+INCBIN "gfx/footprints/mon_191.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_192.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_193.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_194.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_195.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_196.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_197.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_198.1bpp",    footprint_bottom
+; 409-416 top halves
+INCBIN "gfx/footprints/mon_199.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_19A.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_19B.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_19C.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_19D.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_19E.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_19F.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1A0.1bpp",    footprint_top
+; 409-416 bottom halves
+INCBIN "gfx/footprints/mon_199.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_19A.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_19B.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_19C.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_19D.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_19E.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_19F.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1A0.1bpp",    footprint_bottom
+; 417-424 top halves
+INCBIN "gfx/footprints/mon_1A1.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1A2.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1A3.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1A4.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1A5.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1A6.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1A7.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1A8.1bpp",    footprint_top
+; 417-424 bottom halves
+INCBIN "gfx/footprints/mon_1A1.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1A2.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1A3.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1A4.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1A5.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1A6.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1A7.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1A8.1bpp",    footprint_bottom
+; 425-432 top halves
+INCBIN "gfx/footprints/mon_1A9.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1AA.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1AB.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1AC.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1AD.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1AE.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1AF.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1B0.1bpp",    footprint_top
+; 425-432 bottom halves
+INCBIN "gfx/footprints/mon_1A9.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1AA.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1AB.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1AC.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1AD.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1AE.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1AF.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1B0.1bpp",    footprint_bottom
+; 433-440 top halves
+INCBIN "gfx/footprints/mon_1B1.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1B2.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1B3.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1B4.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1B5.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1B6.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1B7.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1B8.1bpp",    footprint_top
+; 433-440 bottom halves
+INCBIN "gfx/footprints/mon_1B1.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1B2.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1B3.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1B4.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1B5.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1B6.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1B7.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1B8.1bpp",    footprint_bottom
+; 441-448 top halves
+INCBIN "gfx/footprints/mon_1B9.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1BA.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1BB.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1BC.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1BD.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1BE.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1BF.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1C0.1bpp",    footprint_top
+; 441-448 bottom halves
+INCBIN "gfx/footprints/mon_1B9.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1BA.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1BB.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1BC.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1BD.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1BE.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1BF.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1C0.1bpp",    footprint_bottom
+; 449-456 top halves
+INCBIN "gfx/footprints/mon_1C1.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1C2.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1C3.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1C4.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1C5.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1C6.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1C7.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1C8.1bpp",    footprint_top
+; 449-456 bottom halves
+INCBIN "gfx/footprints/mon_1C1.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1C2.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1C3.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1C4.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1C5.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1C6.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1C7.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1C8.1bpp",    footprint_bottom
+; 457-464 top halves
+INCBIN "gfx/footprints/mon_1C9.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1CA.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1CB.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1CC.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1CD.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1CE.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1CF.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1D0.1bpp",    footprint_top
+; 457-464 bottom halves
+INCBIN "gfx/footprints/mon_1C9.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1CA.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1CB.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1CC.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1CD.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1CE.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1CF.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1D0.1bpp",    footprint_bottom
+; 465-472 top halves
+INCBIN "gfx/footprints/mon_1D1.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1D2.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1D3.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1D4.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1D5.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1D6.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1D7.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1D8.1bpp",    footprint_top
+; 465-472 bottom halves
+INCBIN "gfx/footprints/mon_1D1.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1D2.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1D3.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1D4.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1D5.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1D6.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1D7.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1D8.1bpp",    footprint_bottom
+; 473-480 top halves
+INCBIN "gfx/footprints/mon_1D9.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1DA.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1DB.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1DC.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1DD.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1DE.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1DF.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1E0.1bpp",    footprint_top
+; 473-480 bottom halves
+INCBIN "gfx/footprints/mon_1D9.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1DA.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1DB.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1DC.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1DD.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1DE.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1DF.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1E0.1bpp",    footprint_bottom
+; 481-488 top halves
+INCBIN "gfx/footprints/mon_1E1.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1E2.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1E3.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1E4.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1E5.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1E6.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1E7.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1E8.1bpp",    footprint_top
+; 481-488 bottom halves
+INCBIN "gfx/footprints/mon_1E1.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1E2.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1E3.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1E4.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1E5.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1E6.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1E7.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1E8.1bpp",    footprint_bottom
+; 489-496 top halves
+INCBIN "gfx/footprints/mon_1E9.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1EA.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1EB.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1EC.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1ED.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1EE.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1EF.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1F0.1bpp",    footprint_top
+; 489-496 bottom halves
+INCBIN "gfx/footprints/mon_1E9.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1EA.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1EB.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1EC.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1ED.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1EE.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1EF.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1F0.1bpp",    footprint_bottom
+; 497-504 top halves
+INCBIN "gfx/footprints/mon_1F1.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1F2.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1F3.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1F4.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1F5.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1F6.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1F7.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1F8.1bpp",    footprint_top
+; 497-504 bottom halves
+INCBIN "gfx/footprints/mon_1F1.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1F2.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1F3.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1F4.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1F5.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1F6.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1F7.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1F8.1bpp",    footprint_bottom
+; 505-512 top halves
+INCBIN "gfx/footprints/mon_1F9.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1FA.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1FB.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1FC.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1FD.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1FE.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_1FF.1bpp",    footprint_top
+INCBIN "gfx/footprints/mon_200.1bpp",    footprint_top
+; 505-512 bottom halves
+INCBIN "gfx/footprints/mon_1F9.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1FA.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1FB.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1FC.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1FD.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1FE.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_1FF.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/mon_200.1bpp",    footprint_bottom

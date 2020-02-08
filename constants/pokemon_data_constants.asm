@@ -25,6 +25,9 @@ BASE_EGG_GROUPS  EQUS "(wBaseEggGroups - wCurBaseData)"
 BASE_TMHM        EQUS "(wBaseTMHM - wCurBaseData)"
 BASE_DATA_SIZE   EQUS "(wCurBaseDataEnd - wCurBaseData)"
 
+; the first mon in BaseData2
+BASE_BANK_SWITCH EQU $191
+
 ; gender ratio constants
 GENDER_F0      EQU 0 percent
 GENDER_F12_5   EQU 12 percent + 1

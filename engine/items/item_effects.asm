@@ -776,7 +776,7 @@ GetPokedexEntryBank:
 	db BANK("Pokedex Entries 193-251")
 
 .MorePokedexEntryBanks
-	ld a, BANK("Pokedex Entries 257+")
+	ld a, BANK("Pokedex Entries 257-456")
 	pop de
 	pop hl
 	ret

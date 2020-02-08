@@ -243,24 +243,27 @@ INCLUDE "engine/events/card_key.asm"
 INCLUDE "engine/events/basement_key.asm"
 INCLUDE "engine/events/sacred_ash.asm"
 INCLUDE "engine/gfx/load_pics.asm"
+INCLUDE "engine/pokemon/move_mon_wo_mail.asm"
 ;
 
 
 SECTION "bank14", ROMX
 
-INCLUDE "engine/pokemon/party_menu.asm"
-INCLUDE "engine/pokemon/tempmon.asm"
-INCLUDE "engine/pokemon/types.asm"
-INCLUDE "engine/pokemon/mon_stats.asm"
-INCLUDE "engine/pokemon/experience.asm"
-INCLUDE "engine/pokemon/switchpartymons.asm"
-INCLUDE "engine/pokemon/move_mon_wo_mail.asm"
 INCLUDE "data/pokemon/base_stats.asm"
-INCLUDE "data/pokemon/names.asm"
+
+SECTION "Base Stats 2", ROMX
+
+INCLUDE "data/pokemon/base_stats2.asm"
 
 
 SECTION "Crystal Phone Text", ROMX
 
+INCLUDE "engine/pokemon/party_menu.asm"
+INCLUDE "engine/pokemon/switchpartymons.asm"
+INCLUDE "engine/pokemon/experience.asm"
+INCLUDE "engine/pokemon/mon_stats.asm"
+INCLUDE "engine/pokemon/types.asm"
+INCLUDE "engine/pokemon/tempmon.asm"
 INCLUDE "data/phone/text/irwin_caller.asm"
 INCLUDE "data/phone/text/arnie_caller.asm"
 INCLUDE "data/phone/text/alan_caller.asm"
@@ -279,6 +282,7 @@ INCLUDE "data/phone/text/erin_caller.asm"
 
 SECTION "bank20", ROMX
 
+INCLUDE "data/pokemon/names.asm"
 INCLUDE "engine/overworld/player_movement.asm"
 INCLUDE "engine/events/engine_flags.asm"
 INCLUDE "engine/overworld/variables.asm"
@@ -443,14 +447,14 @@ INCLUDE "gfx/pokemon/unown_anim_pointers.asm"
 INCLUDE "gfx/pokemon/unown_anims.asm"
 INCLUDE "gfx/pokemon/unown_idle_pointers.asm"
 INCLUDE "gfx/pokemon/unown_idles.asm"
-INCLUDE "gfx/pokemon/bitmask_pointers.asm"
-INCLUDE "gfx/pokemon/bitmasks.asm"
-INCLUDE "gfx/pokemon/unown_bitmask_pointers.asm"
-INCLUDE "gfx/pokemon/unown_bitmasks.asm"
 
 
 SECTION "Pic Animations 2", ROMX
 
+INCLUDE "gfx/pokemon/bitmask_pointers.asm"
+INCLUDE "gfx/pokemon/bitmasks.asm"
+INCLUDE "gfx/pokemon/unown_bitmask_pointers.asm"
+INCLUDE "gfx/pokemon/unown_bitmasks.asm"
 INCLUDE "gfx/pokemon/frame_pointers.asm"
 INCLUDE "gfx/pokemon/kanto_frames.asm"
 
@@ -497,16 +501,14 @@ INCLUDE "engine/pokedex/unown_dex.asm"
 INCLUDE "engine/events/magikarp.asm"
 INCLUDE "engine/battle/hidden_power.asm"
 INCLUDE "engine/battle/misc.asm"
-
-
-SECTION "bank3F", ROMX
-
 INCLUDE "engine/tilesets/tileset_anims.asm"
 INCLUDE "engine/events/npc_trade.asm"
 INCLUDE "engine/events/mom_phone.asm"
-
-
 INCLUDE "mobile/mobile_40.asm"
+
+SECTION "bank3F", ROMX
+
+INCLUDE "gfx/footprints.asm"
 
 
 SECTION "bank41", ROMX
