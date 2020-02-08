@@ -6,6 +6,29 @@ GetBaseData::
 	push af
 	ld a, BANK(BaseData)
 	rst Bankswitch
+	ld hl, BaseData
+
+; We might need to be in the second bank
+	ld de, BASE_BANK_SWITCH
+	ld a, [wCurSpecies + 1]
+	cp d
+	jr c, .noswitch
+	ld a, [wCurSpecies]
+	cp e
+	jr c, .noswitch
+	ld a, BANK(BaseData2)
+	rst Bankswitch
+	ld hl, BaseData2
+	ld a, [wCurSpecies]
+	dec de
+	sub e
+	ld c, a
+	ld a, [wCurSpecies + 1]
+	sbc d
+	ld b, a
+;we don't need to check for egg here, it's assumed less than BASE_BANK_SWITCH
+	jr .haveswitched
+.noswitch	
 
 ; Egg doesn't have BaseData
 	ld a, [wCurSpecies]
@@ -13,14 +36,13 @@ GetBaseData::
 	jr z, .egg
 
 ; Get BaseData
-;	ld bc, BASE_DATA_SIZE
 	ld c, a
 	ld a, [wCurSpecies + 1]
 	ld b, a
+.haveswitched
 	dec bc
 	ld a, BASE_DATA_SIZE
 ;
-	ld hl, BaseData
 	call AddNTimes
 	ld de, wCurBaseData
 	ld bc, BASE_DATA_SIZE

@@ -193,20 +193,11 @@ GetGender:
 ; We need the gender ratio to do anything with this.
 	push bc
 	ld a, [wCurPartySpecies]
-;	dec a
 	ld c, a
 	ld a, [wCurPartySpecies + 1]
 	ld b, a
-	dec bc
-;
-	ld hl, BaseData + BASE_GENDER
-;	ld bc, BASE_DATA_SIZE
-	ld a, BASE_DATA_SIZE
-;
-	call AddNTimes
-	pop bc
-
-	ld a, BANK(BaseData)
+	jr .CheckForBaseDataBank
+.Checked
 	call GetFarByte
 
 ; The higher the ratio, the more likely the monster is to be female.
@@ -236,6 +227,35 @@ GetGender:
 .Genderless:
 	scf
 	ret
+	
+.CheckForBaseDataBank
+	ld de, BASE_BANK_SWITCH
+	ld a, b
+	cp d
+	jr c, .noswitch
+	ld a, c
+	cp e
+	jr c, .noswitch
+	ld hl, BaseData2 + BASE_GENDER
+	sub e
+	ld c, a
+	ld a, b
+	sbc d
+	ld b, a
+	ld a, BASE_DATA_SIZE
+	call AddNTimes
+	pop bc
+	ld a, BANK(BaseData2)
+	jr .Checked
+
+.noswitch
+	ld hl, BaseData + BASE_GENDER
+	dec bc
+	ld a, BASE_DATA_SIZE
+	call AddNTimes
+	pop bc
+	ld a, BANK(BaseData)
+	jr .Checked
 
 ListMovePP:
 	ld a, [wNumMoves]

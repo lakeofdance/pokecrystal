@@ -3178,14 +3178,20 @@ IsThePlayerMonTypesEffectiveAgainstOTMon:
 	ld c, a
 	ld b, 0
 	add hl, bc
+	add hl, bc
+	dec hl
+	ld a, [hli]
+	ld c, a
 	ld a, [hl]
-	dec a
-	ld hl, BaseData + BASE_TYPES
-	ld bc, BASE_DATA_SIZE
+	ld b, a
+	call CheckForBaseDataBank1
+.checked
+	push af
+	ld a, BASE_DATA_SIZE
 	call AddNTimes
 	ld de, wEnemyMonType
 	ld bc, BASE_CATCH_RATE - BASE_TYPES
-	ld a, BANK(BaseData)
+	pop af
 	call FarCopyBytes
 	ld a, [wBattleMonType1]
 	ld [wPlayerMoveStruct + MOVE_TYPE], a
@@ -3215,6 +3221,29 @@ IsThePlayerMonTypesEffectiveAgainstOTMon:
 .reset
 	res 0, [hl]
 	ret
+	
+.CheckForBaseDataBank
+	ld de, BASE_BANK_SWITCH
+	ld a, b
+	cp d
+	jr c, .noswitch
+	ld a, c
+	cp e
+	jr c, .noswitch
+	ld hl, BaseData2 + BASE_TYPES
+	sub e
+	ld c, a
+	ld a, b
+	sbc d
+	ld b, a
+	ld a, BANK(BaseData2)
+	jr .checked
+
+.noswitch
+	ld hl, BaseData + BASE_TYPES
+	dec bc
+	ld a, BANK(BaseData)
+	jr .checked
 
 ScoreMonTypeMatchups:
 .loop1
