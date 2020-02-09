@@ -18,6 +18,7 @@ Pokémon species are now 16-bit. Moves are still 8-bit.
 The following pokémon were added for testing. They don't appear in the game.
 * Yamask, Cofagrigus.
 * Froakie, Frogadier, Greninja.
+
 Thus the game contains 256 pokémon species in total. There are also 250 'placeholder' pokémon in the code, giving a total of 506 pokémon which already have allocated space. The theoretical max is of course much higher, but adding more than 506 might involve moving some stuff around.
 
 Gameplay changes:
