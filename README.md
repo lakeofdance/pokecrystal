@@ -35,11 +35,11 @@ Gameplay changes
 Engine changes
 --------------
 
-* The flag arrays wPokedexCaught and wPokedexSeen now have a hardcoded length in wram (of 600 bits), rather than of NUM_POKEMON, in order that adding mons doesn't break saves.
+* The flag arrays wPokedexCaught and wPokedexSeen now have a hardcoded length in wram (of 600 bits), rather than of NUM_POKEMON, in order that adding mons doesn't break saves. Needs to be at least as big as NUM_DEX_MONS.
 * Pokédex modes draw directly from the data lists, without copying to wPokedexOrder. The only use of wPokedexOrder is for search mode. It's 256 bytes long, meaning the max number of search mons that can be displayed is 128 (defined by NUM_SEARCH_MONS).
-* NUM_DEX_MONS is the length of the pokédex data lists and is defined by NUM_POKEMON minus #dead space mons (EGG, CANCEL, etc.) 
+* NUM_DEX_MONS is the length of the pokédex data lists.
 * FixPicBank is no longer used. Pic banks can go anywhere.
-* Mon base data is split between 2 banks.
+* Mon base data is split between 2 banks, see BASE_BANK_SWITCH.
 
 Bugs
 ----
