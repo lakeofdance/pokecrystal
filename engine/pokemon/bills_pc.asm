@@ -2414,6 +2414,7 @@ GetBoxCount:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
+; count is the first thing in the box macro
 	ld a, [hl]
 	call CloseSRAM
 	ld c, a

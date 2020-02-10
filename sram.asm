@@ -218,22 +218,24 @@ sBTMonPrevPrevTrainer2:: db
 sBTMonPrevPrevTrainer3:: db
 
 
-SECTION "Boxes 1-7",  SRAM, BANK [2]
+SECTION "Boxes 1-5",  SRAM, BANK [2]
 
 sBox1::  box sBox1
 sBox2::  box sBox2
 sBox3::  box sBox3
 sBox4::  box sBox4
 sBox5::  box sBox5
+
+SECTION "Boxes 6-10", SRAM, BANK [3]
+
 sBox6::  box sBox6
 sBox7::  box sBox7
-
-
-SECTION "Boxes 8-14", SRAM
-
 sBox8::  box sBox8
 sBox9::  box sBox9
 sBox10:: box sBox10
+
+SECTION "Boxes 11-14", SRAM, BANK [4]
+
 sBox11:: box sBox11
 sBox12:: box sBox12
 sBox13:: box sBox13

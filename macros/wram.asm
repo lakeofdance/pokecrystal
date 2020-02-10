@@ -7,7 +7,7 @@ ENDM
 box_struct: MACRO
 \1Species::        dw
 \1Item::           db
-\1Moves::          ds NUM_MOVES
+\1Moves::          ds NUM_MOVES * 2
 \1ID::             dw
 \1Exp::            ds 3
 \1StatExp::
@@ -79,7 +79,7 @@ ENDM
 battle_struct: MACRO
 \1Species::   dw
 \1Item::      db
-\1Moves::     ds NUM_MOVES
+\1Moves::     ds NUM_MOVES * 2
 \1MovesEnd::
 \1DVs::       dw
 \1PP::        ds NUM_MOVES
