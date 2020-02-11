@@ -131,7 +131,7 @@ GeneratePartyMonStats:
 	and a
 	jr nz, .randomlygeneratemoves
 	ld de, wEnemyMonMoves
-rept NUM_MOVES + -1
+rept ( NUM_MOVES * 2 ) + -1
 	ld a, [de]
 	inc de
 	ld [hli], a
@@ -142,7 +142,7 @@ endr
 
 .randomlygeneratemoves
 	xor a
-rept NUM_MOVES + -1
+rept ( NUM_MOVES * 2 ) + -1
 	ld [hli], a
 endr
 	ld [hl], a
@@ -151,7 +151,7 @@ endr
 
 .next
 	pop de
-rept NUM_MOVES
+rept NUM_MOVES * 2
 	inc de
 endr
 
@@ -395,22 +395,27 @@ FillPP:
 	ld a, [hli]
 	and a
 	jr z, .next
-	dec a
 	push hl
 	push de
 	push bc
+	ld c, a
+	ld b, [hl]
+	dec bc
 	ld hl, Moves
-	ld bc, MOVE_LENGTH
+	ld a, MOVE_LENGTH
 	call AddNTimes
 	ld de, wStringBuffer1
+	ld bc, MOVE_LENGTH
 	ld a, BANK(Moves)
 	call FarCopyBytes
 	pop bc
 	pop de
 	pop hl
 	ld a, [wStringBuffer1 + MOVE_PP]
+;	ld a, 10
 
 .next
+	inc hl
 	ld [de], a
 	inc de
 	dec b

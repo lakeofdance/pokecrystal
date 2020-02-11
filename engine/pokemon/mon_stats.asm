@@ -288,9 +288,15 @@ ListMovePP:
 	ld b, 0
 .loop
 	ld a, [hli]
+	inc hl
 	and a
 	jr z, .done
 	push bc
+	push hl
+	ld a, -1
+	sub b
+	add a, l
+	ld l, a
 	push hl
 	push de
 	ld hl, wMenuCursorY
@@ -328,6 +334,7 @@ ListMovePP:
 	add hl, de
 	ld d, h
 	ld e, l
+	pop hl
 	pop hl
 	pop bc
 	inc b
@@ -419,6 +426,7 @@ ListMoves:
 	ld b, $0
 .moves_loop
 	ld a, [de]
+	inc de
 	inc de
 	and a
 	jr z, .no_more_moves

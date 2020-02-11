@@ -588,7 +588,14 @@ FillMoves:
 	ld a, [de]
 	inc de
 	cp [hl]
+	jr nz, .norepeat
+	inc hl
+	ld a, [de]
+	cp [hl]
 	jr z, .NextMove
+	dec hl
+.norepeat
+	inc de
 	dec c
 	jr nz, .CheckRepeat
 	pop de
@@ -598,6 +605,7 @@ FillMoves:
 	ld a, [de]
 	and a
 	jr z, .LearnMove
+	inc de
 	inc de
 	dec c
 	jr nz, .CheckSlot
@@ -611,17 +619,20 @@ FillMoves:
 	and a
 	jr z, .ShiftedMove
 	push de
-	ld bc, wPartyMon1PP - (wPartyMon1Moves + NUM_MOVES - 1)
+	ld bc, wPartyMon1PP - (wPartyMon1Moves + ( NUM_MOVES * 2) - 2)
 	add hl, bc
 	ld d, h
 	ld e, l
-	call ShiftMoves
+	call ShiftPP
 	pop de
 
 .ShiftedMove:
 	pop hl
 
 .LearnMove:
+	ld a, [hli]
+	ld [de], a
+	inc de
 	ld a, [hl]
 	ld [de], a
 	ld a, [wEvolutionOldSpecies]
@@ -650,6 +661,20 @@ FillMoves:
 	ret
 
 ShiftMoves:
+	ld c, NUM_MOVES - 1
+	inc de
+.loop
+	inc de
+	ld a, [de]
+	ld [hli], a
+	inc de
+	ld a, [de]
+	ld [hli], a
+	dec c
+	jr nz, .loop
+	ret
+
+ShiftPP:
 	ld c, NUM_MOVES - 1
 .loop
 	inc de

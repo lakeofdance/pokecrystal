@@ -664,7 +664,7 @@ wEnemyIsSwitching::  db ; c711
 wPlayerUsedMoves:: ; c712
 ; add a move that has been used once by the player
 ; added in order of use
-	ds NUM_MOVES
+	ds NUM_MOVES * 2
 
 wEnemyAISwitchScore:: db ; c716
 wEnemySwitchMonParam:: db ; c717
@@ -699,7 +699,7 @@ wEnemyCharging:: db ; c733
 
 wBattleEnded:: db ; c734
 
-wWildMonMoves:: ds NUM_MOVES ; c735
+wWildMonMoves:: ds NUM_MOVES * 2 ; c735
 wWildMonPP:: ds NUM_MOVES ; c739
 
 wAmuletCoin:: db ; c73a
@@ -2230,7 +2230,7 @@ wMornEncounterRate::  db ; d25a
 wDayEncounterRate::   db ; d25b
 wNiteEncounterRate::  db ; d25c
 wWaterEncounterRate:: db ; d25d
-wListMoves_MoveIndicesBuffer:: ds NUM_MOVES
+wListMoves_MoveIndicesBuffer:: ds NUM_MOVES * 2
 wPutativeTMHMMove:: db
 wInitListType:: db
 wBattleHasJustStarted:: db

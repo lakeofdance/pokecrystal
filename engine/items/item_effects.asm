@@ -2785,12 +2785,15 @@ GetMaxPPOfMove:
 	call GetMthMoveOfNthPartymon
 
 .gotdatmove
-	ld a, [hl]
-	dec a
+	push bc
+	ld c, [hl]
+	inc hl
+	ld b, [hl]
+	dec bc
 
 	push hl
 	ld hl, Moves + MOVE_PP
-	ld bc, MOVE_LENGTH
+	ld a, MOVE_LENGTH
 	call AddNTimes
 	ld a, BANK(Moves)
 	call GetFarByte
@@ -2798,6 +2801,8 @@ GetMaxPPOfMove:
 	ld de, wStringBuffer1
 	ld [de], a
 	pop hl
+; what was in bc now enters de, this is the move offset
+	pop de
 
 	push bc
 	ld bc, MON_PP - MON_MOVES
@@ -2806,6 +2811,9 @@ GetMaxPPOfMove:
 	jr nz, .notwild
 	ld bc, wEnemyMonPP - wEnemyMonMoves
 .notwild
+	ld a, c
+	sub e
+	ld c, a
 	add hl, bc
 	ld a, [hl]
 	and PP_UP_MASK
@@ -2836,5 +2844,6 @@ GetMthMoveOfCurrentMon:
 	ld a, [wMenuCursorY]
 	ld c, a
 	ld b, 0
+	add hl, bc
 	add hl, bc
 	ret
