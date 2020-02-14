@@ -1028,21 +1028,24 @@ MoveScreenLoop:
 	push hl
 	call .copy_move
 	pop hl
-	ld bc, $15
+; distance between partymon moves and pp
+	ld bc, $19
 	add hl, bc
-	call .copy_move
+	call .copy_pp
 	ld a, [wBattleMode]
 	jr z, .swap_moves
 	ld hl, wBattleMonMoves
-	ld bc, $20
+; battlemon structure length
+	ld bc, $24
 	ld a, [wCurPartyMon]
 	call AddNTimes
 	push hl
 	call .copy_move
 	pop hl
-	ld bc, 6
+; distance between battlemon moves and pp
+	ld bc, $a
 	add hl, bc
-	call .copy_move
+	call .copy_pp
 
 .swap_moves
 	ld de, SFX_SWITCH_POKEMON
@@ -1060,6 +1063,38 @@ MoveScreenLoop:
 	jp .loop
 
 .copy_move
+	push hl
+	ld a, [wMenuCursorY]
+	dec a
+	ld c, a
+	ld b, $0
+	add hl, bc
+	add hl, bc
+	ld d, h
+	ld e, l
+	pop hl
+	ld a, [wMoveSwapBuffer]
+	dec a
+	ld c, a
+	ld b, $0
+	add hl, bc
+	add hl, bc
+	ld a, [de]
+	ld b, [hl]
+	ld [hl], a
+	ld a, b
+	ld [de], a
+	inc hl
+	inc de
+	ld a, [de]
+	ld b, [hl]
+	ld [hl], a
+	ld a, b
+	ld [de], a
+	dec hl
+	ret
+
+.copy_pp
 	push hl
 	ld a, [wMenuCursorY]
 	dec a
@@ -1159,7 +1194,7 @@ SetUpMoveList:
 	predef CopyMonToTempMon
 	ld hl, wTempMonMoves
 	ld de, wListMoves_MoveIndicesBuffer
-	ld bc, NUM_MOVES
+	ld bc, NUM_MOVES * 2
 	call CopyBytes
 	ld a, SCREEN_WIDTH * 2
 	ld [wBuffer1], a
@@ -1187,8 +1222,11 @@ PrepareToPlaceMoveData:
 	ld c, a
 	ld b, $0
 	add hl, bc
-	ld a, [hl]
+	add hl, bc
+	ld a, [hli]
 	ld [wCurSpecies], a
+	ld a, [hld]
+	ld [wCurSpecies + 1], a
 	hlcoord 1, 12
 	lb bc, 5, 18
 	jp ClearBox
@@ -1206,13 +1244,18 @@ PlaceMoveData:
 	ld de, String_MoveAtk
 	call PlaceString
 	ld a, [wCurSpecies]
+	ld c, a
+	ld a, [wCurSpecies + 1]
 	ld b, a
 	hlcoord 2, 12
 	predef PrintMoveType
 	ld a, [wCurSpecies]
-	dec a
+	ld c, a
+	ld a, [wCurSpecies + 1]
+	ld b, a
+	dec bc
 	ld hl, Moves + MOVE_POWER
-	ld bc, MOVE_LENGTH
+	ld a, MOVE_LENGTH
 	call AddNTimes
 	ld a, BANK(Moves)
 	call GetFarByte

@@ -39,16 +39,16 @@ PrintMonTypes:
 	jp ByteFill
 
 PrintMoveType:
-; Print the type of move b at hl.
+; Print the type of move bc at hl.
 
 	push hl
-	ld a, b
-	dec a
-	ld bc, MOVE_LENGTH
+	dec bc
+	ld a, MOVE_LENGTH
 	ld hl, Moves
 	call AddNTimes
 	ld de, wStringBuffer1
 	ld a, BANK(Moves)
+	ld bc, MOVE_LENGTH
 	call FarCopyBytes
 	ld a, [wStringBuffer1 + MOVE_TYPE]
 	pop hl
