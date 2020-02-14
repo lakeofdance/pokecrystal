@@ -575,11 +575,11 @@ wPlayerTurnsTaken:: db ; c6dd
 wPlayerSubstituteHP:: db ; c6df
 wEnemySubstituteHP:: db ; c6e0
 
-wUnusedPlayerLockedMove:: db ; c6e1
+wUnusedPlayerLockedMove:: dw ; c6e1
 	ds 1
 
-wCurPlayerMove:: db ; c6e3
-wCurEnemyMove:: db ; c6e4
+wCurPlayerMove:: dw ; c6e3
+wCurEnemyMove:: dw ; c6e4
 
 wLinkBattleRNCount:: ; c6e5
 ; how far through the prng stream
@@ -598,13 +598,13 @@ wSafariMonEating:: db
 wEnemyBackupDVs:: dw ; used when enemy is transformed
 wAlreadyDisobeyed:: db ; c6f4
 
-wDisabledMove:: db ; c6f5
-wEnemyDisabledMove:: db ; c6f6
+wDisabledMove:: dw ; c6f5
+wEnemyDisabledMove:: dw ; c6f6
 wWhichMonFaintedFirst:: db
 
 ; exists so you can't counter on switch
-wLastPlayerCounterMove:: db ; c6f8
-wLastEnemyCounterMove:: db ; c6f9
+wLastPlayerCounterMove:: dw ; c6f8
+wLastEnemyCounterMove:: dw ; c6f9
 
 wEnemyMinimized:: db ; c6fa
 
@@ -671,8 +671,8 @@ wEnemySwitchMonParam:: db ; c717
 wEnemySwitchMonIndex:: db ; c718
 wTempLevel:: db ; c719
 wLastPlayerMon:: db ; c71a
-wLastPlayerMove:: db ; c71b
-wLastEnemyMove:: db ; c71c
+wLastPlayerMove:: dw ; c71b
+wLastEnemyMove:: dw ; c71c
 
 wPlayerFutureSightCount:: db ; c71d
 wEnemyFutureSightCount:: db ; c71e
@@ -690,8 +690,8 @@ wEnemyRageCounter:: db ; c72c
 
 wBeatUpHitAtLeastOnce:: db ; c72d
 
-wPlayerTrappingMove:: db ; c72e
-wEnemyTrappingMove:: db ; c72f
+wPlayerTrappingMove:: dw ; c72e
+wEnemyTrappingMove:: dw ; c72f
 wPlayerWrapCount:: db ; c730
 wEnemyWrapCount:: db ; c731
 wPlayerCharging:: db ; c732
@@ -1927,7 +1927,7 @@ wSwitchMon::
 wSwitchItem::
 wMoveSwapBuffer::
 wd0e3:: ; mobile
-	db
+	dw
 
 wMenuScrollPosition:: ds 4
 
@@ -2231,7 +2231,7 @@ wDayEncounterRate::   db ; d25b
 wNiteEncounterRate::  db ; d25c
 wWaterEncounterRate:: db ; d25d
 wListMoves_MoveIndicesBuffer:: ds NUM_MOVES * 2
-wPutativeTMHMMove:: db
+wPutativeTMHMMove:: dw
 wInitListType:: db
 wBattleHasJustStarted:: db
 
