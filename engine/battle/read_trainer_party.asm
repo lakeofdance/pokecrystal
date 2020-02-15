@@ -145,6 +145,9 @@ TrainerType2:
 	ld a, [hli]
 	ld [de], a
 	inc de
+	ld a, [hli]
+	ld [de], a
+	inc de
 	dec b
 	jr nz, .copy_moves
 
@@ -170,11 +173,15 @@ TrainerType2:
 	and a
 	jr z, .copied_pp
 
+	inc hl
 	push hl
 	push bc
-	dec a
+	ld c, a
+	ld a, [hl]
+	ld b, a
+	dec bc
 	ld hl, Moves + MOVE_PP
-	ld bc, MOVE_LENGTH
+	ld a, MOVE_LENGTH
 	call AddNTimes
 	ld a, BANK(Moves)
 	call GetFarByte
@@ -271,6 +278,9 @@ TrainerType4:
 	ld a, [hli]
 	ld [de], a
 	inc de
+	ld a, [hli]
+	ld [de], a
+	inc de
 	dec b
 	jr nz, .copy_moves
 
@@ -297,11 +307,15 @@ TrainerType4:
 	and a
 	jr z, .copied_pp
 
+	inc hl
 	push hl
 	push bc
-	dec a
+	ld c, a
+	ld a, [hl]
+	ld b, a
+	dec bc
 	ld hl, Moves + MOVE_PP
-	ld bc, MOVE_LENGTH
+	ld a, MOVE_LENGTH
 	call AddNTimes
 	ld a, BANK(Moves)
 	call GetFarByte

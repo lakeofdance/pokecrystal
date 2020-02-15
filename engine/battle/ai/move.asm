@@ -31,7 +31,12 @@ AIChooseMove:
 	ld hl, wEnemyMonMoves
 	ld c, 0
 .CheckDisabledMove:
+	sub [hl]
+	ld b, a
+	inc hl
+	ld a, [wEnemyDisabledMove + 1]
 	cp [hl]
+	or b
 	jr z, .ScoreDisabledMove
 	inc c
 	inc hl
@@ -119,11 +124,12 @@ AIChooseMove:
 .DecrementScores:
 	ld hl, wBuffer1
 	ld de, wEnemyMonMoves
-	ld c, wEnemyMonMovesEnd - wEnemyMonMoves
+	ld c, NUM_MOVES
 
 .DecrementNextScore:
 	; If the enemy has no moves, this will infinite.
 	ld a, [de]
+	inc de
 	inc de
 	and a
 	jr z, .DecrementScores
@@ -173,9 +179,9 @@ AIChooseMove:
 	jr .after_toss
 
 .keep
-	ld a, [de]
-	ld [hli], a
+	inc hl
 .after_toss
+	inc de
 	inc de
 	dec c
 	jr nz, .loop2
@@ -192,7 +198,13 @@ AIChooseMove:
 	and a
 	jr z, .ChooseMove
 
+	ld hl, wEnemyMonMoves
+	add hl, bc
+	add hl, bc
+	ld a, [hli]	
 	ld [wCurEnemyMove], a
+	ld a, [hl]
+	ld [wCurEnemyMove + 1], a
 	ld a, c
 	ld [wCurEnemyMoveNum], a
 	ret

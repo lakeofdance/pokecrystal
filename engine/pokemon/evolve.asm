@@ -530,19 +530,12 @@ FillMoves:
 	push de
 	push bc
 	ld hl, EvosAttacksPointers
-;	ld b, 0
 	ld a, [wCurPartySpecies + 1]
 	ld b, a
-;
 	ld a, [wCurPartySpecies]
-;	dec a
-;	add a
-;	rl b
 	ld c, a
-;
 	dec bc
 	add hl, bc
-;
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]
@@ -550,8 +543,6 @@ FillMoves:
 .GoToAttacks:
 	ld a, [hli]
 	and a
-;	jr nz, .GoToAttacks
-;	jr .GetLevel
 	jr z, .GetLevel
 	cp EVOLVE_STAT
 	jr nz, .NotTyrogue
