@@ -52,6 +52,8 @@ AskTeachTMHM:
 	call GetTMHMItemMove
 	ld a, [wTempTMHM]
 	ld [wPutativeTMHMMove], a
+	ld a, [wTempTMHM + 1]
+	ld [wPutativeTMHMMove + 1], a
 	call GetMoveName
 	call CopyName1
 	ld hl, Text_BootedTM ; Booted up a TM

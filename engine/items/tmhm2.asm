@@ -8,14 +8,20 @@ CanLearnTMHMMove:
 	push hl
 
 	ld a, [wPutativeTMHMMove]
-	ld b, a
+	ld d, a
+	ld a, [wPutativeTMHMMove + 1]
+	ld e, a
 	ld c, 0
 	ld hl, TMHMMoves
 .loop
 	ld a, [hli]
 	and a
 	jr z, .end
-	cp b
+	sub d
+	ld b, a
+	ld a, [hli]
+	cp e
+	or b
 	jr z, .asm_11659
 	inc c
 	jr .loop
@@ -41,8 +47,11 @@ GetTMHMMove:
 	ld b, 0
 	ld c, a
 	add hl, bc
-	ld a, [hl]
+	add hl, bc
+	ld a, [hli]
 	ld [wTempTMHM], a
+	ld a, [hl]
+	ld [wTempTMHM + 1], a
 	ret
 
 INCLUDE "data/moves/tmhm_moves.asm"
