@@ -484,10 +484,12 @@ LearnLevelMoves:
 	ld a, [wCurPartyLevel]
 	cp b
 	ld a, [hli]
+	ld d, a
+	ld a, [hli]
+	ld e, a
 	jr nz, .find_move
 
 	push hl
-	ld d, a
 	ld hl, wPartyMon1Moves
 	ld a, [wCurPartyMon]
 	ld bc, PARTYMON_STRUCT_LENGTH
@@ -496,7 +498,11 @@ LearnLevelMoves:
 	ld b, NUM_MOVES
 .check_move
 	ld a, [hli]
-	cp d
+	sub d
+	ld c, a
+	ld a, [hli]
+	cp e
+	or c	
 	jr z, .has_move
 	dec b
 	jr nz, .check_move
@@ -510,6 +516,9 @@ LearnLevelMoves:
 	ld a, d
 	ld [wPutativeTMHMMove], a
 	ld [wNamedObjectIndexBuffer], a
+	ld a, e
+	ld [wPutativeTMHMMove + 1], a
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetMoveName
 	call CopyName1
 	predef LearnMove

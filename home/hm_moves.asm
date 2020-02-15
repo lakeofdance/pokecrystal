@@ -12,14 +12,14 @@ IsHM::
 IsHMMove::
 	ld hl, .HMMoves
 	ld de, 1
-	jp IsInArray
+	jp IsWordInArray
 
 .HMMoves:
-	db CUT
-	db FLY
-	db SURF
-	db STRENGTH
-	db FLASH
-	db WATERFALL
-	db WHIRLPOOL
+	dw CUT
+	dw FLY
+	dw SURF
+	dw STRENGTH
+	dw FLASH
+	dw WATERFALL
+	dw WHIRLPOOL
 	db -1 ; end

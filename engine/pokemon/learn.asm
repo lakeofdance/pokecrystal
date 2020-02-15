@@ -25,6 +25,7 @@ LearnMove:
 	and a
 	jr z, .learn
 	inc hl
+	inc hl
 	dec b
 	jr nz, .next
 ; If we're here, we enter the routine for forgetting a move
@@ -34,9 +35,16 @@ LearnMove:
 	pop de
 	jp c, .cancel
 
+	ld a, 4
+	sub c
+	ld b, a
+	push bc
 	push hl
 	push de
+	ld a, [hli]
 	ld [wNamedObjectIndexBuffer], a
+	ld a, [hl]
+	ld [wNamedObjectIndexBuffer + 1], a
 
 	ld b, a
 	ld a, [wBattleMode]
@@ -55,18 +63,31 @@ LearnMove:
 	call PrintText
 	pop de
 	pop hl
+	pop bc
 
 .learn
 	ld a, [wPutativeTMHMMove]
-	ld [hl], a
-	ld bc, MON_PP - MON_MOVES
+	ld [hli], a
+	ld a, [wPutativeTMHMMove + 1]
+	ld [hld], a
+	ld a, -4
+	add b
+	add MON_PP - MON_MOVES
+	ld c, a
+	xor a
+	ld b, a
+;	ld bc, MON_PP - MON_MOVES
 	add hl, bc
 
 	push hl
 	push de
-	dec a
+	ld a, [wPutativeTMHMMove]
+	ld c, a
+	ld a, [wPutativeTMHMMove + 1]
+	ld b, a
+	dec bc
 	ld hl, Moves + MOVE_PP
-	ld bc, MOVE_LENGTH
+	ld a, MOVE_LENGTH
 	call AddNTimes
 	ld a, BANK(Moves)
 	call GetFarByte
@@ -92,10 +113,11 @@ LearnMove:
 	ld h, d
 	ld l, e
 	ld de, wBattleMonMoves
-	ld bc, NUM_MOVES
+	ld bc, NUM_MOVES * 2
 	call CopyBytes
-	ld bc, wPartyMon1PP - (wPartyMon1Moves + NUM_MOVES)
-	add hl, bc
+;	ld bc, wPartyMon1PP - (wPartyMon1Moves + NUM_MOVES)
+;	add hl, bc
+	ld hl, wPartyMon1PP
 	ld de, wBattleMonPP
 	ld bc, NUM_MOVES
 	call CopyBytes
@@ -125,11 +147,11 @@ ForgetMove:
 	call YesNoBox
 	pop hl
 	ret c
-	ld bc, -NUM_MOVES
+	ld bc, -(NUM_MOVES * 2)
 	add hl, bc
 	push hl
 	ld de, wListMoves_MoveIndicesBuffer
-	ld bc, NUM_MOVES
+	ld bc, NUM_MOVES * 2
 	call CopyBytes
 	pop hl
 .loop
@@ -177,15 +199,20 @@ ForgetMove:
 	ld c, a
 	ld b, 0
 	add hl, bc
-	ld a, [hl]
+	add hl, bc
 	push af
 	push bc
+	ld a, [hli]
+	ld b, a
+	ld a, [hl]
+	ld c, a
 	call IsHMMove
 	pop bc
 	pop de
 	ld a, d
 	jr c, .hmmove
 	pop hl
+	add hl, bc
 	add hl, bc
 	and a
 	ret
