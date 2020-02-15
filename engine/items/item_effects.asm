@@ -2746,6 +2746,7 @@ RestoreAllPP:
 	ld hl, wMenuCursorY
 	inc [hl]
 	pop hl
+	inc hl
 	dec c
 	jr nz, .loop
 	ret

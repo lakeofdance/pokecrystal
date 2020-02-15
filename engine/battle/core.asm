@@ -1337,6 +1337,7 @@ HandleMysteryberry:
 	and PP_MASK
 	jr z, .restore
 	inc hl
+	inc hl
 	inc de
 	inc c
 	ld a, c
@@ -3067,9 +3068,13 @@ ResetEnemyBattleVars:
 ; and draw empty Textbox
 	xor a
 	ld [wLastPlayerCounterMove], a
+	ld [wLastPlayerCounterMove + 1], a
 	ld [wLastEnemyCounterMove], a
+	ld [wLastEnemyCounterMove + 1], a
 	ld [wLastEnemyMove], a
+	ld [wLastEnemyMove + 1], a
 	ld [wCurEnemyMove], a
+	ld [wCurEnemyMove + 1], a
 	dec a
 	ld [wEnemyItemState], a
 	xor a
@@ -3414,7 +3419,9 @@ OfferSwitch:
 	ld [wCurPartyMon], a
 	xor a
 	ld [wCurEnemyMove], a
+	ld [wCurEnemyMove + 1], a
 	ld [wCurPlayerMove], a
+	ld [wCurPlayerMove + 1], a
 	and a
 	ret
 
@@ -5717,11 +5724,18 @@ ParseEnemyAction:
 	ld hl, wEnemySubStatus5
 	bit SUBSTATUS_ENCORED, [hl]
 	ld a, [wLastEnemyMove]
+	ld [wCurEnemyMove], a
+	ld a, [wLastEnemyMove + 1]
+	ld [wCurEnemyMove + 1], a
 	jp nz, .finish
 	ld hl, wEnemyMonMoves
 	ld b, 0
 	add hl, bc
+	add hl, bc
+	ld a, [hli]
+	ld [wCurEnemyMove], a
 	ld a, [hl]
+	ld [wCurEnemyMove + 1], a
 	jp .finish
 
 .not_linked
@@ -5729,6 +5743,9 @@ ParseEnemyAction:
 	bit SUBSTATUS_ENCORED, [hl]
 	jr z, .skip_encore
 	ld a, [wLastEnemyMove]
+	ld [wCurEnemyMove], a
+	ld a, [wLastEnemyMove + 1]
+	ld [wCurEnemyMove + 1], a
 	jp .finish
 
 .skip_encore
@@ -5738,6 +5755,9 @@ ParseEnemyAction:
 
 .skip_turn
 	ld a, $ff
+	ld [wCurEnemyMove], a
+	xor a
+	ld [wCurEnemyMove + 1], a
 	jr .finish
 
 .continue
@@ -5774,28 +5794,28 @@ ParseEnemyAction:
 	ld c, a
 	ld b, 0
 	add hl, bc
+	add hl, bc
 	ld a, [wEnemyDisableCount]
 	swap a
 	and $f
 	dec a
 	cp c
 	jr z, .loop2
-	ld a, [hl]
+	ld a, [hli]
 	and a
 	jr z, .loop2
+	ld [wCurEnemyMove], a
+	ld a, [hl]
+	ld [wCurEnemyMove + 1], a
 	ld hl, wEnemyMonPP
 	add hl, bc
-	ld b, a
 	ld a, [hl]
 	and PP_MASK
 	jr z, .loop2
 	ld a, c
 	ld [wCurEnemyMoveNum], a
-	ld a, b
 
 .finish
-	ld [wCurEnemyMove], a
-
 .skip_load
 	call SetEnemyTurn
 	callfar UpdateMoveData
@@ -6251,7 +6271,7 @@ LoadEnemyMon:
 	ld hl, wOTPartyMon1Moves
 	ld a, [wCurPartyMon]
 	call GetPartyLocation
-	ld bc, NUM_MOVES
+	ld bc, NUM_MOVES * 2
 	call CopyBytes
 	jr .PP
 
@@ -6260,6 +6280,10 @@ LoadEnemyMon:
 	xor a
 	ld h, d
 	ld l, e
+	ld [hli], a
+	ld [hli], a
+	ld [hli], a
+	ld [hli], a
 	ld [hli], a
 	ld [hli], a
 	ld [hli], a
@@ -8095,7 +8119,7 @@ InitEnemyWildmon:
 	call LoadEnemyMon
 	ld hl, wEnemyMonMoves
 	ld de, wWildMonMoves
-	ld bc, NUM_MOVES
+	ld bc, NUM_MOVES * 2
 	call CopyBytes
 	ld hl, wEnemyMonPP
 	ld de, wWildMonPP
