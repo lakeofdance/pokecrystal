@@ -39,7 +39,7 @@ PrintMonTypes:
 	jp ByteFill
 
 PrintMoveType:
-; Print the type of move bc at hl.
+; Print the type of move bc (big endian) at hl.
 
 	push hl
 	dec bc

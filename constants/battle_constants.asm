@@ -43,12 +43,13 @@ NUM_LEVEL_STATS EQU const_value
 ; move struct members (see data/moves/moves.asm)
 	const_def
 	const MOVE_ANIM   ; 0
-	const MOVE_EFFECT ; 1
-	const MOVE_POWER  ; 2
-	const MOVE_TYPE   ; 3
-	const MOVE_ACC    ; 4
-	const MOVE_PP     ; 5
-	const MOVE_CHANCE ; 6
+	const MOVE_ANIM2  ; 1
+	const MOVE_EFFECT ; 2
+	const MOVE_POWER  ; 3
+	const MOVE_TYPE   ; 4
+	const MOVE_ACC    ; 5
+	const MOVE_PP     ; 6
+	const MOVE_CHANCE ; 7
 MOVE_LENGTH EQU const_value
 
 ; stat constants

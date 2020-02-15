@@ -5219,7 +5219,7 @@ MoveSelectionScreen:
 
 .got_menu_type
 	ld de, wListMoves_MoveIndicesBuffer
-	ld bc, NUM_MOVES
+	ld bc, NUM_MOVES * 2
 	call CopyBytes
 	xor a
 	ldh [hBGMapMode], a
@@ -5371,7 +5371,8 @@ MoveSelectionScreen:
 	dec a
 	cp c
 	jr z, .move_disabled
-	ld a, [wUnusedPlayerLockedMove]
+	ld hl, wUnusedPlayerLockedMove
+	ld a, [hli]
 	and a
 	jr nz, .skip2
 	ld a, [wMenuCursorY]
@@ -5379,10 +5380,13 @@ MoveSelectionScreen:
 	ld c, a
 	ld b, 0
 	add hl, bc
-	ld a, [hl]
+	add hl, bc
+	ld a, [hli]
 
 .skip2
 	ld [wCurPlayerMove], a
+	ld a, [hl]
+	ld [wCurPlayerMove + 1], a
 	xor a
 	ret
 
@@ -5425,11 +5429,11 @@ MoveSelectionScreen:
 .pressed_select
 	ld a, [wMoveSwapBuffer]
 	and a
-	jr z, .start_swap
+	jp z, .start_swap
 	ld hl, wBattleMonMoves
-	call .swap_bytes
+	call .swap_moves
 	ld hl, wBattleMonPP
-	call .swap_bytes
+	call .swap_pp
 	ld hl, wPlayerDisableCount
 	ld a, [hl]
 	swap a
@@ -5468,18 +5472,49 @@ MoveSelectionScreen:
 	ld a, [wCurBattleMon]
 	call GetPartyLocation
 	push hl
-	call .swap_bytes
+	call .swap_moves
 	pop hl
 	ld bc, MON_PP - MON_MOVES
 	add hl, bc
-	call .swap_bytes
+	call .swap_pp
 
 .transformed
 	xor a
 	ld [wMoveSwapBuffer], a
 	jp MoveSelectionScreen
 
-.swap_bytes
+.swap_moves
+	push hl
+	ld a, [wMoveSwapBuffer]
+	dec a
+	ld c, a
+	ld b, 0
+	add hl, bc
+	add hl, bc
+	ld d, h
+	ld e, l
+	pop hl
+	ld a, [wMenuCursorY]
+	dec a
+	ld c, a
+	ld b, 0
+	add hl, bc
+	add hl, bc
+	ld a, [de]
+	ld b, [hl]
+	ld [hl], a
+	ld a, b
+	ld [de], a
+	inc de
+	inc hl
+	ld a, [de]
+	ld b, [hl]
+	ld [hl], a
+	ld a, b
+	ld [de], a
+	ret
+
+.swap_pp
 	push hl
 	ld a, [wMoveSwapBuffer]
 	dec a
@@ -5540,8 +5575,11 @@ MoveInfoBox:
 	ld c, a
 	ld b, 0
 	add hl, bc
-	ld a, [hl]
+	add hl, bc
+	ld a, [hli]
 	ld [wCurPlayerMove], a
+	ld a, [hl]
+	ld [wCurPlayerMove + 1], a
 
 	ld a, [wCurBattleMon]
 	ld [wCurPartyMon], a
@@ -5569,6 +5607,8 @@ MoveInfoBox:
 
 	callfar UpdateMoveData
 	ld a, [wPlayerMoveStruct + MOVE_ANIM]
+	ld c, a
+	ld a, [wPlayerMoveStruct + MOVE_ANIM + 1]
 	ld b, a
 	hlcoord 2, 10
 	predef PrintMoveType
@@ -5592,9 +5632,7 @@ MoveInfoBox:
 	inc hl
 	ld [hl], "/"
 	inc hl
-;	ld de, wNamedObjectIndexBuffer
-    ld de, wTempPP
-;
+	ld de, wTempPP
 	lb bc, 1, 2
 	call PrintNum
 	ret
@@ -5602,6 +5640,8 @@ MoveInfoBox:
 CheckPlayerHasUsableMoves:
 	ld a, STRUGGLE
 	ld [wCurPlayerMove], a
+	xor a
+	ld [wCurPlayerMove + 1], a
 	ld a, [wPlayerDisableCount]
 	and a
 	ld hl, wBattleMonPP
@@ -5634,8 +5674,7 @@ CheckPlayerHasUsableMoves:
 	jr .loop
 
 .done
-	; Bug: this will result in a move with PP Up confusing the game.
-	and a ; should be "and PP_MASK"
+	and PP_MASK
 	ret nz
 
 .force_struggle

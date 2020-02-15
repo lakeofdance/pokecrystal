@@ -1,7 +1,7 @@
 ; Characteristics of each move.
 
 move: MACRO
-	db \1 ; animation
+	dw \1 ; animation
 	db \2 ; effect
 	db \3 ; power
 	db \4 ; type

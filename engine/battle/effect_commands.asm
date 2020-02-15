@@ -3589,10 +3589,17 @@ UpdateMoveData:
 
 	ld a, BATTLE_VARS_MOVE
 	call GetBattleVar
+	ld c, a
 	ld [wCurSpecies], a
 	ld [wNamedObjectIndexBuffer], a
+	inc hl
+	ld a, [hl]
+	ld b, a
+	ld [wCurSpecies + 1], a
+	ld [wNamedObjectIndexBuffer + 1], a
 
-	dec a
+
+	dec bc
 	call GetMoveData
 	call GetMoveName
 	jp CopyName1
@@ -6851,11 +6858,12 @@ GetMoveAttr:
 	ret
 
 GetMoveData:
-; Copy move struct a to de.
+; Copy move struct bc to de.
 	ld hl, Moves
-	ld bc, MOVE_LENGTH
+	ld a, MOVE_LENGTH
 	call AddNTimes
 	ld a, BANK(Moves)
+	ld bc, MOVE_LENGTH
 	jp FarCopyBytes
 
 GetMoveByte:
