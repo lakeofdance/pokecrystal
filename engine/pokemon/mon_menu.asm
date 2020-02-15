@@ -979,9 +979,7 @@ MoveScreenLoop:
 	ld b, 0
 	ld hl, wPartySpecies
 	add hl, bc
-;
 	add hl, bc
-;
 	ld a, [hl]
 	cp -1
 	jr z, .cycle_left
@@ -1000,6 +998,7 @@ MoveScreenLoop:
 	ld c, a
 	ld b, 0
 	ld hl, wPartySpecies
+	add hl, bc
 	add hl, bc
 	ld a, [hl]
 	cp EGG
@@ -1304,21 +1303,18 @@ Function132da:
 	ld d, 0
 	ld hl, wPartyCount
 	add hl, de
-;
 	add hl, de
 	dec hl
 	ld de, NUM_POKEMON	; big endian
-;
 .loop
-;	ld a, [hl]
-	ld a, [hli]
+	ld a, [hl]
 	and a
 	jr z, .prev
 	cp EGG
 	jr z, .prev
 	cp $ff
 	jr z, .prev
-;	cp NUM_POKEMON + 1
+	inc hl
 	ld a, [hld]
 	cp d
 	jr c, .legal
@@ -1334,9 +1330,7 @@ Function132da:
 	jr c, .legal
 
 .prev
-;
 	dec hl
-;
 	dec hl
 	dec c
 	jr nz, .loop
@@ -1360,20 +1354,17 @@ Function132fe:
 	ld d, 0
 	ld hl, wPartySpecies
 	add hl, de
-;
 	add hl, de
 	ld de, NUM_POKEMON	; big endian
-;
 .loop
-	ld a, [hli]
+	ld a, [hl]
 	cp -1
 	ret z
 	and a
 	jr z, .next
 	cp EGG
 	jr z, .next
-;	cp NUM_POKEMON + 1
-;	jr c, .legal
+	inc hl
 	ld a, [hld]
 	cp d
 	jr c, .legal
