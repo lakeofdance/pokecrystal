@@ -64,19 +64,18 @@ CheckBadge:
 	text_end
 
 CheckPartyMove:
-; Check if a monster in your party has move d.
+; Check if a monster in your party has move de.
 
-	ld e, 0
+	ld b, 0
 	xor a
 	ld [wCurPartyMon], a
 .loop
-	ld c, e
+	push bc
+	ld c, b
 	ld b, 0
 	ld hl, wPartySpecies
 	add hl, bc
-;
 	add hl, bc
-;
 	ld a, [hl]
 	and a
 	jr z, .no
@@ -84,29 +83,38 @@ CheckPartyMove:
 	jr z, .no
 	cp EGG
 	jr z, .next
+	pop bc
 
+	push bc
+	ld a, b
 	ld bc, PARTYMON_STRUCT_LENGTH
 	ld hl, wPartyMon1Moves
-	ld a, e
 	call AddNTimes
 	ld b, NUM_MOVES
 .check
 	ld a, [hli]
-	cp d
+	sub e
+	ld c, a
+	ld a, [hli]
+	sub d
+	or c	
 	jr z, .yes
 	dec b
 	jr nz, .check
 
 .next
-	inc e
+	pop bc
+	inc b
 	jr .loop
 
 .yes
-	ld a, e
+	pop bc
+	ld a, b
 	ld [wCurPartyMon], a ; which mon has the move
 	xor a
 	ret
 .no
+	pop bc
 	scf
 	ret
 
@@ -510,7 +518,7 @@ TrySurfOW::
 	call CheckEngineFlag
 	jr c, .quit
 
-	ld d, SURF
+	ld de, SURF
 	call CheckPartyMove
 	jr c, .quit
 
@@ -710,7 +718,7 @@ Script_UsedWaterfall:
 	text_end
 
 TryWaterfallOW::
-	ld d, WATERFALL
+	ld de, WATERFALL
 	call CheckPartyMove
 	jr c, .failed
 	ld de, ENGINE_RISINGBADGE
@@ -1062,7 +1070,7 @@ UnknownText_0xcd73:
 	text_end
 
 TryStrengthOW:
-	ld d, STRENGTH
+	ld de, STRENGTH
 	call CheckPartyMove
 	jr c, .nope
 
@@ -1196,7 +1204,7 @@ DisappearWhirlpool:
 	ret
 
 TryWhirlpoolOW::
-	ld d, WHIRLPOOL
+	ld de, WHIRLPOOL
 	call CheckPartyMove
 	jr c, .failed
 	ld de, ENGINE_GLACIERBADGE
@@ -1293,7 +1301,7 @@ HeadbuttScript:
 	end
 
 TryHeadbuttOW::
-	ld d, HEADBUTT
+	ld de, HEADBUTT
 	call CheckPartyMove
 	jr c, .no
 
@@ -1420,7 +1428,7 @@ UnknownText_0xcf77:
 	text_end
 
 HasRockSmash:
-	ld d, ROCK_SMASH
+	ld de, ROCK_SMASH
 	call CheckPartyMove
 	jr nc, .yes
 .no
@@ -1771,7 +1779,7 @@ GotOffTheBikeText:
 	text_end
 
 TryCutOW::
-	ld d, CUT
+	ld de, CUT
 	call CheckPartyMove
 	jr c, .cant_cut
 

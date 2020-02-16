@@ -92,15 +92,17 @@ PopulateMonMenu:
 
 GetMonMenuString:
 	ld hl, MonMenuOptions + 1
-	ld de, 3
+	ld de, 4
 	call IsInArray
 	dec hl
 	ld a, [hli]
 	cp MONMENU_MENUOPTION
 	jr z, .NotMove
 	inc hl
-	ld a, [hl]
+	ld a, [hli]
 	ld [wNamedObjectIndexBuffer], a
+	ld a, [hl]
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetMoveName
 	ret
 
@@ -134,6 +136,10 @@ GetMonSubmenuItems:
 	and a
 	jr z, .next
 	push hl
+	ld b, a
+	inc de
+	ld a, [de]
+	ld c, a	
 	call IsFieldMove
 	pop hl
 	jr nc, .next
@@ -141,6 +147,7 @@ GetMonSubmenuItems:
 
 .next
 	pop de
+	inc de
 	inc de
 	pop bc
 	dec c
@@ -191,7 +198,6 @@ GetMonSubmenuItems:
 	ret
 
 IsFieldMove:
-	ld b, a
 	ld hl, MonMenuOptions
 .next
 	ld a, [hli]
@@ -202,7 +208,11 @@ IsFieldMove:
 	ld d, [hl]
 	inc hl
 	ld a, [hli]
-	cp b
+	sub b
+	ld e, a
+	ld a, [hli]
+	sub c
+	or e	
 	jr nz, .next
 	ld a, d
 	scf
