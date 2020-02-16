@@ -783,7 +783,7 @@ RestorePPOfDepositedPokemon:
 	add hl, bc
 	push hl
 	ld de, wTempMonMoves
-	ld bc, NUM_MOVES
+	ld bc, NUM_MOVES * 2
 	call CopyBytes
 	pop hl
 	pop de
@@ -816,6 +816,7 @@ RestorePPOfDepositedPokemon:
 	ld [de], a
 	pop bc
 	inc de
+	inc hl
 	inc b
 	ld a, b
 	cp NUM_MOVES
@@ -831,10 +832,8 @@ RestorePPOfDepositedPokemon:
 RetrieveMonFromDayCareMan:
 	ld a, [wBreedMon1Species]
 	ld [wCurPartySpecies], a
-;
 	ld a, [wBreedMon1Species + 1]
 	ld [wCurPartySpecies + 1], a
-;
 	ld de, SFX_TRANSACTION
 	call PlaySFX
 	call WaitSFX
@@ -850,10 +849,8 @@ RetrieveMonFromDayCareMan:
 RetrieveMonFromDayCareLady:
 	ld a, [wBreedMon2Species]
 	ld [wCurPartySpecies], a
-;
 	ld a, [wBreedMon2Species + 1]
 	ld [wCurPartySpecies + 1], a
-;
 	ld de, SFX_TRANSACTION
 	call PlaySFX
 	call WaitSFX
@@ -880,10 +877,8 @@ RetrieveBreedmon:
 	ld c, a
 	ld b, 0
 	add hl, bc
-;
 	add hl, bc
 	dec hl
-;
 	ld a, [wPokemonWithdrawDepositParameter]
 	and a
 	ld a, [wBreedMon1Species + 1]
@@ -899,11 +894,9 @@ RetrieveBreedmon:
 .okay
 	ld [hli], a
 	ld [wCurSpecies], a
-;
 	ld a, b
 	ld [hli], a
 	ld [wCurSpecies + 1], a
-;
 	ld a, $ff
 	ld [hl], a
 	ld hl, wPartyMonNicknames
@@ -941,9 +934,8 @@ RetrieveBreedmon:
 	add hl, bc
 	ld d, h
 	ld e, l
-;	ld hl, $a
-	ld hl, $b
-;
+; hard-coded distance
+	ld hl, $f
 	add hl, bc
 	push bc
 	ld b, TRUE
@@ -966,9 +958,8 @@ RetrieveBreedmon:
 	ld d, a
 	callfar CalcExpAtLevel
 	pop bc
-;	ld hl, $8
-	ld hl, $9
-;
+; hard-coded distance
+	ld hl, $d
 	add hl, bc
 	ldh a, [hMultiplicand]
 	ld [hli], a
@@ -1033,25 +1024,13 @@ SendMonIntoBox:
 
 	ld a, [wCurPartySpecies]
 	ld [wCurSpecies], a
-;
 	ld h, a
 	ld a, [wCurPartySpecies + 1]
 	ld [wCurSpecies + 1], a
 	ld l, a
-;
-;	ld c, a
-;
 	inc de
-;
 
 .loop
-;	inc de
-;	ld a, [de]
-;	ld b, a
-;	ld a, c
-;	ld c, b
-;	ld [de], a
-;
 	ld a, [de]
 	ld b, a
 	ld a, h
@@ -1066,7 +1045,6 @@ SendMonIntoBox:
 	ld l, c
 	ld [de], a
 	inc de
-;
 	inc a
 	jr nz, .loop		; not sure this is necessary
 .done
@@ -1081,10 +1059,8 @@ SendMonIntoBox:
 
 	ld a, [wCurPartySpecies]
 	ld [wNamedObjectIndexBuffer], a
-;
 	ld a, [wCurPartySpecies + 1]
 	ld [wNamedObjectIndexBuffer + 1], a
-;
 	call GetPokemonName
 
 	ld de, sBoxMonNicknames
@@ -1094,9 +1070,8 @@ SendMonIntoBox:
 
 	ld hl, wEnemyMon
 	ld de, sBoxMon1
-;	ld bc, 1 + 1 + NUM_MOVES ; species + item + moves
-	ld bc, 2 + 1 + NUM_MOVES ; species + item + moves
-;
+	ld bc, 2 + 1 + (NUM_MOVES * 2) ; species + item + moves
+
 	call CopyBytes
 
 	ld hl, wPlayerID
