@@ -215,9 +215,7 @@ DoEggStep::
 .loop
 	ld a, [de]
 	inc de
-;
 	inc de
-;
 	cp -1
 	ret z
 	cp EGG
@@ -252,9 +250,7 @@ HatchEggs:
 .loop
 	ld a, [de]
 	inc de
-;
 	inc de
-;
 	cp -1
 	jp z, .done
 	push de
@@ -263,7 +259,7 @@ HatchEggs:
 	jp nz, .next
 	ld a, [hl]
 	and a
-;	jp nz, .next	;anchor
+	jp nz, .next
 	ld [hl], $78
 
 	push de
@@ -273,12 +269,10 @@ HatchEggs:
 	ld hl, wPartyMon1Species
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call AddNTimes
-;
 	inc hl
 	ld a, [hld]
 	ld [wCurPartySpecies + 1], a
 	ld d, a
-;
 	ld a, [hli]
 	ld [wCurPartySpecies], a
 	ld e, a
@@ -299,13 +293,11 @@ HatchEggs:
 
 	pop de
 
-;
 	ld a, [wCurPartySpecies + 1]
 	dec de
 	ld [de], a
 	ld [wNamedObjectIndexBuffer + 1], a
 	ld [wCurSpecies + 1], a
-;
 	ld a, [wCurPartySpecies]
 	dec de
 	ld [de], a
@@ -313,7 +305,7 @@ HatchEggs:
 	ld [wCurSpecies], a
 	call GetPokemonName
 	xor a
-;	ld [wUnusedEggHatchFlag], a
+	ld [wUnusedEggHatchFlag], a
 	call GetBaseData
 	ld a, [wCurPartyMon]
 	ld hl, wPartyMon1
@@ -385,7 +377,7 @@ HatchEggs:
 	jr c, .nonickname
 
 	ld a, TRUE
-;	ld [wUnusedEggHatchFlag], a
+	ld [wUnusedEggHatchFlag], a
 	xor a
 	ld [wMonType], a
 	push de
@@ -466,8 +458,17 @@ InitEggMoves:
 	ld hl, wEggMonMoves
 	ld c, NUM_MOVES
 .next
+	push bc
 	ld a, [de]
-	cp [hl]
+	sub [hl]
+	ld b, a
+	inc de
+	inc hl
+	ld a, [de]
+	dec de
+	sub [hl]
+	or b
+	pop bc
 	jr z, .skip
 	inc hl
 	dec c
@@ -478,6 +479,7 @@ InitEggMoves:
 
 .skip
 	inc de
+	inc de
 	dec b
 	jr nz, .loop
 
@@ -485,16 +487,15 @@ InitEggMoves:
 	ret
 
 GetEggMove:
+; First check whether the putative move is an eggmove for our egg species
+; If not, see whether it can learn it by level up
+; If not, see whether it can learn it by TM or HM
 	push bc
 	ld a, [wEggMonSpecies]
-;	dec a
-;	ld c, a
-;	ld b, 0
 	ld c, a
 	ld a, [wEggMonSpecies + 1]
 	ld b, a
 	dec bc
-;
 	ld hl, EggMovePointers
 	add hl, bc
 	add hl, bc
@@ -506,9 +507,19 @@ GetEggMove:
 	cp -1
 	jr z, .reached_end
 	ld b, a
+	inc hl
+	ld a, BANK("Egg Moves")
+	call GetFarByte
+	ld c, a
 	ld a, [de]
-	cp b
-	jr z, .done_carry
+	sub b
+	ld b, a
+	inc de
+	ld a, [de]
+	dec de
+	sub c
+	or b
+	jp z, .done_carry
 	inc hl
 	jr .loop
 
@@ -517,7 +528,14 @@ GetEggMove:
 	ld b, NUM_MOVES
 .loop2
 	ld a, [de]
-	cp [hl]
+	sub [hl]
+	ld c, a
+	inc de
+	inc hl
+	ld a, [de]
+	sub [hl]
+	dec de
+	or c
 	jr z, .found_eggmove
 	inc hl
 	dec b
@@ -526,14 +544,10 @@ GetEggMove:
 
 .found_eggmove
 	ld a, [wEggMonSpecies]
-;	dec a
-;	ld c, a
-;	ld b, 0
 	ld c, a
 	ld a, [wEggMonSpecies + 1]
 	ld b, a
 	dec bc
-;
 	ld hl, EvosAttacksPointers
 	add hl, bc
 	add hl, bc
@@ -554,8 +568,18 @@ GetEggMove:
 	ld a, BANK("Evolutions and Attacks")
 	call GetFarByte
 	ld b, a
+	inc hl
+	ld a, BANK("Evolutions and Attacks")
+	call GetFarByte
+	ld c, a
 	ld a, [de]
-	cp b
+	sub b
+	ld b, a
+	inc de
+	ld a, [de]
+	dec de
+	sub c
+	or b	
 	jr z, .done_carry
 	inc hl
 	jr .loop4
@@ -569,10 +593,23 @@ GetEggMove:
 	and a
 	jr z, .done
 	ld b, a
+	ld a, BANK(TMHMMoves)
+	call GetFarByte
+	ld c, a
+	inc hl
 	ld a, [de]
-	cp b
+	sub b
+	ld b, a
+	inc de
+	ld a, [de]
+	dec de
+	sub c
+	or b
 	jr nz, .loop5
+	ld a, [de]
 	ld [wPutativeTMHMMove], a
+	ld a, c
+	ld [wPutativeTMHMMove + 1], a
 	predef CanLearnTMHMMove
 	ld a, c
 	and a
@@ -593,28 +630,35 @@ LoadEggMove:
 	push bc
 	ld a, [de]
 	ld b, a
+	inc de
+	ld a, [de]
+	ld c, a
+	push bc
 	ld hl, wEggMonMoves
 	ld c, NUM_MOVES
 .loop
 	ld a, [hli]
 	and a
 	jr z, .done
+	inc hl
 	dec c
 	jr nz, .loop
 	ld de, wEggMonMoves
-	ld hl, wEggMonMoves + 1
+	ld hl, wEggMonMoves + 2
+rept 5
 	ld a, [hli]
 	ld [de], a
 	inc de
-	ld a, [hli]
-	ld [de], a
-	inc de
+endr
 	ld a, [hli]
 	ld [de], a
 
 .done
+	pop bc
 	dec hl
 	ld [hl], b
+	inc hl
+	ld [hl], c
 	ld hl, wEggMonMoves
 	ld de, wEggMonPP
 	predef FillPP

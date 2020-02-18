@@ -200,7 +200,7 @@ DayCareStep::
 	ret z
 	ld hl, wStepsToEgg
 	dec [hl]
-	ret nz
+	ret nz			; Comment here and below for instant eggs
 
 	call Random
 	ld [hl], a
@@ -222,7 +222,7 @@ DayCareStep::
 .okay
 	call Random
 	cp b
-	ret nc
+	ret nc			; and here
 	ld hl, wDayCareMan
 	res DAYCAREMAN_MONS_COMPATIBLE_F, [hl]
 	set DAYCAREMAN_HAS_EGG_F, [hl]

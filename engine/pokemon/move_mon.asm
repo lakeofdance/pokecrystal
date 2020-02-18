@@ -555,30 +555,22 @@ SendGetMonIntoFromBox:
 	ld c, a
 	ld b, 0
 	add hl, bc
-;
 	add hl, bc
 	dec hl
-;
 	ld a, [wPokemonWithdrawDepositParameter]
 	cp DAY_CARE_WITHDRAW
-;
 	ld a, [wBreedMon1Species + 1]
 	ld b, a
-;
 	ld a, [wBreedMon1Species]
 	jr z, .okay1
-;
 	ld a, [wCurPartySpecies + 1]
 	ld b, a
-;
 	ld a, [wCurPartySpecies]
 
 .okay1
 	ld [hli], a
-;    
 	ld a, b
 	ld [hli], a
-;    
 	ld [hl], $ff
 	ld a, [wPokemonWithdrawDepositParameter]
 	dec a
@@ -1145,7 +1137,7 @@ SendMonIntoBox:
 .not_unown
 	ld hl, sBoxMon1Moves
 	ld de, wTempMonMoves
-	ld bc, NUM_MOVES
+	ld bc, NUM_MOVES * 2
 	call CopyBytes
 
 	ld hl, sBoxMon1PP
