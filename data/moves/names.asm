@@ -250,3 +250,12 @@ MoveNames::
 	db "ROCK SMASH@"
 	db "WHIRLPOOL@"
 	db "BEAT UP@"
+	db "MOVE_FC@"
+	db "MOVE_FD@"
+	db "MOVE_FE@"
+	db "MOVE_FF@"
+	db "MOVE_100@"
+	db "FREEZE DRY@"
+	db "MOVE_102@"
+	db "MOVE_103@"
+

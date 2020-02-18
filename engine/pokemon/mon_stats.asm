@@ -426,14 +426,20 @@ ListMoves:
 	ld b, $0
 .moves_loop
 	ld a, [de]
+	push af
 	inc de
+	ld a, [de]
+	ld c, a
 	inc de
+	pop af
 	and a
 	jr z, .no_more_moves
 	push de
 	push hl
 	push hl
 	ld [wCurSpecies], a
+	ld a, c
+	ld [wCurSpecies + 1], a
 	ld a, MOVE_NAME
 	ld [wNamedObjectTypeBuffer], a
 	call GetName

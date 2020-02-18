@@ -257,37 +257,43 @@
 	const ROCK_SMASH   ; f9
 	const WHIRLPOOL    ; fa
 	const BEAT_UP      ; fb
+
+	const MOVE_OR_ANIM_FC  ;  fc
+	const MOVE_OR_ANIM_FD  ;  fd
+	const MOVE_OR_ANIM_FE  ;  fe
+	const MOVE_OR_ANIM_FF  ;  ff, don't use
+	const MOVE_OR_ANIM_100 ; 100, don't use
+	const FREEZE_DRY       ; 101
+	const MOVE_OR_ANIM_102 ; 102
+	const MOVE_OR_ANIM_103 ; 103
+; This constant is only used by engine/battle/move_effects/metronome.asm
 NUM_ATTACKS EQU const_value + -1
 
-	const MOVE_OR_ANIM_FC ; fc
-	const MOVE_OR_ANIM_FD ; fd
-	const MOVE_OR_ANIM_FE ; fe
-
 ; Battle animations use the same constants as the moves up to this point
-	const ANIM_SWEET_SCENT_2     ; ff
-	const ANIM_THROW_POKE_BALL   ; 100
-	const ANIM_SEND_OUT_MON      ; 101
-	const ANIM_RETURN_MON        ; 102
-	const ANIM_CONFUSED          ; 103
-	const ANIM_SLP               ; 104
-	const ANIM_BRN               ; 105
-	const ANIM_PSN               ; 106
-	const ANIM_SAP               ; 107
-	const ANIM_FRZ               ; 108
-	const ANIM_PAR               ; 109
-	const ANIM_IN_LOVE           ; 10a
-	const ANIM_IN_SANDSTORM      ; 10b
-	const ANIM_IN_NIGHTMARE      ; 10c
-	const ANIM_IN_WHIRLPOOL      ; 10d
+	const ANIM_SWEET_SCENT_2     ; 104
+	const ANIM_THROW_POKE_BALL   ; 105
+	const ANIM_SEND_OUT_MON      ; 106
+	const ANIM_RETURN_MON        ; 107
+	const ANIM_CONFUSED          ; 108
+	const ANIM_SLP               ; 109
+	const ANIM_BRN               ; 10a
+	const ANIM_PSN               ; 10b
+	const ANIM_SAP               ; 10c
+	const ANIM_FRZ               ; 10d
+	const ANIM_PAR               ; 10e
+	const ANIM_IN_LOVE           ; 10f
+	const ANIM_IN_SANDSTORM      ; 110
+	const ANIM_IN_NIGHTMARE      ; 111
+	const ANIM_IN_WHIRLPOOL      ; 112
 ; battle anims
-	const ANIM_MISS              ; 10e
-	const ANIM_ENEMY_DAMAGE      ; 10f
-	const ANIM_ENEMY_STAT_DOWN   ; 110
-	const ANIM_PLAYER_STAT_DOWN  ; 111
-	const ANIM_PLAYER_DAMAGE     ; 112
-	const ANIM_WOBBLE            ; 113
-	const ANIM_SHAKE             ; 114
-	const ANIM_HIT_CONFUSION     ; 115
+	const ANIM_MISS              ; 113
+	const ANIM_ENEMY_DAMAGE      ; 114
+	const ANIM_ENEMY_STAT_DOWN   ; 115
+	const ANIM_PLAYER_STAT_DOWN  ; 116
+	const ANIM_PLAYER_DAMAGE     ; 117
+	const ANIM_WOBBLE            ; 118
+	const ANIM_SHAKE             ; 119
+	const ANIM_HIT_CONFUSION     ; 11a
 
 ; wNumHits uses offsets from ANIM_MISS
 	const_def

@@ -255,13 +255,18 @@ MoveDescriptions::
 	dw MoveFDDescription
 	dw MoveFEDescription
 	dw MoveFFDescription
-	dw Move00Description
+	dw Move100Description
+	dw FreezeDryDescription
+	dw Move102Description
+	dw Move103Description
 
 MoveFCDescription:
 MoveFDDescription:
 MoveFEDescription:
 MoveFFDescription:
-Move00Description:
+Move100Description:
+Move102Description:
+Move103Description:
 	db "?@"
 
 PoundDescription:
@@ -1267,3 +1272,7 @@ WhirlpoolDescription:
 BeatUpDescription:
 	db   "Party #MON join"
 	next "in the attack.@"
+
+FreezeDryDescription:
+	db   "Hits WATER type"
+	next "#MON hard.@"

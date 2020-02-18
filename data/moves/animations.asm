@@ -252,11 +252,15 @@ BattleAnimations::
 	dw BattleAnim_RockSmash
 	dw BattleAnim_Whirlpool
 	dw BattleAnim_BeatUp
-	dw BattleAnim_252
-	dw BattleAnim_253
-	dw BattleAnim_254
+	dw BattleAnim_fc
+	dw BattleAnim_fd
+	dw BattleAnim_fe
+	dw BattleAnim_ff	;don't use
+	dw BattleAnim_100	;don't use
+	dw BattleAnim_101
+	dw BattleAnim_102
+	dw BattleAnim_103
 	dw BattleAnim_SweetScent2
-; $100
 	dw BattleAnim_ThrowPokeBall
 	dw BattleAnim_SendOutMon
 	dw BattleAnim_ReturnMon
@@ -281,10 +285,15 @@ BattleAnimations::
 	dw BattleAnim_HitConfusion
 
 BattleAnim_0:
-BattleAnim_252:
-BattleAnim_253:
-BattleAnim_254:
 BattleAnim_MirrorMove:
+BattleAnim_fc:
+BattleAnim_fd:
+BattleAnim_fe:
+BattleAnim_ff:
+BattleAnim_100:
+BattleAnim_101:
+BattleAnim_102:
+BattleAnim_103:
 	anim_ret
 
 BattleAnim_SweetScent2:

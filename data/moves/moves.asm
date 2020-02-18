@@ -263,3 +263,11 @@ Moves:
 	move ROCK_SMASH,   EFFECT_DEFENSE_DOWN_HIT,   20, FIGHTING, 100, 15,  50
 	move WHIRLPOOL,    EFFECT_TRAP_TARGET,        15, WATER,     70, 15,   0
 	move BEAT_UP,      EFFECT_BEAT_UP,            10, DARK,     100, 10,   0
+	move POUND,        EFFECT_NORMAL_HIT,         10, NORMAL,   100, 10,   0
+	move POUND,        EFFECT_NORMAL_HIT,         10, NORMAL,   100, 10,   0
+	move POUND,        EFFECT_NORMAL_HIT,         10, NORMAL,   100, 10,   0
+	move POUND,        EFFECT_NORMAL_HIT,         10, NORMAL,   100, 10,   0	;  FF, don't use
+	move POUND,        EFFECT_NORMAL_HIT,         10, NORMAL,   100, 10,   0	; 100, don't use
+	move FREEZE_DRY,   EFFECT_FREEZE_HIT,         70, NORMAL,   100, 20,  10
+	move POUND,        EFFECT_NORMAL_HIT,         10, NORMAL,   100, 10,   0
+	move POUND,        EFFECT_NORMAL_HIT,         10, NORMAL,   100, 10,   0
