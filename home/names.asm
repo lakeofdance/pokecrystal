@@ -18,6 +18,8 @@ GetName::
 	push de
 
 	ld a, [wNamedObjectTypeBuffer]
+	cp MOVE_NAME
+	jr z, .MoveName
 	cp MON_NAME
 	jr nz, .NotPokeName
 
@@ -31,6 +33,29 @@ GetName::
 	ld e, l
 	ld d, h
 	jr .done
+
+.MoveName
+	ld a, [wNamedObjectTypeBuffer]
+	dec a
+	ld e, a
+	ld d, 0
+	ld hl, NamesPointers
+	add hl, de
+	add hl, de
+	add hl, de
+	ld a, [hli]
+	rst Bankswitch
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+
+	ld a, [wCurSpecies]
+	ld e, a
+	ld a, [wCurSpecies + 1]
+	ld d, a
+	dec de
+	call GetNthString2
+	jr .MoveName2
 
 .NotPokeName:
 	ld a, [wNamedObjectTypeBuffer]
@@ -51,6 +76,7 @@ GetName::
 	dec a
 	call GetNthString
 
+.MoveName2:
 	ld de, wStringBuffer1
 	ld bc, ITEM_NAME_LENGTH
 	call CopyBytes
@@ -85,6 +111,32 @@ GetNthString::
 	dec b
 	jr nz, .readChar
 	pop bc
+	ret
+
+GetNthString2::
+; Return the address of the
+; de-th string starting from hl.
+; de big endian
+
+	ld a, d
+	and a
+	jr nz, .continue
+	ld a, e
+	and a
+	ret z
+
+.continue
+	push de
+	ld c, "@"
+.readChar
+	ld a, [hli]
+	cp c
+	jr nz, .readChar
+	dec de
+	ld a, d
+	or e
+	jr nz, .readChar
+	pop de
 	ret
 
 GetBasePokemonName::
@@ -265,6 +317,8 @@ GetMoveName::
 
 	ld a, [wNamedObjectIndexBuffer] ; move id
 	ld [wCurSpecies], a
+	ld a, [wNamedObjectIndexBuffer + 1]
+	ld [wCurSpecies + 1], a
 
 	call GetName
 	ld de, wStringBuffer1
