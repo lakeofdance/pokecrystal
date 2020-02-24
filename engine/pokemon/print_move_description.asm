@@ -2,9 +2,10 @@ PrintMoveDesc:
 	push hl
 	ld hl, MoveDescriptions
 	ld a, [wCurSpecies]
-	dec a
 	ld c, a
-	ld b, 0
+	ld a, [wCurSpecies + 1]
+	ld b, a
+	dec bc
 	add hl, bc
 	add hl, bc
 	ld a, [hli]

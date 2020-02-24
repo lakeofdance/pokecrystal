@@ -569,6 +569,8 @@ ParsePlayerAction:
 	jr z, .not_encored
 	ld a, [wLastPlayerMove]
 	ld [wCurPlayerMove], a
+	ld a, [wLastPlayerMove + 1]
+	ld [wCurPlayerMove + 1], a
 	jr .encored
 
 .not_encored

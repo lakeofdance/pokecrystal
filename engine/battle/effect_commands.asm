@@ -886,8 +886,11 @@ BattleCommand_CheckObedience:
 	ld b, 0
 	ld hl, wBattleMonMoves
 	add hl, bc
-	ld a, [hl]
+	add hl, bc
+	ld a, [hli]
 	ld [wCurPlayerMove], a
+	ld a, [hl]
+	ld [wCurPlayerMove + 1], a
 
 	call SetPlayerTurn
 	call UpdateMoveData
@@ -1994,9 +1997,11 @@ BattleCommand_MoveAnimNoSub:
 
 .triplekick
 	ld a, BATTLE_VARS_MOVE_ANIM
-	call GetBattleVar
+	call GetBattleVarAddr
 	ld e, a
-	ld d, 0
+	inc hl
+	ld a, [hl]
+	ld d, a
 	call PlayFXAnimID
 
 	ld a, BATTLE_VARS_MOVE_ANIM
@@ -2017,9 +2022,11 @@ BattleCommand_MoveAnimNoSub:
 	cp 1
 	push af
 	ld a, BATTLE_VARS_MOVE_ANIM
-	call GetBattleVar
+	call GetBattleVarAddr
 	ld e, a
-	ld d, 0
+	inc hl
+	ld a, [hl]
+	ld d, a
 	pop af
 	jp z, PlayFXAnimID
 	xor a
@@ -2052,9 +2059,11 @@ BattleCommand_StatUpDownAnim:
 	xor a
 	ld [wKickCounter], a
 	ld a, BATTLE_VARS_MOVE_ANIM
-	call GetBattleVar
+	call GetBattleVarAddr
 	ld e, a
-	ld d, 0
+	inc hl
+	ld a, [hl]
+	ld d, a
 	jp PlayFXAnimID
 
 BattleCommand_SwitchTurn:
@@ -3587,8 +3596,9 @@ UpdateMoveData:
 	ld d, h
 	ld e, l
 
+	push hl
 	ld a, BATTLE_VARS_MOVE
-	call GetBattleVar
+	call GetBattleVarAddr
 	ld c, a
 	ld [wCurSpecies], a
 	ld [wNamedObjectIndexBuffer], a
@@ -3597,7 +3607,7 @@ UpdateMoveData:
 	ld b, a
 	ld [wCurSpecies + 1], a
 	ld [wNamedObjectIndexBuffer + 1], a
-
+	pop hl
 
 	dec bc
 	call GetMoveData
@@ -6736,15 +6746,20 @@ AnimateCurrentMove:
 	ret
 
 PlayDamageAnim:
-	xor a
-	ld [wFXAnimID + 1], a
 
+	push bc
+	push hl
 	ld a, BATTLE_VARS_MOVE_ANIM
-	call GetBattleVar
-	and a
-	ret z
-
+	call GetBattleVarAddr
 	ld [wFXAnimID], a
+	ld b, a
+	inc hl
+	ld a, [hl]
+	ld [wFXAnimID + 1], a
+	pop hl
+	or b
+	pop bc
+	ret z
 
 	ldh a, [hBattleTurn]
 	and a
@@ -6762,14 +6777,26 @@ LoadMoveAnim:
 	ld [wNumHits], a
 	ld [wFXAnimID + 1], a
 
+	push bc
+	push hl
 	ld a, BATTLE_VARS_MOVE_ANIM
-	call GetBattleVar
-	and a
+	call GetBattleVarAddr
+	ld [wFXAnimID], a
+	ld b, a
+	inc hl
+	ld a, [hl]
+	ld [wFXAnimID + 1], a
+	pop hl
+	or b
+	pop bc
 	ret z
+	jr PlayUserBattleAnim
 
 	; fallthrough
 
 LoadAnim:
+; used almost exclusively for substitute (but once for destiny bond)
+; so just leaving this as 1-byte
 	ld [wFXAnimID], a
 
 	; fallthrough

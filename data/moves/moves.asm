@@ -268,6 +268,6 @@ Moves:
 	move POUND,        EFFECT_NORMAL_HIT,         10, NORMAL,   100, 10,   0
 	move POUND,        EFFECT_NORMAL_HIT,         10, NORMAL,   100, 10,   0	;  FF, don't use
 	move POUND,        EFFECT_NORMAL_HIT,         10, NORMAL,   100, 10,   0	; 100, don't use
-	move FREEZE_DRY,   EFFECT_FREEZE_HIT,         70, NORMAL,   100, 20,  10
+	move FREEZE_DRY,   EFFECT_FREEZE_HIT,         70, ICE,      100, 20,  10
 	move POUND,        EFFECT_NORMAL_HIT,         10, NORMAL,   100, 10,   0
 	move POUND,        EFFECT_NORMAL_HIT,         10, NORMAL,   100, 10,   0

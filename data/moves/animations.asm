@@ -257,7 +257,7 @@ BattleAnimations::
 	dw BattleAnim_fe
 	dw BattleAnim_ff	;don't use
 	dw BattleAnim_100	;don't use
-	dw BattleAnim_101
+	dw BattleAnim_IceBeam	;freeze dry
 	dw BattleAnim_102
 	dw BattleAnim_103
 	dw BattleAnim_SweetScent2

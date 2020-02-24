@@ -46,7 +46,7 @@ BattleCommand_Transform:
 	inc hl
 	inc de
 	inc de
-	ld bc, NUM_MOVES
+	ld bc, NUM_MOVES * 2
 	call CopyBytes
 	ldh a, [hBattleTurn]
 	and a
