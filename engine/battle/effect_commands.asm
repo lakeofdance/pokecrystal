@@ -1,3 +1,5 @@
+INCLUDE "engine/battle/compare_move.asm"
+
 DoPlayerTurn:
 	call SetPlayerTurn
 
@@ -177,10 +179,12 @@ CheckPlayerTurn:
 	call StdBattleTextbox
 
 	; Snore and Sleep Talk bypass sleep.
-	ld a, [wCurPlayerMove]
-	cp SNORE
+	ld hl, wCurPlayerMove
+	ld bc, SNORE
+	call CompareMove
 	jr z, .not_asleep
-	cp SLEEP_TALK
+	ld bc, SLEEP_TALK
+	call CompareMove
 	jr z, .not_asleep
 
 	call CantMove
@@ -193,10 +197,12 @@ CheckPlayerTurn:
 	jr z, .not_frozen
 
 	; Flame Wheel and Sacred Fire thaw the user.
-	ld a, [wCurPlayerMove]
-	cp FLAME_WHEEL
+	ld hl, wCurPlayerMove
+	ld bc, FLAME_WHEEL
+	call CompareMove
 	jr z, .not_frozen
-	cp SACRED_FIRE
+	ld bc, SACRED_FIRE
+	call CompareMove
 	jr z, .not_frozen
 
 	ld hl, FrozenSolidText
@@ -232,6 +238,7 @@ CheckPlayerTurn:
 
 	ld [hl], a
 	ld [wDisabledMove], a
+	ld [wDisabledMove + 1], a
 	ld hl, DisabledNoMoreText
 	call StdBattleTextbox
 
@@ -305,7 +312,10 @@ CheckPlayerTurn:
 
 	; Are we using the disabled move?
 	ld hl, wCurPlayerMove
-	cp [hl]
+	ld c, a
+	ld a, [wDisabledMove + 1]
+	ld b, a
+	call CompareMove
 	jr nz, .no_disabled_move
 
 	call MoveDisabled
@@ -342,11 +352,13 @@ CantMove:
 	call ResetFuryCutterCount
 
 	ld a, BATTLE_VARS_MOVE_ANIM
-	call GetBattleVar
-	cp FLY
+	call GetBattleVarAddr
+	ld bc, FLY
+	call CompareMove
 	jr z, .fly_dig
 
-	cp DIG
+	ld bc, DIG
+	call CompareMove
 	ret nz
 
 .fly_dig
@@ -405,10 +417,12 @@ CheckEnemyTurn:
 
 .fast_asleep
 	; Snore and Sleep Talk bypass sleep.
-	ld a, [wCurEnemyMove]
-	cp SNORE
+	ld hl, wCurEnemyMove
+	ld bc, SNORE
+	call CompareMove
 	jr z, .not_asleep
-	cp SLEEP_TALK
+	ld bc, SLEEP_TALK
+	call CompareMove
 	jr z, .not_asleep
 	call CantMove
 	jp EndTurn
@@ -420,10 +434,12 @@ CheckEnemyTurn:
 	jr z, .not_frozen
 
 	; Flame Wheel and Sacred Fire thaw the user.
-	ld a, [wCurEnemyMove]
-	cp FLAME_WHEEL
+	ld hl, wCurEnemyMove
+	ld bc, FLAME_WHEEL
+	call CompareMove
 	jr z, .not_frozen
-	cp SACRED_FIRE
+	ld bc, SACRED_FIRE
+	call CompareMove
 	jr z, .not_frozen
 
 	ld hl, FrozenSolidText
@@ -553,7 +569,10 @@ CheckEnemyTurn:
 
 	; Are we using the disabled move?
 	ld hl, wCurEnemyMove
-	cp [hl]
+	ld c, a
+	ld a, [wEnemyDisabledMove + 1]
+	ld b, a
+	call CompareMove
 	jr nz, .no_disabled_move
 
 	call MoveDisabled
@@ -590,8 +609,11 @@ MoveDisabled:
 	res SUBSTATUS_CHARGED, [hl]
 
 	ld a, BATTLE_VARS_MOVE
-	call GetBattleVar
+	call GetBattleVarAddr
 	ld [wNamedObjectIndexBuffer], a
+	inc hl
+	ld a, [hl]
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetMoveName
 
 	ld hl, DisabledMoveText
@@ -805,7 +827,7 @@ BattleCommand_CheckObedience:
 
 .UseInstead:
 ; Can't use another move if the monster only has one!
-	ld a, [wBattleMonMoves + 1]
+	ld a, [wBattleMonMoves + 2]
 	and a
 	jr z, .DoNothing
 
@@ -829,6 +851,7 @@ BattleCommand_CheckObedience:
 	jr z, .CheckMovePP
 
 ; Stop at undefined moves.
+	inc de
 	inc de
 	ld a, [de]
 	and a
@@ -903,7 +926,9 @@ BattleCommand_CheckObedience:
 .EndDisobedience:
 	xor a
 	ld [wLastPlayerMove], a
+	ld [wLastPlayerMove + 1], a
 	ld [wLastPlayerCounterMove], a
+	ld [wLastPlayerCounterMove + 1], a
 
 	; Break Encore too.
 	ld hl, wPlayerSubStatus5
@@ -915,12 +940,14 @@ BattleCommand_CheckObedience:
 
 IgnoreSleepOnly:
 	ld a, BATTLE_VARS_MOVE_ANIM
-	call GetBattleVar
+	call GetBattleVarAddr
 
 	; Snore and Sleep Talk bypass sleep.
-	cp SNORE
+	ld bc, SNORE
+	call CompareMove
 	jr z, .CheckSleep
-	cp SLEEP_TALK
+	ld bc, SLEEP_TALK
+	call CompareMove
 	jr z, .CheckSleep
 	and a
 	ret
@@ -978,9 +1005,14 @@ BattleCommand_DoTurn:
 	inc a
 	ld [bc], a
 
+	push hl
+	push bc
 	ld a, BATTLE_VARS_MOVE
-	call GetBattleVar
-	cp STRUGGLE
+	call GetBattleVarAddr
+	ld bc, STRUGGLE
+	call CompareMove
+	pop bc
+	pop hl
 	ret z
 
 	ld a, [de]
@@ -1046,13 +1078,19 @@ BattleCommand_DoTurn:
 	ld c, a
 	ld b, 0
 	add hl, bc
-	ld a, [hl]
-	cp MIMIC
+	add hl, bc
+	push bc
+	ld bc, MIMIC
+	call CompareMove
+	pop bc
 	jr z, .mimic
 	ld hl, wWildMonMoves
 	add hl, bc
-	ld a, [hl]
-	cp MIMIC
+	add hl, bc
+	push bc
+	ld bc, MIMIC
+	call CompareMove
+	pop bc
 	ret z
 
 .mimic
@@ -1092,6 +1130,7 @@ BattleCommand_DoTurn:
 	db -1
 
 CheckMimicUsed:
+; If the carry flag is set, then pp does not decrease
 	ldh a, [hBattleTurn]
 	and a
 	ld a, [wCurMoveNum]
@@ -1103,15 +1142,23 @@ CheckMimicUsed:
 	ld a, MON_MOVES
 	call UserPartyAttr
 
+	push bc
+	push hl
 	ld a, BATTLE_VARS_MOVE
-	call GetBattleVar
-	cp MIMIC
+	call GetBattleVarAddr
+	ld bc, MIMIC
+	call CompareMove
+	pop hl
+	pop bc
 	jr z, .mimic
 ;
 	ld b, 0
 	add hl, bc
-	ld a, [hl]
-	cp MIMIC
+	add hl, bc
+	push bc
+	ld bc, MIMIC
+	call CompareMove
+	pop bc
 	jr nz, .mimic
 
 	scf
