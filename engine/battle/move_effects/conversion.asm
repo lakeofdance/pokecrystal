@@ -16,15 +16,22 @@ BattleCommand_Conversion:
 	push hl
 	ld b, 0
 	add hl, bc
+	add hl, bc
 	ld a, [hl]
 	pop hl
 	and a
 	jr z, .okay
 	push hl
 	push bc
-	dec a
+	add hl, bc
+	add hl, bc
+	ld a, [hli]
+	ld c, a
+	ld a, [hl]
+	ld b, a
+	dec bc
 	ld hl, Moves + MOVE_TYPE
-	call GetMoveAttr
+	call GetMoveAttr2
 	ld [de], a
 	inc de
 	pop bc
@@ -61,8 +68,9 @@ BattleCommand_Conversion:
 	jr .loop2
 
 .fail
-	call AnimateFailedMove
-	jp PrintButItFailed
+	farcall AnimateFailedMove
+	farcall PrintButItFailed
+	ret
 
 .done
 .loop3
@@ -91,6 +99,6 @@ BattleCommand_Conversion:
 	ld [de], a
 	ld [wNamedObjectIndexBuffer], a
 	farcall GetTypeName
-	call AnimateCurrentMove
+	farcall AnimateCurrentMove
 	ld hl, TransformedTypeText
 	jp StdBattleTextbox

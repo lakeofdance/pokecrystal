@@ -10,7 +10,7 @@ BattleCommand_BatonPass:
 	jp z, FailedBatonPass
 
 	call UpdateBattleMonInParty
-	call AnimateCurrentMove
+	farcall AnimateCurrentMove
 
 	ld c, 50
 	call DelayFrames
@@ -35,7 +35,7 @@ BattleCommand_BatonPass:
 	call BatonPass_LinkPlayerSwitch
 
 	ld hl, PassedBattleMonEntrance
-	call CallBattleCore
+	call CallBattleCore2
 
 	call ResetBatonPassStatus
 	ret
@@ -50,23 +50,23 @@ BattleCommand_BatonPass:
 	jp z, FailedBatonPass
 
 	call UpdateEnemyMonInParty
-	call AnimateCurrentMove
+	farcall AnimateCurrentMove
 	call BatonPass_LinkEnemySwitch
 
 ; Passed enemy PartyMon entrance
 	xor a
 	ld [wEnemySwitchMonIndex], a
 	ld hl, EnemySwitch_SetMode
-	call CallBattleCore
+	call CallBattleCore2
 	ld hl, ResetBattleParticipants
-	call CallBattleCore
+	call CallBattleCore2
 	ld a, TRUE
 	ld [wApplyStatLevelMultipliersToEnemy], a
 	ld hl, ApplyStatLevelMultiplierOnAllStats
-	call CallBattleCore
+	call CallBattleCore2
 
 	ld hl, SpikesDamage
-	call CallBattleCore
+	call CallBattleCore2
 
 	jr ResetBatonPassStatus
 
@@ -80,7 +80,7 @@ BatonPass_LinkPlayerSwitch:
 
 	call LoadStandardMenuHeader
 	ld hl, LinkBattleSendReceiveAction
-	call CallBattleCore
+	call CallBattleCore2
 	call CloseWindow
 
 	xor a ; BATTLEPLAYERACTION_USEMOVE
@@ -94,7 +94,7 @@ BatonPass_LinkEnemySwitch:
 
 	call LoadStandardMenuHeader
 	ld hl, LinkBattleSendReceiveAction
-	call CallBattleCore
+	call CallBattleCore2
 
 	ld a, [wOTPartyCount]
 	add BATTLEACTION_SWITCH1
@@ -113,8 +113,9 @@ BatonPass_LinkEnemySwitch:
 	jp CloseWindow
 
 FailedBatonPass:
-	call AnimateFailedMove
-	jp PrintButItFailed
+	farcall AnimateFailedMove
+	farcall PrintButItFailed
+	ret
 
 ResetBatonPassStatus:
 ; Reset status changes that aren't passed by Baton Pass.
@@ -131,7 +132,7 @@ ResetBatonPassStatus:
 .ok
 
 	; Disable isn't passed.
-	call ResetActorDisable
+	farcall ResetActorDisable
 
 	; Attraction isn't passed.
 	ld hl, wPlayerSubStatus1
@@ -148,9 +149,10 @@ ResetBatonPassStatus:
 	; New mon hasn't used a move yet.
 	ld a, BATTLE_VARS_LAST_MOVE
 	call GetBattleVarAddr
-	ld [hl], 0
-
 	xor a
+	ld [hli], a
+	ld [hl], a
+
 	ld [wPlayerWrapCount], a
 	ld [wEnemyWrapCount], a
 	ret

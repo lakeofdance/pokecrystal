@@ -97,17 +97,24 @@ DoMove:
 	ld hl, BattleCommandPointers
 	add hl, bc
 	add hl, bc
+	add hl, bc
 	pop bc
 
 	ld a, BANK(BattleCommandPointers)
+	call GetFarByte
+	inc hl
+	push af
+	ld a, BANK(BattleCommandPointers)
 	call GetFarHalfword
+	pop af
 
 	call .DoMoveEffectCommand
 
 	jr .ReadMoveEffectCommand
 
 .DoMoveEffectCommand:
-	jp hl
+	call FarCall_hl
+	ret
 
 CheckTurn:
 
@@ -2978,8 +2985,6 @@ EnemyAttackDamage:
 	and a
 	ret
 
-INCLUDE "engine/battle/move_effects/beat_up.asm"
-
 BattleCommand_ClearMissDamage:
 ; clearmissdamage
 	ld a, [wAttackMissed]
@@ -3415,23 +3420,15 @@ BattleCommand_ConstantDamage:
 
 INCLUDE "data/moves/flail_reversal_power.asm"
 
-INCLUDE "engine/battle/move_effects/counter.asm"
-
-INCLUDE "engine/battle/move_effects/encore.asm"
-
 INCLUDE "engine/battle/move_effects/pain_split.asm"
 
 INCLUDE "engine/battle/move_effects/snore.asm"
-
-INCLUDE "engine/battle/move_effects/conversion2.asm"
 
 INCLUDE "engine/battle/move_effects/lock_on.asm"
 
 INCLUDE "engine/battle/move_effects/sketch.asm"
 
 INCLUDE "engine/battle/move_effects/sleep_talk.asm"
-
-INCLUDE "engine/battle/move_effects/destiny_bond.asm"
 
 INCLUDE "engine/battle/move_effects/spite.asm"
 
@@ -4527,9 +4524,6 @@ BattleCommand_StatDown:
 	and a
 	jr nz, .Failed
 
-	call CheckHiddenOpponent
-	jr nz, .Failed
-
 ; Accuracy/Evasion reduction don't involve stats.
 	ld [hl], b
 	ld a, c
@@ -4797,6 +4791,9 @@ ResetMiss:
 	ld [wAttackMissed], a
 	ret
 
+LowerSpeedStat:
+	ld a, SPEED
+
 LowerStat:
 	ld [wLoweredStat], a
 
@@ -5027,8 +5024,6 @@ CalcBattleStats:
 	jr nz, .loop
 
 	ret
-
-INCLUDE "engine/battle/move_effects/bide.asm"
 
 BattleCommand_CheckRampage:
 ; checkrampage
@@ -6144,11 +6139,7 @@ INCLUDE "engine/battle/move_effects/leech_seed.asm"
 
 INCLUDE "engine/battle/move_effects/splash.asm"
 
-INCLUDE "engine/battle/move_effects/disable.asm"
-
 INCLUDE "engine/battle/move_effects/pay_day.asm"
-
-INCLUDE "engine/battle/move_effects/conversion.asm"
 
 BattleCommand_ResetStats:
 ; resetstats
@@ -6446,11 +6437,6 @@ INCLUDE "engine/battle/move_effects/thief.asm"
 BattleCommand_ArenaTrap:
 ; arenatrap
 
-; Doesn't work on an absent opponent.
-
-	call CheckHiddenOpponent
-	jr nz, .failed
-
 ; Don't trap if the opponent is already trapped.
 
 	ld a, BATTLE_VARS_SUBSTATUS5
@@ -6502,8 +6488,6 @@ BattleCommand_Defrost:
 	ld hl, WasDefrostedText
 	jp StdBattleTextbox
 
-INCLUDE "engine/battle/move_effects/curse.asm"
-
 INCLUDE "engine/battle/move_effects/protect.asm"
 
 INCLUDE "engine/battle/move_effects/endure.asm"
@@ -6519,8 +6503,6 @@ INCLUDE "engine/battle/move_effects/sandstorm.asm"
 INCLUDE "engine/battle/move_effects/rollout.asm"
 
 INCLUDE "engine/battle/move_effects/fury_cutter.asm"
-
-INCLUDE "engine/battle/move_effects/attract.asm"
 
 INCLUDE "engine/battle/move_effects/return.asm"
 
@@ -6561,8 +6543,6 @@ BattleCommand_CheckSafeguard:
 	jp EndMoveEffect
 
 INCLUDE "engine/battle/move_effects/magnitude.asm"
-
-INCLUDE "engine/battle/move_effects/baton_pass.asm"
 
 INCLUDE "engine/battle/move_effects/pursuit.asm"
 
@@ -6671,8 +6651,6 @@ INCLUDE "engine/battle/move_effects/rain_dance.asm"
 
 INCLUDE "engine/battle/move_effects/sunny_day.asm"
 
-INCLUDE "engine/battle/move_effects/belly_drum.asm"
-
 INCLUDE "engine/battle/move_effects/psych_up.asm"
 
 INCLUDE "engine/battle/move_effects/mirror_coat.asm"
@@ -6710,13 +6688,6 @@ BattleCommand_SkipSunCharge:
 INCLUDE "engine/battle/move_effects/future_sight.asm"
 
 INCLUDE "engine/battle/move_effects/thunder.asm"
-
-CheckHiddenOpponent:
-; BUG: This routine is completely redundant and introduces a bug, since BattleCommand_CheckHit does these checks properly.
-	ld a, BATTLE_VARS_SUBSTATUS3_OPP
-	call GetBattleVar
-	and 1 << SUBSTATUS_FLYING | 1 << SUBSTATUS_UNDERGROUND
-	ret
 
 GetUserItem:
 ; Return the effect of the user's item in bc, and its id at hl.
@@ -6923,9 +6894,9 @@ SkipToBattleCommand:
 	ret
 
 GetMoveAttr:
-; Assuming hl = Moves + x, return attribute x of move a.
+; Assuming hl = Moves + x, return attribute x of move bc (big endian).
 	push bc
-	ld bc, MOVE_LENGTH
+	ld a, MOVE_LENGTH
 	call AddNTimes
 	call GetMoveByte
 	pop bc

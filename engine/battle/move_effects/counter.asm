@@ -14,19 +14,23 @@ BattleCommand_Counter:
 	cp EFFECT_COUNTER
 	ret z
 
-	call BattleCommand_ResetTypeMatchup
+	farcall BattleCommand_ResetTypeMatchup
 	ld a, [wTypeMatchup]
 	and a
 	ret z
 
-	call CheckOpponentWentFirst
+	farcall CheckOpponentWentFirst
 	ret z
 
 	ld a, BATTLE_VARS_LAST_COUNTER_MOVE_OPP
-	call GetBattleVar
-	dec a
+	call GetBattleVarAddr
+	ld c, a
+	inc hl
+	ld a, [hl]
+	ld b, a
+	dec bc
 	ld de, wStringBuffer1
-	call GetMoveData
+	farcall GetMoveData
 
 	ld a, [wStringBuffer1 + MOVE_POWER]
 	and a
@@ -36,11 +40,10 @@ BattleCommand_Counter:
 	cp SPECIAL
 	ret nc
 
-	; BUG: Move should fail with all non-damaging battle actions
 	ld hl, wCurDamage
 	ld a, [hli]
 	or [hl]
-	ret z
+	jr z, .failed
 
 	ld a, [hl]
 	add a
@@ -56,4 +59,10 @@ BattleCommand_Counter:
 
 	xor a
 	ld [wAttackMissed], a
+	ret
+
+.failed
+	ld a, 1
+	ld [wEffectFailed], a
+	and a
 	ret

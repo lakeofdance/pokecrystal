@@ -9,24 +9,50 @@ BattleCommand_Encore:
 	ld hl, wBattleMonMoves
 	ld de, wPlayerEncoreCount
 .ok
+	push hl
 	ld a, BATTLE_VARS_LAST_MOVE_OPP
-	call GetBattleVar
+	call GetBattleVarAddr
+	ld c, a
+	inc hl
+	ld a, [hl]
+	ld b, a
+	pop hl
+
+	ld a, c
 	and a
 	jp z, .failed
-	cp STRUGGLE
+	sub STRUGGLE
+	or b
 	jp z, .failed
-	cp ENCORE
+	ld a, c
+	sub ENCORE
+	or b
 	jp z, .failed
-	cp MIRROR_MOVE
+	ld a, c
+	sub MIRROR_MOVE
+	or b
 	jp z, .failed
-	ld b, a
 
-.got_move
-	ld a, [hli]
-	cp b
-	jr nz, .got_move
+	push de
+	dec hl
+	dec hl
+	ld d, $ff
+.not_got_move
+	inc d
+	inc hl
+	inc hl
+	call CompareMove2
+	jr nz, .not_got_move
 
-	ld bc, wBattleMonPP - wBattleMonMoves - 1
+	ld b, 0
+	ld c, d
+	pop de
+	ld hl, wEnemyMonPP
+	ldh a, [hBattleTurn]
+	and a
+	jr z, .ok2
+	ld hl, wBattleMonPP
+.ok2
 	add hl, bc
 	ld a, [hl]
 	and PP_MASK
@@ -45,25 +71,30 @@ BattleCommand_Encore:
 	inc a
 	inc a
 	ld [de], a
-	call CheckOpponentWentFirst
+	farcall CheckOpponentWentFirst
 	jr nz, .finish_move
 	ldh a, [hBattleTurn]
 	and a
 	jr z, .force_last_enemy_move
 
 	push hl
+	push de
 	ld a, [wLastPlayerMove]
+	ld c, a
+	ld a, [wLastPlayerMove + 1]
 	ld b, a
-	ld c, 0
-	ld hl, wBattleMonMoves
+	ld d, 0
+	ld hl, wBattleMonMoves - 2
 .find_player_move
-	ld a, [hli]
-	cp b
+	inc hl
+	inc hl
+	call CompareMove2
 	jr z, .got_player_move
-	inc c
-	ld a, c
+	inc d
+	ld a, d
 	cp NUM_MOVES
 	jr c, .find_player_move
+	pop de
 	pop hl
 	res SUBSTATUS_ENCORED, [hl]
 	xor a
@@ -71,30 +102,38 @@ BattleCommand_Encore:
 	jr .failed
 
 .got_player_move
-	pop hl
-	ld a, c
+	ld a, d
 	ld [wCurMoveNum], a
-	ld a, b
+	ld a, c
 	ld [wCurPlayerMove], a
-	dec a
+	ld a, b
+	ld [wCurPlayerMove + 1], a
+	pop de
+	pop hl
+	dec bc
 	ld de, wPlayerMoveStruct
-	call GetMoveData
+	farcall GetMoveData
 	jr .finish_move
 
 .force_last_enemy_move
 	push hl
+	push de
 	ld a, [wLastEnemyMove]
+	ld c, a
+	ld a, [wLastEnemyMove + 1]
 	ld b, a
-	ld c, 0
-	ld hl, wEnemyMonMoves
+	ld d, 0
+	ld hl, wEnemyMonMoves - 2
 .find_enemy_move
-	ld a, [hli]
-	cp b
+	inc hl
+	inc hl
+	call CompareMove2
 	jr z, .got_enemy_move
-	inc c
-	ld a, c
+	inc d
+	ld a, d
 	cp NUM_MOVES
 	jr c, .find_enemy_move
+	pop de
 	pop hl
 	res SUBSTATUS_ENCORED, [hl]
 	xor a
@@ -102,19 +141,23 @@ BattleCommand_Encore:
 	jr .failed
 
 .got_enemy_move
-	pop hl
-	ld a, c
+	ld a, d
 	ld [wCurEnemyMoveNum], a
-	ld a, b
+	ld a, c
 	ld [wCurEnemyMove], a
-	dec a
+	ld a, b
+	ld [wCurEnemyMove + 1], a
+	pop de
+	pop hl
+	dec bc
 	ld de, wEnemyMoveStruct
-	call GetMoveData
+	farcall GetMoveData
 
 .finish_move
-	call AnimateCurrentMove
+	farcall AnimateCurrentMove
 	ld hl, GotAnEncoreText
 	jp StdBattleTextbox
 
 .failed
-	jp PrintDidntAffect2
+	farcall PrintDidntAffect2
+	ret

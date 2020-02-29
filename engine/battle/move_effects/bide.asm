@@ -59,15 +59,19 @@ BattleCommand_StoreEnergy:
 	ld a, BATTLE_VARS_MOVE_ANIM
 	call GetBattleVarAddr
 	ld a, BIDE
-	ld [hl], a
+	ld [hli], a
+	xor a
+	ld [hl], a	
 
 	ld b, unleashenergy_command
-	jp SkipToBattleCommand
+	farcall SkipToBattleCommand
+	ret
 
 .still_storing
 	ld hl, StoringEnergyText
 	call StdBattleTextbox
-	jp EndMoveEffect
+	farcall EndMoveEffect
+	ret
 
 BattleCommand_UnleashEnergy:
 ; unleashenergy
@@ -96,5 +100,6 @@ BattleCommand_UnleashEnergy:
 	ld [bc], a
 	ld a, 1
 	ld [wKickCounter], a
-	call AnimateCurrentMove
-	jp EndMoveEffect
+	farcall AnimateCurrentMove
+	farcall EndMoveEffect
+	ret

@@ -37,8 +37,6 @@ BattleCommand_BeatUp:
 	ld a, [wd002]
 	ld c, a
 	ld a, [wCurBattleMon]
-	; BUG: this can desynchronize link battles
-	; Change "cp [hl]" to "cp c" to fix
 	cp c
 	ld hl, wBattleMonStatus
 	jr z, .active_mon
@@ -169,7 +167,8 @@ BattleCommand_BeatUp:
 	call GetPokemonName
 	ld hl, BeatUpAttackText
 	call StdBattleTextbox
-	jp EnemyAttackDamage
+	farcall EnemyAttackDamage
+	ret
 
 .finish_beatup
 	ld hl, BeatUpAttackText
@@ -208,7 +207,8 @@ BattleCommand_BeatUp:
 
 .beatup_fail
 	ld b, buildopponentrage_command
-	jp SkipToBattleCommand
+	farcall SkipToBattleCommand
+	ret
 
 BattleCommand_BeatUpFailText:
 ; beatupfailtext
@@ -217,7 +217,8 @@ BattleCommand_BeatUpFailText:
 	and a
 	ret nz
 
-	jp PrintButItFailed
+	farcall PrintButItFailed
+	ret
 
 GetBeatupMonLocation:
 	push bc

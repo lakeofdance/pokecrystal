@@ -3,7 +3,7 @@ BattleCommand_Disable:
 
 	ld a, [wAttackMissed]
 	and a
-	jr nz, .failed
+	jp nz, .failed
 
 	ld de, wEnemyDisableCount
 	ld hl, wEnemyMonMoves
@@ -18,20 +18,34 @@ BattleCommand_Disable:
 	and a
 	jr nz, .failed
 
+	push hl
 	ld a, BATTLE_VARS_LAST_COUNTER_MOVE_OPP
-	call GetBattleVar
+	call GetBattleVarAddr
+	ld c, a
+	inc hl
+	ld a, [hl]
+	ld b, a
+	pop hl
+	
+	ld a, c
 	and a
 	jr z, .failed
-	cp STRUGGLE
+	sub STRUGGLE
+	or b
 	jr z, .failed
 
-	ld b, a
-	ld c, $ff
+	push de
+	ld e, $ff
+	dec hl
+	dec hl
 .loop
-	inc c
-	ld a, [hli]
-	cp b
+	inc hl
+	inc hl
+	inc e
+	call CompareMove2
 	jr nz, .loop
+	ld c, e
+	pop de
 
 	ldh a, [hBattleTurn]
 	and a
@@ -53,20 +67,30 @@ BattleCommand_Disable:
 	swap c
 	add c
 	ld [de], a
-	call AnimateCurrentMove
+	farcall AnimateCurrentMove
 	ld hl, wDisabledMove
 	ldh a, [hBattleTurn]
 	and a
 	jr nz, .got_disabled_move_pointer
 	inc hl
+	inc hl
 .got_disabled_move_pointer
+	inc hl
+	push hl
 	ld a, BATTLE_VARS_LAST_COUNTER_MOVE_OPP
-	call GetBattleVar
-	ld [hl], a
+	call GetBattleVarAddr
 	ld [wNamedObjectIndexBuffer], a
+	inc hl
+	ld a, [hl]
+	pop hl
+	ld [hld], a
+	ld [wNamedObjectIndexBuffer + 1], a
+	ld a, [wNamedObjectIndexBuffer]
+	ld [hl], a
 	call GetMoveName
 	ld hl, WasDisabledText
 	jp StdBattleTextbox
 
 .failed
-	jp FailMove
+	farcall FailMove
+	ret
