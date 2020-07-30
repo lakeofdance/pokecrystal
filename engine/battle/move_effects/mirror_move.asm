@@ -1,13 +1,20 @@
 BattleCommand_MirrorMove:
 ; mirrormove
 
-	call ClearLastMove
+	farcall ClearLastMove
 
 	ld a, BATTLE_VARS_MOVE
 	call GetBattleVarAddr
 
+	push hl
 	ld a, BATTLE_VARS_LAST_COUNTER_MOVE_OPP
-	call GetBattleVar
+	call GetBattleVarAddr
+	ld c, a
+	inc hl
+	ld a, [hl]
+	ld b, a
+	pop hl
+	ld a, c
 	and a
 	jr z, .failed
 
@@ -15,37 +22,42 @@ BattleCommand_MirrorMove:
 	jr nz, .use
 
 .failed
-	call AnimateFailedMove
+	farcall AnimateFailedMove
 
 	ld hl, MirrorMoveFailedText
 	call StdBattleTextbox
-	jp EndMoveEffect
+	farcall EndMoveEffect
+	ret
 
 .use
+	ld a, c
+	ld [hli], a
+	ld [wNamedObjectIndexBuffer], a
 	ld a, b
 	ld [hl], a
-	ld [wNamedObjectIndexBuffer], a
+	ld [wNamedObjectIndexBuffer + 1], a
 
-	push af
+	push bc
 	ld a, BATTLE_VARS_MOVE_ANIM
 	call GetBattleVarAddr
 	ld d, h
 	ld e, l
-	pop af
+	pop bc
 
-	dec a
-	call GetMoveData
+	dec bc
+	farcall GetMoveData
 	call GetMoveName
 	call CopyName1
-	call CheckUserIsCharging
+	farcall CheckUserIsCharging
 	jr nz, .done
 
 	ld a, [wKickCounter]
 	push af
-	call BattleCommand_LowerSub
+	farcall BattleCommand_LowerSub
 	pop af
 	ld [wKickCounter], a
 
 .done
-	call BattleCommand_MoveDelay
-	jp ResetTurn
+	farcall BattleCommand_MoveDelay
+	farcall ResetTurn
+	ret

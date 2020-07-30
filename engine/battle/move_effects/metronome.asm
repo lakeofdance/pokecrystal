@@ -1,43 +1,80 @@
 BattleCommand_Metronome:
 ; metronome
 
-	call ClearLastMove
-	call CheckUserIsCharging
+	farcall ClearLastMove
+	farcall CheckUserIsCharging
 	jr nz, .asm_3742b
 
 	ld a, [wKickCounter]
 	push af
-	call BattleCommand_LowerSub
+	farcall BattleCommand_LowerSub
 	pop af
 	ld [wKickCounter], a
 
 .asm_3742b
-	call LoadMoveAnim
+	farcall LoadMoveAnim
 
 .GetMove:
-	call BattleRandom
-
-; No invalid moves.
-;	cp NUM_ATTACKS + 1
-;	jr nc, .GetMove
+	call BattleRandomMove
 
 ; None of the moves in MetronomeExcepts.
-	push af
+	push bc
 	ld de, 1
 	ld hl, MetronomeExcepts
-	call IsInArray
+	call IsWordInArray
 	pop bc
 	jr c, .GetMove
 
 ; No moves the user already has.
-	ld a, b
-	call CheckUserMove
+	call CheckUserMoveLE
 	jr z, .GetMove
 
 	ld a, BATTLE_VARS_MOVE
 	call GetBattleVarAddr
+	ld [hl], c
+	inc hl
 	ld [hl], b
-	call UpdateMoveData
-	jp ResetTurn
+	farcall UpdateMoveData
+	farcall ResetTurn
+	ret
+
+BattleRandomMove:
+; returns little endian move in bc
+; if NUM_ATTACKS is greater than 256 x 4, increase the rept count.
+.GetMoveLoop
+	call BattleRandom
+	ld c, a
+	ld b, 0
+	ld hl, 0
+rept 4
+	add hl, bc
+endr
+	push hl
+	call BattleRandom
+	and 3
+	ld c, a
+	pop hl
+	add hl, bc
+
+; is hl a bad move?
+	ld a, l
+	and a
+	jr z, .GetMoveLoop
+	cp $ff
+	jr z, .GetMoveLoop
+
+; last thing to check: is hl too big?
+	ld de, NUM_ATTACKS
+	ld a, d
+	cp h
+	jr c, .GetMoveLoop
+	jr nz, .ok
+	ld a, e
+	cp l
+	jr c, .GetMoveLoop
+.ok
+	ld c, h
+	ld b, l
+	ret	
 
 INCLUDE "data/moves/metronome_exception_moves.asm"

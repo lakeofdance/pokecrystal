@@ -4,11 +4,14 @@ BattleCommand_Counter:
 	ld a, 1
 	ld [wAttackMissed], a
 	ld a, BATTLE_VARS_LAST_COUNTER_MOVE_OPP
-	call GetBattleVar
+	call GetBattleVarAddr
+	ld c, a
 	and a
 	ret z
-
+	inc hl
+	ld a, [hl]
 	ld b, a
+
 	callfar GetMoveEffect
 	ld a, b
 	cp EFFECT_COUNTER

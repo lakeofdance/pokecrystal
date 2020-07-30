@@ -5,29 +5,36 @@ BattleCommand_MirrorCoat:
 	ld [wAttackMissed], a
 
 	ld a, BATTLE_VARS_LAST_COUNTER_MOVE_OPP
-	call GetBattleVar
+	call GetBattleVarAddr
+	ld c, a
 	and a
 	ret z
-
+	inc hl
+	ld a, [hl]
 	ld b, a
+
 	callfar GetMoveEffect
 	ld a, b
 	cp EFFECT_MIRROR_COAT
 	ret z
 
-	call BattleCommand_ResetTypeMatchup
+	farcall BattleCommand_ResetTypeMatchup
 	ld a, [wTypeMatchup]
 	and a
 	ret z
 
-	call CheckOpponentWentFirst
+	farcall CheckOpponentWentFirst
 	ret z
 
 	ld a, BATTLE_VARS_LAST_COUNTER_MOVE_OPP
-	call GetBattleVar
-	dec a
+	call GetBattleVarAddr
+	ld c, a
+	and a
+	inc hl
+	ld a, [hl]
+	dec bc
 	ld de, wStringBuffer1
-	call GetMoveData
+	farcall GetMoveData
 
 	ld a, [wStringBuffer1 + MOVE_POWER]
 	and a

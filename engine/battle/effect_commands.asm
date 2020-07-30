@@ -356,7 +356,7 @@ CantMove:
 	and $ff ^ (1 << SUBSTATUS_BIDE | 1 << SUBSTATUS_RAMPAGE | 1 << SUBSTATUS_CHARGED)
 	ld [hl], a
 
-	call ResetFuryCutterCount
+	farcall ResetFuryCutterCount
 
 	ld a, BATTLE_VARS_MOVE_ANIM
 	call GetBattleVarAddr
@@ -1269,8 +1269,6 @@ INCLUDE "data/moves/critical_hit_moves.asm"
 
 INCLUDE "data/battle/critical_hit_chances.asm"
 
-INCLUDE "engine/battle/move_effects/triple_kick.asm"
-
 BattleCommand_Stab:
 ; STAB = Same Type Attack Bonus
 	ld a, BATTLE_VARS_MOVE_ANIM
@@ -1351,7 +1349,8 @@ BattleCommand_Stab:
 	ld a, BATTLE_VARS_MOVE_TYPE
 	call GetBattleVar
 	ld b, a
-	ld hl, TypeMatchups
+;	ld hl, TypeMatchups
+	call GetMatchup
 
 .TypesLoop:
 	ld a, [hli]
@@ -1455,6 +1454,48 @@ BattleCommand_Stab:
 	ld [wTypeModifier], a
 	ret
 
+GetMatchup:
+;Takes moves with weird matchups, and finds the right table
+;Preserves bc and de, but not hl
+	push bc
+	push de
+;Get the right move
+	ld a, BATTLE_VARS_MOVE_ANIM
+	call GetBattleVarAddr
+	ld a, [hli]
+	ld c, a
+	ld b, [hl]
+;Look at the table
+	ld hl, WeirdMatchups
+	ld e, 4
+	ld d, 0
+.loop
+	ld a, [hl]
+	and -1
+	jr z, .usual_matchup
+	call CompareMove
+	jr z, .get_matchup
+	add hl, de
+	jr .loop
+.get_matchup
+	inc hl
+	inc hl
+	ld a, [hli]
+	ld b, [hl]
+	ld h, b
+	ld l, a
+	jr .outta_here
+
+.usual_matchup
+	ld hl, TypeMatchups
+
+.outta_here
+	pop de
+	pop bc
+	ret
+
+INCLUDE "data/types/weird_matchups.asm"
+
 BattleCheckTypeMatchup:
 	ld hl, wEnemyMonType1
 	ldh a, [hBattleTurn]
@@ -1462,12 +1503,6 @@ BattleCheckTypeMatchup:
 	jr z, CheckTypeMatchup
 	ld hl, wBattleMonType1
 CheckTypeMatchup:
-; There is an incorrect assumption about this function made in the AI related code: when
-; the AI calls CheckTypeMatchup (not BattleCheckTypeMatchup), it assumes that placing the
-; offensive type in a will make this function do the right thing. Since a is overwritten,
-; this assumption is incorrect. A simple fix would be to load the move type for the
-; current move into a in BattleCheckTypeMatchup, before falling through, which is
-; consistent with how the rest of the code assumes this code works like.
 	push hl
 	push de
 	push bc
@@ -1479,7 +1514,8 @@ CheckTypeMatchup:
 	ld c, [hl]
 	ld a, 10 ; 1.0
 	ld [wTypeMatchup], a
-	ld hl, TypeMatchups
+;	ld hl, TypeMatchups
+	call GetMatchup
 .TypesLoop:
 	ld a, [hli]
 	cp -1
@@ -3420,22 +3456,6 @@ BattleCommand_ConstantDamage:
 
 INCLUDE "data/moves/flail_reversal_power.asm"
 
-INCLUDE "engine/battle/move_effects/pain_split.asm"
-
-INCLUDE "engine/battle/move_effects/snore.asm"
-
-INCLUDE "engine/battle/move_effects/lock_on.asm"
-
-INCLUDE "engine/battle/move_effects/sketch.asm"
-
-INCLUDE "engine/battle/move_effects/sleep_talk.asm"
-
-INCLUDE "engine/battle/move_effects/spite.asm"
-
-INCLUDE "engine/battle/move_effects/false_swipe.asm"
-
-INCLUDE "engine/battle/move_effects/heal_bell.asm"
-
 FarPlayBattleAnimation:
 ; play animation de
 
@@ -5089,8 +5109,6 @@ BattleCommand_Rampage:
 	ld [wSomeoneIsRampaging], a
 	ret
 
-INCLUDE "engine/battle/move_effects/teleport.asm"
-
 SetBattleDraw:
 	ld a, [wBattleResult]
 	and BATTLERESULT_BITMASK
@@ -5798,10 +5816,6 @@ BattleCommand_TrapTarget:
 	dbw CLAMP,     ClampedByText     ; 'was CLAMPED by'
 	dbw WHIRLPOOL, WhirlpoolTrapText ; 'was trapped!'
 
-INCLUDE "engine/battle/move_effects/mist.asm"
-
-INCLUDE "engine/battle/move_effects/focus_energy.asm"
-
 BattleCommand_Recoil:
 ; recoil
 
@@ -6101,8 +6115,6 @@ EndRechargeOpp:
 	pop hl
 	ret
 
-INCLUDE "engine/battle/move_effects/rage.asm"
-
 BattleCommand_DoubleFlyingDamage:
 ; doubleflyingdamage
 	ld a, BATTLE_VARS_SUBSTATUS3_OPP
@@ -6132,14 +6144,6 @@ DoubleDamage:
 	ld [hl], a
 .quit
 	ret
-
-INCLUDE "engine/battle/move_effects/mimic.asm"
-
-INCLUDE "engine/battle/move_effects/leech_seed.asm"
-
-INCLUDE "engine/battle/move_effects/splash.asm"
-
-INCLUDE "engine/battle/move_effects/pay_day.asm"
 
 BattleCommand_ResetStats:
 ; resetstats
@@ -6266,11 +6270,13 @@ ClearLastMove:
 	ld a, BATTLE_VARS_LAST_COUNTER_MOVE
 	call GetBattleVarAddr
 	xor a
+	ld [hli], a
 	ld [hl], a
 
 	ld a, BATTLE_VARS_LAST_MOVE
 	call GetBattleVarAddr
 	xor a
+	ld [hli], a
 	ld [hl], a
 	ret
 
@@ -6388,36 +6394,6 @@ CheckSubstituteOpp:
 	bit SUBSTATUS_SUBSTITUTE, a
 	ret
 
-INCLUDE "engine/battle/move_effects/selfdestruct.asm"
-
-INCLUDE "engine/battle/move_effects/mirror_move.asm"
-
-INCLUDE "engine/battle/move_effects/metronome.asm"
-
-CheckUserMove:
-; Return z if the user has move a.
-	ld b, a
-	ld de, wBattleMonMoves
-	ldh a, [hBattleTurn]
-	and a
-	jr z, .ok
-	ld de, wEnemyMonMoves
-.ok
-
-	ld c, NUM_MOVES
-.loop
-	ld a, [de]
-	inc de
-	cp b
-	ret z
-
-	dec c
-	jr nz, .loop
-
-	ld a, 1
-	and a
-	ret
-
 ResetTurn:
 	ld hl, wPlayerCharging
 	ldh a, [hBattleTurn]
@@ -6431,8 +6407,6 @@ ResetTurn:
 	ld [wAlreadyDisobeyed], a
 	call DoMove
 	jp EndMoveEffect
-
-INCLUDE "engine/battle/move_effects/thief.asm"
 
 BattleCommand_ArenaTrap:
 ; arenatrap
@@ -6454,8 +6428,6 @@ BattleCommand_ArenaTrap:
 .failed
 	call AnimateFailedMove
 	jp PrintButItFailed
-
-INCLUDE "engine/battle/move_effects/nightmare.asm"
 
 BattleCommand_Defrost:
 ; defrost
@@ -6488,30 +6460,6 @@ BattleCommand_Defrost:
 	ld hl, WasDefrostedText
 	jp StdBattleTextbox
 
-INCLUDE "engine/battle/move_effects/protect.asm"
-
-INCLUDE "engine/battle/move_effects/endure.asm"
-
-INCLUDE "engine/battle/move_effects/spikes.asm"
-
-INCLUDE "engine/battle/move_effects/foresight.asm"
-
-INCLUDE "engine/battle/move_effects/perish_song.asm"
-
-INCLUDE "engine/battle/move_effects/sandstorm.asm"
-
-INCLUDE "engine/battle/move_effects/rollout.asm"
-
-INCLUDE "engine/battle/move_effects/fury_cutter.asm"
-
-INCLUDE "engine/battle/move_effects/return.asm"
-
-INCLUDE "engine/battle/move_effects/present.asm"
-
-INCLUDE "engine/battle/move_effects/frustration.asm"
-
-INCLUDE "engine/battle/move_effects/safeguard.asm"
-
 SafeCheckSafeguard:
 	push hl
 	ld hl, wEnemyScreens
@@ -6541,12 +6489,6 @@ BattleCommand_CheckSafeguard:
 	ld hl, SafeguardProtectText
 	call StdBattleTextbox
 	jp EndMoveEffect
-
-INCLUDE "engine/battle/move_effects/magnitude.asm"
-
-INCLUDE "engine/battle/move_effects/pursuit.asm"
-
-INCLUDE "engine/battle/move_effects/rapid_spin.asm"
 
 BattleCommand_HealMorn:
 ; healmorn
@@ -6645,16 +6587,6 @@ BattleCommand_TimeBasedHealContinue:
 	dw GetHalfMaxHP
 	dw GetMaxHP
 
-INCLUDE "engine/battle/move_effects/hidden_power.asm"
-
-INCLUDE "engine/battle/move_effects/rain_dance.asm"
-
-INCLUDE "engine/battle/move_effects/sunny_day.asm"
-
-INCLUDE "engine/battle/move_effects/psych_up.asm"
-
-INCLUDE "engine/battle/move_effects/mirror_coat.asm"
-
 BattleCommand_DoubleMinimizeDamage:
 ; doubleminimizedamage
 
@@ -6684,10 +6616,6 @@ BattleCommand_SkipSunCharge:
 	ret nz
 	ld b, charge_command
 	jp SkipToBattleCommand
-
-INCLUDE "engine/battle/move_effects/future_sight.asm"
-
-INCLUDE "engine/battle/move_effects/thunder.asm"
 
 GetUserItem:
 ; Return the effect of the user's item in bc, and its id at hl.
@@ -6728,22 +6656,6 @@ GetItemHeldEffect:
 	call GetFarHalfword
 	ld b, l
 	ld c, h
-	pop hl
-	ret
-
-AnimateCurrentMoveEitherSide:
-	push hl
-	push de
-	push bc
-	ld a, [wKickCounter]
-	push af
-	call BattleCommand_LowerSub
-	pop af
-	ld [wKickCounter], a
-	call PlayDamageAnim
-	call BattleCommand_RaiseSub
-	pop bc
-	pop de
 	pop hl
 	ret
 

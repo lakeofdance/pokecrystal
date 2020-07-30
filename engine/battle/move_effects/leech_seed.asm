@@ -3,7 +3,7 @@ BattleCommand_LeechSeed:
 	ld a, [wAttackMissed]
 	and a
 	jr nz, .evaded
-	call CheckSubstituteOpp
+	farcall CheckSubstituteOpp
 	jr nz, .evaded
 
 	ld de, wEnemyMonType1
@@ -26,15 +26,16 @@ BattleCommand_LeechSeed:
 	bit SUBSTATUS_LEECH_SEED, [hl]
 	jr nz, .evaded
 	set SUBSTATUS_LEECH_SEED, [hl]
-	call AnimateCurrentMove
+	farcall AnimateCurrentMove
 	ld hl, WasSeededText
 	jp StdBattleTextbox
 
 .grass
-	call AnimateFailedMove
-	jp PrintDoesntAffect
+	farcall AnimateFailedMove
+	farcall PrintDoesntAffect
+	ret
 
 .evaded
-	call AnimateFailedMove
+	farcall AnimateFailedMove
 	ld hl, EvadedText
 	jp StdBattleTextbox

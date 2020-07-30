@@ -6,8 +6,6 @@ BattleCommand_Transform:
 	call GetBattleVarAddr
 	bit SUBSTATUS_TRANSFORMED, [hl]
 	jp nz, BattleEffect_ButItFailed
-	call CheckHiddenOpponent
-	jp nz, BattleEffect_ButItFailed
 	xor a
 	ld [wNumHits], a
 	ld [wFXAnimID + 1], a
@@ -89,12 +87,20 @@ BattleCommand_Transform:
 	ld b, NUM_MOVES
 .pp_loop
 	ld a, [de]
+	ld c, a
+	inc de
+	ld a, [de]
+	or c
+	jr z, .done_move
+	ld a, [de]
 	inc de
 	and a
-	jr z, .done_move
+	jr nz, .not_sketch
+	ld a, c
 	cp SKETCH
 	ld a, 1
 	jr z, .done_move
+.not_sketch
 	ld a, 5
 .done_move
 	ld [hli], a

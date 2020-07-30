@@ -8,7 +8,7 @@ BattleCommand_Present:
 	push de
 .colosseum_skippush
 
-	call BattleCommand_Stab
+	farcall BattleCommand_Stab
 
 	ld a, [wLinkMode]
 	cp LINK_COLOSSEUM
@@ -19,11 +19,17 @@ BattleCommand_Present:
 
 	ld a, [wTypeMatchup]
 	and a
-	jp z, AnimateFailedMove
+	jr nz, .ok1
+	farcall AnimateFailedMove
+	ret
+.ok1
 	ld a, [wAttackMissed]
 	and a
-	jp nz, AnimateFailedMove
+	jr z, .ok2
+	farcall AnimateFailedMove
+	ret
 
+.ok2
 	push bc
 	call BattleRandom
 	ld b, a
@@ -51,8 +57,8 @@ BattleCommand_Present:
 	pop bc
 	ld a, 3
 	ld [wPresentPower], a
-	call AnimateCurrentMove
-	call BattleCommand_SwitchTurn
+	farcall AnimateCurrentMove
+	farcall BattleCommand_SwitchTurn
 	ld hl, AICheckPlayerMaxHP
 	ldh a, [hBattleTurn]
 	and a
@@ -64,25 +70,26 @@ BattleCommand_Present:
 	jr c, .already_fully_healed
 
 	ld hl, GetQuarterMaxHP
-	call CallBattleCore
-	call BattleCommand_SwitchTurn
+	farcall CallBattleCore
+	farcall BattleCommand_SwitchTurn
 	ld hl, RestoreHP
-	call CallBattleCore
-	call BattleCommand_SwitchTurn
+	farcall CallBattleCore
+	farcall BattleCommand_SwitchTurn
 	ld hl, RegainedHealthText
 	call StdBattleTextbox
-	call BattleCommand_SwitchTurn
-	call UpdateOpponentInParty
+	farcall BattleCommand_SwitchTurn
+	farcall UpdateOpponentInParty
 	jr .do_animation
 
 .already_fully_healed
-	call BattleCommand_SwitchTurn
-	call _CheckBattleScene
+	farcall BattleCommand_SwitchTurn
+	farcall _CheckBattleScene
 	jr nc, .do_animation
-	call AnimateFailedMove
+	farcall AnimateFailedMove
 	ld hl, RefusedGiftText
 	call StdBattleTextbox
 .do_animation
-	jp EndMoveEffect
+	farcall EndMoveEffect
+	ret
 
 INCLUDE "data/moves/present_power.asm"

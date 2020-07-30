@@ -785,10 +785,16 @@ CompareMovePriority:
 ; Return carry if the player goes first, or z if they match.
 
 	ld a, [wCurPlayerMove]
+	ld c, a
+	ld a, [wCurPlayerMove + 1]
+	ld b, a
 	call GetMovePriority
 	ld b, a
 	push bc
 	ld a, [wCurEnemyMove]
+	ld c, a
+	ld a, [wCurEnemyMove + 1]
+	ld b, a
 	call GetMovePriority
 	pop bc
 	cp b
@@ -797,10 +803,10 @@ CompareMovePriority:
 GetMovePriority:
 ; Return the priority (0-3) of move a.
 
-	ld b, a
-
 	; Vital Throw goes last.
-	cp VITAL_THROW
+	ld a, c
+	sub VITAL_THROW
+	or b
 	ld a, 0
 	ret z
 
@@ -824,10 +830,9 @@ GetMovePriority:
 INCLUDE "data/moves/effects_priorities.asm"
 
 GetMoveEffect:
-	ld a, b
-	dec a
+	dec bc
 	ld hl, Moves + MOVE_EFFECT
-	ld bc, MOVE_LENGTH
+	ld a, MOVE_LENGTH
 	call AddNTimes
 	ld a, BANK(Moves)
 	call GetFarByte

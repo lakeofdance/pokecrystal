@@ -4,32 +4,51 @@ BattleCommand_Spite:
 	ld a, [wAttackMissed]
 	and a
 	jp nz, .failed
-	ld bc, PARTYMON_STRUCT_LENGTH ; ????
 	ld hl, wEnemyMonMoves
 	ldh a, [hBattleTurn]
 	and a
 	jr z, .got_moves
 	ld hl, wBattleMonMoves
 .got_moves
+; Check whether a move was used which can be spited
+	push hl
 	ld a, BATTLE_VARS_LAST_COUNTER_MOVE_OPP
-	call GetBattleVar
-	and a
-	jr z, .failed
-	cp STRUGGLE
-	jr z, .failed
-	ld b, a
-	ld c, -1
-.loop
-	inc c
+	call GetBattleVarAddr
 	ld a, [hli]
-	cp b
-	jr nz, .loop
-	ld [wNamedObjectIndexBuffer], a
+	ld c, a
+	ld a, [hl]
+	ld b, a
+	or c
+	pop hl
+	jr z, .failed
+	ld a, c
+	sub STRUGGLE
+	or b
+	jr z, .failed
+	ld e, -1
 	dec hl
-	ld b, 0
+	dec hl
+.loop
+	inc hl
+	inc hl
+	inc e
+	call CompareMove2
+	jr nz, .loop
+	ld a, c
+	ld [wNamedObjectIndexBuffer], a
+	ld a, b
+	ld [wNamedObjectIndexBuffer + 1], a
+	ld d, 0
 	push bc
+	ld b, 0
 	ld c, wBattleMonPP - wBattleMonMoves
 	add hl, bc
+	ld a, l
+	sub e
+	ld l, a
+	ld a, h
+	sbc 0
+	ld h, a
 	pop bc
 	ld a, [hl]
 	and PP_MASK
@@ -57,8 +76,8 @@ BattleCommand_Spite:
 	ld d, b
 	pop af
 	pop bc
-	add hl, bc
-	ld e, a
+	add hl, de
+	ld b, a
 	ld a, BATTLE_VARS_SUBSTATUS5_OPP
 	call GetBattleVar
 	bit SUBSTATUS_TRANSFORMED, a
@@ -70,12 +89,12 @@ BattleCommand_Spite:
 	dec a
 	jr nz, .not_wildmon
 	ld hl, wWildMonPP
-	add hl, bc
+	add hl, de
 .not_wildmon
-	ld [hl], e
+	ld [hl], b
 .transformed
 	push de
-	call AnimateCurrentMove
+	farcall AnimateCurrentMove
 	pop de
 	ld a, d
 	ld [wDeciramBuffer], a
@@ -83,4 +102,5 @@ BattleCommand_Spite:
 	jp StdBattleTextbox
 
 .failed
-	jp PrintDidntAffect2
+	farcall PrintDidntAffect2
+	ret

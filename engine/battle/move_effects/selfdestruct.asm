@@ -12,15 +12,15 @@ BattleCommand_Selfdestruct:
 	ld [hl], a
 	ld a, $1
 	ld [wKickCounter], a
-	call BattleCommand_LowerSub
-	call LoadMoveAnim
+	farcall BattleCommand_LowerSub
+	farcall LoadMoveAnim
 	ld a, BATTLE_VARS_SUBSTATUS4
 	call GetBattleVarAddr
 	res SUBSTATUS_LEECH_SEED, [hl]
 	ld a, BATTLE_VARS_SUBSTATUS5_OPP
 	call GetBattleVarAddr
 	res SUBSTATUS_DESTINY_BOND, [hl]
-	call _CheckBattleScene
+	farcall CheckBattleScene
 	ret nc
 	farcall DrawPlayerHUD
 	farcall DrawEnemyHUD

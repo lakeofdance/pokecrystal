@@ -44,8 +44,9 @@ BattleCommand_Teleport:
 	jr nc, .run_away
 
 .failed
-	call AnimateFailedMove
-	jp PrintButItFailed
+	farcall AnimateFailedMove
+	farcall PrintButItFailed
+	ret
 
 .enemy_turn
 	ld a, [wBattleMode]
@@ -78,12 +79,12 @@ BattleCommand_Teleport:
 	inc a
 	ld [wForcedSwitch], a
 	ld [wKickCounter], a
-	call SetBattleDraw
-	call BattleCommand_LowerSub
-	call LoadMoveAnim
+	farcall SetBattleDraw
+	farcall BattleCommand_LowerSub
+	farcall LoadMoveAnim
 	ld c, 20
 	call DelayFrames
-	call SetBattleDraw
+	farcall SetBattleDraw
 
 	ld hl, FledFromBattleText
 	jp StdBattleTextbox

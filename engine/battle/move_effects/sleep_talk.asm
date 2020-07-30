@@ -1,19 +1,21 @@
 BattleCommand_SleepTalk:
 ; sleeptalk
 
-	call ClearLastMove
+	farcall ClearLastMove
 	ld a, [wAttackMissed]
 	and a
-	jr nz, .fail
+	jp nz, .fail
 	ldh a, [hBattleTurn]
 	and a
-	ld hl, wBattleMonMoves + 1
+	ld hl, wBattleMonMoves + 2
 	ld a, [wDisabledMove]
-	ld d, a
+	ld b, a
+	ld a, [wDisabledMove + 1]
+	ld de, wDisabledMove
+	or b
 	jr z, .got_moves
-	ld hl, wEnemyMonMoves + 1
-	ld a, [wEnemyDisabledMove]
-	ld d, a
+	ld hl, wEnemyMonMoves + 2
+	ld de, wEnemyDisabledMove
 .got_moves
 	ld a, BATTLE_VARS_STATUS
 	call GetBattleVar
@@ -24,6 +26,8 @@ BattleCommand_SleepTalk:
 	jr z, .fail
 	call .safely_check_has_usable_move
 	jr c, .fail
+;Point to first move
+	dec hl
 	dec hl
 .sample_move
 	push hl
@@ -32,39 +36,52 @@ BattleCommand_SleepTalk:
 	ld c, a
 	ld b, 0
 	add hl, bc
+	add hl, bc
+	ld a, [hli]
+	ld c, a
 	ld a, [hl]
+	ld b, a
 	pop hl
-	and a
+; Reject move == 0
+	or c
 	jr z, .sample_move
-	ld e, a
 	ld a, BATTLE_VARS_MOVE_ANIM
-	call GetBattleVar
-	cp e
+	push hl
+	call GetBattleVarAddr
+	call CompareMove2
+	pop hl
 	jr z, .sample_move
-	ld a, e
-	cp d
+; Reject disabled move
+	ld h, d
+	ld l, e
+	call CompareMove2
 	jr z, .sample_move
+; Reject move that takes two turns
 	call .check_two_turn_move
 	jr z, .sample_move
 	ld a, BATTLE_VARS_MOVE
 	call GetBattleVarAddr
-	ld a, e
+	ld a, c
+	ld [hli], a
+	ld a, b
 	ld [hl], a
-	call CheckUserIsCharging
+	farcall CheckUserIsCharging
 	jr nz, .charging
 	ld a, [wKickCounter]
 	push af
-	call BattleCommand_LowerSub
+	farcall BattleCommand_LowerSub
 	pop af
 	ld [wKickCounter], a
 .charging
-	call LoadMoveAnim
-	call UpdateMoveData
-	jp ResetTurn
+	farcall LoadMoveAnim
+	farcall UpdateMoveData
+	farcall ResetTurn
+	ret
 
 .fail
-	call AnimateFailedMove
-	jp TryPrintButItFailed
+	farcall AnimateFailedMove
+	farcall TryPrintButItFailed
+	ret
 
 .safely_check_has_usable_move
 	push hl
@@ -77,33 +94,53 @@ BattleCommand_SleepTalk:
 	ret
 
 .check_has_usable_move
+; Returns no carry if user has at least one move which:
+; is not disabled,
+; is not sleep talk,
+; doesn't have any of the effects listed in .check_two_turn_move.
 	ldh a, [hBattleTurn]
 	and a
 	ld a, [wDisabledMove]
+	ld c, a
+	ld a, [wDisabledMove + 1]
+	ld b, a
 	jr z, .got_move_2
 
-	ld a, [wEnemyDisabledMove]
-.got_move_2
-	ld b, a
-	ld a, BATTLE_VARS_MOVE
-	call GetBattleVar
+	ld a, [wDisabledMove]
 	ld c, a
+	ld a, [wDisabledMove + 1]
+	ld b, a
+.got_move_2
+;	ld a, BATTLE_VARS_MOVE
+;	call GetBattleVar
+;	ld c, a
+;Point to first move
+	dec hl
 	dec hl
 	ld d, NUM_MOVES
 .loop2
-	ld a, [hl]
-	and a
+; Check for 0
+	ld a, [hli]
+	ld e, a
+	ld a, [hld]
+	or e
 	jr z, .carry
 
-	cp c
+; Check whether move is disabled
+	call CompareMove2
 	jr z, .nope
-	cp b
+	push bc
+; Check whether move is sleep talk
+	ld bc, SLEEP_TALK
+	call CompareMove2
+	pop bc
 	jr z, .nope
 
 	call .check_two_turn_move
 	jr nz, .no_carry
 
 .nope
+	inc hl
 	inc hl
 	dec d
 	jr nz, .loop2

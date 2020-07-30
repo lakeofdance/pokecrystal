@@ -7,5 +7,6 @@ BattleCommand_Snore:
 	call ResetDamage
 	ld a, $1
 	ld [wAttackMissed], a
-	call FailMove
-	jp EndMoveEffect
+	farcall FailMove
+	farcall EndMoveEffect
+	ret

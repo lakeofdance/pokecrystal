@@ -50,4 +50,37 @@ gfx/pokemon/*/frames.asm
 extras/reminders.txt
 extras/plan.txt
 .DS_Store
+extras/todo.txt
+extras/wild_old/bug_contest_mons.asm
+extras/wild_old/fish.asm
+extras/wild_old/flee_mons.asm
+extras/wild_old/johto_grass.asm
+extras/wild_old/johto_water.asm
+extras/wild_old/kanto_grass.asm
+extras/wild_old/kanto_water.asm
+extras/wild_old/probabilities.asm
+extras/wild_old/roammon_maps.asm
+extras/wild_old/swarm_grass.asm
+extras/wild_old/swarm_water.asm
+extras/wild_old/treemon_maps.asm
+extras/wild_old/treemons.asm
+extras/wild_old/treemons_asleep.asm
+extras/wild_old/unlocked_unowns.asm
+*.txt
+extras/base.asm
+extras/parties_old copy.asm
+extras/parties_old.asm
+extras/parties.asm
 extras/wild_old/johto_water copy.asm
+extras/wild_old/kanto_water copy.asm
+extras/wild_old/swarm_grass copy.asm
+extras/dex_orders_old/dex_order_alpha.asm
+extras/dex_orders_old/dex_order_new.asm
+extras/gfx template/anim.asm
+extras/gfx template/anim_idle.asm
+extras/gfx template/bitmask.asm
+extras/gfx template/frames.asm
+extras/gfx template/shiny.pal
+data/pokemon/base_stats+/mon_.asm
+extras/gfx template/back.png
+extras/gfx template/front.png

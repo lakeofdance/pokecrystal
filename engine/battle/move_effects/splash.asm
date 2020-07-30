@@ -1,3 +1,4 @@
 BattleCommand_Splash:
-	call AnimateCurrentMove
-	jp PrintNothingHappened
+	farcall AnimateCurrentMove
+	farcall PrintNothingHappened
+	ret
