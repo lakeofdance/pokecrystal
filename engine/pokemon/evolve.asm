@@ -663,15 +663,18 @@ FillMoves:
 ShiftMoves:
 	ld c, NUM_MOVES - 1
 	inc de
+	inc de
 .loop
-	inc de
 	ld a, [de]
 	ld [hli], a
 	inc de
 	ld a, [de]
 	ld [hli], a
+	inc de
 	dec c
 	jr nz, .loop
+	dec de
+	dec de
 	ret
 
 ShiftPP:

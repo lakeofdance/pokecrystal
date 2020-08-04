@@ -258,7 +258,7 @@
 	const WHIRLPOOL    ; fa
 	const BEAT_UP      ; fb
 
-	const MOVE_OR_ANIM_FC  ;  fc
+	const BURN_UP          ;  fc
 	const MOVE_OR_ANIM_FD  ;  fd
 	const MOVE_OR_ANIM_FE  ;  fe
 	const MOVE_OR_ANIM_FF  ;  ff, don't use

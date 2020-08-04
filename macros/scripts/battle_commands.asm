@@ -173,6 +173,8 @@ ENDM
 	command supereffectivelooptext  ; ad
 	command startloop               ; ae
 	command curl                    ; af
+	command burnup			; b0
+	command burnuptext		; b1
 
 	enum_start $fe
 	command endturn                 ; fe

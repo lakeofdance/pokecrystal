@@ -2233,7 +2233,7 @@ BattleCommand_ApplyDamage:
 	bit SUBSTATUS_ENDURE, a
 	jr z, .focus_band
 
-	call BattleCommand_FalseSwipe
+	farcall BattleCommand_FalseSwipe
 	ld b, 0
 	jr nc, .damage
 	ld b, 1
@@ -2249,7 +2249,7 @@ BattleCommand_ApplyDamage:
 	call BattleRandom
 	cp c
 	jr nc, .damage
-	call BattleCommand_FalseSwipe
+	farcall BattleCommand_FalseSwipe
 	ld b, 0
 	jr nc, .damage
 	ld b, 2

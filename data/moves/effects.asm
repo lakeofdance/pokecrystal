@@ -2058,3 +2058,27 @@ DefenseCurl:
 	statupmessage
 	statupfailtext
 	endmove
+
+BurnUp:
+	checkobedience
+	usedmovetext
+	doturn
+	critical
+	damagestats
+	damagecalc
+	stab
+	damagevariation
+	burnup
+	checkhit
+	moveanim
+	failuretext
+	applydamage
+	criticaltext
+	supereffectivetext
+	defrost
+	burnuptext
+	checkfaint
+	buildopponentrage
+	kingsrock
+	endmove
+

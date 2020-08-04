@@ -199,3 +199,7 @@ INCLUDE "engine/battle/move_effects/thief.asm"
 INCLUDE "engine/battle/move_effects/thunder.asm"
 
 INCLUDE "engine/battle/move_effects/triple_kick.asm"
+
+;custom
+
+INCLUDE "engine/battle/move_effects/burn_up.asm"

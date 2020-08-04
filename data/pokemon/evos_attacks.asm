@@ -3427,8 +3427,8 @@ GreninjaEvosAttacks:
 	dbw 10, LICK
 	dbw 14, WATER_GUN
 	dbw 19, SMOKESCREEN
-	dbw 28, SPIKES
-	dbw 33, FAINT_ATTACK
+	dbw 36, SPIKES			;vanilla 28
+	dbw 39, FAINT_ATTACK		;vanilla 33
 	dbw 42, SUBSTITUTE
 	dbw 56, DOUBLE_TEAM
 	dbw 68, HYDRO_PUMP

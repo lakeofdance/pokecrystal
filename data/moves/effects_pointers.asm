@@ -149,3 +149,4 @@ MoveEffectsPointers:
 	dw BeatUp
 	dw Fly
 	dw DefenseCurl
+	dw BurnUp

@@ -11,7 +11,7 @@ MoveDeletion:
 	cp EGG
 	jr z, .egg
 	ld a, [wCurPartyMon]
-	ld hl, wPartyMon1Moves + 1
+	ld hl, wPartyMon1Moves + 2
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call AddNTimes
 	ld a, [hl]
@@ -29,6 +29,8 @@ MoveDeletion:
 	push af
 	ld a, [wCurSpecies]
 	ld [wNamedObjectIndexBuffer], a
+	ld a, [wCurSpecies + 1]
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetMoveName
 	ld hl, .ConfirmDeleteText
 	call PrintText
@@ -107,6 +109,7 @@ MoveDeletion:
 	ld b, 0
 	ld hl, wPartyMon1Moves
 	add hl, bc
+	add hl, bc
 	ld a, [wCurPartyMon]
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call AddNTimes
@@ -117,15 +120,22 @@ MoveDeletion:
 	ld a, b
 	cp NUM_MOVES + 1
 	jr z, .okay
+	ld d, h
+	ld e, l
 	inc hl
+	inc hl
+	ld a, [hli]
+	ld [de], a
+	inc de
 	ld a, [hld]
-	ld [hl], a
-	inc hl
+	ld [de], a
+	inc de
 	inc b
 	jr .loop
 
 .okay
 	xor a
+	ld [hli], a
 	ld [hl], a
 	pop bc
 

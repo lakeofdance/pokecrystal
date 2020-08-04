@@ -1067,3 +1067,8 @@ IgnoredOrders2Text:
 	text "<USER>"
 	line "ignored orders!"
 	prompt
+
+BurntOutText:
+	text "<USER>"
+	line "burnt itself out!"
+	prompt

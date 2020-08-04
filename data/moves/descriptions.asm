@@ -251,16 +251,15 @@ MoveDescriptions::
 	dw RockSmashDescription
 	dw WhirlpoolDescription
 	dw BeatUpDescription
-	dw MoveFCDescription
+	dw BurnUpDescription
 	dw MoveFDDescription
 	dw MoveFEDescription
 	dw MoveFFDescription
 	dw Move100Description
 	dw FreezeDryDescription
-	dw Move102Description
+	dw FlyingPressDescription
 	dw Move103Description
 
-MoveFCDescription:
 MoveFDDescription:
 MoveFEDescription:
 MoveFFDescription:
@@ -1273,6 +1272,15 @@ BeatUpDescription:
 	db   "Party #MON join"
 	next "in the attack.@"
 
+BurnUpDescription:
+	db   "The user loses"
+	next "its FIRE type.@"
+
 FreezeDryDescription:
 	db   "Hits WATER type"
 	next "#MON hard.@"
+
+FlyingPressDescription:
+	db   "Both FIGHTING and"
+	next "FLYING type.@"
+

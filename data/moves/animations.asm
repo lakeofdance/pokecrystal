@@ -252,13 +252,13 @@ BattleAnimations::
 	dw BattleAnim_RockSmash
 	dw BattleAnim_Whirlpool
 	dw BattleAnim_BeatUp
-	dw BattleAnim_fc
+	dw BattleAnim_FlameWheel ;burn up
 	dw BattleAnim_fd
 	dw BattleAnim_fe
 	dw BattleAnim_ff	;don't use
 	dw BattleAnim_100	;don't use
 	dw BattleAnim_IceBeam	;freeze dry
-	dw BattleAnim_102
+	dw BattleAnim_JumpKick  ;flying press
 	dw BattleAnim_103
 	dw BattleAnim_SweetScent2
 	dw BattleAnim_ThrowPokeBall

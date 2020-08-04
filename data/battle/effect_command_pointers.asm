@@ -172,3 +172,5 @@ BattleCommandPointers:
 	dba BattleCommand_SuperEffectiveLoopText
 	dba BattleCommand_StartLoop
 	dba BattleCommand_Curl
+	dba BattleCommand_BurnUp
+	dba BattleCommand_BurnUpText
