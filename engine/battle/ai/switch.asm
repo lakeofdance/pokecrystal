@@ -16,15 +16,19 @@ CheckPlayerMoveTypeMatchups:
 	ld e, 0
 .loop
 	ld a, [hli]
-	and a
+	ld c, a
+	ld a, [hli]
+	ld b, a
+	or c
 	jr z, .exit
 	push hl
-	dec a
+	dec bc
 	ld hl, Moves + MOVE_POWER
 	call GetMoveAttr
 	and a
 	jr z, .next
 
+; inc hl to point at type
 	inc hl
 	call GetMoveByte
 	ld hl, wEnemyMonType
@@ -107,14 +111,20 @@ CheckPlayerMoveTypeMatchups:
 	dec b
 	jr z, .exit2
 
+	push bc
 	ld a, [de]
-	and a
-	jr z, .exit2
+	ld c, a
+	inc de
+	ld a, [de]
+	ld b, a
+	or c
+	jr z, .exit3
 
 	inc de
-	dec a
+	dec bc
 	ld hl, Moves + MOVE_POWER
 	call GetMoveAttr
+	pop bc
 	and a
 	jr z, .loop2
 
@@ -146,6 +156,8 @@ CheckPlayerMoveTypeMatchups:
 	ld c, 100
 	jr .loop2
 
+.exit3
+	pop bc
 .exit2
 	pop af
 	ld [wTypeMatchup], a

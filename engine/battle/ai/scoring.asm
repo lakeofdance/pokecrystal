@@ -7,18 +7,25 @@ AI_Basic:
 
 	ld hl, wBuffer1 - 1
 	ld de, wEnemyMonMoves
-	ld b, wEnemyMonMovesEnd - wEnemyMonMoves + 1
+	ld b, NUM_MOVES + 1
 .checkmove
 	dec b
 	ret z
 
 	inc hl
 	ld a, [de]
-	and a
+	ld c, a
+	inc de
+	ld a, [de]
+	or c
 	ret z
 
+	push bc
+	ld a, [de]
+	ld b, a
+	call AIGetEnemyMoveTwo
+	pop bc
 	inc de
-	call AIGetEnemyMove
 
 	ld a, [wEnemyMoveStruct + MOVE_EFFECT]
 	ld c, a
@@ -74,18 +81,26 @@ AI_Setup:
 
 	ld hl, wBuffer1 - 1
 	ld de, wEnemyMonMoves
-	ld b, wEnemyMonMovesEnd - wEnemyMonMoves + 1
+	ld b, NUM_MOVES + 1
 .checkmove
 	dec b
 	ret z
 
 	inc hl
 	ld a, [de]
-	and a
+	ld c, a
+	inc de
+	ld a, [de]
+	or c
 	ret z
 
+	push bc
+	ld a, [de]
+	ld b, a
+	call AIGetEnemyMoveTwo
+	pop bc
 	inc de
-	call AIGetEnemyMove
+
 
 	ld a, [wEnemyMoveStruct + MOVE_EFFECT]
 
@@ -148,18 +163,26 @@ AI_Types:
 
 	ld hl, wBuffer1 - 1
 	ld de, wEnemyMonMoves
-	ld b, wEnemyMonMovesEnd - wEnemyMonMoves + 1
+	ld b, NUM_MOVES + 1
 .checkmove
 	dec b
 	ret z
 
 	inc hl
 	ld a, [de]
-	and a
+	ld c, a
+	inc de
+	ld a, [de]
+	or c
 	ret z
 
+	push bc
+	ld a, [de]
+	ld b, a
+	call AIGetEnemyMoveTwo
+	pop bc
 	inc de
-	call AIGetEnemyMove
+
 
 	push hl
 	push bc
@@ -194,17 +217,25 @@ AI_Types:
 	ld a, [wEnemyMoveStruct + MOVE_TYPE]
 	ld d, a
 	ld hl, wEnemyMonMoves
-	ld b, wEnemyMonMovesEnd - wEnemyMonMoves + 1
+	ld b, NUM_MOVES + 1
 	ld c, 0
 .checkmove2
 	dec b
 	jr z, .asm_38693
 
 	ld a, [hli]
-	and a
+	ld e, a
+	ld a, [hld]
+	or e
 	jr z, .asm_38693
 
-	call AIGetEnemyMove
+	push bc
+	ld a, [hli]
+	ld c, a
+	ld a, [hli]
+	ld b, a
+	call AIGetEnemyMoveTwo
+	pop bc
 	ld a, [wEnemyMoveStruct + MOVE_TYPE]
 	cp d
 	jr z, .checkmove2
@@ -235,18 +266,25 @@ AI_Offensive:
 
 	ld hl, wBuffer1 - 1
 	ld de, wEnemyMonMoves
-	ld b, wEnemyMonMovesEnd - wEnemyMonMoves + 1
+	ld b, NUM_MOVES + 1
 .checkmove
 	dec b
 	ret z
 
 	inc hl
 	ld a, [de]
-	and a
+	ld c, a
+	inc de
+	ld a, [de]
+	or c
 	ret z
 
+	push bc
+	ld a, [de]
+	ld b, a
+	call AIGetEnemyMoveTwo
+	pop bc
 	inc de
-	call AIGetEnemyMove
 
 	ld a, [wEnemyMoveStruct + MOVE_POWER]
 	and a
@@ -262,20 +300,24 @@ AI_Smart:
 
 	ld hl, wBuffer1
 	ld de, wEnemyMonMoves
-	ld b, wEnemyMonMovesEnd - wEnemyMonMoves + 1
+	ld b, NUM_MOVES + 1
 .checkmove
 	dec b
 	ret z
 
 	ld a, [de]
+	ld c, a
 	inc de
-	and a
+	ld a, [de]
+	or c
 	ret z
 
 	push de
 	push bc
 	push hl
-	call AIGetEnemyMove
+	ld a, [de]
+	ld b, a
+	call AIGetEnemyMoveTwo
 
 	ld a, [wEnemyMoveStruct + MOVE_EFFECT]
 	ld hl, .table_386f2
@@ -303,6 +345,7 @@ AI_Smart:
 	pop bc
 	pop de
 	inc hl
+	inc de
 	jr .checkmove
 
 .table_386f2
@@ -440,48 +483,66 @@ AI_Smart_LeechHit:
 	ret
 
 AI_Smart_LockOn:
+; If LockOn was used last turn, dismiss it and
+; greatly encourage moves of low accuracy
 	ld a, [wPlayerSubStatus5]
 	bit SUBSTATUS_LOCK_ON, a
-	jr nz, .asm_38882
+	jr nz, .alreadyLockedOn
 
 	push hl
+; discourage if enemy's HP is below 25%
 	call AICheckEnemyQuarterHP
-	jr nc, .asm_38877
+	jr nc, .discourage
 
+; consider evasiveness and accuracy if enemy's HP is above 50%
 	call AICheckEnemyHalfHP
 	jr c, .asm_38834
 
+; discourage if enemy's HP is below 50% and player is faster than enemy
 	call AICompareSpeed
-	jr nc, .asm_38877
+	jr nc, .discourage
 
 .asm_38834
+; If player evasiveness has been raised, 50% chance to greatly encourage
+; if it has been lowered, do nothing
 	ld a, [wPlayerEvaLevel]
 	cp $a
-	jr nc, .asm_3887a
+	jr nc, .flipacoin
 	cp $8
-	jr nc, .asm_38875
+	jr nc, .doNothing
 
+; If enemy accuracy has beeen lowered, 50% chance to greatly encourage
+; if it has been raised, do nothing
+; see AccuracyLevelMultipliers
 	ld a, [wEnemyAccLevel]
 	cp $5
-	jr c, .asm_3887a
+	jr c, .flipacoin
 	cp $7
-	jr c, .asm_38875
+	jr c, .doNothing
 
+; If the enemy has a <= 70% move which is effective or super eff,
+; LockOn is neither encouraged nor discouraged. Otherwise discourage.
 	ld hl, wEnemyMonMoves
-	ld c, wEnemyMonMovesEnd - wEnemyMonMoves + 1
-.asm_3884f
-	dec c
-	jr z, .asm_38877
+	ld b, NUM_MOVES + 1
+.loop
+	dec b
+	jr z, .discourage
 
 	ld a, [hli]
-	and a
-	jr z, .asm_38877
+	ld c, a
+	ld a, [hli]
+	ld c, a
+	or c
+	jr z, .discourage
 
-	call AIGetEnemyMove
+	push bc
+	ld b, a
+	call AIGetEnemyMoveTwo
+	pop bc
 
 	ld a, [wEnemyMoveStruct + MOVE_ACC]
 	cp 180
-	jr nc, .asm_3884f
+	jr nc, .loop
 
 	ld a, $1
 	ldh [hBattleTurn], a
@@ -493,18 +554,19 @@ AI_Smart_LockOn:
 	cp EFFECTIVE
 	pop bc
 	pop hl
-	jr c, .asm_3884f
+	jr c, .loop
 
-.asm_38875
+.doNothing
 	pop hl
 	ret
 
-.asm_38877
+.discourage
 	pop hl
 	inc [hl]
 	ret
 
-.asm_3887a
+.flipacoin
+; 50% chance to greatly encourage
 	pop hl
 	call AI_50_50
 	ret c
@@ -513,33 +575,42 @@ AI_Smart_LockOn:
 	dec [hl]
 	ret
 
-.asm_38882
+.alreadyLockedOn
 	push hl
 	ld hl, wBuffer1 - 1
 	ld de, wEnemyMonMoves
-	ld c, wEnemyMonMovesEnd - wEnemyMonMoves + 1
+	ld b, NUM_MOVES + 1
 
-.asm_3888b
+.nextmove
+; Greatly encourage any move of accuracy less than 70%,
+; and dismiss LockOn
 	inc hl
-	dec c
-	jr z, .asm_388a2
+	dec b
+	jr z, .done
 
 	ld a, [de]
-	and a
-	jr z, .asm_388a2
-
+	ld c, a
 	inc de
-	call AIGetEnemyMove
+	ld a, [de]	
+	or c
+	jr z, .done
+
+	push bc
+	ld a, [de]
+	ld b, a
+	call AIGetEnemyMoveTwo
+	pop bc
+	inc de
 
 	ld a, [wEnemyMoveStruct + MOVE_ACC]
 	cp 180
-	jr nc, .asm_3888b
+	jr nc, .nextmove
 
 	dec [hl]
 	dec [hl]
-	jr .asm_3888b
+	jr .nextmove
 
-.asm_388a2
+.done
 	pop hl
 	jp AIDiscourageMove
 
@@ -724,7 +795,10 @@ AI_Smart_AlwaysHit:
 AI_Smart_MirrorMove:
 ; If the player did not use any move last turn...
 	ld a, [wLastPlayerCounterMove]
-	and a
+	ld b, a
+	ld a, [wLastPlayerCounterMove + 1]
+	ld c, a
+	or b
 	jr nz, .asm_38968
 
 ; ...do nothing if enemy is slower than player
@@ -738,8 +812,8 @@ AI_Smart_MirrorMove:
 .asm_38968
 	push hl
 	ld hl, UsefulMoves
-	ld de, 1
-	call IsInArray
+	ld e, 1
+	call IsWordInArray
 	pop hl
 
 ; ...do nothing if he didn't use a useful move.
@@ -1031,6 +1105,7 @@ AI_Smart_TrapTarget:
 	ret
 
 AI_Smart_RazorWind:
+; discourage if player perish count is less than 3
 	ld a, [wEnemySubStatus1]
 	bit SUBSTATUS_PERISH, a
 	jr z, .asm_38aaa
@@ -1040,24 +1115,29 @@ AI_Smart_RazorWind:
 	jr c, .asm_38ad3
 
 .asm_38aaa
+; dismiss this move if the player has shown a protecting move
 	push hl
 	ld hl, wPlayerUsedMoves
-	ld c, 4
+	ld d, 4
 
-.asm_38ab0
+.loop
 	ld a, [hli]
-	and a
+	ld c, a
+	ld a, [hli]
+	ld b, a
+	or c
 	jr z, .asm_38ac1
 
-	call AIGetEnemyMove
+	call AIGetEnemyMoveTwo
 
 	ld a, [wEnemyMoveStruct + MOVE_EFFECT]
 	cp EFFECT_PROTECT
 	jr z, .asm_38ad5
-	dec c
-	jr nz, .asm_38ab0
+	dec d
+	jr nz, .loop
 
 .asm_38ac1
+; 20% chance to discourage if player is confused
 	pop hl
 	ld a, [wEnemySubStatus3]
 	bit SUBSTATUS_CONFUSED, a
@@ -1188,8 +1268,11 @@ AI_Smart_SpeedDownHit:
 ; It's the first turn of player's Pokemon.
 ; Player is faster than enemy.
 
+	ld a, [wEnemyMoveStruct + MOVE_ANIM2]
+	ld b, a
 	ld a, [wEnemyMoveStruct + MOVE_ANIM]
-	cp ICY_WIND
+	sub ICY_WIND
+	or b
 	ret nz
 	call AICheckEnemyQuarterHP
 	ret nc
@@ -1275,15 +1358,17 @@ AI_Smart_Rage:
 
 AI_Smart_Mimic:
 	ld a, [wLastPlayerCounterMove]
-	and a
+	ld c, a
+	ld a, [wLastPlayerCounterMove + 1]
+	ld b, a
+	or c
 	jr z, .asm_38be9
 
 	call AICheckEnemyHalfHP
 	jr nc, .asm_38bef
 
 	push hl
-	ld a, [wLastPlayerCounterMove]
-	call AIGetEnemyMove
+	call AIGetEnemyMoveTwo
 
 	ld a, $1
 	ldh [hBattleTurn], a
@@ -1302,10 +1387,13 @@ AI_Smart_Mimic:
 
 .asm_38bd4
 	ld a, [wLastPlayerCounterMove]
+	ld b, a
+	ld a, [wLastPlayerCounterMove + 1]
+	ld c, a
 	push hl
 	ld hl, UsefulMoves
 	ld de, 1
-	call IsInArray
+	call IsWordInArray
 
 	pop hl
 	ret nc
@@ -1325,15 +1413,18 @@ AI_Smart_Mimic:
 AI_Smart_Counter:
 	push hl
 	ld hl, wPlayerUsedMoves
-	ld c, 4
-	ld b, 0
+	ld e, 4
+	ld d, 0
 
 .asm_38bf9
 	ld a, [hli]
-	and a
+	ld c, a
+	ld a, [hli]
+	ld b, a
+	or c
 	jr z, .asm_38c0e
 
-	call AIGetEnemyMove
+	call AIGetEnemyMoveTwo
 
 	ld a, [wEnemyMoveStruct + MOVE_POWER]
 	and a
@@ -1343,14 +1434,14 @@ AI_Smart_Counter:
 	cp SPECIAL
 	jr nc, .asm_38c0e
 
-	inc b
+	inc d
 
 .asm_38c0e
-	dec c
+	dec e
 	jr nz, .asm_38bf9
 
 	pop hl
-	ld a, b
+	ld a, d
 	and a
 	jr z, .asm_38c39
 
@@ -1358,10 +1449,13 @@ AI_Smart_Counter:
 	jr nc, .asm_38c30
 
 	ld a, [wLastPlayerCounterMove]
-	and a
+	ld c, a
+	ld a, [wLastPlayerCounterMove + 1]
+	ld b, a
+	or c
 	jr z, .asm_38c38
 
-	call AIGetEnemyMove
+	call AIGetEnemyMoveTwo
 
 	ld a, [wEnemyMoveStruct + MOVE_POWER]
 	and a
@@ -1390,10 +1484,13 @@ AI_Smart_Encore:
 	jr nc, .asm_38c81
 
 	ld a, [wLastPlayerMove]
-	and a
+	ld c, a
+	ld a, [wLastPlayerMove + 1]
+	ld b, a
+	or c
 	jp z, AIDiscourageMove
 
-	call AIGetEnemyMove
+	call AIGetEnemyMoveTwo
 
 	ld a, [wEnemyMoveStruct + MOVE_POWER]
 	and a
@@ -1416,9 +1513,12 @@ AI_Smart_Encore:
 .asm_38c68
 	push hl
 	ld a, [wLastPlayerCounterMove]
+	ld b, a
+	ld a, [wLastPlayerCounterMove + 1]
+	ld c, a
 	ld hl, EncoreMoves
 	ld de, 1
-	call IsInArray
+	call IsWordInArray
 	pop hl
 	jr nc, .asm_38c81
 
@@ -1481,7 +1581,10 @@ AI_Smart_SleepTalk:
 
 AI_Smart_Spite:
 	ld a, [wLastPlayerCounterMove]
-	and a
+	ld c, a
+	ld a, [wLastPlayerCounterMove + 1]
+	ld b, a
+	or c
 	jr nz, .asm_38ce7
 
 	call AICompareSpeed
@@ -1494,14 +1597,21 @@ AI_Smart_Spite:
 
 .asm_38ce7
 	push hl
-	ld b, a
 	ld c, 4
 	ld hl, wBattleMonMoves
 	ld de, wBattleMonPP
 
 .asm_38cf1
+	push bc
+	ld a, [wLastPlayerCounterMove]
+	ld c, a
 	ld a, [hli]
-	cp b
+	sub c
+	ld c, a
+	ld a, [hli]
+	sub b
+	or c
+	pop bc
 	jr z, .asm_38cfb
 
 	inc de
@@ -1643,13 +1753,16 @@ AI_Smart_Thief:
 
 AI_Smart_Conversion2:
 	ld a, [wLastPlayerMove]
-	and a
+	ld c, a
+	ld a, [wLastPlayerMove + 1]
+	ld b, a
+	or b
 	jr nz, .asm_38dc9
 
 	push hl
-	dec a
+	dec bc
 	ld hl, Moves + MOVE_TYPE
-	ld bc, MOVE_LENGTH
+	ld a, MOVE_LENGTH
 	call AddNTimes
 
 	ld a, BANK(Moves)
@@ -1686,9 +1799,12 @@ AI_Smart_Disable:
 
 	push hl
 	ld a, [wLastPlayerCounterMove]
+	ld b, a
+	ld a, [wLastPlayerCounterMove + 1]
+	ld c, a
 	ld hl, UsefulMoves
 	ld de, 1
-	call IsInArray
+	call IsWordInArray
 
 	pop hl
 	jr nc, .asm_38dee
@@ -1720,9 +1836,8 @@ AI_Smart_MeanLook:
 	pop hl
 	jp z, AIDiscourageMove
 
-; 80% chance to greatly encourage this move if the enemy is badly poisoned (buggy).
-; Should check wPlayerSubStatus5 instead.
-	ld a, [wEnemySubStatus5]
+; 80% chance to greatly encourage this move if the enemy is badly poisoned.
+	ld a, [wPlayerSubStatus5]
 	bit SUBSTATUS_TOXIC, a
 	jr nz, .asm_38e26
 
@@ -2182,8 +2297,11 @@ AI_Smart_Safeguard:
 AI_Smart_Magnitude:
 AI_Smart_Earthquake:
 ; Greatly encourage this move if the player is underground and the enemy is faster.
+	ld a, [wLastPlayerCounterMove + 1]
+	ld b, a
 	ld a, [wLastPlayerCounterMove]
-	cp DIG
+	sub DIG
+	or b
 	ret nz
 
 	ld a, [wPlayerSubStatus3]
@@ -2476,15 +2594,18 @@ AI_Smart_PsychUp:
 AI_Smart_MirrorCoat:
 	push hl
 	ld hl, wPlayerUsedMoves
-	ld c, $4
-	ld b, $0
+	ld e, 4
+	ld d, 0
 
 .asm_39193
 	ld a, [hli]
-	and a
+	ld c, a
+	ld a, [hli]
+	ld b, a
+	or c
 	jr z, .asm_391a8
 
-	call AIGetEnemyMove
+	call AIGetEnemyMoveTwo
 
 	ld a, [wEnemyMoveStruct + MOVE_POWER]
 	and a
@@ -2494,14 +2615,14 @@ AI_Smart_MirrorCoat:
 	cp SPECIAL
 	jr c, .asm_391a8
 
-	inc b
+	inc d
 
 .asm_391a8
-	dec c
+	dec e
 	jr nz, .asm_39193
 
 	pop hl
-	ld a, b
+	ld a, d
 	and a
 	jr z, .asm_391d3
 
@@ -2509,10 +2630,13 @@ AI_Smart_MirrorCoat:
 	jr nc, .asm_391ca
 
 	ld a, [wLastPlayerCounterMove]
-	and a
+	ld c, a
+	ld a, [wLastPlayerCounterMove + 1]
+	ld b, a
+	or c
 	jr z, .asm_391d2
 
-	call AIGetEnemyMove
+	call AIGetEnemyMoveTwo
 
 	ld a, [wEnemyMoveStruct + MOVE_POWER]
 	and a
@@ -2538,8 +2662,11 @@ AI_Smart_MirrorCoat:
 AI_Smart_Twister:
 AI_Smart_Gust:
 ; Greatly encourage this move if the player is flying and the enemy is faster.
+	ld a, [wLastPlayerCounterMove + 1]
+	ld b, a
 	ld a, [wLastPlayerCounterMove]
-	cp FLY
+	sub FLY
+	or b
 	ret nz
 
 	ld a, [wPlayerSubStatus3]
@@ -2775,20 +2902,23 @@ AIHasMoveEffect:
 
 	push hl
 	ld hl, wEnemyMonMoves
-	ld c, wEnemyMonMovesEnd - wEnemyMonMoves
+	ld d, NUM_MOVES
 
 .checkmove
 	ld a, [hli]
-	and a
+	ld c, a
+	ld a, [hli]
+	ld b, a
+	or c
 	jr z, .no
 
-	call AIGetEnemyMove
+	call AIGetEnemyMoveTwo
 
 	ld a, [wEnemyMoveStruct + MOVE_EFFECT]
 	cp b
 	jr z, .yes
 
-	dec c
+	dec d
 	jr nz, .checkmove
 
 .no
@@ -2803,6 +2933,7 @@ AIHasMoveEffect:
 
 AIHasMoveInArray:
 ; Return carry if the enemy has a move in array hl.
+; Called only by AI_Smart_WeatherMove
 
 	push hl
 	push de
@@ -2814,16 +2945,23 @@ AIHasMoveInArray:
 	jr z, .done
 
 	ld b, a
-	ld c, wEnemyMonMovesEnd - wEnemyMonMoves + 1
+	ld a, [hli]
+	ld c, a
+	ld d, NUM_MOVES + 1
 	ld de, wEnemyMonMoves
 
 .check
-	dec c
+	dec d
 	jr z, .next
 
 	ld a, [de]
 	inc de
-	cp b
+	sub b
+	ld e, a
+	ld a, [de]
+	inc de
+	sub c
+	or e
 	jr nz, .check
 
 	scf
@@ -2854,15 +2992,19 @@ AI_Opportunist:
 .asm_39322
 	ld hl, wBuffer1 - 1
 	ld de, wEnemyMonMoves
-	ld c, wEnemyMonMovesEnd - wEnemyMonMoves + 1
+	ld c, NUM_MOVES + 1
 .checkmove
 	inc hl
 	dec c
 	jr z, .asm_39347
 
 	ld a, [de]
+	ld b, a
 	inc de
-	and a
+	ld a, [de]
+	ld c, a
+	inc de
+	or b
 	jr z, .asm_39347
 
 	push hl
@@ -2870,7 +3012,7 @@ AI_Opportunist:
 	push bc
 	ld hl, StallMoves
 	ld de, 1
-	call IsInArray
+	call IsWordInArray
 
 	pop bc
 	pop de
@@ -2899,25 +3041,28 @@ AI_Aggressive:
 	ld de, 0
 .checkmove
 	inc b
+	push bc
 	ld a, b
-	cp wEnemyMonMovesEnd - wEnemyMonMoves + 1
+	cp NUM_MOVES + 1
 	jr z, .gotstrongestmove
 
 	ld a, [hli]
-	and a
+	ld c, a
+	ld a, [hli]
+	ld b, a
+	or c
 	jr z, .gotstrongestmove
 
 	push hl
 	push de
-	push bc
-	call AIGetEnemyMove
+	call AIGetEnemyMoveTwo
 	ld a, [wEnemyMoveStruct + MOVE_POWER]
 	and a
 	jr z, .nodamage
 	call AIDamageCalc
-	pop bc
 	pop de
 	pop hl
+	pop bc
 
 ; Update current move if damage is highest so far
 	ld a, [wCurDamage + 1]
@@ -2934,35 +3079,49 @@ AI_Aggressive:
 	jr .checkmove
 
 .nodamage
-	pop bc
 	pop de
 	pop hl
+	pop bc
 	jr .checkmove
 
 .gotstrongestmove
 ; Nothing we can do if no attacks did damage.
+	pop bc
 	ld a, c
 	and a
 	jr z, .done
 
 ; Discourage moves that do less damage unless they're reckless too.
 	ld hl, wBuffer1 - 1
-	ld de, wEnemyMonMoves
-	ld b, 0
+	ld d, 0
+	ld e, c
 .checkmove2
-	inc b
-	ld a, b
-	cp wEnemyMonMovesEnd - wEnemyMonMoves + 1
+	inc d
+	ld a, d
+	cp NUM_MOVES + 1
 	jr z, .done
 
 ; Ignore this move if it is the highest damaging one.
-	cp c
-	ld a, [de]
-	inc de
+	push hl
+	push de
+	ld e, d
+	ld d, 0
+	dec de
+	ld hl, wEnemyMonMoves
+	add hl, de
+	add hl, de
+	ld a, [hli]
+	ld c, a
+	ld a, [hl]
+	ld b, a
+	pop de
+	pop hl
 	inc hl
+	ld a, d
+	cp e
 	jr z, .checkmove2
 
-	call AIGetEnemyMove
+	call AIGetEnemyMoveTwo
 
 ; Ignore this move if its power is 0 or 1.
 ; Moves such as Seismic Toss, Hidden Power,
@@ -3021,35 +3180,40 @@ AI_Cautious:
 
 	ld hl, wBuffer1 - 1
 	ld de, wEnemyMonMoves
-	ld c, wEnemyMonMovesEnd - wEnemyMonMoves + 1
-.asm_39425
+	ld c, NUM_MOVES + 1
+.loop
 	inc hl
 	dec c
 	ret z
 
 	ld a, [de]
+	ld b, a
 	inc de
-	and a
+	ld a, [de]
+	inc de
+	or b
 	ret z
 
 	push hl
 	push de
 	push bc
+	ld a, [de]
+	ld c, a
 	ld hl, ResidualMoves
 	ld de, 1
-	call IsInArray
+	call IsWordInArray
 
 	pop bc
 	pop de
 	pop hl
-	jr nc, .asm_39425
+	jr nc, .loop
 
 	call Random
 	cp 90 percent + 1
 	ret nc
 
 	inc [hl]
-	jr .asm_39425
+	jr .loop
 
 INCLUDE "data/battle/ai/residual_moves.asm"
 
@@ -3059,18 +3223,25 @@ AI_Status:
 
 	ld hl, wBuffer1 - 1
 	ld de, wEnemyMonMoves
-	ld b, wEnemyMonMovesEnd - wEnemyMonMoves + 1
+	ld b, NUM_MOVES + 1
 .checkmove
 	dec b
 	ret z
 
 	inc hl
 	ld a, [de]
-	and a
+	ld c, a
+	inc de
+	ld a, [de]
+	or c
 	ret z
 
+	push bc
+	ld a, [de]
+	ld b, a
 	inc de
-	call AIGetEnemyMove
+	call AIGetEnemyMoveTwo
+	pop bc
 
 	ld a, [wEnemyMoveStruct + MOVE_EFFECT]
 	cp EFFECT_TOXIC
@@ -3122,21 +3293,26 @@ AI_Risky:
 
 	ld hl, wBuffer1 - 1
 	ld de, wEnemyMonMoves
-	ld c, wEnemyMonMovesEnd - wEnemyMonMoves + 1
+	ld b, NUM_MOVES + 1
 .checkmove
 	inc hl
-	dec c
+	dec b
+	ret z
+
+	ld a, [de]
+	ld c, a
+	inc de
+	ld a, [de]
+	or c
 	ret z
 
 	ld a, [de]
 	inc de
-	and a
-	ret z
-
 	push de
 	push bc
 	push hl
-	call AIGetEnemyMove
+	ld b, a
+	call AIGetEnemyMoveTwo
 
 	ld a, [wEnemyMoveStruct + MOVE_POWER]
 	and a
@@ -3207,6 +3383,27 @@ AIGetEnemyMove:
 
 	ld de, wEnemyMoveStruct
 	ld a, BANK(Moves)
+	call FarCopyBytes
+
+	pop bc
+	pop de
+	pop hl
+	ret
+
+AIGetEnemyMoveTwo:
+; Load attributes of move a into ram
+
+	push hl
+	push de
+	push bc
+	dec bc
+	ld hl, Moves
+	ld a, MOVE_LENGTH
+	call AddNTimes
+
+	ld de, wEnemyMoveStruct
+	ld a, BANK(Moves)
+	ld bc, MOVE_LENGTH
 	call FarCopyBytes
 
 	pop bc

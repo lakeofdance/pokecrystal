@@ -3520,8 +3520,11 @@ Function_SetEnemyMonAndSendOutAnimation:
 NewEnemyMonStatus:
 	xor a
 	ld [wLastPlayerCounterMove], a
+	ld [wLastPlayerCounterMove + 1], a
 	ld [wLastEnemyCounterMove], a
-	ld [wLastEnemyMove], a
+	ld [wLastEnemyCounterMove + 1], a
+	ld [wLastPlayerMove], a
+	ld [wLastPlayerMove + 1], a
 	ld hl, wEnemySubStatus1
 rept 4
 	ld [hli], a
@@ -3532,6 +3535,7 @@ endr
 	ld [wEnemyProtectCount], a
 	ld [wEnemyRageCounter], a
 	ld [wEnemyDisabledMove], a
+	ld [wEnemyDisabledMove + 1], a
 	ld [wEnemyMinimized], a
 	ld [wPlayerWrapCount], a
 	ld [wEnemyWrapCount], a
@@ -3950,8 +3954,11 @@ SendOutPlayerMon:
 	ld [wTypeModifier], a
 	ld [wPlayerMoveStruct + MOVE_ANIM], a
 	ld [wLastPlayerCounterMove], a
+	ld [wLastPlayerCounterMove + 1], a
 	ld [wLastEnemyCounterMove], a
+	ld [wLastEnemyCounterMove + 1], a
 	ld [wLastPlayerMove], a
+	ld [wLastPlayerMove + 1], a
 	call CheckAmuletCoin
 	call FinishBattleAnim
 	xor a
@@ -3993,23 +4000,27 @@ SendOutPlayerMon:
 NewBattleMonStatus:
 	xor a
 	ld [wLastPlayerCounterMove], a
+	ld [wLastPlayerCounterMove + 1], a
 	ld [wLastEnemyCounterMove], a
+	ld [wLastEnemyCounterMove + 1], a
 	ld [wLastPlayerMove], a
+	ld [wLastPlayerMove + 1], a
 	ld hl, wPlayerSubStatus1
 rept 4
 	ld [hli], a
 endr
 	ld [hl], a
 	ld hl, wPlayerUsedMoves
+rept 7
 	ld [hli], a
-	ld [hli], a
-	ld [hli], a
+endr
 	ld [hl], a
 	ld [wPlayerDisableCount], a
 	ld [wPlayerFuryCutterCount], a
 	ld [wPlayerProtectCount], a
 	ld [wPlayerRageCounter], a
 	ld [wDisabledMove], a
+	ld [wDisabledMove + 1], a
 	ld [wPlayerMinimized], a
 	ld [wEnemyWrapCount], a
 	ld [wPlayerWrapCount], a

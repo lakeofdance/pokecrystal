@@ -12,8 +12,13 @@ UsedMoveText:
 	and a
 	jr nz, .start
 
+	push bc
 	ld a, [wPlayerMoveStruct + MOVE_ANIM]
+	ld b, a
+	ld a, [wPlayerMoveStruct + MOVE_ANIM2]
+	ld c, a
 	call UpdateUsedMoves
+	pop bc
 
 .start
 	ld a, BATTLE_VARS_LAST_MOVE
@@ -24,9 +29,14 @@ UsedMoveText:
 	ld a, BATTLE_VARS_LAST_COUNTER_MOVE
 	call GetBattleVarAddr
 
+	push hl
 	ld a, BATTLE_VARS_MOVE_ANIM
-	call GetBattleVar
+	call GetBattleVarAddr
+	ld a, [hli]
 	ld [wMoveGrammar], a
+	ld a, [hl]
+	ld [wMoveGrammar + 1], a
+	pop hl
 
 	push hl
 	farcall CheckUserIsCharging
@@ -35,6 +45,10 @@ UsedMoveText:
 
 	; update last move
 	ld a, [wMoveGrammar]
+	ld [hli], a
+	ld [de], a
+	ld a, [wMoveGrammar + 1]
+	inc de
 	ld [hl], a
 	ld [de], a
 
@@ -174,54 +188,56 @@ INCLUDE "data/moves/grammar.asm"
 UpdateUsedMoves:
 ; append move a to wPlayerUsedMoves unless it has already been used
 
-	push bc
+	push de
 ; start of list
 	ld hl, wPlayerUsedMoves
-; get move id
-	ld b, a
+; move id is in bc
 ; next count
-	ld c, NUM_MOVES
+	ld e, NUM_MOVES
 
 .loop
 ; get move from the list
 	ld a, [hli]
+	ld d, a
+	ld a, [hl]
 ; not used yet?
-	and a
+	or d
 	jr z, .add
 ; already used?
-	cp b
+	push de
+	ld a, [hl]
+	sub c
+	ld e, a
+	ld a, d
+	sub b
+	or e
+	pop de
 	jr z, .quit
-; next byte
-	dec c
+; next move
+	dec e
+	inc hl
 	jr nz, .loop
 
 ; if the list is full and the move hasn't already been used
 ; shift the list back one byte, deleting the first move used
 ; this can occur with struggle or a new learned move
-	ld hl, wPlayerUsedMoves + 1
-; 1 = 2
+	ld hl, wPlayerUsedMoves + 2
+rept 6
 	ld a, [hld]
-	ld [hli], a
-; 2 = 3
-	inc hl
-	ld a, [hld]
-	ld [hli], a
-; 3 = 4
-	inc hl
-	ld a, [hld]
-	ld [hl], a
-; 4 = new move
-	ld a, b
-	ld [wPlayerUsedMoves + 3], a
-	jr .quit
-
-.add
-; go back to the byte we just inced from
 	dec hl
-; add the new move
-	ld [hl], b
-
+	ld [hli], a
+	inc hl
+	inc hl
+endr
+; new move
+	dec hl
+.add
+	dec hl
+	ld a, b
+	ld [hli], a
+	ld a, c
+	ld [hl], a
 .quit
 ; list updated
-	pop bc
+	pop de
 	ret
