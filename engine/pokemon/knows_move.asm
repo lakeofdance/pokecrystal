@@ -11,7 +11,7 @@ KnowsMove:
 	sub d
 	ld b, a
 	ld a, [hli]
-	cp e
+	sub e
 	or b
 	jr z, .knows_move
 	dec c

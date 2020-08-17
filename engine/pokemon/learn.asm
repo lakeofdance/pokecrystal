@@ -43,18 +43,24 @@ LearnMove:
 	push de
 	ld a, [hli]
 	ld [wNamedObjectIndexBuffer], a
+	ld b, a
 	ld a, [hl]
 	ld [wNamedObjectIndexBuffer + 1], a
+	ld c, a
 
-	ld b, a
 	ld a, [wBattleMode]
 	and a
 	jr z, .not_disabled
 	ld a, [wDisabledMove]
-	cp b
+	sub b
+	ld b, a
+	ld a, [wDisabledMove + 1]
+	sub c
+	or b	
 	jr nz, .not_disabled
 	xor a
 	ld [wDisabledMove], a
+	ld [wDisabledMove + 1], a
 	ld [wPlayerDisableCount], a
 .not_disabled
 

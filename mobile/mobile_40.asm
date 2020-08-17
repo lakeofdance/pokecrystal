@@ -10,9 +10,12 @@ _LinkBattleSendReceiveAction:
 	ld a, [wBattlePlayerAction]
 	and a ; BATTLEPLAYERACTION_USEMOVE?
 	jr nz, .switch
+	ld a, [wCurPlayerMove + 1]
+	ld c, a
 	ld a, [wCurPlayerMove]
 	ld b, BATTLEACTION_STRUGGLE
-	cp STRUGGLE
+	sub STRUGGLE
+	or c
 	jr z, .struggle
 	ld b, BATTLEACTION_SKIPTURN
 	cp $ff

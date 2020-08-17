@@ -227,6 +227,7 @@ AI_TryItem:
 
 	xor a
 	ld [wLastEnemyCounterMove], a
+	ld [wLastEnemyCounterMove + 1], a
 
 	scf
 	ret

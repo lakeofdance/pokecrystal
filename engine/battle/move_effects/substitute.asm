@@ -56,6 +56,8 @@ BattleCommand_Substitute:
 	xor a
 	ld [hl], a
 	ld [de], a
+	inc de
+	ld [de], a
 	call _CheckBattleScene
 	jr c, .no_anim
 

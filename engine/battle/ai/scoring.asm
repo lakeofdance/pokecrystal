@@ -23,7 +23,7 @@ AI_Basic:
 	push bc
 	ld a, [de]
 	ld b, a
-	call AIGetEnemyMoveTwo
+	call AIGetEnemyMove
 	pop bc
 	inc de
 
@@ -97,7 +97,7 @@ AI_Setup:
 	push bc
 	ld a, [de]
 	ld b, a
-	call AIGetEnemyMoveTwo
+	call AIGetEnemyMove
 	pop bc
 	inc de
 
@@ -179,7 +179,7 @@ AI_Types:
 	push bc
 	ld a, [de]
 	ld b, a
-	call AIGetEnemyMoveTwo
+	call AIGetEnemyMove
 	pop bc
 	inc de
 
@@ -234,7 +234,7 @@ AI_Types:
 	ld c, a
 	ld a, [hli]
 	ld b, a
-	call AIGetEnemyMoveTwo
+	call AIGetEnemyMove
 	pop bc
 	ld a, [wEnemyMoveStruct + MOVE_TYPE]
 	cp d
@@ -282,7 +282,7 @@ AI_Offensive:
 	push bc
 	ld a, [de]
 	ld b, a
-	call AIGetEnemyMoveTwo
+	call AIGetEnemyMove
 	pop bc
 	inc de
 
@@ -317,7 +317,7 @@ AI_Smart:
 	push hl
 	ld a, [de]
 	ld b, a
-	call AIGetEnemyMoveTwo
+	call AIGetEnemyMove
 
 	ld a, [wEnemyMoveStruct + MOVE_EFFECT]
 	ld hl, .table_386f2
@@ -427,6 +427,7 @@ AI_Smart:
 	dbw EFFECT_SOLARBEAM,        AI_Smart_Solarbeam
 	dbw EFFECT_THUNDER,          AI_Smart_Thunder
 	dbw EFFECT_FLY,              AI_Smart_Fly
+	dbw EFFECT_BURN_UP,	     AI_Smart_BurnUp
 	db -1 ; end
 
 AI_Smart_Sleep:
@@ -537,7 +538,7 @@ AI_Smart_LockOn:
 
 	push bc
 	ld b, a
-	call AIGetEnemyMoveTwo
+	call AIGetEnemyMove
 	pop bc
 
 	ld a, [wEnemyMoveStruct + MOVE_ACC]
@@ -598,7 +599,7 @@ AI_Smart_LockOn:
 	push bc
 	ld a, [de]
 	ld b, a
-	call AIGetEnemyMoveTwo
+	call AIGetEnemyMove
 	pop bc
 	inc de
 
@@ -1128,7 +1129,7 @@ AI_Smart_RazorWind:
 	or c
 	jr z, .asm_38ac1
 
-	call AIGetEnemyMoveTwo
+	call AIGetEnemyMove
 
 	ld a, [wEnemyMoveStruct + MOVE_EFFECT]
 	cp EFFECT_PROTECT
@@ -1368,7 +1369,7 @@ AI_Smart_Mimic:
 	jr nc, .asm_38bef
 
 	push hl
-	call AIGetEnemyMoveTwo
+	call AIGetEnemyMove
 
 	ld a, $1
 	ldh [hBattleTurn], a
@@ -1392,7 +1393,7 @@ AI_Smart_Mimic:
 	ld c, a
 	push hl
 	ld hl, UsefulMoves
-	ld de, 1
+	ld e, 1
 	call IsWordInArray
 
 	pop hl
@@ -1424,7 +1425,7 @@ AI_Smart_Counter:
 	or c
 	jr z, .asm_38c0e
 
-	call AIGetEnemyMoveTwo
+	call AIGetEnemyMove
 
 	ld a, [wEnemyMoveStruct + MOVE_POWER]
 	and a
@@ -1455,7 +1456,7 @@ AI_Smart_Counter:
 	or c
 	jr z, .asm_38c38
 
-	call AIGetEnemyMoveTwo
+	call AIGetEnemyMove
 
 	ld a, [wEnemyMoveStruct + MOVE_POWER]
 	and a
@@ -1490,7 +1491,7 @@ AI_Smart_Encore:
 	or c
 	jp z, AIDiscourageMove
 
-	call AIGetEnemyMoveTwo
+	call AIGetEnemyMove
 
 	ld a, [wEnemyMoveStruct + MOVE_POWER]
 	and a
@@ -1517,7 +1518,7 @@ AI_Smart_Encore:
 	ld a, [wLastPlayerCounterMove + 1]
 	ld c, a
 	ld hl, EncoreMoves
-	ld de, 1
+	ld e, 1
 	call IsWordInArray
 	pop hl
 	jr nc, .asm_38c81
@@ -1803,7 +1804,7 @@ AI_Smart_Disable:
 	ld a, [wLastPlayerCounterMove + 1]
 	ld c, a
 	ld hl, UsefulMoves
-	ld de, 1
+	ld e, 1
 	call IsWordInArray
 
 	pop hl
@@ -2605,7 +2606,7 @@ AI_Smart_MirrorCoat:
 	or c
 	jr z, .asm_391a8
 
-	call AIGetEnemyMoveTwo
+	call AIGetEnemyMove
 
 	ld a, [wEnemyMoveStruct + MOVE_POWER]
 	and a
@@ -2636,7 +2637,7 @@ AI_Smart_MirrorCoat:
 	or c
 	jr z, .asm_391d2
 
-	call AIGetEnemyMoveTwo
+	call AIGetEnemyMove
 
 	ld a, [wEnemyMoveStruct + MOVE_POWER]
 	and a
@@ -2758,6 +2759,26 @@ AI_Smart_Thunder:
 	ret c
 
 	inc [hl]
+	ret
+
+AI_Smart_BurnUp:
+; Dismiss this move if the enemy doesn't have the fire type.
+	ld a, [wEnemyMonType1]
+	cp FIRE
+	jr z, .gotFire
+	ld a, [wEnemyMonType2]
+	cp FIRE
+	jr z, .gotFire
+	jp AIDiscourageMove
+
+.gotFire
+; Use this move if the enemy is frozen.
+	ld a, [wEnemyMonStatus]
+	bit FRZ, a
+	ret z
+rept 5
+	dec [hl]
+endr
 	ret
 
 AICompareSpeed:
@@ -2912,7 +2933,7 @@ AIHasMoveEffect:
 	or c
 	jr z, .no
 
-	call AIGetEnemyMoveTwo
+	call AIGetEnemyMove
 
 	ld a, [wEnemyMoveStruct + MOVE_EFFECT]
 	cp b
@@ -3011,7 +3032,7 @@ AI_Opportunist:
 	push de
 	push bc
 	ld hl, StallMoves
-	ld de, 1
+	ld e, 1
 	call IsWordInArray
 
 	pop bc
@@ -3055,7 +3076,7 @@ AI_Aggressive:
 
 	push hl
 	push de
-	call AIGetEnemyMoveTwo
+	call AIGetEnemyMove
 	ld a, [wEnemyMoveStruct + MOVE_POWER]
 	and a
 	jr z, .nodamage
@@ -3121,7 +3142,7 @@ AI_Aggressive:
 	cp e
 	jr z, .checkmove2
 
-	call AIGetEnemyMoveTwo
+	call AIGetEnemyMove
 
 ; Ignore this move if its power is 0 or 1.
 ; Moves such as Seismic Toss, Hidden Power,
@@ -3200,7 +3221,7 @@ AI_Cautious:
 	ld a, [de]
 	ld c, a
 	ld hl, ResidualMoves
-	ld de, 1
+	ld e, 1
 	call IsWordInArray
 
 	pop bc
@@ -3240,7 +3261,7 @@ AI_Status:
 	ld a, [de]
 	ld b, a
 	inc de
-	call AIGetEnemyMoveTwo
+	call AIGetEnemyMove
 	pop bc
 
 	ld a, [wEnemyMoveStruct + MOVE_EFFECT]
@@ -3312,7 +3333,7 @@ AI_Risky:
 	push bc
 	push hl
 	ld b, a
-	call AIGetEnemyMoveTwo
+	call AIGetEnemyMove
 
 	ld a, [wEnemyMoveStruct + MOVE_POWER]
 	and a
@@ -3371,26 +3392,6 @@ AIDiscourageMove:
 	ret
 
 AIGetEnemyMove:
-; Load attributes of move a into ram
-
-	push hl
-	push de
-	push bc
-	dec a
-	ld hl, Moves
-	ld bc, MOVE_LENGTH
-	call AddNTimes
-
-	ld de, wEnemyMoveStruct
-	ld a, BANK(Moves)
-	call FarCopyBytes
-
-	pop bc
-	pop de
-	pop hl
-	ret
-
-AIGetEnemyMoveTwo:
 ; Load attributes of move a into ram
 
 	push hl

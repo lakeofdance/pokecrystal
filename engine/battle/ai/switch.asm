@@ -8,8 +8,10 @@ CheckPlayerMoveTypeMatchups:
 	ld a, 10
 	ld [wEnemyAISwitchScore], a
 	ld hl, wPlayerUsedMoves
-	ld a, [hl]
-	and a
+	ld a, [hli]
+	ld b, a
+	ld a, [hld]
+	or b
 	jr z, .unknown_moves
 
 	ld d, NUM_MOVES
@@ -216,7 +218,7 @@ CheckAbleToSwitch:
 	ret
 
 .not_2
-	call FindAliveEnemyMons
+;	call FindAliveEnemyMons
 	sla c
 	sla c
 	ld b, $ff
@@ -237,8 +239,12 @@ CheckAbleToSwitch:
 	cp 11
 	ret nc
 
+	push bc
 	ld a, [wLastPlayerCounterMove]
-	and a
+	ld b, a
+	ld a, [wLastPlayerCounterMove + 1]
+	or b
+	pop bc
 	jr z, .no_last_counter_move
 
 	call FindEnemyMonsImmuneToLastCounterMove
@@ -385,14 +391,20 @@ FindEnemyMonsImmuneToLastCounterMove:
 	call GetBaseData
 
 	; the player's last move is damaging...
+	push bc
 	ld a, [wLastPlayerCounterMove]
-	dec a
+	ld c, a
+	ld a, [wLastPlayerCounterMove + 1]
+	ld b, a
+	dec bc
 	ld hl, Moves + MOVE_POWER
 	call GetMoveAttr
+	pop bc
 	and a
 	jr z, .next
 
 	; and the Pokemon is immune to it...
+	; inc hl to point to type
 	inc hl
 	call GetMoveByte
 	ld hl, wBaseType
@@ -470,19 +482,31 @@ FindEnemyMonsWithASuperEffectiveMove:
 	ld c, 0
 .loop3
 	; if move is None: break
+	push bc
 	ld a, [hli]
-	and a
+	ld b, a
+	ld a, [hli]
+	or b
+	pop bc
 	push hl
 	jr z, .break3
 
 	; if move has no power: continue
-	dec a
+	push bc
+	dec hl
+	ld a, [hld]
+	ld b, a
+	ld a, [hl]
+	ld c, a
+	dec bc
 	ld hl, Moves + MOVE_POWER
 	call GetMoveAttr
+	pop bc
 	and a
 	jr z, .nope
 
 	; check type matchups
+	; inc hl to point to type
 	inc hl
 	call GetMoveByte
 	ld hl, wBattleMonType1
@@ -574,10 +598,13 @@ FindEnemyMonsThatResistPlayer:
 	push hl
 	call GetBaseData
 	ld a, [wLastPlayerCounterMove]
-	and a
+	ld c, a
+	ld a, [wLastPlayerCounterMove + 1]
+	ld b, a
+	or c
 	jr z, .skip_move
 
-	dec a
+	dec bc
 	ld hl, Moves + MOVE_POWER
 	call GetMoveAttr
 	and a

@@ -203,15 +203,23 @@ CheckPlayerTurn:
 	bit FRZ, [hl]
 	jr z, .not_frozen
 
-	; Flame Wheel and Sacred Fire thaw the user.
+	; Some moves thaw the user.
 	ld hl, wCurPlayerMove
-	ld bc, FLAME_WHEEL
+	ld de, ThawingMoves
+.loop
+	ld a, [de]
+	cp -1
+	jr z, .done
+	ld c, a
+	inc de
+	ld a, [de]
+	ld b, a
 	call CompareMove
 	jr z, .not_frozen
-	ld bc, SACRED_FIRE
-	call CompareMove
-	jr z, .not_frozen
+	inc de
+	jr .loop
 
+.done
 	ld hl, FrozenSolidText
 	call StdBattleTextbox
 
@@ -345,6 +353,8 @@ CheckPlayerTurn:
 	call CantMove
 	jp EndTurn
 
+INCLUDE "data/moves/thawing_moves.asm"
+
 CantMove:
 	ld a, BATTLE_VARS_SUBSTATUS1
 	call GetBattleVarAddr
@@ -440,15 +450,22 @@ CheckEnemyTurn:
 	bit FRZ, [hl]
 	jr z, .not_frozen
 
-	; Flame Wheel and Sacred Fire thaw the user.
+	; Some moves thaw the user.
 	ld hl, wCurEnemyMove
-	ld bc, FLAME_WHEEL
+	ld de, ThawingMoves
+.loop
+	ld a, [de]
+	cp -1
+	jr z, .done
+	ld c, a
+	inc de
+	ld a, [de]
+	ld b, a
 	call CompareMove
 	jr z, .not_frozen
-	ld bc, SACRED_FIRE
-	call CompareMove
-	jr z, .not_frozen
-
+	inc de
+	jr .loop
+.done
 	ld hl, FrozenSolidText
 	call StdBattleTextbox
 	call CantMove
@@ -481,6 +498,7 @@ CheckEnemyTurn:
 
 	ld [hl], a
 	ld [wEnemyDisabledMove], a
+	ld [wEnemyDisabledMove + 1], a
 
 	ld hl, DisabledNoMoreText
 	call StdBattleTextbox
@@ -840,7 +858,9 @@ BattleCommand_CheckObedience:
 
 ; Don't bother trying to handle Disable.
 	ld a, [wDisabledMove]
-	and a
+	ld b, a
+	ld a, [wDisabledMove + 1]
+	or b
 	jr nz, .DoNothing
 
 	ld hl, wBattleMonPP
@@ -1190,18 +1210,21 @@ BattleCommand_Critical:
 
 	ldh a, [hBattleTurn]
 	and a
-	ld hl, wEnemyMonItem
-	ld a, [wEnemyMonSpecies]
+	ld de, wEnemyMonItem
+	ld hl, wEnemyMonSpecies
 	jr nz, .Item
-	ld hl, wBattleMonItem
-	ld a, [wBattleMonSpecies]
+	ld de, wBattleMonItem
+	ld hl, wBattleMonSpecies
 
 .Item:
 	ld c, 0
 
-	cp CHANSEY
+	push bc
+	ld bc, CHANSEY
+	call CompareMove
+	pop bc
 	jr nz, .Farfetchd
-	ld a, [hl]
+	ld a, [de]
 	cp LUCKY_PUNCH
 	jr nz, .FocusEnergy
 
@@ -1210,9 +1233,12 @@ BattleCommand_Critical:
 	jr .Tally
 
 .Farfetchd:
-	cp FARFETCH_D
+	push bc
+	ld bc, FARFETCH_D
+	call CompareMove
+	pop bc
 	jr nz, .FocusEnergy
-	ld a, [hl]
+	ld a, [de]
 	cp STICK
 	jr nz, .FocusEnergy
 
@@ -1230,12 +1256,16 @@ BattleCommand_Critical:
 	inc c
 
 .CheckCritical:
-	ld a, BATTLE_VARS_MOVE_ANIM
-	call GetBattleVar
-	ld de, 1
-	ld hl, CriticalHitMoves
 	push bc
-	call IsInArray
+	ld a, BATTLE_VARS_MOVE_ANIM
+	call GetBattleVarAddr
+	ld a, [hli]
+	ld b, a
+	ld a, [hl]
+	ld c, a
+	ld e, 1
+	ld hl, CriticalHitMoves
+	call IsWordInArray
 	pop bc
 	jr nc, .ScopeLens
 
@@ -1500,14 +1530,17 @@ BattleCheckTypeMatchup:
 	ld hl, wEnemyMonType1
 	ldh a, [hBattleTurn]
 	and a
-	jr z, CheckTypeMatchup
+	jr z, .loadtype
 	ld hl, wBattleMonType1
+.loadtype
+	ld a, BATTLE_VARS_MOVE_TYPE
+	call GetBattleVar
 CheckTypeMatchup:
 	push hl
 	push de
 	push bc
-	ld a, BATTLE_VARS_MOVE_TYPE
-	call GetBattleVar
+;	ld a, BATTLE_VARS_MOVE_TYPE
+;	call GetBattleVar
 	ld d, a
 	ld b, [hl]
 	inc hl
@@ -1775,13 +1808,15 @@ BattleCommand_CheckHit:
 	jr z, .LockedOn
 
 	ld a, BATTLE_VARS_MOVE_ANIM
-	call GetBattleVar
-
-	cp EARTHQUAKE
-	ret z
-	cp FISSURE
-	ret z
-	cp MAGNITUDE
+	call GetBattleVarAddr
+;
+	ld a, [hli]
+	ld b, a
+	ld a, [hl]
+	ld c, a
+	ld hl, UndergroundHitMoves
+	ld e, 1
+	call IsMoveInArray
 	ret z
 
 .LockedOn:
@@ -1811,6 +1846,14 @@ BattleCommand_CheckHit:
 ; Check for moves that can hit underground/flying opponents.
 ; Return z if the current move can hit the opponent.
 
+; Useful in a mo
+	ld a, BATTLE_VARS_MOVE_ANIM
+	call GetBattleVarAddr
+	ld a, [hli]
+	ld b, a
+	ld a, [hl]
+	ld c, a
+
 	ld a, BATTLE_VARS_SUBSTATUS3_OPP
 	call GetBattleVar
 	and 1 << SUBSTATUS_FLYING | 1 << SUBSTATUS_UNDERGROUND
@@ -1819,34 +1862,29 @@ BattleCommand_CheckHit:
 	bit SUBSTATUS_FLYING, a
 	jr z, .DigMoves
 
-	ld a, BATTLE_VARS_MOVE_ANIM
-	call GetBattleVar
-
-	cp GUST
-	ret z
-	cp WHIRLWIND
-	ret z
-	cp THUNDER
-	ret z
-	cp TWISTER
+	ld hl, FlyingHitMoves
+	ld e, 1
+	call IsMoveInArray
 	ret
 
 .DigMoves:
-	ld a, BATTLE_VARS_MOVE_ANIM
-	call GetBattleVar
-
-	cp EARTHQUAKE
-	ret z
-	cp FISSURE
-	ret z
-	cp MAGNITUDE
+	ld hl, UndergroundHitMoves
+	ld de, 1
+	call IsMoveInArray
 	ret
 
 .ThunderRain:
 ; Return z if the current move always hits in rain, and it is raining.
-	ld a, BATTLE_VARS_MOVE_EFFECT
-	call GetBattleVar
-	cp EFFECT_THUNDER
+	ld a, BATTLE_VARS_MOVE_ANIM
+	call GetBattleVarAddr
+	ld a, [hli]
+	ld b, a
+	ld a, [hl]
+	ld c, a
+
+	ld hl, RainHitMoves
+	ld e, 1
+	call IsMoveInArray
 	ret nz
 
 	ld a, [wBattleWeather]
@@ -1952,6 +1990,8 @@ BattleCommand_CheckHit:
 
 INCLUDE "data/battle/accuracy_multipliers.asm"
 
+INCLUDE "data/moves/alt_accuracy_moves.asm"
+
 BattleCommand_EffectChance:
 ; effectchance
 
@@ -1968,9 +2008,10 @@ BattleCommand_EffectChance:
 	ld hl, wEnemyMoveStruct + MOVE_CHANCE
 .got_move_chance
 
-	; BUG: 1/256 chance to fail even for a 100% effect chance,
-	; since carry is not set if BattleRandom == [hl] == 255
 	call BattleRandom
+	ld a, [hl]
+	sub 100 percent
+	call c, BattleRandom
 	cp [hl]
 	pop hl
 	ret c
@@ -2095,10 +2136,12 @@ BattleCommand_MoveAnimNoSub:
 	call PlayFXAnimID
 
 	ld a, BATTLE_VARS_MOVE_ANIM
-	call GetBattleVar
-	cp FLY
+	call GetBattleVarAddr
+	ld bc, FLY
+	call CompareMove
 	jr z, .clear_sprite
-	cp DIG
+	ld bc, DIG
+	call CompareMove
 	ret nz
 .clear_sprite
 	jp AppearUserLowerSub
@@ -2196,12 +2239,15 @@ BattleCommand_FailureText:
 	ld a, BATTLE_VARS_MOVE_ANIM
 	call GetBattleVarAddr
 
-	cp FLY
+	ld bc, FLY
+	call CompareMove
 	jr z, .fly_dig
-	cp DIG
+	ld bc, DIG
+	call CompareMove
 	jr z, .fly_dig
 
 ; Move effect:
+	inc hl
 	inc hl
 	ld a, [hl]
 
@@ -2800,7 +2846,7 @@ TruncateHL_BC:
 CheckDamageStatsCritical:
 ; Return carry if boosted stats should be used in damage calculations.
 ; Unboosted stats should be used if the attack is a critical hit,
-;  and the stage of the opponent's defense is higher than the user's attack.
+; and the stage of the opponent's defense is higher than the user's attack.
 
 	ld a, [wCriticalHit]
 	and a
@@ -2914,33 +2960,6 @@ SpeciesItemBoost:
 ; Double the stat
 	sla l
 	rl h
-	ret
-
-CompareSpecies:
-; Return z if the attacking mon matches the (big endian) species in bc
-	push hl
-	ld a, MON_SPECIES
-	call BattlePartyAttr
-	ld a, [hli]
-	ld l, [hl]
-	ld h, a
-
-	ldh a, [hBattleTurn]
-	and a
-	jr z, .CompareSpecies
-	ld a, [wTempEnemyMonSpecies]
-	ld h, a
-	ld a, [wTempEnemyMonSpecies + 1]
-	ld l, a
-
-.CompareSpecies:
-	ld a, l
-	sub b
-	ld b, a
-	ld a, c
-	sub h
-	or b
-	pop hl
 	ret
 
 EnemyAttackDamage:
@@ -4385,9 +4404,14 @@ MinimizeDropSub:
 	ld bc, wEnemyMinimized
 	ld hl, DropEnemySub
 .do_player
+	push hl	
+	push bc
 	ld a, BATTLE_VARS_MOVE_ANIM
-	call GetBattleVar
-	cp MINIMIZE
+	call GetBattleVarAddr
+	ld bc, MINIMIZE
+	call CompareMove
+	pop bc
+	pop hl
 	ret nz
 
 	ld a, $1
@@ -5164,6 +5188,9 @@ BattleCommand_ForceSwitch:
 	ld [wForcedSwitch], a
 	call SetBattleDraw
 	ld a, [wPlayerMoveStructAnimation]
+	ld b, a
+	ld a, [wPlayerMoveStructAnimation + 1]
+	ld c, a
 	jp .succeed
 
 .trainer
@@ -5257,6 +5284,9 @@ BattleCommand_ForceSwitch:
 	ld [wForcedSwitch], a
 	call SetBattleDraw
 	ld a, [wEnemyMoveStructAnimation]
+	ld b, a
+	ld a, [wEnemyMoveStructAnimation + 1]
+	ld c, a
 	jr .succeed
 
 .vs_trainer
@@ -5319,17 +5349,19 @@ BattleCommand_ForceSwitch:
 	jp PrintButItFailed
 
 .succeed
-	push af
+	push bc
 	call SetBattleDraw
 	ld a, $1
 	ld [wKickCounter], a
 	call AnimateCurrentMove
 	ld c, 20
 	call DelayFrames
-	pop af
+	pop bc
 
 	ld hl, FledInFearText
-	cp ROAR
+	ld a, b
+	sub ROAR
+	or c
 	jr z, .do_text
 	ld hl, BlownAwayText
 .do_text
@@ -5650,10 +5682,12 @@ BattleCommand_Charge:
 	ld [wKickCounter], a
 	call LoadMoveAnim
 	ld a, BATTLE_VARS_MOVE_ANIM
-	call GetBattleVar
-	cp FLY
+	call GetBattleVarAddr
+	ld bc, FLY
+	call CompareMove
 	jr z, .flying
-	cp DIG
+	ld bc, DIG
+	call CompareMove
 	jr z, .flying
 	call BattleCommand_RaiseSub
 	jr .not_flying
@@ -5663,17 +5697,25 @@ BattleCommand_Charge:
 .not_flying
 	ld a, BATTLE_VARS_SUBSTATUS3
 	call GetBattleVarAddr
+	push hl
 	ld a, BATTLE_VARS_MOVE_ANIM
-	call GetBattleVar
-	ld b, a
-	cp FLY
+	call GetBattleVarAddr
+	ld a, [hli]
+	ld d, a
+	ld a, [hld]
+	ld e, a
+	ld bc, FLY
+	call CompareMove
 	jr z, .set_flying
-	cp DIG
+	ld bc, DIG
+	call CompareMove
+	pop hl
 	jr nz, .dont_set_digging
 	set SUBSTATUS_UNDERGROUND, [hl]
 	jr .dont_set_digging
 
 .set_flying
+	pop hl
 	set SUBSTATUS_FLYING, [hl]
 
 .dont_set_digging
@@ -5681,10 +5723,14 @@ BattleCommand_Charge:
 	jr nz, .mimic
 	ld a, BATTLE_VARS_LAST_COUNTER_MOVE
 	call GetBattleVarAddr
-	ld [hl], b
+	ld [hl], d
+	inc hl
+	ld [hl], e
 	ld a, BATTLE_VARS_LAST_MOVE
 	call GetBattleVarAddr
-	ld [hl], b
+	ld [hl], d
+	inc hl
+	ld [hl], e
 
 .mimic
 	call ResetDamage
@@ -5703,31 +5749,39 @@ BattleCommand_Charge:
 	text_far UnknownText_0x1c0d0e ; "<USER>"
 	text_asm
 	ld a, BATTLE_VARS_MOVE_ANIM
-	call GetBattleVar
-	cp RAZOR_WIND
-	ld hl, .RazorWind
+	call GetBattleVarAddr
+	ld bc, RAZOR_WIND
+	call CompareMove
+	ld de, .RazorWind
 	jr z, .done
 
-	cp SOLARBEAM
-	ld hl, .Solarbeam
+	ld bc, SOLARBEAM
+	call CompareMove
+	ld de, .Solarbeam
 	jr z, .done
 
-	cp SKULL_BASH
-	ld hl, .SkullBash
+	ld bc, SKULL_BASH
+	call CompareMove
+	ld de, .SkullBash
 	jr z, .done
 
-	cp SKY_ATTACK
-	ld hl, .SkyAttack
+	ld bc, SKY_ATTACK
+	call CompareMove
+	ld de, .SkyAttack
 	jr z, .done
 
-	cp FLY
-	ld hl, .Fly
+	ld bc, FLY
+	call CompareMove
+	ld de, .Fly
 	jr z, .done
 
-	cp DIG
-	ld hl, .Dig
+	ld bc, DIG
+	call CompareMove
+	ld de, .Dig
 
 .done
+	ld h, d
+	ld l, e
 	ret
 
 .RazorWind:
@@ -5790,31 +5844,38 @@ BattleCommand_TrapTarget:
 	inc a
 	ld [hl], a
 	ld a, BATTLE_VARS_MOVE_ANIM
-	call GetBattleVar
+	call GetBattleVarAddr
+	ld a, [hli]
+	ld [de], a
+	ld c, a
+	inc de
+	ld a, [hl]
 	ld [de], a
 	ld b, a
 	ld hl, .Traps
 
 .find_trap_text
-	ld a, [hli]
-	cp b
+	call CompareMove
 	jr z, .found_trap_text
+rept 4
 	inc hl
-	inc hl
+endr
 	jr .find_trap_text
 
 .found_trap_text
+	inc hl
+	inc hl
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
 	jp StdBattleTextbox
 
 .Traps:
-	dbw BIND,      UsedBindText      ; 'used BIND on'
-	dbw WRAP,      WrappedByText     ; 'was WRAPPED by'
-	dbw FIRE_SPIN, FireSpinTrapText  ; 'was trapped!'
-	dbw CLAMP,     ClampedByText     ; 'was CLAMPED by'
-	dbw WHIRLPOOL, WhirlpoolTrapText ; 'was trapped!'
+	dw BIND,      UsedBindText      ; 'used BIND on'
+	dw WRAP,      WrappedByText     ; 'was WRAPPED by'
+	dw FIRE_SPIN, FireSpinTrapText  ; 'was trapped!'
+	dw CLAMP,     ClampedByText     ; 'was CLAMPED by'
+	dw WHIRLPOOL, WhirlpoolTrapText ; 'was trapped!'
 
 BattleCommand_Recoil:
 ; recoil
@@ -5825,6 +5886,8 @@ BattleCommand_Recoil:
 	jr z, .got_hp
 	ld hl, wEnemyMonMaxHP
 .got_hp
+; what is the point of this?
+; todo, I suppose
 	ld a, BATTLE_VARS_MOVE_ANIM
 	call GetBattleVar
 	ld d, a
@@ -6021,6 +6084,7 @@ BattleCommand_Paralyze:
 	bit SUBSTATUS_LOCK_ON, a
 	jr nz, .dont_sample_failure
 
+;controversial
 	call BattleRandom
 	cp 25 percent + 1 ; 25% chance AI fails
 	jr c, .failed
@@ -6189,20 +6253,17 @@ BattleCommand_Heal:
 	ld de, wEnemyMonHP
 	ld hl, wEnemyMonMaxHP
 .got_hp
-	ld a, BATTLE_VARS_MOVE_ANIM
-	call GetBattleVar
-	ld b, a
 	push hl
 	push de
-	push bc
 	ld c, 2
 	call CompareBytes
-	pop bc
 	pop de
 	pop hl
 	jp z, .hp_full
-	ld a, b
-	cp REST
+	ld a, BATTLE_VARS_MOVE_ANIM
+	call GetBattleVarAddr
+	ld bc, REST
+	call CompareMove
 	jr nz, .not_rest
 
 	push hl
@@ -6288,12 +6349,14 @@ ResetActorDisable:
 	xor a
 	ld [wEnemyDisableCount], a
 	ld [wEnemyDisabledMove], a
+	ld [wEnemyDisabledMove + 1], a
 	ret
 
 .player
 	xor a
 	ld [wPlayerDisableCount], a
 	ld [wDisabledMove], a
+	ld [wDisabledMove + 1], a
 	ret
 
 BattleCommand_Screen:

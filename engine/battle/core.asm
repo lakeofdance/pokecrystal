@@ -576,7 +576,7 @@ ParsePlayerAction:
 .not_encored
 	ld a, [wBattlePlayerAction]
 	cp BATTLEPLAYERACTION_SWITCH
-	jr z, .reset_rage
+	jp z, .reset_rage
 	and a
 	jr nz, .reset_bide
 	ld a, [wPlayerSubStatus3]
@@ -584,14 +584,18 @@ ParsePlayerAction:
 	jr nz, .locked_in
 	xor a
 	ld [wMoveSelectionMenuType], a
+	ld [wFXAnimID + 1], a
 	inc a ; POUND
 	ld [wFXAnimID], a
 	call MoveSelectionScreen
 	push af
 	call Call_LoadTempTileMapToTileMap
 	call UpdateBattleHuds
+	ld a, [wCurPlayerMove + 1]
+	ld b, a
 	ld a, [wCurPlayerMove]
-	cp STRUGGLE
+	sub STRUGGLE
+	or b
 	jr z, .struggle
 	call PlayClickSFX
 
@@ -1207,6 +1211,10 @@ HandleWrap:
 	ld a, [de]
 	ld [wNamedObjectIndexBuffer], a
 	ld [wFXAnimID], a
+	inc de
+	ld a, [de]
+	ld [wNamedObjectIndexBuffer + 1], a
+	ld [wFXAnimID + 1], a
 	call GetMoveName
 	dec [hl]
 	jr z, .release_from_bounds
@@ -1219,7 +1227,7 @@ HandleWrap:
 	call SwitchTurnCore
 	xor a
 	ld [wNumHits], a
-	ld [wFXAnimID + 1], a
+;	ld [wFXAnimID + 1], a
 	predef PlayBattleAnim
 	call SwitchTurnCore
 
@@ -1356,8 +1364,9 @@ HandleMysteryberry:
 
 .restore
 	; lousy hack
-	ld a, [hl]
-	cp SKETCH
+	ld a, [hli]
+	sub SKETCH
+	or [hl]
 	ld b, 1
 	jr z, .sketch
 	ld b, 5
@@ -1367,6 +1376,8 @@ HandleMysteryberry:
 	ld [de], a
 	push bc
 	push bc
+	ld a, [hld]
+	ld [wTempByteValue + 1], a
 	ld a, [hl]
 	ld [wTempByteValue], a
 	ld de, wBattleMonMoves - 1
@@ -1385,11 +1396,17 @@ HandleMysteryberry:
 	ld h, d
 	ld l, e
 	add hl, bc
+	add hl, bc
 	pop de
 	pop bc
 
 	ld a, [wTempByteValue]
-	cp [hl]
+	sub [hl]
+	ld b, a
+	inc hl
+	ld a, [wTempByteValue + 1]
+	sub [hl]
+	or b
 	jr nz, .skip_checks
 	ldh a, [hBattleTurn]
 	and a
@@ -2288,6 +2305,7 @@ EnemyPartyMonEntrance:
 	call SpikesDamage
 	xor a
 	ld [wEnemyMoveStruct + MOVE_ANIM], a
+	ld [wEnemyMoveStruct + MOVE_ANIM2], a
 	ld [wBattlePlayerAction], a
 	inc a
 	ret
@@ -3154,23 +3172,29 @@ LookUpTheEffectivenessOfEveryMove:
 	dec e
 	jr z, .done
 	ld a, [hli]
-	and a
+	or [hl]
 	jr z, .done
 	push hl
 	push de
 	push bc
-	dec a
+	ld a, [hld]
+	ld b, a
+	ld a, [hl]
+	ld c, a
+	dec bc
 	ld hl, Moves
-	ld bc, MOVE_LENGTH
+	ld a, MOVE_LENGTH
 	call AddNTimes
 	ld de, wEnemyMoveStruct
 	ld a, BANK(Moves)
+	ld bc, MOVE_LENGTH
 	call FarCopyBytes
 	call SetEnemyTurn
 	callfar BattleCheckTypeMatchup
 	pop bc
 	pop de
 	pop hl
+	inc hl
 	ld a, [wTypeMatchup]
 	cp EFFECTIVE + 1
 	jr c, .loop
@@ -3746,6 +3770,7 @@ TryToRunAwayFromBattle:
 	ld [wCurMoveNum], a
 	xor a
 	ld [wCurPlayerMove], a
+	ld [wCurPlayerMove + 1], a
 	call LinkBattleSendReceiveAction
 	call Call_LoadTempTileMapToTileMap
 
@@ -3953,6 +3978,7 @@ SendOutPlayerMon:
 	ld [wCurMoveNum], a
 	ld [wTypeModifier], a
 	ld [wPlayerMoveStruct + MOVE_ANIM], a
+	ld [wPlayerMoveStruct + MOVE_ANIM2], a
 	ld [wLastPlayerCounterMove], a
 	ld [wLastPlayerCounterMove + 1], a
 	ld [wLastEnemyCounterMove], a
@@ -5396,10 +5422,6 @@ MoveSelectionScreen:
 	dec a
 	cp c
 	jr z, .move_disabled
-	ld hl, wUnusedPlayerLockedMove
-	ld a, [hli]
-	and a
-	jr nz, .skip2
 	ld a, [wMenuCursorY]
 	ld hl, wBattleMonMoves
 	ld c, a
@@ -5407,8 +5429,6 @@ MoveSelectionScreen:
 	add hl, bc
 	add hl, bc
 	ld a, [hli]
-
-.skip2
 	ld [wCurPlayerMove], a
 	ld a, [hl]
 	ld [wCurPlayerMove + 1], a
@@ -5783,17 +5803,22 @@ ParseEnemyAction:
 	ld de, wEnemyMonPP
 	ld b, NUM_MOVES
 .loop
-	ld a, [hl]
-	and a
+	ld a, [hli]
+	or [hl]
 	jp z, .struggle
+	dec hl
 	ld a, [wEnemyDisabledMove]
-	cp [hl]
+	ld c, a
+	ld a, [wEnemyDisabledMove + 1]
+	ld b, a
+	callfar CompareMove
 	jr z, .disabled
 	ld a, [de]
 	and PP_MASK
 	jr nz, .enough_pp
 
 .disabled
+	inc hl
 	inc hl
 	inc de
 	dec b
@@ -5869,7 +5894,7 @@ ParseEnemyAction:
 	ret
 
 .struggle
-	ld a, STRUGGLE
+	ld a, STRUGGLE ;?
 	jr .finish
 
 ResetVarsForSubstatusRage:
@@ -6298,13 +6323,9 @@ LoadEnemyMon:
 	xor a
 	ld h, d
 	ld l, e
+rept 7
 	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
+endr
 	ld [hl], a
 ; Make sure the predef knows this isn't a partymon
 	ld [wEvolutionOldSpecies], a

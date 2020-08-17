@@ -186,7 +186,7 @@ GetMoveGrammar:
 INCLUDE "data/moves/grammar.asm"
 
 UpdateUsedMoves:
-; append move a to wPlayerUsedMoves unless it has already been used
+; append move bc to wPlayerUsedMoves unless it has already been used
 
 	push de
 ; start of list

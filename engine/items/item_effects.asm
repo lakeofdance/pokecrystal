@@ -469,7 +469,7 @@ PokeBallEffect:
 	jr nz, .Transformed
 	ld hl, wWildMonMoves
 	ld de, wEnemyMonMoves
-	ld bc, NUM_MOVES
+	ld bc, NUM_MOVES * 2
 	call CopyBytes
 
 	ld hl, wWildMonPP
