@@ -2261,8 +2261,10 @@ RestorePPEffect:
 	call GetMthMoveOfNthPartymon
 
 	push hl
-	ld a, [hl]
+	ld a, [hli]
 	ld [wNamedObjectIndexBuffer], a
+	ld a, [hl]
+	ld [wNamedObjectIndexBuffer + 1], a
 	call GetMoveName
 	call CopyName1
 	pop hl
@@ -2271,12 +2273,14 @@ RestorePPEffect:
 	cp PP_UP
 	jp nz, Not_PP_Up
 
-	ld a, [hl]
-	cp SKETCH
+	ld a, [hli]
+	sub SKETCH
+	or [hl]
 	jr z, .CantUsePPUpOnSketch
 
-	ld bc, MON_PP - MON_MOVES
-	add hl, bc
+	ld hl, wPartyMon1PP
+	ld bc, PARTYMON_STRUCT_LENGTH
+	call GetMthMovePPOfNthPartymon
 	ld a, [hl]
 	cp PP_UP_MASK
 	jr c, .do_ppup
@@ -2329,32 +2333,45 @@ BattleRestorePP:
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call AddNTimes
 	ld de, wBattleMonMoves
-	ld b, NUM_MOVES
+	ld c, 0
 .loop
 	ld a, [de]
 	and a
 	jr z, .done
-	cp [hl]
+	sub [hl]
+	ld b, a
+	inc de
+	inc hl
+	ld a, [de]
+	sub [hl]
+	or b
 	jr nz, .next
 	push hl
 	push de
+	ld b, 0
+	ld hl, wBattleMonPP
+	add hl, bc
+	ld d, h
+	ld e, l
 	push bc
-rept NUM_MOVES + 2 ; wBattleMonPP - wBattleMonMoves
-	inc de
-endr
-	ld bc, MON_PP - MON_MOVES
+	ld a, [wCurPartyMon]
+	ld hl, wPartyMon1PP
+	ld bc, PARTYMON_STRUCT_LENGTH
+	call AddNTimes
+	pop bc
 	add hl, bc
 	ld a, [hl]
 	ld [de], a
-	pop bc
 	pop de
 	pop hl
 
 .next
 	inc hl
 	inc de
-	dec b
-	jr nz, .loop
+	inc c
+	ld a, c
+	cp NUM_MOVES
+	jr c, .loop
 
 .done
 	ret
@@ -2409,7 +2426,7 @@ RestorePP:
 	call GetMaxPPOfMove
 	ld hl, wPartyMon1PP
 	ld bc, PARTYMON_STRUCT_LENGTH
-	call GetMthMoveOfNthPartymon
+	call GetMthMovePPOfNthPartymon
 	ld a, [wTempPP]
 	ld b, a
 	ld a, [hl]
@@ -2658,7 +2675,6 @@ ApplyPPUp:
 .use
 	ld a, [hl]
 	and PP_UP_MASK
-	ld a, [de] ; wasted cycle
 	call nz, ComputeMaxPP
 
 .skip
@@ -2790,6 +2806,7 @@ GetMaxPPOfMove:
 	ld c, [hl]
 	inc hl
 	ld b, [hl]
+	dec hl
 	dec bc
 
 	push hl
@@ -2825,7 +2842,9 @@ GetMaxPPOfMove:
 	ld [hl], a
 	xor a
 	ld [wTempPP], a
-	ld a, b ; this gets lost anyway
+;
+	ld de, wStringBuffer1
+;
 	call ComputeMaxPP
 	ld a, [hl]
 	and PP_MASK
@@ -2846,5 +2865,16 @@ GetMthMoveOfCurrentMon:
 	ld c, a
 	ld b, 0
 	add hl, bc
+	add hl, bc
+	ret
+
+GetMthMovePPOfNthPartymon:
+	ld a, [wCurPartyMon]
+	call AddNTimes
+
+GetMthMovePPOfCurrentMon:
+	ld a, [wMenuCursorY]
+	ld c, a
+	ld b, 0
 	add hl, bc
 	ret

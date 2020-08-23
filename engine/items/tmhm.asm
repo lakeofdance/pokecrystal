@@ -381,6 +381,8 @@ TMHM_DisplayPocketItems:
 	predef GetTMHMMove
 	ld a, [wNamedObjectIndexBuffer]
 	ld [wPutativeTMHMMove], a
+	ld a, [wNamedObjectIndexBuffer + 1]
+	ld [wPutativeTMHMMove + 1], a
 	call GetMoveName
 	pop hl
 	ld bc, 3
@@ -410,7 +412,7 @@ TMHM_DisplayPocketItems:
 	pop de
 	pop hl
 	dec d
-	jr nz, .loop2
+	jp nz, .loop2
 	jr .done
 
 .NotTMHM:

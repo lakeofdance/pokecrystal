@@ -8,8 +8,12 @@ MoveTutor:
 	xor a
 	ld [wItemAttributeParamBuffer], a
 	call .GetMoveTutorMove
+	ld a, c
 	ld [wNamedObjectIndexBuffer], a
 	ld [wPutativeTMHMMove], a
+	ld a, b
+	ld [wNamedObjectIndexBuffer + 1], a
+	ld [wPutativeTMHMMove + 1], a
 	call GetMoveName
 	call CopyName1
 	farcall ChooseMonToLearnTMHM
@@ -17,6 +21,15 @@ MoveTutor:
 	jr .enter_loop
 
 .loop
+; This fixes a strange bug, in which after being asked to overwrite a move
+; and responding no, the move name is replaced by the mon name
+; Somehow wTMHMMoveNameBackup is being overwritten by mon name, I don't know
+; where. Regardless, this fixes it.
+	ld hl, wStringBuffer2
+	ld de, wTMHMMoveNameBackup
+	ld bc, 12
+	call CopyBytes
+;
 	farcall ChooseMonToLearnTMHM_NoRefresh
 	jr c, .cancel
 .enter_loop
@@ -40,15 +53,15 @@ MoveTutor:
 	cp MOVETUTOR_THUNDERBOLT
 	jr z, .thunderbolt
 	; MOVETUTOR_ICE_BEAM
-	ld a, ICE_BEAM
+	ld bc, ICE_BEAM
 	ret
 
 .flamethrower
-	ld a, FLAMETHROWER
+	ld bc, FLAMETHROWER
 	ret
 
 .thunderbolt
-	ld a, THUNDERBOLT
+	ld bc, THUNDERBOLT
 	ret
 
 CheckCanLearnMoveTutorMove:

@@ -1402,11 +1402,11 @@ HandleMysteryberry:
 
 	ld a, [wTempByteValue]
 	sub [hl]
-	ld b, a
+	ld c, a
 	inc hl
 	ld a, [wTempByteValue + 1]
 	sub [hl]
-	or b
+	or c
 	jr nz, .skip_checks
 	ldh a, [hBattleTurn]
 	and a
