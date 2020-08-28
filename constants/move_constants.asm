@@ -259,7 +259,7 @@
 	const BEAT_UP      ; fb
 
 	const BURN_UP          ;  fc
-	const MOVE_OR_ANIM_FD  ;  fd
+	const STRENGTH_SAP     ;  fd
 	const MOVE_OR_ANIM_FE  ;  fe
 	const MOVE_OR_ANIM_FF  ;  ff, don't use
 	const MOVE_OR_ANIM_100 ; 100, don't use

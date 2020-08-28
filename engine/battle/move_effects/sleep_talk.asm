@@ -158,7 +158,9 @@ BattleCommand_SleepTalk:
 	push de
 	push bc
 
-	ld b, a
+	ld c, [hl]
+	inc hl
+	ld b, [hl]
 	callfar GetMoveEffect
 	ld a, b
 

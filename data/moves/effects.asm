@@ -2082,3 +2082,11 @@ BurnUp:
 	kingsrock
 	endmove
 
+StrengthSap:
+	checkobedience
+	usedmovetext
+	doturn
+	checkhit
+	strengthsap
+	endmove
+

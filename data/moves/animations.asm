@@ -252,8 +252,8 @@ BattleAnimations::
 	dw BattleAnim_RockSmash
 	dw BattleAnim_Whirlpool
 	dw BattleAnim_BeatUp
-	dw BattleAnim_FlameWheel ;burn up
-	dw BattleAnim_fd
+	dw BattleAnim_FlameWheel	;burn up
+	dw BattleAnim_LeechLife		;strength sap
 	dw BattleAnim_fe
 	dw BattleAnim_ff	;don't use
 	dw BattleAnim_100	;don't use

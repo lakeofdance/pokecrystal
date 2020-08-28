@@ -4837,6 +4837,7 @@ ResetMiss:
 
 LowerSpeedStat:
 	ld a, SPEED
+; fallthrough
 
 LowerStat:
 	ld [wLoweredStat], a
@@ -6163,6 +6164,8 @@ CheckMoveTypeMatchesTarget:
 	ret
 
 INCLUDE "engine/battle/move_effects/substitute.asm"
+
+INCLUDE "engine/battle/move_effects/strength_sap.asm"
 
 BattleCommand_RechargeNextTurn:
 ; rechargenextturn

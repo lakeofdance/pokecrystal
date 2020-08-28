@@ -4104,7 +4104,10 @@ SpikesDamage:
 
 PursuitSwitch:
 	ld a, BATTLE_VARS_MOVE
-	call GetBattleVar
+	call GetBattleVarAddr
+	ld a, [hli]
+	ld c, a
+	ld a, [hl]
 	ld b, a
 	call GetMoveEffect
 	ld a, b

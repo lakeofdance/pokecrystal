@@ -251,7 +251,7 @@ MoveNames::
 	db "WHIRLPOOL@"
 	db "BEAT UP@"
 	db "BURN UP@"
-	db "MOVE FD@"
+	db "STRENGTH SAP@"
 	db "MOVE FE@"
 	db "MOVE FF@"
 	db "MOVE 100@"

@@ -264,7 +264,7 @@ Moves:
 	move WHIRLPOOL,    EFFECT_TRAP_TARGET,        15, WATER,     70, 15,   0
 	move BEAT_UP,      EFFECT_BEAT_UP,            10, DARK,     100, 10,   0
 	move BURN_UP,      EFFECT_BURN_UP,           130, FIRE,     100,  5,   0
-	move POUND,        EFFECT_NORMAL_HIT,         10, NORMAL,   100, 10,   0
+	move STRENGTH_SAP, EFFECT_STRENGTH_SAP,        0, GRASS,    100, 10,   0
 	move POUND,        EFFECT_NORMAL_HIT,         10, NORMAL,   100, 10,   0
 	move POUND,        EFFECT_NORMAL_HIT,         10, NORMAL,   100, 10,   0	;  FF, don't use
 	move POUND,        EFFECT_NORMAL_HIT,         10, NORMAL,   100, 10,   0	; 100, don't use

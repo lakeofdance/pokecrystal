@@ -150,3 +150,4 @@ MoveEffectsPointers:
 	dw Fly
 	dw DefenseCurl
 	dw BurnUp
+	dw StrengthSap
