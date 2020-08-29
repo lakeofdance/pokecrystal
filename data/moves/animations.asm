@@ -260,6 +260,8 @@ BattleAnimations::
 	dw BattleAnim_IceBeam		;freeze dry
 	dw BattleAnim_JumpKick  	;flying press
 	dw BattleAnim_Spark		;volt switch
+	dw BattleAnim_KarateChop	;circle throw
+	dw BattleAnim_Tackle		;dragon tail
 	dw BattleAnim_SweetScent2
 	dw BattleAnim_ThrowPokeBall
 	dw BattleAnim_SendOutMon

@@ -152,3 +152,4 @@ MoveEffectsPointers:
 	dw BurnUp
 	dw StrengthSap
 	dw TurnHit
+	dw ForceSwitchHit

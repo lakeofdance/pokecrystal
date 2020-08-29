@@ -733,6 +733,16 @@ BlownAwayText:
 	line "was blown away!"
 	prompt
 
+ThrownOutText:
+	text "<TARGET>"
+	line "was thrown out!"
+	prompt
+
+KnockedAwayText:
+	text "<TARGET>"
+	line "was knocked away!"
+	prompt
+
 PlayerHitTimesText:
 	text "Hit @"
 	text_decimal wPlayerDamageTaken, 1, 1

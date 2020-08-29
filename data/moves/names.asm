@@ -258,4 +258,6 @@ MoveNames::
 	db "FREEZE DRY@"
 	db "FLYING PRESS@"
 	db "VOLT SWITCH@"
+	db "CIRCLE THROW@"
+	db "DRAGON TAIL@"
 

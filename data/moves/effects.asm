@@ -837,6 +837,25 @@ ForceSwitch:
 	forceswitch
 	endmove
 
+ForceSwitchHit:
+	checkobedience
+	usedmovetext
+	doturn
+	critical
+	damagestats
+	damagecalc
+	stab
+	damagevariation
+	checkhit
+	moveanim
+	failuretext
+	applydamage
+	criticaltext
+	supereffectivetext
+	checkfaint
+	forceswitch
+	endmove
+
 MultiHit:
 	checkobedience
 	usedmovetext

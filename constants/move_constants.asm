@@ -266,6 +266,8 @@
 	const FREEZE_DRY       ; 101
 	const FLYING_PRESS     ; 102
 	const VOLT_SWITCH      ; 103
+	const CIRCLE_THROW     ; 104
+	const DRAGON_TAIL      ;105
 ; This constant is only used by engine/battle/move_effects/metronome.asm
 NUM_ATTACKS EQU const_value + -1
 

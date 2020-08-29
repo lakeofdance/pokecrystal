@@ -5219,13 +5219,10 @@ BattleCommand_ForceSwitch:
 .trainer
 	call FindAliveEnemyMons
 	jr c, .switch_fail
-	ld a, [wEnemyGoesFirst]
-	and a
-	jr z, .switch_fail
 	call UpdateEnemyMonInParty
 	ld a, $1
 	ld [wKickCounter], a
-	call AnimateCurrentMove
+	call .AnimateIfNotHit
 	ld c, $14
 	call DelayFrames
 	hlcoord 1, 0
@@ -5316,14 +5313,10 @@ BattleCommand_ForceSwitch:
 	call CheckPlayerHasMonToSwitchTo
 	jr c, .fail
 
-	ld a, [wEnemyGoesFirst]
-	cp $1
-	jr z, .switch_fail
-
 	call UpdateBattleMonInParty
 	ld a, $1
 	ld [wKickCounter], a
-	call AnimateCurrentMove
+	call .AnimateIfNotHit
 	ld c, 20
 	call DelayFrames
 	hlcoord 9, 7
@@ -5369,6 +5362,11 @@ BattleCommand_ForceSwitch:
 	call BattleCommand_LowerSub
 	call BattleCommand_MoveDelay
 	call BattleCommand_RaiseSub
+; Don't print "But it failed!" if we hit the opponent.
+	ld a, BATTLE_VARS_MOVE_EFFECT
+	call GetBattleVar
+	cp EFFECT_FORCE_SWITCH_HIT
+	ret z
 	jp PrintButItFailed
 
 .succeed
@@ -5376,19 +5374,44 @@ BattleCommand_ForceSwitch:
 	call SetBattleDraw
 	ld a, $1
 	ld [wKickCounter], a
-	call AnimateCurrentMove
+	call .AnimateIfNotHit
 	ld c, 20
 	call DelayFrames
 	pop bc
 
+	ld hl, ThrownOutText
+	ld de, CIRCLE_THROW
+	call .Compare
+	jr z, .do_text
+	ld hl, KnockedAwayText
+	ld de, DRAGON_TAIL
+	call .Compare
+	jr z, .do_text
 	ld hl, FledInFearText
-	ld a, b
-	sub ROAR
-	or c
+	ld de, ROAR
+	call .Compare
 	jr z, .do_text
 	ld hl, BlownAwayText
 .do_text
 	jp StdBattleTextbox
+
+.Compare:
+	ld a, b
+	sub e
+	ld e, a
+	ld a, c
+	sub d
+	or e	
+	ret
+
+.AnimateIfNotHit:
+; Because moves that hit and force a switch have already been animated
+	ld a, BATTLE_VARS_MOVE_EFFECT
+	call GetBattleVar
+	cp EFFECT_FORCE_SWITCH_HIT
+	ret z
+	call AnimateCurrentMove
+	ret
 
 CheckEnemyHasMonToSwitchTo:
 	ld a, [wOTPartyCount]

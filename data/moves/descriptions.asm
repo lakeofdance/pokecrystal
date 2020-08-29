@@ -259,6 +259,8 @@ MoveDescriptions::
 	dw FreezeDryDescription
 	dw FlyingPressDescription
 	dw VoltSwitchDescription
+	dw CircleThrowDescription
+	dw DragonTailDescription
 
 MoveFFDescription:
 Move100Description:
@@ -1290,4 +1292,12 @@ VoltSwitchDescription:
 UTurnDescription:
 	db   "After attacking,"
 	next "the user returns.@"
+
+CircleThrowDescription:
+	db   "The foe is thrown"
+	next "and switched out.@"
+
+DragonTailDescription:
+	db   "The foe is knocked"
+	next "away and switched.@"
 
