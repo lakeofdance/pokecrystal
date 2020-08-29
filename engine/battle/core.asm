@@ -4154,11 +4154,13 @@ PursuitSwitch:
 	ld a, [wBattleMonSpecies + 1]
 	ld e, a
 	call PlayStereoCry
+	ld a, [wCurBattleMon]
+	push af
 	ld a, [wLastPlayerMon]
-	ld c, a
-	ld hl, wBattleParticipantsNotFainted
-	ld b, RESET_FLAG
-	predef SmallFarFlagAction
+	ld [wCurBattleMon], a
+	call UpdateFaintedPlayerMon
+	pop af
+	ld [wCurBattleMon], a
 	call PlayerMonFaintedAnimation
 	ld hl, BattleText_MonFainted
 	jr .done_fainted
@@ -5228,6 +5230,77 @@ PassedBattleMonEntrance:
 	call LoadTileMapToTempTileMap
 	call SetPlayerTurn
 	jp SpikesDamage
+
+TurnedBattleMonEntrance:
+; Used by turning moves
+	call WithdrawMonText
+
+	ld c, 50
+	call DelayFrames
+
+	ld hl, wPlayerSubStatus4
+	res SUBSTATUS_RAGE, [hl]
+
+; If the enemy is faster, it cannot now use pursuit
+	ld a, [wEnemyGoesFirst]
+	and a
+	jr nz, .enemyfaster
+	call SetEnemyTurn
+	call PursuitSwitch
+	jr c, .ok
+.enemyfaster
+	call RecallPlayerMon
+.ok
+
+	hlcoord 9, 7
+	lb bc, 5, 11
+	call ClearBox
+
+; The two lines are a crucial difference from BattleMonEntrance
+	ld a, [wCurPartyMon]
+	ld [wCurBattleMon], a
+	call AddBattleParticipant
+	call InitBattleMon
+	call ResetPlayerStatLevels
+	call SendOutMonText
+	call NewBattleMonStatus
+	call BreakAttraction
+	call SendOutPlayerMon
+	call EmptyBattleTextbox
+	call LoadTileMapToTempTileMap
+	call SetPlayerTurn
+	call SpikesDamage
+	ld a, $2
+	ld [wMenuCursorY], a
+	ret
+
+TurnedEnemyMonEntrance:
+; Used by turning moves
+; Similar to EnemyPartyMonEntrance, but with two differences.
+; It considers pursuit, and only switches in set mode.
+	xor a
+	ld [wEnemySwitchMonIndex], a
+	call NewEnemyMonStatus
+	call ResetEnemyStatLevels
+	call BreakAttraction
+
+; Player might be using pursuit
+	ld a, [wEnemyGoesFirst]
+	and a
+	jr z, .playerfaster
+	call SetPlayerTurn
+	call PursuitSwitch
+
+.playerfaster
+	call EnemySwitch_SetMode
+	call ResetBattleParticipants
+	call SetEnemyTurn
+	call SpikesDamage
+	xor a
+	ld [wEnemyMoveStruct + MOVE_ANIM], a
+	ld [wEnemyMoveStruct + MOVE_ANIM2], a
+	ld [wBattlePlayerAction], a
+	ret
 
 BattleMenu_Run:
 	call Call_LoadTempTileMapToTileMap

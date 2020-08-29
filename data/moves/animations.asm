@@ -254,12 +254,12 @@ BattleAnimations::
 	dw BattleAnim_BeatUp
 	dw BattleAnim_FlameWheel	;burn up
 	dw BattleAnim_LeechLife		;strength sap
-	dw BattleAnim_fe
-	dw BattleAnim_ff	;don't use
-	dw BattleAnim_100	;don't use
-	dw BattleAnim_IceBeam	;freeze dry
-	dw BattleAnim_JumpKick  ;flying press
-	dw BattleAnim_103
+	dw BattleAnim_Tackle		;u-turn
+	dw BattleAnim_ff		;don't use
+	dw BattleAnim_100		;don't use
+	dw BattleAnim_IceBeam		;freeze dry
+	dw BattleAnim_JumpKick  	;flying press
+	dw BattleAnim_Spark		;volt switch
 	dw BattleAnim_SweetScent2
 	dw BattleAnim_ThrowPokeBall
 	dw BattleAnim_SendOutMon
@@ -286,9 +286,6 @@ BattleAnimations::
 
 BattleAnim_0:
 BattleAnim_MirrorMove:
-BattleAnim_fc:
-BattleAnim_fd:
-BattleAnim_fe:
 BattleAnim_ff:
 BattleAnim_100:
 BattleAnim_101:

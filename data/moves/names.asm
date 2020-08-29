@@ -252,10 +252,10 @@ MoveNames::
 	db "BEAT UP@"
 	db "BURN UP@"
 	db "STRENGTH SAP@"
-	db "MOVE FE@"
+	db "U-TURN@"
 	db "MOVE FF@"
 	db "MOVE 100@"
 	db "FREEZE DRY@"
 	db "FLYING PRESS@"
-	db "MOVE 103@"
+	db "VOLT SWITCH@"
 

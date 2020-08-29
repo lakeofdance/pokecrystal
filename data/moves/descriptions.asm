@@ -252,16 +252,14 @@ MoveDescriptions::
 	dw WhirlpoolDescription
 	dw BeatUpDescription
 	dw BurnUpDescription
-	dw MoveFDDescription
-	dw MoveFEDescription
+	dw StrengthSapDescription
+	dw UTurnDescription
 	dw MoveFFDescription
 	dw Move100Description
 	dw FreezeDryDescription
 	dw FlyingPressDescription
-	dw Move103Description
+	dw VoltSwitchDescription
 
-MoveFDDescription:
-MoveFEDescription:
 MoveFFDescription:
 Move100Description:
 Move102Description:
@@ -1283,4 +1281,13 @@ FreezeDryDescription:
 FlyingPressDescription:
 	db   "Both FIGHTING and"
 	next "FLYING type.@"
+
+StrengthSapDescription:
+	db   "Restores HP and"
+	next "lowers ATTACK.@"
+
+VoltSwitchDescription:
+UTurnDescription:
+	db   "After attacking,"
+	next "the user returns.@"
 

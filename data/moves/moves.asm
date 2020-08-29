@@ -265,9 +265,9 @@ Moves:
 	move BEAT_UP,      EFFECT_BEAT_UP,            10, DARK,     100, 10,   0
 	move BURN_UP,      EFFECT_BURN_UP,           130, FIRE,     100,  5,   0
 	move STRENGTH_SAP, EFFECT_STRENGTH_SAP,        0, GRASS,    100, 10,   0
-	move POUND,        EFFECT_NORMAL_HIT,         10, NORMAL,   100, 10,   0
+	move U_TURN,       EFFECT_TURN_HIT,           70, BUG,      100, 20,   0
 	move POUND,        EFFECT_NORMAL_HIT,         10, NORMAL,   100, 10,   0	;  FF, don't use
 	move POUND,        EFFECT_NORMAL_HIT,         10, NORMAL,   100, 10,   0	; 100, don't use
 	move FREEZE_DRY,   EFFECT_FREEZE_HIT,         70, ICE,      100, 20,  10
 	move FLYING_PRESS, EFFECT_STOMP,              80, FIGHTING,  95, 10,   0
-	move POUND,        EFFECT_NORMAL_HIT,         10, NORMAL,   100, 10,   0
+	move VOLT_SWITCH,  EFFECT_TURN_HIT,           70, ELECTRIC, 100, 20,   0

@@ -260,12 +260,12 @@
 
 	const BURN_UP          ;  fc
 	const STRENGTH_SAP     ;  fd
-	const MOVE_OR_ANIM_FE  ;  fe
+	const U_TURN           ;  fe
 	const MOVE_OR_ANIM_FF  ;  ff, don't use
 	const MOVE_OR_ANIM_100 ; 100, don't use
 	const FREEZE_DRY       ; 101
 	const FLYING_PRESS     ; 102
-	const MOVE_OR_ANIM_103 ; 103
+	const VOLT_SWITCH      ; 103
 ; This constant is only used by engine/battle/move_effects/metronome.asm
 NUM_ATTACKS EQU const_value + -1
 

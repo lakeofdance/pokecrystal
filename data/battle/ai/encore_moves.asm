@@ -31,4 +31,5 @@ EncoreMoves:
 	dw AEROBLAST
 	dw COTTON_SPORE
 	dw POWDER_SNOW
+	dw BURN_UP
 	db -1 ; end

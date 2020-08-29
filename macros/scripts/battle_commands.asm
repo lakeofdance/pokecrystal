@@ -175,7 +175,8 @@ ENDM
 	command curl                    ; af
 	command burnup			; b0
 	command burnuptext		; b1
-	command strengthsap
+	command strengthsap		; b2
+	command turn			; b3
 
 	enum_start $fe
 	command endturn                 ; fe

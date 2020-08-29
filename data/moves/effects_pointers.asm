@@ -151,3 +151,4 @@ MoveEffectsPointers:
 	dw DefenseCurl
 	dw BurnUp
 	dw StrengthSap
+	dw TurnHit

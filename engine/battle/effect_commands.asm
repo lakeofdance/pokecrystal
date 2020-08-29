@@ -2513,7 +2513,8 @@ BattleCommand_CheckFaint:
 
 ; Faint the opponent if its HP reached zero
 ;  and faint the user along with it if it used Destiny Bond.
-; Ends the move effect if the opponent faints.
+; Ends the move effect if the opponent faints, unless we are
+;  using a turning move and the opponent still has mons.
 
 	ld hl, wEnemyMonHP
 	ldh a, [hBattleTurn]
@@ -2580,6 +2581,8 @@ BattleCommand_CheckFaint:
 .no_dbond
 	ld a, BATTLE_VARS_MOVE_EFFECT
 	call GetBattleVar
+	cp EFFECT_TURN_HIT
+	jr z, .check_for_opponent_mons
 	cp EFFECT_MULTI_HIT
 	jr z, .multiple_hit_raise_sub
 	cp EFFECT_DOUBLE_HIT
@@ -2596,6 +2599,25 @@ BattleCommand_CheckFaint:
 
 .finish
 	jp EndMoveEffect
+
+.check_for_opponent_mons
+; If the player faints an enemy, but the battle isn't over
+; a switch should still occur.
+; If wild battle, nothing to do.
+	ld a, [wBattleMode]
+	dec a
+	jr z, .finish
+	ldh a, [hBattleTurn]
+	and a
+	jr z, .checkenemy
+	call CheckPlayerHasMonToSwitchTo
+	jr c, .finish
+	ret
+.checkenemy
+	call CheckEnemyHasMonToSwitchTo
+	jr c, .finish
+	ret
+	
 
 BattleCommand_BuildOpponentRage:
 ; buildopponentrage
@@ -5368,6 +5390,35 @@ BattleCommand_ForceSwitch:
 .do_text
 	jp StdBattleTextbox
 
+CheckEnemyHasMonToSwitchTo:
+	ld a, [wOTPartyCount]
+	ld d, a
+	ld e, 0
+	ld bc, PARTYMON_STRUCT_LENGTH
+.loop
+	ld a, [wCurOTMon]
+	cp e
+	jr z, .next
+
+	ld a, e
+	ld hl, wOTPartyMon1HP
+	call AddNTimes
+	ld a, [hli]
+	or [hl]
+	jr nz, .not_fainted
+
+.next
+	inc e
+	dec d
+	jr nz, .loop
+
+	scf
+	ret
+
+.not_fainted
+	and a
+	ret
+
 CheckPlayerHasMonToSwitchTo:
 	ld a, [wPartyCount]
 	ld d, a
@@ -5395,6 +5446,91 @@ CheckPlayerHasMonToSwitchTo:
 
 .not_fainted
 	and a
+	ret
+
+BattleCommand_Turn:
+; turn - for u-turn, volt switch, etc.
+
+; if the move misses, no switch
+	ld a, [wAttackMissed]
+	and a
+	ret nz
+; check who is switching
+	ldh a, [hBattleTurn]
+	and a
+	jp z, .player
+; if wild battle, no switch
+	ld a, [wBattleMode]
+	dec a
+	ret z
+
+; trainer battle
+	call CheckEnemyHasMonToSwitchTo
+	ret c
+	call UpdateEnemyMonInParty
+	ld a, $1
+	ld [wKickCounter], a
+; Causes pursuit's power to be doubled
+	ld [wEnemyIsSwitching], a
+	ld c, $14
+	call DelayFrames
+	hlcoord 1, 0
+	lb bc, 4, 10
+	call ClearBox
+	ld c, 20
+	call DelayFrames
+; Need to end move here, else interactions with pursuit get messy
+	call EndMoveEffect
+; Select a different enemy party mon to switch to.
+; Unlike baton pass, which calls EnemySwitch_SetMode,
+; this functions resets everything.
+	ld hl, TurnedEnemyMonEntrance
+	call CallBattleCore
+	jr .end
+
+.player
+	call CheckPlayerHasMonToSwitchTo
+	ret c
+
+	call UpdateBattleMonInParty
+	ld a, $1
+	ld [wKickCounter], a
+; Causes pursuit's power to be doubled
+	ld [wPlayerIsSwitching], a
+	ld c, 20
+	call DelayFrames
+	hlcoord 9, 7
+	lb bc, 5, 11
+	call ClearBox
+	ld c, 20
+	call DelayFrames
+.player_choose_switch_mon
+; Partially nicked from baton pass, for sure messes up link battles
+; Transition into switchmon menu
+	call LoadStandardMenuHeader
+	farcall SetUpBattlePartyMenu_NoLoop
+
+	farcall ForcePickSwitchMonInBattle
+
+; Return to battle scene
+	call ClearPalettes
+	farcall _LoadBattleFontsHPBar
+	call CloseWindow
+	call ClearSprites
+	hlcoord 1, 0
+	lb bc, 4, 10
+	call ClearBox
+	ld b, SCGB_BATTLE_COLORS
+	call GetSGBLayout
+	call SetPalettes
+; Need to end move here, else interactions with pursuit get messy
+	call EndMoveEffect
+	ld hl, TurnedBattleMonEntrance
+	call CallBattleCore
+.end
+	xor a
+	ld [wPlayerIsSwitching], a
+	ld [wEnemyIsSwitching], a
 	ret
 
 BattleCommand_EndLoop:

@@ -175,3 +175,4 @@ BattleCommandPointers:
 	dba BattleCommand_BurnUp
 	dba BattleCommand_BurnUpText
 	dba BattleCommand_StrengthSap
+	dba BattleCommand_Turn
