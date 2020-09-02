@@ -12,7 +12,9 @@ BattleCommand_Pursuit:
 	ld a, [hl]
 	and a
 	ret z
+;fallthrough
 
+DoubleDamage2:
 	ld hl, wCurDamage + 1
 	sla [hl]
 	dec hl

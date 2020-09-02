@@ -177,6 +177,9 @@ ENDM
 	command burnuptext		; b1
 	command strengthsap		; b2
 	command turn			; b3
+	command revenge			; b4
+	command knockoffdamageboost	; b5
+	command knockoffeffect		; b6
 
 	enum_start $fe
 	command endturn                 ; fe

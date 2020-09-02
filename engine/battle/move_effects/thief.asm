@@ -7,14 +7,14 @@ BattleCommand_Thief:
 
 ; The player needs to be able to steal an item.
 
-	call .playeritem
+	call PlayerItem
 	ld a, [hl]
 	and a
 	ret nz
 
 ; The enemy needs to have an item to steal.
 
-	call .enemyitem
+	call EnemyItem
 	ld a, [hl]
 	and a
 	ret z
@@ -39,12 +39,12 @@ BattleCommand_Thief:
 	ret z
 
 .stealenemyitem
-	call .enemyitem
+	call EnemyItem
 	xor a
 	ld [hl], a
 	ld [de], a
 
-	call .playeritem
+	call PlayerItem
 	ld a, [wNamedObjectIndexBuffer]
 	ld [hl], a
 	ld [de], a
@@ -54,14 +54,14 @@ BattleCommand_Thief:
 
 ; The enemy can't already have an item.
 
-	call .enemyitem
+	call EnemyItem
 	ld a, [hl]
 	and a
 	ret nz
 
 ; The player must have an item to steal.
 
-	call .playeritem
+	call PlayerItem
 	ld a, [hl]
 	and a
 	ret z
@@ -80,12 +80,12 @@ BattleCommand_Thief:
 ; If the enemy steals your item,
 ; it's gone for good if you don't get it back.
 
-	call .playeritem
+	call PlayerItem
 	xor a
 	ld [hl], a
 	ld [de], a
 
-	call .enemyitem
+	call EnemyItem
 	ld a, [wNamedObjectIndexBuffer]
 	ld [hl], a
 	ld [de], a
@@ -95,16 +95,16 @@ BattleCommand_Thief:
 	ld hl, StoleText
 	jp StdBattleTextbox
 
-.playeritem
-	ld a, 1
+PlayerItem:
+	ld a, 2
 	call BattlePartyAttr
 	ld d, h
 	ld e, l
 	ld hl, wBattleMonItem
 	ret
 
-.enemyitem
-	ld a, 1
+EnemyItem:
+	ld a, 2
 	call OTPartyAttr
 	ld d, h
 	ld e, l

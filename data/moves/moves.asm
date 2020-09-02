@@ -263,6 +263,7 @@ Moves:
 	move ROCK_SMASH,   EFFECT_DEFENSE_DOWN_HIT,   20, FIGHTING, 100, 15,  50
 	move WHIRLPOOL,    EFFECT_TRAP_TARGET,        15, WATER,     70, 15,   0
 	move BEAT_UP,      EFFECT_BEAT_UP,            10, DARK,     100, 10,   0
+; Moves below are not in vanilla crystal
 	move BURN_UP,      EFFECT_BURN_UP,           130, FIRE,     100,  5,   0
 	move STRENGTH_SAP, EFFECT_STRENGTH_SAP,        0, GRASS,    100, 10,   0
 	move U_TURN,       EFFECT_TURN_HIT,           70, BUG,      100, 20,   0
@@ -273,3 +274,6 @@ Moves:
 	move VOLT_SWITCH,  EFFECT_TURN_HIT,           70, ELECTRIC, 100, 20,   0
 	move CIRCLE_THROW, EFFECT_FORCE_SWITCH_HIT,   60, FIGHTING,  90, 10,   0
 	move DRAGON_TAIL,  EFFECT_FORCE_SWITCH_HIT,   60, DRAGON,    90, 10,   0
+	move AVALANCHE,    EFFECT_REVENGE,            60, ICE,      100, 10,   0
+	move REVENGE,      EFFECT_REVENGE,            60, FIGHTING, 100, 10,   0
+	move KNOCK_OFF,    EFFECT_KNOCK_OFF,          65, DARK,     100, 20,   0

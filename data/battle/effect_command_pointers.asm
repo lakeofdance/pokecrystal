@@ -176,3 +176,6 @@ BattleCommandPointers:
 	dba BattleCommand_BurnUpText
 	dba BattleCommand_StrengthSap
 	dba BattleCommand_Turn
+	dba BattleCommand_Revenge
+	dba BattleCommand_KnockOffDamageBoost
+	dba BattleCommand_KnockOffEffect

@@ -159,6 +159,7 @@ BattleTurn:
 	ld [wBattleHasJustStarted], a
 	ld [wPlayerJustGotFrozen], a
 	ld [wEnemyJustGotFrozen], a
+	ld [wPlayerJustUsedTurningMove], a
 	ld [wCurDamage], a
 	ld [wCurDamage + 1], a
 
@@ -3401,6 +3402,11 @@ CheckWhetherToAskSwitch:
 	dec a
 	jp z, .return_nc
 	ld a, [wPartyCount]
+	dec a
+	jp z, .return_nc
+; If wPartyCount is greater than 1 and the player just used a turning move
+; then they just switched, and shouldn't be given the option again.
+	ld a, [wPlayerJustUsedTurningMove]
 	dec a
 	jp z, .return_nc
 	ld a, [wLinkMode]

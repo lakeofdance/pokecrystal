@@ -5551,6 +5551,8 @@ BattleCommand_Turn:
 	ld hl, TurnedBattleMonEntrance
 	call CallBattleCore
 .end
+	ld a, 1
+	ld [wPlayerJustUsedTurningMove], a
 	xor a
 	ld [wPlayerIsSwitching], a
 	ld [wEnemyIsSwitching], a

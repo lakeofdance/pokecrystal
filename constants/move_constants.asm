@@ -267,7 +267,10 @@
 	const FLYING_PRESS     ; 102
 	const VOLT_SWITCH      ; 103
 	const CIRCLE_THROW     ; 104
-	const DRAGON_TAIL      ;105
+	const DRAGON_TAIL      ; 105
+	const AVALANCHE        ; 106
+	const REVENGE	       ; 107
+	const KNOCK_OFF	       ; 108
 ; This constant is only used by engine/battle/move_effects/metronome.asm
 NUM_ATTACKS EQU const_value + -1
 

@@ -260,4 +260,7 @@ MoveNames::
 	db "VOLT SWITCH@"
 	db "CIRCLE THROW@"
 	db "DRAGON TAIL@"
+	db "AVALANCHE@"
+	db "REVENGE@"
+	db "KNOCK OFF@"
 

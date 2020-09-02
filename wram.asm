@@ -708,6 +708,8 @@ wSomeoneIsRampaging:: db ; c73b
 
 wPlayerJustGotFrozen:: db ; c73c
 wEnemyJustGotFrozen:: db ; c73d
+
+wPlayerJustUsedTurningMove:: db
 wBattleEnd::
 
 NEXTU ; c608

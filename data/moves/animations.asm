@@ -262,6 +262,9 @@ BattleAnimations::
 	dw BattleAnim_Spark		;volt switch
 	dw BattleAnim_KarateChop	;circle throw
 	dw BattleAnim_Tackle		;dragon tail
+	dw BattleAnim_Tackle		;avalanche
+	dw BattleAnim_Tackle		;revenge
+	dw BattleAnim_Tackle		;knock off
 	dw BattleAnim_SweetScent2
 	dw BattleAnim_ThrowPokeBall
 	dw BattleAnim_SendOutMon

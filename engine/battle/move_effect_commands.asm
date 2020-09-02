@@ -203,3 +203,7 @@ INCLUDE "engine/battle/move_effects/triple_kick.asm"
 ;custom
 
 INCLUDE "engine/battle/move_effects/burn_up.asm"
+
+INCLUDE "engine/battle/move_effects/revenge.asm"
+
+INCLUDE "engine/battle/move_effects/knock_off.asm"

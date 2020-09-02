@@ -6,4 +6,5 @@ MoveEffectPriorities:
 	db EFFECT_FORCE_SWITCH_HIT,   0
 	db EFFECT_COUNTER,            0
 	db EFFECT_MIRROR_COAT,        0
+	db EFFECT_REVENGE,            0
 	db -1

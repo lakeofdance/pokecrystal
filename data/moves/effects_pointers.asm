@@ -153,3 +153,5 @@ MoveEffectsPointers:
 	dw StrengthSap
 	dw TurnHit
 	dw ForceSwitchHit
+	dw Revenge
+	dw KnockOff

@@ -934,6 +934,15 @@ StoleText:
 	cont "from its foe!"
 	prompt
 
+KnockedOffText:
+	text "<USER>"
+	line "knocked off"
+	cont "@"
+	text_ram wStringBuffer1
+	text_start
+	cont "from its foe!"
+	prompt
+
 CantEscapeNowText:
 	text "<TARGET>"
 	line "can't escape now!"

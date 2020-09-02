@@ -261,6 +261,9 @@ MoveDescriptions::
 	dw VoltSwitchDescription
 	dw CircleThrowDescription
 	dw DragonTailDescription
+	dw AvalancheDescription
+	dw RevengeDescription
+	dw KnockOffDescription
 
 MoveFFDescription:
 Move100Description:
@@ -1300,4 +1303,13 @@ CircleThrowDescription:
 DragonTailDescription:
 	db   "The foe is knocked"
 	next "away and switched.@"
+
+AvalancheDescription:
+RevengeDescription:
+	db   "Gains power if"
+	next "hurt by the foe.@"
+
+KnockOffDescription:
+	db   "Knocks down the"
+	next "foe's held item.@"
 
