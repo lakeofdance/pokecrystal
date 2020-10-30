@@ -31,6 +31,9 @@ AI_Redundant:
 	dbw EFFECT_MEAN_LOOK,    .MeanLook
 	dbw EFFECT_NIGHTMARE,    .Nightmare
 	dbw EFFECT_SPIKES,       .Spikes
+	dbw EFFECT_STEALTH_ROCKS, .StealthRocks
+	dbw EFFECT_TOXIC_SPIKES, .T_Spikes
+	dbw EFFECT_STICKY_WEB,   .StickyWeb
 	dbw EFFECT_FORESIGHT,    .Foresight
 	dbw EFFECT_PERISH_SONG,  .PerishSong
 	dbw EFFECT_SANDSTORM,    .Sandstorm
@@ -44,6 +47,8 @@ AI_Redundant:
 	dbw EFFECT_MOONLIGHT,    .Moonlight
 	dbw EFFECT_SWAGGER,      .Swagger
 	dbw EFFECT_FUTURE_SIGHT, .FutureSight
+	dbw EFFECT_BURN_UP,      .BurnUp
+	dbw EFFECT_SOAK,         .Soak
 	db -1
 
 .LightScreen:
@@ -103,8 +108,8 @@ AI_Redundant:
 .SleepTalk:
 	ld a, [wEnemyMonStatus]
 	and SLP
-	jr z, .Redundant
-	jr .NotRedundant
+	jp z, .Redundant
+	jp .NotRedundant
 
 .MeanLook:
 	ld a, [wEnemySubStatus5]
@@ -114,14 +119,31 @@ AI_Redundant:
 .Nightmare:
 	ld a, [wBattleMonStatus]
 	and a
-	jr z, .Redundant
+	jp z, .Redundant
 	ld a, [wPlayerSubStatus1]
 	bit SUBSTATUS_NIGHTMARE, a
 	ret
 
 .Spikes:
-	ld a, [wPlayerScreens]
-	bit SCREENS_SPIKES, a
+	ld a, [wPlayerScreens2]
+	bit SCREENS_SPIKES_1, a
+	ret z
+	bit SCREENS_SPIKES_2, a
+	ret
+
+.StealthRocks:
+	ld a, [wPlayerScreens2]
+	bit SCREENS_STEALTH_ROCKS, a
+	ret
+
+.T_Spikes:
+	ld a, [wPlayerScreens2]
+	bit SCREENS_TOXIC_SPIKES_2, a
+	ret
+
+.StickyWeb:
+	ld a, [wPlayerScreens2]
+	bit SCREENS_STICKY_WEB, a
 	ret
 
 .Foresight:
@@ -180,12 +202,30 @@ AI_Redundant:
 	bit 5, a
 	ret
 
+.BurnUp:
+	ld a, [wEnemyMonType1]
+	cp FIRE
+	ret z
+	ld a, [wEnemyMonType1 + 1]
+	cp FIRE
+	ret
+
+.Soak:
+	ld a, [wBattleMonType1]
+	cp WATER
+	jr nz, .NotRedundant
+	ld a, [wBattleMonType2]
+	cp WATER
+	jr nz, .NotRedundant
+	jr .Redundant
+
 .Heal:
 .MorningSun:
 .Synthesis:
 .Moonlight:
 	farcall AICheckEnemyMaxHP
 	jr nc, .NotRedundant
+; fallthrough
 
 .Teleport:
 .Redundant:

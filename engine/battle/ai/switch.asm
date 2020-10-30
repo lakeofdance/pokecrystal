@@ -218,6 +218,7 @@ CheckAbleToSwitch:
 	ret
 
 .not_2
+; huh?
 ;	call FindAliveEnemyMons
 	sla c
 	sla c
@@ -308,6 +309,7 @@ CheckAbleToSwitch:
 	ret
 
 FindAliveEnemyMons:
+; returns c if the enemy has only 1 party mon left
 	ld a, [wOTPartyCount]
 	cp 2
 	jr c, .only_one

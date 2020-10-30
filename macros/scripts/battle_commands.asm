@@ -85,7 +85,7 @@ ENDM
 	command defrost                 ; 53
 	command curse                   ; 54
 	command protect                 ; 55
-	command spikes                  ; 56
+	command hazard                  ; 56
 	command foresight               ; 57
 	command perishsong              ; 58
 	command startsandstorm          ; 59
@@ -180,6 +180,40 @@ ENDM
 	command revenge			; b4
 	command knockoffdamageboost	; b5
 	command knockoffeffect		; b6
+	command multiplestatsup		; b7
+	command doubledamage		; b8
+	command soak			; b9
+	command userstatsdown		; ba
+	command acrobatics		; bb
+	command partingshot		; bc
+	command brickbreak		; bd
+	command roost			; be
+	command wakeopponent		; bf
+	command defog			; c0
+	command courtchange		; c1
+	command reflecttype		; c2
+	command groundopponent		; c3
+	command stealopponentsboosts	; c4
+	command variabledamage		; c5
+	command burningenvy		; c6
+	command incinerate		; c7
+	command recoilhalfmaxhp		; c8
+	command recoilallhp		; c9
+	command kingsshield		; ca
+	command heartswap		; cb
+	command psychoshift		; cc
+	command synchronoise		; cd
+	command storedpower		; ce
+	command trick			; cf
+	command trickroom		; d0
+	command resetmiss		; d1
+	command resetfoestats		; d2
+	command venomdrench		; d3
+	command taunt			; d4
+	command tailwind		; d5
+	command memento			; d6
+	command weatherball		; d7
+	command starthail		; d8
 
 	enum_start $fe
 	command endturn                 ; fe

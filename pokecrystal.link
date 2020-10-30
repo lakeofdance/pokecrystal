@@ -56,7 +56,7 @@ ROMX $0b
 	"bankB"
 ROMX $0c
 	"Tileset Data 4"
-	"Enemy AI"
+	"Pics 27"
 ROMX $0d
 	"Effect Commands"
 ROMX $0e
@@ -72,6 +72,7 @@ ROMX $11
 	"Crystal Features 1"
 ROMX $12
 	"Base Stats 2"
+	"Effect Command Pointers"
 ROMX $13
 	"bank13"
 ROMX $14
@@ -86,6 +87,7 @@ ROMX $17
 ROMX $18
 	"Map Scripts 4"
 	"Move Effect Commands"
+	"Misc Battle Core"
 ROMX $19
 	"Crystal Phone Text"
 ROMX $1a
@@ -290,7 +292,6 @@ ROMX $71
 	"Pics 26"
 ROMX $72
 	"Miscellaneous Text"
-	"Pics 27"
 ROMX $73
 	"Pokedex Entries 129-192"
 	"Pokedex Entries 193-253"
@@ -315,6 +316,7 @@ ROMX $7b
 	"Dex Engine"
 ROMX $7c
 	"Battle Tower Trainer Data"
+	"Enemy AI"
 ROMX $7e
 	"Crystal Events"
 WRAM0

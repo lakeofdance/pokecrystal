@@ -625,34 +625,54 @@ UnknownText_0x1c0d0e::
 	text "<USER>@"
 	text_end
 
-UnknownText_0x1c0d12::
+RazorWindChargeText::
 	text_start
 	line "made a whirlwind!"
 	prompt
 
-UnknownText_0x1c0d26::
+SolarbeamChargeText::
 	text_start
 	line "took in sunlight!"
 	prompt
 
-UnknownText_0x1c0d3a::
+SkullBashChargeText::
 	text_start
 	line "lowered its head!"
 	prompt
 
-UnknownText_0x1c0d4e::
+SkyAttackChargeText::
 	text_start
 	line "is glowing!"
 	prompt
 
-UnknownText_0x1c0d5c::
+FlyChargeText::
 	text_start
 	line "flew up high!"
 	prompt
 
-UnknownText_0x1c0d6c::
+BounceChargeText::
+	text_start
+	line "bounced up high!"
+	prompt
+
+DigChargeText::
 	text_start
 	line "dug a hole!"
+	prompt
+
+GeomancyChargeText::
+	text_start
+	line "absorbed power!"
+	prompt
+
+MeteorBeamChargeText::
+	text_start
+	line "drew in stardust!"
+	prompt
+
+PhantomForceChargeText::
+	text_start
+	line "vanished!"
 	prompt
 
 _ActorNameText::

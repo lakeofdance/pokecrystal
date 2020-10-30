@@ -65,7 +65,7 @@ BattleCommand_BatonPass:
 	ld hl, ApplyStatLevelMultiplierOnAllStats
 	call CallBattleCore2
 
-	ld hl, SpikesDamage
+	ld hl, HazardsDamage
 	call CallBattleCore2
 
 	jr ResetBatonPassStatus

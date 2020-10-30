@@ -86,7 +86,7 @@ AnimateCurrentMoveEitherSide:
 	pop hl
 	ret
 
-; Transform and substitute stayed in effect_commands.asm
+; Some moves stayed in effect_commands.asm
 
 INCLUDE "engine/battle/move_effects/attract.asm"
 
@@ -158,10 +158,6 @@ INCLUDE "engine/battle/move_effects/present.asm"
 
 INCLUDE "engine/battle/move_effects/protect.asm"
 
-INCLUDE "engine/battle/move_effects/psych_up.asm"
-
-INCLUDE "engine/battle/move_effects/pursuit.asm"
-
 INCLUDE "engine/battle/move_effects/rage.asm"
 
 INCLUDE "engine/battle/move_effects/rain_dance.asm"
@@ -186,8 +182,6 @@ INCLUDE "engine/battle/move_effects/snore.asm"
 
 INCLUDE "engine/battle/move_effects/spite.asm"
 
-INCLUDE "engine/battle/move_effects/spikes.asm"
-
 INCLUDE "engine/battle/move_effects/splash.asm"
 
 INCLUDE "engine/battle/move_effects/sunny_day.asm"
@@ -207,3 +201,44 @@ INCLUDE "engine/battle/move_effects/burn_up.asm"
 INCLUDE "engine/battle/move_effects/revenge.asm"
 
 INCLUDE "engine/battle/move_effects/knock_off.asm"
+
+INCLUDE "engine/battle/move_effects/soak.asm"
+
+INCLUDE "engine/battle/move_effects/hazards.asm"
+
+INCLUDE "engine/battle/move_effects/acrobatics.asm"
+
+INCLUDE "engine/battle/move_effects/double_damage.asm"
+
+INCLUDE "engine/battle/move_effects/brick_break.asm"
+
+INCLUDE "engine/battle/move_effects/roost.asm"
+
+INCLUDE "engine/battle/move_effects/defog.asm"
+
+INCLUDE "engine/battle/move_effects/court_change.asm"
+
+INCLUDE "engine/battle/move_effects/reflect_type.asm"
+
+INCLUDE "engine/battle/move_effects/burning_envy.asm"
+
+INCLUDE "engine/battle/move_effects/incinerate.asm"
+
+INCLUDE "data/items/berry_items.asm"
+
+INCLUDE "engine/battle/move_effects/kings_shield.asm"
+
+INCLUDE "engine/battle/move_effects/synchronoise.asm"
+
+INCLUDE "engine/battle/move_effects/trick.asm"
+
+INCLUDE "engine/battle/move_effects/trick_room.asm"
+
+INCLUDE "engine/battle/move_effects/taunt.asm"
+
+INCLUDE "engine/battle/move_effects/tailwind.asm"
+
+INCLUDE "engine/battle/move_effects/weather_ball.asm"
+
+INCLUDE "engine/battle/move_effects/hail.asm"
+

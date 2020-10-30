@@ -13,4 +13,6 @@ ResidualMoves:
 	dw CONVERSION
 	dw SUBSTITUTE
 	dw SPIKES
+	dw STEALTHROCKS
+	dw TOXIC_SPIKES
 	db -1 ; end

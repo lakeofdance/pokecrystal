@@ -1,9 +1,28 @@
 BattleCommand_KnockOffDamageBoost:
-; doubles damage if the opponent has a knockable item
+; increases damage by half if the opponent has a knockable item
 
 	call CheckKnockOffEffect
 	ret z
-	jp DoubleDamage2
+; fallthrough
+IncreaseDamageByHalf:
+; get current damage
+	ld hl, wCurDamage
+	ld a, [hli]
+	ld b, a
+	ld c, [hl]
+; mutiply by 3
+	ld hl, 0
+	ld a, 3
+	call AddNTimes	
+; divide by 2
+	sla c
+	rl b
+; save
+	ld hl, wCurDamage
+	ld [hl], b
+	inc hl
+	ld [hl], c
+	ret
 
 BattleCommand_KnockOffEffect:
 ; removes opponent's item if it is knockable

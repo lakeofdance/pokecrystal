@@ -178,5 +178,13 @@ BattleCommand_SleepTalk:
 	ret z
 	cp EFFECT_FLY
 	ret z
+	cp EFFECT_BOUNCE
+	ret z
+	cp EFFECT_GEOMANCY
+	ret z
+	cp EFFECT_METEOR_BEAM
+	ret z
+	cp EFFECT_PHANTOM_FORCE
+	ret z
 	cp EFFECT_BIDE
 	ret

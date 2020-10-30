@@ -84,6 +84,11 @@ SandstormHitsText:
 	line "<USER>!"
 	prompt
 
+HailHitsText:
+	text "The HAIL hits"
+	line "<USER>!"
+	prompt
+
 PerishCountText:
 	text "<USER>'s"
 	line "PERISH count is @"
@@ -118,6 +123,16 @@ BattleText_SafeguardFaded:
 	line "SAFEGUARD faded!"
 	prompt
 
+BattleText_TargetSafeguardFaded:
+	text "<TARGET>'s"
+	line "SAFEGUARD faded!"
+	prompt
+
+BattleText_TailwindFaded:
+	text "<USER>'s"
+	line "TAILWIND subsided!"
+	prompt
+
 BattleText_MonsLightScreenFell:
 	text_ram wStringBuffer1
 	text " #MON's"
@@ -128,6 +143,12 @@ BattleText_MonsReflectFaded:
 	text_ram wStringBuffer1
 	text " #MON's"
 	line "REFLECT faded!"
+	prompt
+
+BattleText_MonsAuroraVeilFell:
+	text_ram wStringBuffer1
+	text " #MON's"
+	line "AURORA VEIL fell!"
 	prompt
 
 BattleText_RainContinuesToFall:
@@ -145,6 +166,11 @@ BattleText_TheSandstormRages:
 	line "rages."
 	prompt
 
+BattleText_HailContinuesToFall:
+	text "Hail is crashing"
+	line "down."
+	prompt
+
 BattleText_TheRainStopped:
 	text "The rain stopped."
 	prompt
@@ -157,6 +183,26 @@ BattleText_TheSunlightFaded:
 BattleText_TheSandstormSubsided:
 	text "The SANDSTORM"
 	line "subsided."
+	prompt
+
+BattleText_TheHailStopped:
+	text "The hail stopped."
+	prompt
+
+BattleText_GravityEnded:
+	text "Gravity returned"
+	line "to normal."
+	prompt
+
+BattleText_TrickRoomEnded:
+	text "The twisted dimen-"
+	line "sions returned to"
+	cont "normal."
+	prompt
+
+BattleText_TerrainEnded:
+	text "Terrain returned"
+	line "to normal."
 	prompt
 
 BattleText_EnemyMonFainted:
@@ -274,6 +320,29 @@ BattleText_UserHurtBySpikes:
 	line "hurt by SPIKES!"
 	prompt
 
+BattleText_UserPoisonedByToxicSpikes:
+	text "<USER>'s"
+	line "poisoned by"
+	cont "TOXIC SPIKES!"
+	prompt
+
+BattleText_UserBadlyPoisonedByToxicSpikes:
+	text "<USER>'s"
+	line "badly poisoned by"
+	cont "TOXIC SPIKES!"
+	prompt
+
+BattleText_UserAbsorbedToxicSpikes:
+	text "<USER>"
+	line "absorbed"
+	cont "TOXIC SPIKES!"
+	prompt
+
+BattleText_UserHurtByRocks:
+	text "<USER>'s"
+	line "hurt by ROCKS!"
+	prompt
+
 RecoveredUsingText:
 	text "<TARGET>"
 	line "recovered using a"
@@ -317,6 +386,12 @@ BattleText_TheMoveIsDisabled:
 	line "DISABLED!"
 	prompt
 
+BattleText_TheMoveIsTaunted:
+	text_ram wBattleMonNick
+	text_start
+	line "is TAUNTED!"
+	prompt
+
 BattleText_MonHasNoMovesLeft:
 	text_ram wBattleMonNick
 	text_start
@@ -326,6 +401,11 @@ BattleText_MonHasNoMovesLeft:
 BattleText_TargetsEncoreEnded:
 	text "<TARGET>'s"
 	line "ENCORE ended!"
+	prompt
+
+BattleText_TargetsTauntEnded:
+	text "<TARGET>'s"
+	line "TAUNT wore off!"
 	prompt
 
 BattleText_StringBuffer1GrewToLevel:
@@ -347,6 +427,11 @@ WokeUpText:
 	line "woke up!"
 	prompt
 
+TargetWokeUpText:
+	text "<TARGET>"
+	line "woke up!"
+	prompt
+
 FrozenSolidText:
 	text "<USER>"
 	line "is frozen solid!"
@@ -355,6 +440,11 @@ FrozenSolidText:
 FlinchedText:
 	text "<USER>"
 	line "flinched!"
+	prompt
+
+IsTauntedText:
+	text "<USER>"
+	line "is taunted!"
 	prompt
 
 MustRechargeText:
@@ -424,6 +514,7 @@ UsedBindText:
 	prompt
 
 WhirlpoolTrapText:
+ThunderCageTrapText:
 	text "<TARGET>"
 	line "was trapped!"
 	prompt
@@ -432,6 +523,12 @@ FireSpinTrapText:
 	text "<TARGET>"
 	line "was trapped!"
 	prompt
+
+InfestationTrapText:
+	text "<TARGET>"
+	line "was infested!"
+	prompt
+
 
 WrappedByText:
 	text "<TARGET>"
@@ -613,6 +710,17 @@ GotAnEncoreText:
 	line "got an ENCORE!"
 	prompt
 
+WasTauntedText:
+	text "<TARGET>"
+	line "was TAUNTED!"
+	prompt
+
+StoleStatBoostsText:
+	text "<TARGET>'s"
+	line "stat boosts were"
+	cont "stolen!"
+	prompt
+
 SharedPainText:
 	text "The battlers"
 	line "shared pain!"
@@ -765,6 +873,11 @@ ProtectedByMistText:
 	line "protected by MIST."
 	prompt
 
+TargetsMistDissapated:
+	text "<TARGET>'s"
+	line "MIST dissipated!"
+	prompt
+
 GettingPumpedText:
 	text_pause
 	text "<USER>'s"
@@ -774,6 +887,11 @@ GettingPumpedText:
 RecoilText:
 	text "<USER>'s"
 	line "hit with recoil!"
+	prompt
+
+TookHugeDamageText:
+	text "<USER>"
+	line "took huge damage!"
 	prompt
 
 MadeSubstituteText:
@@ -815,6 +933,11 @@ WasSeededText:
 	line "was seeded!"
 	prompt
 
+WasSoakedText:
+	text "<TARGET>"
+	line "was soaked!"
+	prompt
+
 EvadedText:
 	text "<TARGET>"
 	line "evaded the attack!"
@@ -846,6 +969,13 @@ EliminatedStatsText:
 	line "were eliminated!"
 	prompt
 
+EliminatedFoesStatsText:
+	text "<TARGET>'s"
+	line "stat changes were"
+	cont "eliminated!"
+	prompt
+
+
 TransformedText:
 	text "<USER>"
 	line "TRANSFORMED into"
@@ -862,6 +992,11 @@ LightScreenEffectText:
 ReflectEffectText:
 	text "<USER>'s"
 	line "DEFENSE rose!"
+	prompt
+
+AuroraVeilEffectText:
+	text "<USER>"
+	line "set a VEIL!"
 	prompt
 
 NothingHappenedText:
@@ -934,6 +1069,12 @@ StoleText:
 	cont "from its foe!"
 	prompt
 
+SwappedItemsText:
+	text "<USER>"
+	line "swapped items with"
+	cont "<TARGET>!"
+	prompt
+
 KnockedOffText:
 	text "<USER>"
 	line "knocked off"
@@ -943,9 +1084,28 @@ KnockedOffText:
 	cont "from its foe!"
 	prompt
 
+IncineratedText:
+	text "<TARGET>'s"
+	line "@"
+	text_ram wStringBuffer1
+	text_start
+	cont "was incinerated!"
+	prompt
+
 CantEscapeNowText:
 	text "<TARGET>"
 	line "can't escape now!"
+	prompt
+
+TargetGroundedText:
+	text "<TARGET>"
+	line "was grounded!"
+	prompt
+
+FellToTheGroundText:
+	text "<TARGET>"
+	line "fell to the"
+	cont "ground!"
 	prompt
 
 StartedNightmareText:
@@ -980,6 +1140,18 @@ ProtectingItselfText:
 SpikesText:
 	text "SPIKES scattered"
 	line "all around"
+	cont "<TARGET>!"
+	prompt
+
+StealthRocksText:
+	text "Pointed ROCKS"
+	line "float around"
+	cont "<TARGET>!"
+	prompt
+
+StickyWebsText:
+	text "STICKY WEBS were"
+	line "lain around"
 	cont "<TARGET>!"
 	prompt
 
@@ -1042,6 +1214,38 @@ BlewSpikesText:
 	line "blew away SPIKES!"
 	prompt
 
+BlewRocksText:
+	text "<USER>"
+	line "blew away ROCKS!"
+	prompt
+
+BlewTSpikesText:
+	text "<USER>"
+	line "blew away"
+	cont "TOXIC SPIKES!"
+	prompt
+
+BlewWebsText:
+	text "<USER>"
+	line "blew away WEBS!"
+	prompt
+
+BlewHazardsText:
+	text "All entry hazards"
+	line "were blown away!"
+	prompt
+
+SwappedHazardsText:
+	text "<USER>"
+	line "swapped hazards!"
+	prompt
+
+ReflectTypeText:
+	text "<TARGET>'s"
+	line "type was"
+	cont "reflected!"
+	prompt
+
 DownpourText:
 	text "A downpour"
 	line "started!"
@@ -1050,6 +1254,21 @@ DownpourText:
 SunGotBrightText:
 	text "The sunlight got"
 	line "bright!"
+	prompt
+
+HailstormBrewingText:
+	text "A hailstorm"
+	line "is brewing!"
+	prompt
+
+WeirdDimensionsText:
+	text "The dimensions"
+	line "got weird!"
+	prompt
+
+SetTailwindText:
+	text "A tailwind"
+	line "started to blow!"
 	prompt
 
 BellyDrumText:
@@ -1063,6 +1282,22 @@ CopiedStatsText:
 	line "copied the stat"
 
 	para "changes of"
+	line "<TARGET>!"
+	prompt
+
+SwappedStatsText:
+	text "<USER>"
+	line "swapped its stat"
+
+	para "changes with"
+	line "<TARGET>!"
+	prompt
+
+TransferredStatusText:
+	text "<USER>"
+	line "transferred its"
+
+	para "status to"
 	line "<TARGET>!"
 	prompt
 

@@ -26,7 +26,7 @@ AIChooseMove:
 ; Don't pick disabled moves.
 	ld a, [wEnemyDisabledMove]
 	and a
-	jr z, .CheckPP
+	jr z, .CheckTaunt
 
 	ld hl, wEnemyMonMoves
 	ld c, 0
@@ -35,7 +35,7 @@ AIChooseMove:
 	ld b, a
 	inc hl
 	ld a, [wEnemyDisabledMove + 1]
-	cp [hl]
+	sub [hl]
 	or b
 	jr z, .ScoreDisabledMove
 	inc c
@@ -46,6 +46,34 @@ AIChooseMove:
 	ld b, 0
 	add hl, bc
 	ld [hl], 80
+
+; Don't pick taunted moves
+.CheckTaunt:
+	ld a, [wEnemySubStatus5]
+	bit SUBSTATUS_TAUNTED, a
+	jr z, .CheckPP
+
+	ld hl, wEnemyMonMoves
+	ld de, 0
+.CheckTauntedMove:
+	inc e
+	ld a, e
+	cp NUM_MOVES + 1
+	jr z, .CheckPP
+	ld a, [hli]
+	ld c, a
+	ld a, [hli]
+	ld b, a
+	or c
+	jr z, .CheckPP
+	farcall IsMoveStatus
+	jr z, .CheckTauntedMove
+	push hl
+	ld hl, wBuffer1 - 1
+	add hl, de
+	ld [hl], 80
+	pop hl
+	jr .CheckTauntedMove
 
 ; Don't pick moves with 0 PP.
 .CheckPP:
@@ -165,7 +193,11 @@ AIChooseMove:
 ; Give a score of 0 to a blank move
 .loop2
 	ld a, [de]
-	and a
+	ld b, a
+	inc de
+	ld a, [de]
+	dec de
+	or b
 	jr nz, .skip_load
 	ld [hl], a
 

@@ -41,6 +41,4 @@ BattleCommand_BurnUpText:
 	ret nz
 
 	ld hl, BurntOutText
-	call StdBattleTextbox
-	ret
-
+	jp StdBattleTextbox

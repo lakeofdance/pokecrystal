@@ -173,9 +173,10 @@ TrainerType2:
 	and a
 	jr z, .copied_pp
 
-	inc hl
 	push hl
 	push bc
+	dec hl
+	ld a, [hli]
 	ld c, a
 	ld a, [hl]
 	ld b, a
@@ -187,6 +188,7 @@ TrainerType2:
 	call GetFarByte
 	pop bc
 	pop hl
+	inc hl
 
 	ld [de], a
 	inc de
@@ -304,12 +306,13 @@ TrainerType4:
 	ld b, NUM_MOVES
 .copy_pp
 	ld a, [hli]
-	and a
+	or [hl]
 	jr z, .copied_pp
 
-	inc hl
 	push hl
 	push bc
+	dec hl
+	ld a, [hli]
 	ld c, a
 	ld a, [hl]
 	ld b, a
@@ -321,6 +324,7 @@ TrainerType4:
 	call GetFarByte
 	pop bc
 	pop hl
+	inc hl
 
 	ld [de], a
 	inc de

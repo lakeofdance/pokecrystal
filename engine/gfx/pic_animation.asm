@@ -938,31 +938,27 @@ GetMonFramesPointer:
 	ld c, BANK(UnownsFrames)
 	ld hl, UnownFramesPointers
 	jr z, .got_frames
-	ld a, [wPokeAnimSpecies]
-	cp JOHTO_POKEMON
 	ld b, BANK(FramesPointers)
-	ld c, BANK(KantoFrames)
 	ld hl, FramesPointers
-	jr c, .got_frames
 	ld a, [wPokeAnimSpecies + 1]
 	and a
-	ld c, BANK(JohtoFrames)
-	jr z, .got_frames
 	ld c, BANK(MoreFrames)
+	jr nz, .got_frames
+
+	ld a, [wPokeAnimSpecies]
+	cp JOHTO_POKEMON
+	ld c, BANK(KantoFrames)
+	jr c, .got_frames
+	ld c, BANK(JohtoFrames)
 .got_frames
 	ld a, c
 	ld [wPokeAnimFramesBank], a
 
 	ld a, [wPokeAnimSpeciesOrUnown]
-	dec a
-;	ld e, a
-;	ld d, 0
 	ld e, a
 	ld a, [wPokeAnimSpeciesOrUnown + 1]
-;	xor a
 	ld d, a
-;	dec de
-;
+	dec de
 	add hl, de
 	add hl, de
 	ld a, b

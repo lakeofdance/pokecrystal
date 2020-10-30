@@ -265,6 +265,277 @@ BattleAnimations::
 	dw BattleAnim_Tackle		;avalanche
 	dw BattleAnim_Tackle		;revenge
 	dw BattleAnim_Tackle		;knock off
+	dw BattleAnim_Tackle		;bug buzz
+	dw BattleAnim_Tackle		;lunge
+	dw BattleAnim_Tackle		;quiver dance
+	dw BattleAnim_Tackle		;signal beam
+	dw BattleAnim_Tackle		;silver wind
+	dw BattleAnim_Tackle		;x scissor
+	dw BattleAnim_Tackle		;dark pulse
+	dw BattleAnim_Tackle		;foul play
+	dw BattleAnim_Tackle		;nasty plot
+	dw BattleAnim_Tackle		;discharge
+	dw BattleAnim_Tackle		;electroweb
+	dw BattleAnim_Tackle		;nuzzle
+	dw BattleAnim_Tackle		;shock wave
+	dw BattleAnim_Tackle		;wild charge
+	dw BattleAnim_Tackle		;dragon claw
+	dw BattleAnim_Tackle		;dragon dance
+	dw BattleAnim_Tackle		;dragon darts
+	dw BattleAnim_Tackle		;dragon pulse
+	dw BattleAnim_Tackle		;dragon rush
+	dw BattleAnim_Tackle		;dual chop
+	dw BattleAnim_Tackle		;dazzly gleam
+	dw BattleAnim_Tackle		;disarmingcry
+	dw BattleAnim_Tackle		;drainingkiss
+	dw BattleAnim_Tackle		;fairy wind
+	dw BattleAnim_Tackle		;moonblast
+	dw BattleAnim_Tackle		;nature's cure
+	dw BattleAnim_Tackle		;play rough
+	dw BattleAnim_Tackle		;spirit break
+	dw BattleAnim_Tackle		;strangesteam
+	dw BattleAnim_Tackle		;apple acid
+	dw BattleAnim_Tackle		;bullet seed
+	dw BattleAnim_Tackle		;energy ball
+	dw BattleAnim_Tackle		;grav apple
+	dw BattleAnim_Tackle		;horn leech
+	dw BattleAnim_Tackle		;leaf blade
+	dw BattleAnim_Tackle		;leafage
+	dw BattleAnim_Tackle		;magical leaf
+	dw BattleAnim_Tackle		;petalblizard
+	dw BattleAnim_Tackle		;power whip
+	dw BattleAnim_Tackle		;solar blade
+	dw BattleAnim_Tackle		;wood hammer
+	dw BattleAnim_Tackle		;aqua jet
+	dw BattleAnim_Tackle		;aqua tail
+	dw BattleAnim_Tackle		;fishiousrend
+	dw BattleAnim_Tackle		;bolt beak
+	dw BattleAnim_Tackle		;super bloom
+	dw BattleAnim_Tackle		;meltdown
+	dw BattleAnim_Tackle		;flip turn
+	dw BattleAnim_Tackle		;liquidation
+	dw BattleAnim_Surf		;muddy water
+	dw BattleAnim_Tackle		;scald
+	dw BattleAnim_Tackle		;soak
+	dw BattleAnim_Tackle		;steamruption
+	dw BattleAnim_Tackle		;watershurikn
+	dw BattleAnim_Spikes		;stealthrocks
+	dw BattleAnim_Spikes		;toxic spikes
+	dw BattleAnim_Tackle		;clanging scales
+	dw BattleAnim_Tackle		;hyperspace fury
+	dw BattleAnim_Tackle		;draco meteor
+	dw BattleAnim_Tackle		;overheat
+	dw BattleAnim_Tackle		;leaf storm
+	dw BattleAnim_Tackle		;psycho boost
+	dw BattleAnim_Tackle		;fleur cannon
+	dw BattleAnim_Tackle		;close combat
+	dw BattleAnim_Tackle		;dragon ascent
+	dw BattleAnim_Tackle		;hammer arm
+	dw BattleAnim_Tackle		;superpower
+	dw BattleAnim_Tackle		;ice hammer
+	dw BattleAnim_Tackle		;v-create
+	dw BattleAnim_Tackle		;fell stinger
+	dw BattleAnim_Tackle		;fake out
+	dw BattleAnim_Tackle		;first impression
+	dw BattleAnim_FocusEnergy	;geomancy
+	dw BattleAnim_Tackle		;acrobatics
+	dw BattleAnim_Tackle		;facade
+	dw BattleAnim_Tackle		;hex
+	dw BattleAnim_Tackle		;venoshock
+	dw BattleAnim_Tackle		;parting shot
+	dw BattleAnim_Tackle		;charge beam
+	dw BattleAnim_Tackle		;thunder fang
+	dw BattleAnim_Tackle		;aura sphere
+	dw BattleAnim_Tackle		;brick break
+	dw BattleAnim_Tackle		;bulk up
+	dw BattleAnim_Tackle		;drain punch
+	dw BattleAnim_Tackle		;focus blast
+	dw BattleAnim_Tackle		;poweruppunch
+	dw BattleAnim_Tackle		;sky uppercut
+	dw BattleAnim_Tackle		;storm throw
+	dw BattleAnim_Tackle		;vacuum wave
+	dw BattleAnim_Tackle		;wake up slap
+	dw BattleAnim_Tackle		;aerial ace
+	dw BattleAnim_Tackle		;air slash
+	dw BattleAnim_Fly		;bounce
+	dw BattleAnim_Tackle		;brave bird
+	dw BattleAnim_Tackle		;defog
+	dw BattleAnim_Tackle		;dual wingbeat
+	dw BattleAnim_Tackle		;feather dance
+	dw BattleAnim_Tackle		;hurricane
+	dw BattleAnim_Recover		;roost
+	dw BattleAnim_Tackle		;boomburst
+	dw BattleAnim_Tackle		;court change
+	dw BattleAnim_Tackle		;endeavor
+	dw BattleAnim_Tackle		;giga impact
+	dw BattleAnim_Tackle		;hyper voice
+	dw BattleAnim_Tackle		;reflect type
+	dw BattleAnim_Tackle		;shell smash
+	dw BattleAnim_Recover		;slack off
+	dw BattleAnim_Tackle		;trump card
+	dw BattleAnim_Tackle		;work up
+	dw BattleAnim_Tackle		;bulldoze
+	dw BattleAnim_Tackle		;drill run
+	dw BattleAnim_Tackle		;earth power
+	dw BattleAnim_Tackle		;scorchinsand
+	dw BattleAnim_Tackle		;1000 arrows
+	dw BattleAnim_Tackle		;1000 waves
+	dw BattleAnim_Tackle		;accelerock
+	dw BattleAnim_Tackle		;diamondstorm
+	dw BattleAnim_Tackle		;head smash
+	dw BattleAnim_Tackle		;meteor beam
+	dw BattleAnim_Tackle		;power gem
+	dw BattleAnim_Tackle		;rock blast
+	dw BattleAnim_Tackle		;rock polish
+	dw BattleAnim_Tackle		;smack down
+	dw BattleAnim_Tackle		;stone edge
+	dw BattleAnim_Tackle		;astonish
+	dw BattleAnim_Tackle		;ominous wind
+	dw BattleAnim_Tackle		;phantomforce
+	dw BattleAnim_Tackle		;poltergeist
+	dw BattleAnim_Tackle		;shadow bone
+	dw BattleAnim_Tackle		;shadow claw
+	dw BattleAnim_Tackle		;shadow force
+	dw BattleAnim_Tackle		;shadow punch
+	dw BattleAnim_Tackle		;shadow sneak
+	dw BattleAnim_Tackle		;spectral thief
+	dw BattleAnim_Tackle		;spirit shackle
+	dw BattleAnim_Ember		;blast burn
+	dw BattleAnim_Ember		;blaze kick
+	dw BattleAnim_Ember		;blue flare
+	dw BattleAnim_Ember		;burning envy
+	dw BattleAnim_Ember		;eruption
+	dw BattleAnim_WaterGun		;water spout
+	dw BattleAnim_Ember		;fiery dance
+	dw BattleAnim_Ember		;fire fang
+	dw BattleAnim_Ember		;fire lash
+	dw BattleAnim_Ember		;flame charge
+	dw BattleAnim_Ember		;flare blitz
+	dw BattleAnim_Ember		;incinerate
+	dw BattleAnim_Ember		;inferno
+	dw BattleAnim_Ember		;lava plume
+	dw BattleAnim_Ember		;magma storm
+	dw BattleAnim_Ember		;mind blown
+	dw BattleAnim_Ember		;mysticalfire
+	dw BattleAnim_Ember		;searing shot
+	dw BattleAnim_Ember		;will-o-wisp
+	dw BattleAnim_Tackle		;anchor shot
+	dw BattleAnim_Tackle		;bullet punch
+	dw BattleAnim_Tackle		;flash cannon
+	dw BattleAnim_Tackle		;gear grind
+	dw BattleAnim_Tackle		;gyro ball
+	dw BattleAnim_Tackle		;iron defense
+	dw BattleAnim_Tackle		;iron head
+	dw BattleAnim_Protect		;kings shield
+	dw BattleAnim_Tackle		;magnet bomb
+	dw BattleAnim_Tackle		;meteor mash
+	dw BattleAnim_Tackle		;mirror shot
+	dw BattleAnim_Tackle		;shift gear
+	dw BattleAnim_Tackle		;smart strike
+	dw BattleAnim_Tackle		;steel beam
+	dw BattleAnim_Tackle		;calm mind
+	dw BattleAnim_Tackle		;cosmic power
+	dw BattleAnim_Tackle		;extrasensory
+	dw BattleAnim_Tackle		;heart stamp
+	dw BattleAnim_Tackle		;heart swap
+	dw BattleAnim_Tackle		;hyperspace hole
+	dw BattleAnim_Tackle		;luster purge
+	dw BattleAnim_Tackle		;mist ball
+	dw BattleAnim_Tackle		;prism laser
+	dw BattleAnim_Tackle		;psychic fang
+	dw BattleAnim_Tackle		;psycho cut
+	dw BattleAnim_Tackle		;psycho shift
+	dw BattleAnim_Tackle		;psyshock
+	dw BattleAnim_Tackle		;psystrike
+	dw BattleAnim_Tackle		;stored power
+	dw BattleAnim_Tackle		;synchronoise
+	dw BattleAnim_Tackle		;trick
+	dw BattleAnim_Tackle		;trick room
+	dw BattleAnim_Tackle		;zen headbutt
+	dw BattleAnim_Tackle		;sticky web
+	dw BattleAnim_Tackle		;acid spray
+	dw BattleAnim_Tackle		;clear smog
+	dw BattleAnim_Tackle		;coil
+	dw BattleAnim_Tackle		;cross poison
+	dw BattleAnim_Tackle		;poison fang
+	dw BattleAnim_Tackle		;poison jab
+	dw BattleAnim_Tackle		;poison tail
+	dw BattleAnim_Tackle		;sludge wave
+	dw BattleAnim_Tackle		;toxic thread
+	dw BattleAnim_Tackle		;venom drench
+	dw BattleAnim_Tackle		;gunk shot
+	dw BattleAnim_Tackle		;arm thrust
+	dw BattleAnim_Tackle		;final gambit
+	dw BattleAnim_Tackle		;force palm
+	dw BattleAnim_Tackle		;oblivion wing
+	dw BattleAnim_Tackle		;attack order
+	dw BattleAnim_Tackle		;defend order
+	dw BattleAnim_Recover		;heal order
+	dw BattleAnim_Tackle		;infestation
+	dw BattleAnim_Tackle		;skitter smack
+	dw BattleAnim_Tackle		;struggle bug
+	dw BattleAnim_Tackle		;steamroller
+	dw BattleAnim_Tackle		;bolt strike
+	dw BattleAnim_Tackle		;eerie impulse
+	dw BattleAnim_Tackle		;zing zap
+	dw BattleAnim_Tackle		;spacial rend
+	dw BattleAnim_Tackle		;roar of time
+	dw BattleAnim_Tackle		;brutal swing
+	dw BattleAnim_Tackle		;fake tears
+	dw BattleAnim_Tackle		;secret sword
+	dw BattleAnim_Tackle		;sacred sword
+	dw BattleAnim_Tackle		;chip away
+	dw BattleAnim_Tackle		;dark lariat
+	dw BattleAnim_Tackle		;frost breath
+	dw BattleAnim_Tackle		;glaciate
+	dw BattleAnim_Tackle		;ice ball
+	dw BattleAnim_Tackle		;ice fang
+	dw BattleAnim_Tackle		;ice shard
+	dw BattleAnim_Tackle		;icicle crash
+	dw BattleAnim_Tackle		;icicle spear
+	dw BattleAnim_Tackle		;triple axel
+	dw BattleAnim_Tackle		;thunder cage
+	dw BattleAnim_Tackle		;drake energy
+	dw BattleAnim_Tackle		;freeze glare
+	dw BattleAnim_Tackle		;fiery wrath
+	dw BattleAnim_Tackle		;thunder kick
+	dw BattleAnim_Tackle		;wicked blow
+	dw BattleAnim_Tackle		;switcheroo
+	dw BattleAnim_Tackle		;snarl
+	dw BattleAnim_Tackle		;power trip
+	dw BattleAnim_Tackle		;seed flare
+	dw BattleAnim_Tackle		;trop kick
+	dw BattleAnim_Tackle		;needle arm
+	dw BattleAnim_Tackle		;taunt
+	dw BattleAnim_Tackle		;tailwind
+	dw BattleAnim_Tackle		;hone claws
+	dw BattleAnim_Tackle		;night daze
+	dw BattleAnim_Tackle		;night slash
+	dw BattleAnim_Pound		;1ff
+	dw BattleAnim_Pound		;200
+	dw BattleAnim_Tackle		;crush grip
+	dw BattleAnim_Tackle		;wring out
+	dw BattleAnim_Tackle		;memento
+	dw BattleAnim_Tackle		;weather ball
+	dw BattleAnim_Tackle		;aromatherapy
+	dw BattleAnim_Tackle		;block
+	dw BattleAnim_Tackle		;covet
+	dw BattleAnim_Tackle		;crush claw
+	dw BattleAnim_Tackle		;howl
+	dw BattleAnim_Tackle		;feint
+	dw BattleAnim_Tackle		;electro ball
+	dw BattleAnim_Tackle		;head charge
+	dw BattleAnim_Tackle		;leaf tornado
+	dw BattleAnim_Tackle		;low sweep
+	dw BattleAnim_Tackle		;razor shell
+	dw BattleAnim_Tackle		;baby-doll eyes
+	dw BattleAnim_Tackle		;land's wrath
+	dw BattleAnim_Tackle		;no surrender
+	dw BattleAnim_Tackle		;breaking swipe
+	dw BattleAnim_Tackle		;precipice (blades)
+	dw BattleAnim_Tackle		;sucker punch
+	dw BattleAnim_Sandstorm		;hail
+	dw BattleAnim_Reflect		;aurora veil
 	dw BattleAnim_SweetScent2
 	dw BattleAnim_ThrowPokeBall
 	dw BattleAnim_SendOutMon
@@ -278,6 +549,7 @@ BattleAnimations::
 	dw BattleAnim_Par
 	dw BattleAnim_InLove
 	dw BattleAnim_InSandstorm
+	dw BattleAnim_InSandstorm	;hail animation
 	dw BattleAnim_InNightmare
 	dw BattleAnim_InWhirlpool
 	dw BattleAnim_Miss
@@ -293,9 +565,6 @@ BattleAnim_0:
 BattleAnim_MirrorMove:
 BattleAnim_ff:
 BattleAnim_100:
-BattleAnim_101:
-BattleAnim_102:
-BattleAnim_103:
 	anim_ret
 
 BattleAnim_SweetScent2:

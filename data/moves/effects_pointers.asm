@@ -104,10 +104,10 @@ MoveEffectsPointers:
 	dw Thief
 	dw MeanLook
 	dw Nightmare
-	dw FlameWheel
+	dw DefrostBurnHit
 	dw Curse
 	dw Protect
-	dw Spikes
+	dw Hazard
 	dw Foresight
 	dw PerishSong
 	dw Sandstorm
@@ -133,6 +133,7 @@ MoveEffectsPointers:
 	dw SunnyDay
 	dw DefenseUpHit
 	dw AttackUpHit
+	dw SpecialAttackUpHit
 	dw AllUpHit
 	dw BellyDrum
 	dw PsychUp
@@ -155,3 +156,69 @@ MoveEffectsPointers:
 	dw ForceSwitchHit
 	dw Revenge
 	dw KnockOff
+	dw NormalHit
+	dw DoubleIfFirst
+	dw Soak
+	dw MultiHit
+	dw NormalHit
+	dw Hazard
+	dw Hazard
+	dw UserStatsDownHit
+	dw UserStatsDownHit
+	dw NormalHit
+	dw Geomancy
+	dw Acrobatics
+	dw Facade
+	dw Hex
+	dw Venoshock
+	dw PartingShot
+	dw ParaFlinchHit
+	dw BrickBreak
+	dw WakeUpSlap
+	dw Bounce
+	dw Defog
+	dw Roost
+	dw CourtChange
+	dw Endeavor
+	dw ReflectType
+	dw TrumpCard
+	dw Hazard
+	dw GroundOpponentHit
+	dw ArenaTrapHit
+	dw MeteorBeam
+	dw PhantomForce
+	dw SpectralThief
+	dw Eruption
+	dw BurnFlinchHit
+	dw BurningEnvy
+	dw FlareBlitz
+	dw Incinerate
+	dw MindBlown
+	dw DoBurn
+	dw SpeedUpHit
+	dw GyroBall
+	dw KingsShield
+	dw HeartSwap
+	dw PsychoShift
+	dw NormalHit
+	dw StoredPower
+	dw Synchronoise
+	dw Trick
+	dw TrickRoom
+	dw SpecialDefenseDown2Hit
+	dw ClearSmog
+	dw MultiBoost
+	dw ToxicThread
+	dw VenomDrench
+	dw FinalGambit
+	dw NormalHit
+	dw FreezeFlinchHit
+	dw Taunt
+	dw Tailwind
+	dw CrushGrip
+	dw Memento
+	dw WeatherBall
+	dw ElectroBall
+	dw NormalHit
+	dw Hail
+	dw AuroraVeil

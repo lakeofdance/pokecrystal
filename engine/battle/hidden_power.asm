@@ -96,6 +96,9 @@ HiddenPowerDamage:
 	ld a, BATTLE_VARS_MOVE_TYPE
 	call GetBattleVarAddr
 	pop af
+; Uncomment the line below to force Hidden Power to be special
+; currently it works as in vanilla
+;	or SPECIAL
 	ld [hl], a
 
 ; Get the rest of the damage formula variables

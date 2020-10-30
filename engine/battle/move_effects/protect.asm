@@ -58,6 +58,9 @@ ProtectChance:
 	dec a
 	cp b
 	jr nc, .failed
+;
+;	jr .failed
+;
 
 ; Another consecutive Protect use.
 

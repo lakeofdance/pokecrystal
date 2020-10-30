@@ -23,9 +23,8 @@ BattleCommand_PsychUp:
 	dec b
 	jr nz, .loop
 	pop hl
-	farcall AnimateFailedMove
-	farcall PrintButItFailed
-	ret
+	call AnimateFailedMove
+	jp PrintButItFailed
 
 .break
 	pop hl
@@ -39,13 +38,12 @@ BattleCommand_PsychUp:
 	ldh a, [hBattleTurn]
 	and a
 	jr nz, .calc_enemy_stats
-	farcall CalcPlayerStats
+	call CalcPlayerStats
 	jr .merge
 
 .calc_enemy_stats
-	farcall CalcEnemyStats
+	call CalcEnemyStats
 .merge
-	farcall AnimateCurrentMove
+	call AnimateCurrentMove
 	ld hl, CopiedStatsText
-	farcall StdBattleTextbox
-	ret
+	jp StdBattleTextbox

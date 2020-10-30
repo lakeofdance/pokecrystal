@@ -34,4 +34,7 @@ StallMoves:
 	dw CONVERSION
 	dw SUBSTITUTE
 	dw FLAME_WHEEL
+	dw QUIVER_DANCE
+	dw DRAGON_DANCE
+	dw SOAK
 	db -1 ; end

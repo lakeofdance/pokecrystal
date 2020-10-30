@@ -84,7 +84,7 @@ BattleCommandPointers:
 	dba BattleCommand_Defrost
 	dba BattleCommand_Curse
 	dba BattleCommand_Protect
-	dba BattleCommand_Spikes
+	dba BattleCommand_Hazard
 	dba BattleCommand_Foresight
 	dba BattleCommand_PerishSong
 	dba BattleCommand_StartSandstorm
@@ -179,3 +179,37 @@ BattleCommandPointers:
 	dba BattleCommand_Revenge
 	dba BattleCommand_KnockOffDamageBoost
 	dba BattleCommand_KnockOffEffect
+	dba BattleCommand_MultipleStatsUp
+	dba BattleCommand_DoubleDamage
+	dba BattleCommand_Soak
+	dba BattleCommand_UserStatsDown
+	dba BattleCommand_Acrobatics
+	dba BattleCommand_PartingShot
+	dba BattleCommand_BrickBreak
+	dba BattleCommand_Roost
+	dba BattleCommand_WakeOpponent
+	dba BattleCommand_Defog
+	dba BattleCommand_CourtChange
+	dba BattleCommand_ReflectType
+	dba BattleCommand_GroundOpponent
+	dba BattleCommand_StealOpponentsBoosts
+	dba BattleCommand_VariableDamage
+	dba BattleCommand_BurningEnvy
+	dba BattleCommand_Incinerate
+	dba BattleCommand_RecoilHalfMaxHP
+	dba BattleCommand_RecoilAllHP
+	dba BattleCommand_KingsShield
+	dba BattleCommand_HeartSwap
+	dba BattleCommand_PsychoShift
+	dba BattleCommand_Synchronoise
+	dba BattleCommand_StoredPower
+	dba BattleCommand_Trick
+	dba BattleCommand_TrickRoom
+	dba BattleCommand_ResetMiss
+	dba BattleCommand_ResetFoeStats
+	dba BattleCommand_VenomDrench
+	dba BattleCommand_Taunt
+	dba BattleCommand_Tailwind
+	dba BattleCommand_Memento
+	dba BattleCommand_WeatherBall
+	dba BattleCommand_StartHail

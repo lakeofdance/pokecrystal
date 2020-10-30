@@ -9,4 +9,7 @@ SunnyDayMoves:
 	dw SACRED_FIRE
 	dw MORNING_SUN
 	dw SYNTHESIS
+	dw SOLARBEAM
+	dw SOLAR_BLADE
+	dw MELTDOWN
 	db -1 ; end

@@ -97,7 +97,7 @@ DoBattle:
 	call EmptyBattleTextbox
 	call LoadTileMapToTempTileMap
 	call SetPlayerTurn
-	call SpikesDamage
+	call HazardsDamage
 	ld a, [wLinkMode]
 	and a
 	jr z, .not_linked_2
@@ -111,7 +111,7 @@ DoBattle:
 	call BreakAttraction
 	call EnemySwitch
 	call SetEnemyTurn
-	call SpikesDamage
+	call HazardsDamage
 
 .not_linked_2
 	jp BattleTurn
@@ -246,15 +246,19 @@ HandleBetweenTurnEffects:
 	ret c
 
 .NoMoreFaintingConditions:
+	call HandleRoost
 	call HandleLeftovers
 	call HandleMysteryberry
 	call HandleDefrost
 	call HandleSafeguard
 	call HandleScreens
+	call HandleTailwind
+	call HandleArenaEffects
 	call HandleStatBoostingHeldItems
 	call HandleHealingItems
 	call UpdateBattleMonInParty
 	call LoadTileMapToTempTileMap
+	call HandleTaunt
 	jp HandleEncore
 
 CheckFaint_PlayerThenEnemy:
@@ -430,7 +434,7 @@ DetermineMoveOrder:
 .switch
 	callfar AI_Switch
 	call SetEnemyTurn
-	call SpikesDamage
+	call HazardsDamage
 	jp .enemy_first
 
 .use_move
@@ -490,10 +494,7 @@ DetermineMoveOrder:
 	jr .speed_check
 
 .speed_check
-	ld de, wBattleMonSpeed
-	ld hl, wEnemyMonSpeed
-	ld c, 2
-	call CompareBytes
+	farcall CompareBattlerSpeed
 	jr z, .speed_tie
 	jp nc, .player_first
 	jp .enemy_first
@@ -632,6 +633,8 @@ ParsePlayerAction:
 	jr z, .continue_protect
 	cp EFFECT_ENDURE
 	jr z, .continue_protect
+	cp EFFECT_KINGS_SHIELD
+	jr z, .continue_protect
 	xor a
 	ld [wPlayerProtectCount], a
 	jr .continue_protect
@@ -718,6 +721,45 @@ HandleEncore:
 	res SUBSTATUS_ENCORED, [hl]
 	call SetPlayerTurn
 	ld hl, BattleText_TargetsEncoreEnded
+	jp StdBattleTextbox
+
+HandleTaunt:
+	ldh a, [hSerialConnectionStatus]
+	cp USING_EXTERNAL_CLOCK
+	jr z, .player_1
+	call .do_player
+	jr .do_enemy
+
+.player_1
+	call .do_enemy
+.do_player
+	ld hl, wPlayerSubStatus5
+	bit SUBSTATUS_TAUNTED, [hl]
+	ret z
+	ld a, [wPlayerTauntCount]
+	dec a
+	ld [wPlayerTauntCount], a
+	ret nz
+; end player taunt
+	ld hl, wPlayerSubStatus5
+	res SUBSTATUS_TAUNTED, [hl]
+	call SetEnemyTurn
+	ld hl, BattleText_TargetsTauntEnded
+	jp StdBattleTextbox
+
+.do_enemy
+	ld hl, wEnemySubStatus5
+	bit SUBSTATUS_TAUNTED, [hl]
+	ret z
+	ld a, [wEnemyTauntCount]
+	dec a
+	ld [wEnemyTauntCount], a
+	ret nz
+; end enemy taunt
+	ld hl, wEnemySubStatus5
+	res SUBSTATUS_TAUNTED, [hl]
+	call SetPlayerTurn
+	ld hl, BattleText_TargetsTauntEnded
 	jp StdBattleTextbox
 
 TryEnemyFlee:
@@ -808,12 +850,12 @@ CompareMovePriority:
 GetMovePriority:
 ; Return the priority (0-3) of move a.
 
-	; Vital Throw goes last.
-	ld a, c
-	sub VITAL_THROW
-	or b
-	ld a, 0
-	ret z
+	ld hl, MovePriorities
+	ld d, 0
+	ld e, 2
+	call IsWordInArray
+	inc hl
+	jr c, .done
 
 	call GetMoveEffect
 	ld hl, MoveEffectPriorities
@@ -948,6 +990,9 @@ EndOpponentProtectEndureDestinyBond:
 	ld a, BATTLE_VARS_SUBSTATUS5_OPP
 	call GetBattleVarAddr
 	res SUBSTATUS_DESTINY_BOND, [hl]
+	ld a, BATTLE_VARS_SUBSTATUS6_OPP
+	call GetBattleVarAddr
+	res SUBSTATUS_KINGS_SHIELD, [hl]
 	ret
 
 EndUserDestinyBond:
@@ -1249,6 +1294,30 @@ SwitchTurnCore:
 	xor 1
 	ldh [hBattleTurn], a
 	ret
+
+HandleRoost:
+	ld hl, wBattleMonType1
+	ld a, [hl]
+	cp ROOST_TYPE
+	call z, .regaintype
+	inc hl
+	ld a, [hl]
+	cp ROOST_TYPE
+	call z, .regaintype
+	ld hl, wEnemyMonType1
+	ld a, [hl]
+	cp ROOST_TYPE
+	call z, .regaintype
+	inc hl
+	ld a, [hl]
+	cp ROOST_TYPE
+	ret nz
+
+.regaintype:
+	ld a, FLYING
+	ld [hl], a
+	ret
+
 
 HandleLeftovers:
 	ldh a, [hSerialConnectionStatus]
@@ -1629,8 +1698,12 @@ HandleScreens:
 .TickScreens:
 	bit SCREENS_LIGHT_SCREEN, [hl]
 	call nz, .LightScreenTick
+	inc de
 	bit SCREENS_REFLECT, [hl]
 	call nz, .ReflectTick
+	inc de
+	bit SCREENS_AURORA_VEIL, [hl]
+	call nz, .AuroraVeilTick
 	ret
 
 .Copy:
@@ -1657,13 +1730,120 @@ HandleScreens:
 	ret
 
 .ReflectTick:
-	inc de
 	ld a, [de]
 	dec a
 	ld [de], a
 	ret nz
 	res SCREENS_REFLECT, [hl]
+	push hl
+	push de
 	ld hl, BattleText_MonsReflectFaded
+	call StdBattleTextbox
+	pop de
+	pop hl
+	ret
+
+.AuroraVeilTick
+	ld a, [de]
+	dec a
+	ld [de], a
+	ret nz
+	res SCREENS_AURORA_VEIL, [hl]
+	ld hl, BattleText_MonsAuroraVeilFell
+	jp StdBattleTextbox
+
+HandleTailwind:
+	ldh a, [hSerialConnectionStatus]
+	cp USING_EXTERNAL_CLOCK
+	jr z, .player1
+	call .CheckPlayer
+	jr .CheckEnemy
+
+.player1
+	call .CheckEnemy
+.CheckPlayer:
+	ld a, [wPlayerScreens]
+	bit SCREENS_TAILWIND, a
+	ret z
+	ld hl, wPlayerTailwindCount
+	dec [hl]
+	ret nz
+	res SCREENS_TAILWIND, a
+	ld [wPlayerScreens], a
+	ld hl, CalcPlayerStats
+	call SwitchTurnCore
+	ld a, BANK(CalcPlayerStats)
+	rst FarCall
+	call SwitchTurnCore
+	xor a
+	jr .print
+
+.CheckEnemy:
+	ld a, [wEnemyScreens]
+	bit SCREENS_TAILWIND, a
+	ret z
+	ld hl, wEnemyTailwindCount
+	dec [hl]
+	ret nz
+	res SCREENS_TAILWIND, a
+	ld [wEnemyScreens], a
+	ld hl, CalcEnemyStats
+	call SwitchTurnCore
+	ld a, BANK(CalcEnemyStats)
+	rst FarCall
+	call SwitchTurnCore
+	ld a, $1
+
+.print
+	ldh [hBattleTurn], a
+	ld hl, BattleText_TailwindFaded
+	jp StdBattleTextbox
+
+
+HandleArenaEffects:
+	ld a, [wBattleArenaEffects]
+	and a
+	ret z
+
+	bit ARENA_GRAVITY, a
+	call nz, .gravity
+
+	ld a, [wBattleArenaEffects]
+	bit ARENA_TRICK_ROOM, a
+	call nz, .trick_room
+
+	ld a, [wBattleArenaEffects]
+	and $f
+	call nz, .terrain
+	ret
+
+.gravity
+	ld hl, wGravityCount
+	dec [hl]
+	ret nz
+	ld hl, wBattleArenaEffects
+	res ARENA_GRAVITY, [hl]
+	ld hl, BattleText_GravityEnded
+	jp StdBattleTextbox
+
+.trick_room
+	ld hl, wTrickRoomCount
+	dec [hl]
+	ret nz
+	ld hl, wBattleArenaEffects
+	res ARENA_TRICK_ROOM, [hl]
+	ld hl, BattleText_TrickRoomEnded
+	jp StdBattleTextbox
+
+.terrain
+	ld hl, wTerrainCount
+	dec [hl]
+	ret nz
+	ld hl, wBattleArenaEffects
+	ld a, [hl]
+	and %11110000
+	ld [hl], a
+	ld hl, BattleText_TerrainEnded
 	jp StdBattleTextbox
 
 HandleWeather:
@@ -1673,29 +1853,48 @@ HandleWeather:
 
 	ld hl, wWeatherCount
 	dec [hl]
-	jr z, .ended
+	jp z, .ended
 
 	ld hl, .WeatherMessages
 	call .PrintWeatherMessage
 
 	ld a, [wBattleWeather]
 	cp WEATHER_SANDSTORM
+	jr z, .DoWeatherDamage
+	cp WEATHER_HAIL
 	ret nz
 
+.DoWeatherDamage
 	ldh a, [hSerialConnectionStatus]
 	cp USING_EXTERNAL_CLOCK
+	ld a, [wBattleWeather]
 	jr z, .enemy_first
 
 .player_first
+	cp WEATHER_HAIL
+	jr z, .player_hail
 	call SetPlayerTurn
 	call .SandstormDamage
 	call SetEnemyTurn
 	jr .SandstormDamage
+.player_hail
+	call SetPlayerTurn
+	call .HailDamage
+	call SetEnemyTurn
+	jr .HailDamage
 
 .enemy_first
+	cp WEATHER_HAIL
+	jr z, .enemy_hail
 	call SetEnemyTurn
 	call .SandstormDamage
 	call SetPlayerTurn
+	jr .SandstormDamage
+.enemy_hail
+	call SetEnemyTurn
+	call .HailDamage
+	call SetPlayerTurn
+	jr .HailDamage
 
 .SandstormDamage:
 	ld a, BATTLE_VARS_SUBSTATUS3
@@ -1737,6 +1936,38 @@ HandleWeather:
 	ld hl, SandstormHitsText
 	jp StdBattleTextbox
 
+.HailDamage:
+	ld a, BATTLE_VARS_SUBSTATUS3
+	call GetBattleVar
+	bit SUBSTATUS_UNDERGROUND, a
+	ret nz
+
+	ld hl, wBattleMonType1
+	ldh a, [hBattleTurn]
+	and a
+	jr z, .gotturn
+	ld hl, wEnemyMonType1
+.gotturn
+	ld a, [hli]
+	cp ICE
+	ret z
+
+	ld a, [hl]
+	cp ICE
+	ret z
+
+	call SwitchTurnCore
+	xor a
+	ld [wNumHits], a
+	ld de, ANIM_IN_HAIL
+	call Call_PlayBattleAnim
+	call SwitchTurnCore
+	call GetEighthMaxHP
+	call SubtractHPFromUser
+
+	ld hl, HailHitsText
+	jp StdBattleTextbox
+
 .ended
 	ld hl, .WeatherEndedMessages
 	call .PrintWeatherMessage
@@ -1761,12 +1992,14 @@ HandleWeather:
 	dw BattleText_RainContinuesToFall
 	dw BattleText_TheSunlightIsStrong
 	dw BattleText_TheSandstormRages
+	dw BattleText_HailContinuesToFall
 
 .WeatherEndedMessages:
 ; entries correspond to WEATHER_* constants
 	dw BattleText_TheRainStopped
 	dw BattleText_TheSunlightFaded
 	dw BattleText_TheSandstormSubsided
+	dw BattleText_TheHailStopped
 
 SubtractHPFromTarget:
 	call SubtractHP
@@ -2303,7 +2536,7 @@ EnemyPartyMonEntrance:
 .done_switch
 	call ResetBattleParticipants
 	call SetEnemyTurn
-	call SpikesDamage
+	call HazardsDamage
 	xor a
 	ld [wEnemyMoveStruct + MOVE_ANIM], a
 	ld [wEnemyMoveStruct + MOVE_ANIM2], a
@@ -2713,7 +2946,7 @@ ForcePlayerMonChoice:
 	call EmptyBattleTextbox
 	call LoadTileMapToTempTileMap
 	call SetPlayerTurn
-	call SpikesDamage
+	call HazardsDamage
 	ld a, $1
 	and a
 	ld c, a
@@ -2734,7 +2967,7 @@ PlayerPartyMonEntrance:
 	call EmptyBattleTextbox
 	call LoadTileMapToTempTileMap
 	call SetPlayerTurn
-	jp SpikesDamage
+	jp HazardsDamage
 
 SetUpBattlePartyMenu_NoLoop:
 	call ClearBGPalettes
@@ -3556,7 +3789,7 @@ NewEnemyMonStatus:
 	ld [wLastPlayerMove], a
 	ld [wLastPlayerMove + 1], a
 	ld hl, wEnemySubStatus1
-rept 4
+rept 5
 	ld [hli], a
 endr
 	ld [hl], a
@@ -3845,7 +4078,7 @@ InitBattleMon:
 	ld de, wPlayerStats
 	ld bc, PARTYMON_STRUCT_LENGTH - MON_ATK
 	call CopyBytes
-	call ApplyStatusEffectOnPlayerStats
+	callfar ApplyStatusEffectOnPlayerStats
 	call BadgeStatBoosts
 	ret
 
@@ -3927,7 +4160,7 @@ InitEnemyMon:
 	ld de, wEnemyStats
 	ld bc, PARTYMON_STRUCT_LENGTH - MON_ATK
 	call CopyBytes
-	call ApplyStatusEffectOnEnemyStats
+	callfar ApplyStatusEffectOnEnemyStats
 	ld hl, wBaseType1
 	ld de, wEnemyMonType1
 	ld a, [hli]
@@ -4038,7 +4271,7 @@ NewBattleMonStatus:
 	ld [wLastPlayerMove], a
 	ld [wLastPlayerMove + 1], a
 	ld hl, wPlayerSubStatus1
-rept 4
+rept 5
 	ld [hli], a
 endr
 	ld [hl], a
@@ -4068,45 +4301,16 @@ BreakAttraction:
 	res SUBSTATUS_IN_LOVE, [hl]
 	ret
 
-SpikesDamage:
-	ld hl, wPlayerScreens
-	ld de, wBattleMonType
-	ld bc, UpdatePlayerHUD
-	ldh a, [hBattleTurn]
-	and a
-	jr z, .ok
-	ld hl, wEnemyScreens
-	ld de, wEnemyMonType
-	ld bc, UpdateEnemyHUD
-.ok
-
-	bit SCREENS_SPIKES, [hl]
-	ret z
-
-	; Flying-types aren't affected by Spikes.
-	ld a, [de]
-	cp FLYING
-	ret z
-	inc de
-	ld a, [de]
-	cp FLYING
-	ret z
-
-	push bc
-
-	ld hl, BattleText_UserHurtBySpikes ; "hurt by SPIKES!"
-	call StdBattleTextbox
-
-	call GetEighthMaxHP
-	call SubtractHPFromTarget
-
-	pop hl
-	call .hl
-
-	jp WaitBGMap
-
-.hl
-	jp hl
+HazardsDamage:
+; todo : carefully check
+	ldh a, [hROMBank]
+	push af
+	ld hl, DoHazardsEffects
+	ld a, BANK(DoHazardsEffects)
+	call FarCall
+	pop af
+	rst Bankswitch
+	ret
 
 PursuitSwitch:
 	ld a, BATTLE_VARS_MOVE
@@ -5178,7 +5382,7 @@ PlayerSwitch:
 EnemyMonEntrance:
 	callfar AI_Switch
 	call SetEnemyTurn
-	jp SpikesDamage
+	jp HazardsDamage
 
 BattleMonEntrance:
 	call WithdrawMonText
@@ -5211,7 +5415,7 @@ BattleMonEntrance:
 	call EmptyBattleTextbox
 	call LoadTileMapToTempTileMap
 	call SetPlayerTurn
-	call SpikesDamage
+	call HazardsDamage
 	ld a, $2
 	ld [wMenuCursorY], a
 	ret
@@ -5235,7 +5439,7 @@ PassedBattleMonEntrance:
 	call EmptyBattleTextbox
 	call LoadTileMapToTempTileMap
 	call SetPlayerTurn
-	jp SpikesDamage
+	jp HazardsDamage
 
 TurnedBattleMonEntrance:
 ; Used by turning moves
@@ -5275,7 +5479,7 @@ TurnedBattleMonEntrance:
 	call EmptyBattleTextbox
 	call LoadTileMapToTempTileMap
 	call SetPlayerTurn
-	call SpikesDamage
+	call HazardsDamage
 	ld a, $2
 	ld [wMenuCursorY], a
 	ret
@@ -5301,7 +5505,7 @@ TurnedEnemyMonEntrance:
 	call EnemySwitch_SetMode
 	call ResetBattleParticipants
 	call SetEnemyTurn
-	call SpikesDamage
+	call HazardsDamage
 	xor a
 	ld [wEnemyMoveStruct + MOVE_ANIM], a
 	ld [wEnemyMoveStruct + MOVE_ANIM2], a
@@ -5342,9 +5546,20 @@ MoveSelectionScreen:
 	dec a
 	jr z, .ether_elixer_menu
 	call CheckPlayerHasUsableMoves
-	ret z ; use Struggle
+	jr z, .force_struggle
+	farcall CheckPlayerTaunt
+	jr nz, .force_struggle
 	ld hl, wBattleMonMoves
 	jr .got_menu_type
+
+.force_struggle
+ ; use Struggle
+	ld hl, BattleText_MonHasNoMovesLeft
+	call StdBattleTextbox
+	ld c, 60
+	call DelayFrames
+	xor a
+	ret
 
 .ether_elixer_menu
 	ld a, MON_MOVES
@@ -5511,14 +5726,25 @@ MoveSelectionScreen:
 	add hl, bc
 	add hl, bc
 	ld a, [hli]
-	ld [wCurPlayerMove], a
+	ld c, a
 	ld a, [hl]
+	ld b, a
+	farcall PlayerCheckMoveForTaunt
+	jr nz, .move_taunted
+
+	ld a, c
+	ld [wCurPlayerMove], a
+	ld a, b
 	ld [wCurPlayerMove + 1], a
 	xor a
 	ret
 
 .move_disabled
 	ld hl, BattleText_TheMoveIsDisabled
+	jr .place_textbox_start_over
+
+.move_taunted
+	ld hl, BattleText_TheMoveIsTaunted
 	jr .place_textbox_start_over
 
 .no_pp_left
@@ -5691,7 +5917,7 @@ MoveInfoBox:
 	hlcoord 1, 10
 	ld de, .Disabled
 	call PlaceString
-	jr .done
+	jp .done
 
 .not_disabled
 	ld hl, wMenuCursorY
@@ -5704,8 +5930,23 @@ MoveInfoBox:
 	add hl, bc
 	add hl, bc
 	ld a, [hli]
-	ld [wCurPlayerMove], a
+	ld c, a
 	ld a, [hl]
+	ld b, a
+	farcall PlayerCheckMoveForTaunt
+	jr z, .not_taunted
+
+	ld hl, wMenuCursorY
+	inc [hl]
+	hlcoord 1, 10
+	ld de, .Taunted
+	call PlaceString
+	jr .done
+
+.not_taunted	
+	ld a, c
+	ld [wCurPlayerMove], a
+	ld a, b
 	ld [wCurPlayerMove + 1], a
 
 	ld a, [wCurBattleMon]
@@ -5725,14 +5966,20 @@ MoveInfoBox:
 	ld [wStringBuffer1], a
 	call .PrintPP
 
+	callfar UpdateMoveData
+	ld a, [wPlayerMoveStruct + MOVE_ANIM]
+	ld c, a
+	ld a, [wPlayerMoveStruct + MOVE_ANIM + 1]
+	ld b, a
+	farcall GetMoveCategoryName
 	hlcoord 1, 9
-	ld de, .Type
+	ld de, wStringBuffer1
 	call PlaceString
 
-	hlcoord 7, 11
+	ld h, b
+	ld l, c
 	ld [hl], "/"
 
-	callfar UpdateMoveData
 	ld a, [wPlayerMoveStruct + MOVE_ANIM]
 	ld c, a
 	ld a, [wPlayerMoveStruct + MOVE_ANIM + 1]
@@ -5745,8 +5992,9 @@ MoveInfoBox:
 
 .Disabled:
 	db "Disabled!@"
-.Type:
-	db "TYPE/@"
+
+.Taunted:
+	db "Taunted!@"
 
 .PrintPP:
 	hlcoord 5, 11
@@ -5765,9 +6013,10 @@ MoveInfoBox:
 	ret
 
 CheckPlayerHasUsableMoves:
-	ld a, STRUGGLE
+	ld bc, STRUGGLE
+	ld a, c
 	ld [wCurPlayerMove], a
-	xor a
+	ld a, b
 	ld [wCurPlayerMove + 1], a
 	ld a, [wPlayerDisableCount]
 	and a
@@ -5805,10 +6054,6 @@ CheckPlayerHasUsableMoves:
 	ret nz
 
 .force_struggle
-	ld hl, BattleText_MonHasNoMovesLeft
-	call StdBattleTextbox
-	ld c, 60
-	call DelayFrames
 	xor a
 	ret
 
@@ -5888,13 +6133,14 @@ ParseEnemyAction:
 	ld a, [hli]
 	or [hl]
 	jp z, .struggle
-	dec hl
-	ld a, [wEnemyDisabledMove]
-	ld c, a
 	ld a, [wEnemyDisabledMove + 1]
-	ld b, a
-	callfar CompareMove
+	cp [hl]
+	dec hl
+	jr nz, .not_disabled
+	ld a, [wEnemyDisabledMove]
+	cp [hl]
 	jr z, .disabled
+.not_disabled
 	ld a, [de]
 	and PP_MASK
 	jr nz, .enough_pp
@@ -5905,9 +6151,12 @@ ParseEnemyAction:
 	inc de
 	dec b
 	jr nz, .loop
-	jr .struggle
+	jp .struggle
 
 .enough_pp
+	farcall CheckEnemyTaunt
+	jp nz, .struggle
+
 	ld a, [wBattleMode]
 	dec a
 	jr nz, .skip_load
@@ -5929,9 +6178,15 @@ ParseEnemyAction:
 	ld a, [hli]
 	and a
 	jr z, .loop2
+	push bc
+	ld c, a
 	ld [wCurEnemyMove], a
 	ld a, [hl]
+	ld b, a
 	ld [wCurEnemyMove + 1], a
+	farcall EnemyCheckMoveForTaunt
+	pop bc
+	jr nz, .loop2
 	ld hl, wEnemyMonPP
 	add hl, bc
 	ld a, [hl]
@@ -5971,12 +6226,18 @@ ParseEnemyAction:
 	ret z
 	cp EFFECT_ENDURE
 	ret z
+	cp EFFECT_KINGS_SHIELD
+	ret z
 	xor a
 	ld [wEnemyProtectCount], a
 	ret
 
 .struggle
-	ld a, STRUGGLE ;?
+	ld bc, STRUGGLE
+	ld a, c
+	ld [wCurEnemyMove], a
+	ld a, b
+	ld [wCurEnemyMove + 1], a
 	jr .finish
 
 ResetVarsForSubstatusRage:
@@ -6516,24 +6777,9 @@ CheckSleepingTreeMon:
 	ld b, a
 	ld a, [wTempEnemyMonSpecies + 1]
 	ld c, a
-;
-;	ld de, 1 ; length of species id
-;	call IsInArray
-.loop
-	ld a, [hli]
-	cp $ff
-	jr z, .NotSleeping
-	cp b
-	jr z, .ok
-	inc hl
-	jr .loop
 
-.ok
-	ld a, [hli]
-	cp c
-	jr nz, .loop
-	scf
-	
+	ld e, 1 ; length of species id
+	call IsWordInArray
 ; If it's a match, the opponent is asleep
 	ret c
 
@@ -6651,104 +6897,6 @@ BattleWinSlideInEnemyTrainerFrontpic:
 	pop bc
 	pop de
 	pop hl
-	ret
-
-ApplyStatusEffectOnPlayerStats:
-	ld a, 1
-	jr ApplyStatusEffectOnStats
-
-ApplyStatusEffectOnEnemyStats:
-	xor a
-
-ApplyStatusEffectOnStats:
-	ldh [hBattleTurn], a
-	call ApplyPrzEffectOnSpeed
-	jp ApplyBrnEffectOnAttack
-
-ApplyPrzEffectOnSpeed:
-	ldh a, [hBattleTurn]
-	and a
-	jr z, .enemy
-	ld a, [wBattleMonStatus]
-	and 1 << PAR
-	ret z
-	ld hl, wBattleMonSpeed + 1
-	ld a, [hld]
-	ld b, a
-	ld a, [hl]
-	srl a
-	rr b
-	srl a
-	rr b
-	ld [hli], a
-	or b
-	jr nz, .player_ok
-	ld b, $1 ; min speed
-
-.player_ok
-	ld [hl], b
-	ret
-
-.enemy
-	ld a, [wEnemyMonStatus]
-	and 1 << PAR
-	ret z
-	ld hl, wEnemyMonSpeed + 1
-	ld a, [hld]
-	ld b, a
-	ld a, [hl]
-	srl a
-	rr b
-	srl a
-	rr b
-	ld [hli], a
-	or b
-	jr nz, .enemy_ok
-	ld b, $1 ; min speed
-
-.enemy_ok
-	ld [hl], b
-	ret
-
-ApplyBrnEffectOnAttack:
-	ldh a, [hBattleTurn]
-	and a
-	jr z, .enemy
-	ld a, [wBattleMonStatus]
-	and 1 << BRN
-	ret z
-	ld hl, wBattleMonAttack + 1
-	ld a, [hld]
-	ld b, a
-	ld a, [hl]
-	srl a
-	rr b
-	ld [hli], a
-	or b
-	jr nz, .player_ok
-	ld b, $1 ; min attack
-
-.player_ok
-	ld [hl], b
-	ret
-
-.enemy
-	ld a, [wEnemyMonStatus]
-	and 1 << BRN
-	ret z
-	ld hl, wEnemyMonAttack + 1
-	ld a, [hld]
-	ld b, a
-	ld a, [hl]
-	srl a
-	rr b
-	ld [hli], a
-	or b
-	jr nz, .enemy_ok
-	ld b, $1 ; min attack
-
-.enemy_ok
-	ld [hl], b
 	ret
 
 ApplyStatLevelMultiplierOnAllStats:
@@ -7714,7 +7862,7 @@ SendOutMonText:
 	ld hl, JumpText_GoMon
 	jr z, .skip_to_textbox
 
-	; compute enemy helth remaining as a percentage
+	; compute enemy health remaining as a percentage
 	xor a
 	ldh [hMultiplicand + 0], a
 	ld hl, wEnemyMonHP
@@ -7736,6 +7884,14 @@ SendOutMonText:
 	rr b
 	ld a, b
 	ld b, 4
+	; If wEnemyMonMaxHP was less than 4, we will now be dividing by 0.
+	; Usually STAT_MIN_HP is 10.
+	; But for mons with base 1 hp (i.e. shedinja), we could have problems here.
+	; We therefore need to make sure that a is at least 1.
+	and a
+	jr nz, .divide
+	inc a
+.divide
 	ldh [hDivisor], a
 	call Divide
 
@@ -7817,6 +7973,14 @@ WithdrawMonText:
 	rr b
 	ld a, b
 	ld b, 4
+	; If wEnemyMonMaxHP was less than 4, we will now be dividing by 0.
+	; Usually STAT_MIN_HP is 10.
+	; But for mons with base 1 hp (i.e. shedinja), we could have problems here.
+	; We therefore need to make sure that a is at least 1.
+	and a
+	jr nz, .divide
+	inc a
+.divide
 	ldh [hDivisor], a
 	call Divide
 	pop bc

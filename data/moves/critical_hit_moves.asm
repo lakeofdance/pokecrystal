@@ -6,4 +6,21 @@ CriticalHitMoves:
 	dw SLASH
 	dw AEROBLAST
 	dw CROSS_CHOP
+	dw LEAF_BLADE
+	dw DRILL_RUN
+	dw STONE_EDGE
+	dw SHADOW_CLAW
+	dw BLAZE_KICK
+	dw PSYCHO_CUT
+	dw CROSS_POISON
+	dw POISON_TAIL
+	dw ATTACK_ORDER
+	dw SPACIAL_REND
+	dw NIGHT_SLASH
+	db -1
+
+AlwaysCritMoves:
+	dw STORM_THROW
+	dw FROST_BREATH
+	dw WICKED_BLOW
 	db -1

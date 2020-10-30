@@ -156,6 +156,13 @@ INCLUDE "engine/battle/move_effect_commands.asm"
 SECTION "Effect Commands", ROMX
 
 INCLUDE "engine/battle/effect_commands.asm"
+INCLUDE "engine/battle/core/status_effect_on_stats.asm"
+
+SECTION "Misc Battle Core", ROMX
+
+INCLUDE "engine/battle/core/hazard_effects.asm"
+INCLUDE "engine/battle/core/taunt_checks.asm"
+INCLUDE "engine/battle/core/speed_check.asm"
 
 SECTION "Enemy AI", ROMX
 
@@ -167,10 +174,14 @@ SECTION "Enemy Trainers", ROMX
 INCLUDE "engine/battle/read_trainer_attributes.asm"
 INCLUDE "engine/battle/read_trainer_party.asm"
 
+SECTION "Effect Command Pointers", ROMX
+;Previously a part of "Battle Core"
+
+INCLUDE "data/battle/effect_command_pointers.asm"
+
 SECTION "Battle Core", ROMX
 
 INCLUDE "engine/battle/core.asm"
-INCLUDE "data/battle/effect_command_pointers.asm"
 
 SECTION "bank10", ROMX
 
@@ -265,6 +276,7 @@ INCLUDE "engine/pokemon/switchpartymons.asm"
 INCLUDE "engine/pokemon/experience.asm"
 INCLUDE "engine/pokemon/mon_stats.asm"
 INCLUDE "engine/pokemon/types.asm"
+INCLUDE "engine/pokemon/move_categories.asm"
 INCLUDE "engine/pokemon/tempmon.asm"
 INCLUDE "data/phone/text/irwin_caller.asm"
 INCLUDE "data/phone/text/arnie_caller.asm"

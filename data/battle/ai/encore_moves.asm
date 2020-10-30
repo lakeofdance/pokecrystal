@@ -32,4 +32,10 @@ EncoreMoves:
 	dw COTTON_SPORE
 	dw POWDER_SNOW
 	dw BURN_UP
+	dw QUIVER_DANCE
+	dw NUZZLE
+	dw DRAGON_DANCE
+	dw NATURES_CURE
+	dw SOAK
+	dw STEALTHROCKS
 	db -1 ; end

@@ -462,7 +462,7 @@ wPlayerSubStatus4:: ; c66b
 ; 6 rage
 ; 5 recharge
 ; 4 substitute
-; 3
+; 3 vanished
 ; 2 focus energy
 ; 1 mist
 ; 0 x accuracy
@@ -474,9 +474,21 @@ wPlayerSubStatus5:: ; c66c
 ; 5 lock-on
 ; 4 encored
 ; 3 transformed
-; 2
-; 1
+; 2 taunted
+; 1 grounded
 ; 0 toxic
+	db
+
+wPlayerSubStatus6::
+; bit
+; 7 
+; 6 
+; 5 
+; 4 
+; 3 
+; 2 
+; 1 heal block
+; 0 king's shield
 	db
 
 wEnemySubStatus1:: ; c66d
@@ -494,6 +506,9 @@ wEnemySubStatus4:: ; c670
 wEnemySubStatus5:: ; c671
 ; see wPlayerSubStatus5
 	db
+wEnemySubStatus6::
+; see wPlayerSubStatus6
+	db
 
 wPlayerRolloutCount:: db ; c672
 wPlayerConfuseCount:: db ; c673
@@ -503,6 +518,7 @@ wPlayerEncoreCount:: db ; c676
 wPlayerPerishCount:: db ; c677
 wPlayerFuryCutterCount:: db ; c678
 wPlayerProtectCount:: db ; c679
+wPlayerTauntCount:: db
 
 wEnemyRolloutCount:: db ; c67a
 wEnemyConfuseCount:: db ; c67b
@@ -512,6 +528,7 @@ wEnemyEncoreCount:: db ; c67e
 wEnemyPerishCount:: db ; c67f
 wEnemyFuryCutterCount:: db ; c680
 wEnemyProtectCount:: db ; c681
+wEnemyTauntCount:: db
 
 wPlayerDamageTaken:: dw ; c682
 wEnemyDamageTaken:: dw ; c684
@@ -619,34 +636,73 @@ wPlayerScreens:: ; c6ff
 ; 6
 ; 5
 ; 4 reflect
-; 3 light screen
+; 3 light_screen
 ; 2 safeguard
-; 1
-; 0 spikes
+; 1 tailwind
+; 2 aurora veil
+	db
+
+wPlayerScreens2::
+; bit
+; 7
+; 6
+; 5 stealth rocks
+; 4 spikes 1
+; 3 spikes 2
+; 2 toxic spikes 1
+; 1 toxic spikes 2
+; 0 sticky webs
 	db
 
 wEnemyScreens:: ; c700
 ; see wPlayerScreens
 	db
 
+wEnemyScreens2::
+; see wPlayerScreens2
+	db
+
 wPlayerSafeguardCount:: db ; c701
 wPlayerLightScreenCount:: db ; c702
 wPlayerReflectCount:: db ; c703
+wPlayerAuroraVeilCount:: db
+wPlayerTailwindCount:: db
 	ds 1
 
 wEnemySafeguardCount:: db ; c705
 wEnemyLightScreenCount:: db ; c706
 wEnemyReflectCount:: db ; c707
+wEnemyAuroraVeilCount:: db
+wEnemyTailwindCount:: db
 	ds 2
+
+wBattleArenaEffects::
+; 7
+; 6
+; 5 gravity
+; 4 trick room
+; 3 electric terrain
+; 2 grassy terrain
+; 1 misty terrain
+; 0 psychic terrain
+
+wTerrainCount::
+; # turns remaining
+	db
+
+wTrickRoomCount:: db
+wGravityCount:: db
 
 wBattleWeather:: ; c70a
 ; 00 normal
 ; 01 rain
 ; 02 sun
 ; 03 sandstorm
-; 04 rain stopped
-; 05 sunliight faded
-; 06 sandstorm subsided
+; 04 hail
+; 05 rain stopped
+; 06 sunliight faded
+; 07 sandstorm subsided
+; 08 hail subsided
 	db
 
 wWeatherCount:: ; c70b
@@ -1697,8 +1753,8 @@ NEXTU ; d002
 ; movement buffer data
 wMovementBufferCount:: db
 wMovementBufferObject:: db
-;wUnusedMovementBufferBank:: db
-;wUnusedMovementBufferPointer:: dw
+wUnusedMovementBufferBank:: db
+wUnusedMovementBufferPointer:: dw
 wMovementBuffer:: ds 55
 
 NEXTU ; d002
@@ -1715,12 +1771,12 @@ NEXTU ; d002
 wPlaceBallsDirection:: db
 wTrainerHUDTiles:: ds 4
 
-;NEXTU ; d002
+NEXTU ; d002
 ; mobile participant nicknames
-;	ds 4
-;wMobileParticipant1Nickname:: ds NAME_LENGTH_JAPANESE
-;wMobileParticipant2Nickname:: ds NAME_LENGTH_JAPANESE
-;wMobileParticipant3Nickname:: ds NAME_LENGTH_JAPANESE
+	ds 4
+wMobileParticipant1Nickname:: ds NAME_LENGTH_JAPANESE
+wMobileParticipant2Nickname:: ds NAME_LENGTH_JAPANESE
+wMobileParticipant3Nickname:: ds NAME_LENGTH_JAPANESE
 
 NEXTU ; d002
 ; earthquake data buffer
@@ -2153,8 +2209,6 @@ wOtherDecoration::    db
 wCurEnemyItem:: db
 ENDU ; d1f7
 
-	ds 3
-
 wLinkBattleRNs:: ds 10 ; d1fa
 
 wTempEnemyMonSpecies::  dw ; d204
@@ -2197,7 +2251,7 @@ wMoveSelectionMenuType:: db
 
 ; corresponds to the data/pokemon/base_stats/*.asm contents
 wCurBaseData:: ; d236
-wBaseDexNo:: dw ; d236
+wBaseDexNo:: dw ; d236	;could separate.. todo
 wBaseStats:: ; d237
 wBaseHP:: db ; d237
 wBaseAttack:: db ; d238
@@ -2226,7 +2280,7 @@ wCurBaseDataEnd::
 
 wCurDamage:: dw ; d256
 
-	ds 2
+	ds 1
 
 wMornEncounterRate::  db ; d25a
 wDayEncounterRate::   db ; d25b
@@ -2273,16 +2327,16 @@ UNION ; d26b
 wPokedexShowPointerAddr:: dw
 wPokedexShowPointerBank:: db
 	ds 3
-;wd271:: dw ; mobile
+wd271:: dw ; mobile
 
-;NEXTU ; d26b
+NEXTU ; d26b
 wUnusedEggHatchFlag:: db
 
 NEXTU ; d26b
 ; enemy party
 wOTPlayerName:: ds NAME_LENGTH ; d26b
 wOTPlayerID:: dw ; d276
-	ds 8
+	ds 2
 wOTPartyCount::   db ; d280
 wOTPartySpecies:: ds PARTY_LENGTH * 2 ; d281
 wOTPartyEnd::     db ; older code doesn't check PartyCount
@@ -2292,15 +2346,15 @@ UNION ; d288
 ; ot party mons
 wOTPartyMons::
 wOTPartyMon1:: party_struct wOTPartyMon1 ; d288
-wOTPartyMon2:: party_struct wOTPartyMon2 ; d2b8
-wOTPartyMon3:: party_struct wOTPartyMon3 ; d2e8
-wOTPartyMon4:: party_struct wOTPartyMon4 ; d318
-wOTPartyMon5:: party_struct wOTPartyMon5 ; d348
-wOTPartyMon6:: party_struct wOTPartyMon6 ; d378
+wOTPartyMon2:: party_struct wOTPartyMon2 ; d2bd
+wOTPartyMon3:: party_struct wOTPartyMon3 ; d2f2
+wOTPartyMon4:: party_struct wOTPartyMon4 ; d327
+wOTPartyMon5:: party_struct wOTPartyMon5 ; d35c
+wOTPartyMon6:: party_struct wOTPartyMon6 ; d391
 wOTPartyMonsEnd::
 
-wOTPartyMonOT:: ds NAME_LENGTH * PARTY_LENGTH ; d3a8
-wOTPartyMonNicknames:: ds MON_NAME_LENGTH * PARTY_LENGTH ; d3ea
+wOTPartyMonOT:: ds NAME_LENGTH * PARTY_LENGTH ; d3c6
+wOTPartyMonNicknames:: ds MON_NAME_LENGTH * PARTY_LENGTH ; d408
 wOTPartyDataEnd::
 	ds 4
 
@@ -2319,9 +2373,9 @@ wDudeNumBalls:: db ; d2a6
 wDudeBalls:: ds 2 * 4 ; d2a7
 wDudeBallsEnd:: db ; d2af
 wDudeBagEnd::
-ENDU ; d430
+ENDU ; d44e
 
-;wd430:: ; mobile
+wd430:: ; mobile
 wBattleAction:: db ; d430
 
 wd431:: db ; mobile
@@ -2466,7 +2520,7 @@ wObjectStructsEnd:: ; d6de
 
 wCmdQueue:: ds CMDQUEUE_CAPACITY * CMDQUEUE_ENTRY_SIZE
 
-;	ds 40
+	ds 10
 
 wMapObjects:: ; d71e
 wPlayerObject:: map_object wPlayer
@@ -2581,7 +2635,7 @@ wMooMooBerries:: db ; d962
 wUndergroundSwitchPositions:: db ; d963
 wFarfetchdPosition:: db ; d964
 
-	ds 13
+	ds 11
 
 ; map scene ids
 wPokecenter2FSceneID::                            db ; d972
@@ -2661,14 +2715,14 @@ wVermilionPortSceneID::                           db ; d9bb
 wFastShip1FSceneID::                              db ; d9bc
 wFastShipB1FSceneID::                             db ; d9bd
 wMountMoonSquareSceneID::                         db ; d9be
-;wMobileTradeRoomSceneID::                         db ; d9bf
-;wMobileBattleRoomSceneID::                        db ; d9c0
+wMobileTradeRoomSceneID::                         db ; d9bf
+wMobileBattleRoomSceneID::                        db ; d9c0
 
 ;	ds 49
 
 ; fight counts
 wJackFightCount::    db ; d9f2
-;wBeverlyFightCount:: db ; unused
+wBeverlyFightCount:: db ; unused
 wHueyFightCount::    db
 wGavenFightCount::   db
 wBethFightCount::    db
@@ -2681,18 +2735,18 @@ wLizFightCount::     db
 wAnthonyFightCount:: db
 wToddFightCount::    db
 wGinaFightCount::    db
-;wIrwinFightCount::   db ; unused
+wIrwinFightCount::   db ; unused
 wArnieFightCount::   db
 wAlanFightCount::    db
 wDanaFightCount::    db
 wChadFightCount::    db
-;wDerekFightCount::   db ; unused
+wDerekFightCount::   db ; unused
 wTullyFightCount::   db
 wBrentFightCount::   db
 wTiffanyFightCount:: db
 wVanceFightCount::   db
 wWiltonFightCount::  db
-;wKenjiFightCount::   db ; unused
+wKenjiFightCount::   db ; unused
 wParryFightCount::   db
 wErinFightCount::    db
 ; da0e

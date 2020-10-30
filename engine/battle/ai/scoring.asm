@@ -215,6 +215,7 @@ AI_Types:
 	push de
 	push bc
 	ld a, [wEnemyMoveStruct + MOVE_TYPE]
+	and TYPE_MASK
 	ld d, a
 	ld hl, wEnemyMonMoves
 	ld b, NUM_MOVES + 1
@@ -237,6 +238,7 @@ AI_Types:
 	call AIGetEnemyMove
 	pop bc
 	ld a, [wEnemyMoveStruct + MOVE_TYPE]
+	and TYPE_MASK
 	cp d
 	jr z, .checkmove2
 	ld a, [wEnemyMoveStruct + MOVE_POWER]
@@ -393,7 +395,7 @@ AI_Smart:
 	dbw EFFECT_THIEF,            AI_Smart_Thief
 	dbw EFFECT_MEAN_LOOK,        AI_Smart_MeanLook
 	dbw EFFECT_NIGHTMARE,        AI_Smart_Nightmare
-	dbw EFFECT_FLAME_WHEEL,      AI_Smart_FlameWheel
+	dbw EFFECT_DEFROST_BURN_HIT, AI_Smart_Defrost
 	dbw EFFECT_CURSE,            AI_Smart_Curse
 	dbw EFFECT_PROTECT,          AI_Smart_Protect
 	dbw EFFECT_FORESIGHT,        AI_Smart_Foresight
@@ -427,7 +429,16 @@ AI_Smart:
 	dbw EFFECT_SOLARBEAM,        AI_Smart_Solarbeam
 	dbw EFFECT_THUNDER,          AI_Smart_Thunder
 	dbw EFFECT_FLY,              AI_Smart_Fly
-	dbw EFFECT_BURN_UP,	     AI_Smart_BurnUp
+	dbw EFFECT_BURN_UP,          AI_Smart_BurnUp
+	dbw EFFECT_SOAK,             AI_Smart_Soak
+	dbw EFFECT_USERSTATSDOWN_HIT, AI_Smart_UserStatsDown
+	dbw EFFECT_TURN_HIT,         AI_Smart_TurnHit
+	dbw EFFECT_DOUBLE_IF_FIRST,  AI_Smart_DoubleIfFirst
+	dbw EFFECT_FELL_STINGER,     AI_Smart_FellStinger
+	dbw EFFECT_ACROBATICS,       AI_Smart_Acrobatics
+	dbw EFFECT_FACADE,           AI_Smart_Facade
+	dbw EFFECT_HEX,              AI_Smart_Hex
+	dbw EFFECT_VENOSHOCK,        AI_Smart_Venoshock
 	db -1 ; end
 
 AI_Smart_Sleep:
@@ -1191,14 +1202,15 @@ AI_Smart_SpDefenseUp2:
 
 ; 80% chance to greatly encourage this move if
 ; enemy's Special Defense level is lower than +2, and the player is of a special type.
+; not very sensible if you implement phsyical/special split
 	cp $9
 	ret nc
 
 	ld a, [wBattleMonType1]
-	cp SPECIAL
+	cp SPECIAL_TYPES
 	jr nc, .asm_38b09
 	ld a, [wBattleMonType2]
-	cp SPECIAL
+	cp SPECIAL_TYPES
 	ret c
 
 .asm_38b09
@@ -1432,7 +1444,7 @@ AI_Smart_Counter:
 	jr z, .asm_38c0e
 
 	ld a, [wEnemyMoveStruct + MOVE_TYPE]
-	cp SPECIAL
+	call AIDeterminePhysicalSpecial
 	jr nc, .asm_38c0e
 
 	inc d
@@ -1463,7 +1475,7 @@ AI_Smart_Counter:
 	jr z, .asm_38c38
 
 	ld a, [wEnemyMoveStruct + MOVE_TYPE]
-	cp SPECIAL
+	call AIDeterminePhysicalSpecial
 	jr nc, .asm_38c38
 
 .asm_38c30
@@ -1499,6 +1511,7 @@ AI_Smart_Encore:
 
 	push hl
 	ld a, [wEnemyMoveStruct + MOVE_TYPE]
+	and TYPE_MASK
 	ld hl, wEnemyMonType1
 	predef CheckTypeMatchup
 
@@ -1869,6 +1882,7 @@ AI_Smart_MeanLook:
 	ret
 
 AICheckLastPlayerMon:
+; returns z if the player is on their last mon
 	ld a, [wPartyCount]
 	ld b, a
 	ld c, 0
@@ -1903,7 +1917,7 @@ AI_Smart_Nightmare:
 	dec [hl]
 	ret
 
-AI_Smart_FlameWheel:
+AI_Smart_Defrost:
 ; Use this move if the enemy is frozen.
 
 	ld a, [wEnemyMonStatus]
@@ -1934,10 +1948,11 @@ AI_Smart_Curse:
 	ld a, [wBattleMonType1]
 	cp GHOST
 	jr z, .asm_38e92
-	cp SPECIAL
+; not very smart after phys/spec split
+	cp SPECIAL_TYPES
 	ret nc
 	ld a, [wBattleMonType2]
-	cp SPECIAL
+	cp SPECIAL_TYPES
 	ret nc
 	call AI_80_20
 	ret c
@@ -2372,7 +2387,15 @@ AI_Smart_RapidSpin:
 	jr nz, .asm_39097
 
 	ld a, [wEnemyScreens]
-	bit SCREENS_SPIKES, a
+	bit SCREENS_STEALTH_ROCKS, a
+	jr nz, .asm_39097
+	bit SCREENS_TOXIC_SPIKES_1, a
+	jr nz, .asm_39097
+	bit SCREENS_STICKY_WEB, a
+	jr nz, .asm_39097
+	bit SCREENS_SPIKES_1, a
+	jr nz, .asm_39097
+	bit SCREENS_SPIKES_2, a
 	ret z
 
 .asm_39097
@@ -2613,7 +2636,7 @@ AI_Smart_MirrorCoat:
 	jr z, .asm_391a8
 
 	ld a, [wEnemyMoveStruct + MOVE_TYPE]
-	cp SPECIAL
+	call AIDeterminePhysicalSpecial
 	jr c, .asm_391a8
 
 	inc d
@@ -2644,7 +2667,7 @@ AI_Smart_MirrorCoat:
 	jr z, .asm_391d2
 
 	ld a, [wEnemyMoveStruct + MOVE_TYPE]
-	cp SPECIAL
+	call AIDeterminePhysicalSpecial
 	jr c, .asm_391d2
 
 .asm_391ca
@@ -2781,6 +2804,183 @@ rept 5
 endr
 	ret
 
+AI_Smart_Soak:
+; Dismiss this move if the player is pure water type.
+	ld a, [wBattleMonType1]
+	cp WATER
+	ret nz
+	ld a, [wBattleMonType2]
+	cp WATER
+	ret nz
+	jp AIDiscourageMove
+
+AI_Smart_UserStatsDown:
+; Powerful moves that drop the users stats.
+; Encourage if the enemy has < 25% hp
+	call AICheckEnemyQuarterHP
+	jr nc, .encourage
+; else, encourage if the player has only one pokemon left
+	push hl
+	call AICheckLastPlayerMon
+	pop hl
+	jr z, .encourage
+; else, 80% chance to encourage if the player has shown super effective moves
+	push hl
+	callfar CheckPlayerMoveTypeMatchups
+	ld a, [wEnemyAISwitchScore]
+	cp 10 ; neutral
+	pop hl
+	jr nc, .skip
+	call AI_80_20
+	jr nc, .encourage
+.skip
+; else, don't discourage if enemy has a switching move
+	call AIHasMoveEffect
+	ret c
+; else, 50% chance not to discourage if enemy has < 50% hp
+	call AICheckEnemyHalfHP
+	jr c, .skip2
+	call AI_50_50
+	ret nc
+.skip2
+; else, 10% chance not to discourage if the enemy has at least two pokemon left
+	push hl
+	farcall FindAliveEnemyMons
+	pop hl
+	jr c, .skip3
+	call Random
+	cp 10 percent + 1
+	ret c
+.skip3
+; else, discourage
+	inc [hl]
+	ret
+
+.encourage
+	dec [hl]
+	ret
+
+AI_Smart_TurnHit:
+; 80% chance to encourage this move if any of enemy's stat levels is lower than -2.
+	push hl
+	ld hl, wEnemyAtkLevel
+	ld c, $8
+.loop
+	dec c
+	jr z, .check_boosts
+	ld a, [hli]
+	cp $5
+	jr c, .encourage
+	jr .loop
+
+.encourage
+	pop hl
+	call Random
+	call AI_80_20
+	ret c
+	dec [hl]
+	ret
+
+.check_boosts
+; otherwise, 80% chance to discourage this move if any of enemy's stat levels is higher than +0.
+	dec hl
+	ld c, $8
+.loop2
+	dec c
+	jr z, .check_hazards
+	ld a, [hld]
+	cp $8
+	jr nc, .discourage
+	jr .loop2
+
+.check_hazards
+	ld a, [wEnemyScreens]
+; encourage if toxic spikes are up and enemy mon is poison type
+	bit SCREENS_TOXIC_SPIKES_1, a
+	jr z, .no_tspikes
+	ld a, [wEnemyMonType1]
+	cp POISON
+	jr z, .encourage
+	ld a, [wEnemyMonType2]
+	cp POISON	
+	jr z, .encourage
+.no_tspikes
+; otherwise 80% chance to discourage this move if hazards are up
+	bit SCREENS_STEALTH_ROCKS, a
+	jr nz, .discourage
+	bit SCREENS_SPIKES_1, a
+	jr nz, .discourage
+	bit SCREENS_SPIKES_2, a
+	ret z
+
+.discourage
+	pop hl
+	call Random
+	call AI_80_20
+	ret c
+	inc [hl]
+	ret
+
+AI_Smart_DoubleIfFirst:
+; encourage if enemy faster than player
+	call AICompareSpeed
+	ret nc
+	dec [hl]
+	ret
+
+AI_Smart_FellStinger:
+; greatly encourage if player hp below 12.5%
+	call AICheckPlayerEighthHP
+	ret c
+	dec [hl]
+	dec [hl]
+	ret
+
+AI_Smart_Acrobatics:
+; encourage if enemy is not holding an item
+	ld a, [wEnemyMonItem]
+	and a
+	ret nz
+	dec [hl]
+	ret
+
+AI_Smart_Facade:
+; encourage if enemy is burnt, paralysed, or poisoned
+	ld a, [wEnemyMonStatus]
+	and 1 << PSN | BRN | PAR
+	ret z
+	dec [hl]
+	ret
+
+AI_Smart_Hex:
+; encourage if player is statused
+	ld a, [wBattleMonStatus]
+	and a
+	ret z
+	dec [hl]
+	ret
+
+AI_Smart_Venoshock:
+; encourage if player is poisoned
+	ld a, [wBattleMonStatus]
+	and 1 << PSN
+	ret z
+	dec [hl]
+	ret
+
+AIDeterminePhysicalSpecial:
+; returns nc if move is special or status
+; z if move is special
+; c if move is physical
+	and STATUS
+	jr z, .from_type
+	cp SPECIAL
+	ret
+
+.from_type
+	cp SPECIAL_TYPES
+	ret
+
 AICompareSpeed:
 ; Return carry if enemy is faster than player.
 
@@ -2900,11 +3100,34 @@ AICheckEnemyQuarterHP:
 	ret
 
 AICheckPlayerQuarterHP:
+; returns nc if players hp below 25%
 	push hl
 	ld hl, wBattleMonHP
 	ld b, [hl]
 	inc hl
 	ld c, [hl]
+	sla c
+	rl b
+	sla c
+	rl b
+	inc hl
+	inc hl
+	ld a, [hld]
+	cp c
+	ld a, [hl]
+	sbc b
+	pop hl
+	ret
+
+AICheckPlayerEighthHP:
+; returns nc if players hp below 12.5%
+	push hl
+	ld hl, wBattleMonHP
+	ld b, [hl]
+	inc hl
+	ld c, [hl]
+	sla c
+	rl b
 	sla c
 	rl b
 	sla c

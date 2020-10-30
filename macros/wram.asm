@@ -5,6 +5,7 @@ flag_array: MACRO
 ENDM
 
 box_struct: MACRO
+; length: 37
 \1Species::        dw
 \1Item::           db
 \1Moves::          ds NUM_MOVES * 2
@@ -30,6 +31,7 @@ box_struct: MACRO
 ENDM
 
 party_struct: MACRO
+; length: 37 + 16 = 53
 	box_struct \1
 \1Status::         db
 \1Unused::         db

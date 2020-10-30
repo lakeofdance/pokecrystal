@@ -1,4 +1,4 @@
-#!/usr/bin/awk -f
+#!/usr/local/Cellar/gawk/5.1.0/bin/gawk -f
 
 # Usage: tools/free_space.awk pokecrystal.map
 
