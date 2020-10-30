@@ -258,9 +258,10 @@ EggMovePointers::
 	dw FroakieEggMoves
 	dw NoEggMoves
 	dw NoEggMoves
+	dw NincadaEggMoves
 	dw NoEggMoves
 	dw NoEggMoves
-	dw NoEggMoves
+;end
 	dw NoEggMoves
 	dw NoEggMoves
 	dw NoEggMoves

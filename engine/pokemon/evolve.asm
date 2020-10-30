@@ -93,6 +93,9 @@ EvolveAfterBattle_MasterLoop:
 	cp EVOLVE_HAPPINESS
 	jr z, .happiness
 
+	cp EVOLVE_MYSTERY
+	jp z, .dont_evolve_2
+
 ; EVOLVE_STAT
 	ld a, [wTempMonLevel]
 	cp [hl]
@@ -318,6 +321,8 @@ EvolveAfterBattle_MasterLoop:
 	dec de
 	call SetSeenAndCaughtMon
 
+	call GiveShedinja
+
 	ld a, [wTempSpecies + 1]
 	and a
 	jr nz, .skip_unown
@@ -332,14 +337,10 @@ EvolveAfterBattle_MasterLoop:
 .skip_unown
 	pop de
 	pop hl
-;	ld a, [wTempMonSpecies]
-;	ld [hl], a
-;
 	ld a, [wTempMonSpecies + 1]
 	ld [hld], a
 	ld a, [wTempMonSpecies]
 	ld [hli], a
-;
 	push hl
 	ld l, e
 	ld h, d
@@ -501,7 +502,7 @@ LearnLevelMoves:
 	sub d
 	ld c, a
 	ld a, [hli]
-	cp e
+	sub e
 	or c	
 	jr z, .has_move
 	dec b
@@ -755,4 +756,57 @@ GetPreEvolution:
 	ld a, b
 	ld [wCurPartySpecies + 1], a
 	scf
+	ret
+
+GiveShedinja:
+; Did we just evolve into a ninjask?
+	ld bc, NINJASK
+	ld a, [wEvolutionNewSpecies]
+	sub c
+	ld c, a
+	ld a, [wEvolutionNewSpecies + 1]
+	sub b
+	or c
+	ret nz
+
+; Do we have space in the party?
+	ld de, wPartyCount
+	inc a
+	cp PARTY_LENGTH + 1
+	ret nc
+
+; Do we have a pokeball?
+	ld a, POKE_BALL
+	ld [wCurItem], a
+	ld hl, wNumItems
+	call CheckItem
+	ret nc
+; If yes, use it up
+	ld a, 1
+	ld [wItemQuantityChangeBuffer], a
+	call TossItem
+
+	ld de, SHEDINJA
+	ld a, e
+	ld [wCurPartySpecies], a
+	ld a, d
+	ld [wCurPartySpecies + 1], a
+
+	dec de
+	call SetSeenAndCaughtMon
+
+
+; TryAddMonToParty needs to believe we are not in a wild battle
+; so that it generates the new shedinja's stats and moves
+	ld a, [wBattleMode]
+	ld b, a
+	push bc
+	xor a
+	ld [wBattleMode], a
+	ld a, PARTYMON
+	ld [wMonType], a
+	farcall TryAddMonToParty
+	pop bc
+	ld a, b
+	ld [wBattleMode], a
 	ret

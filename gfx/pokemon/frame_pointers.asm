@@ -258,9 +258,9 @@ FramesPointers:
 	dw FroakieFrames
 	dw FrogadierFrames
 	dw GreninjaFrames
-	dw Mon_106Frames
-	dw Mon_107Frames
-	dw Mon_108Frames
+	dw NincadaFrames
+	dw NinjaskFrames
+	dw ShedinjaFrames
 	dw Mon_109Frames
 	dw Mon_10AFrames
 	dw Mon_10BFrames

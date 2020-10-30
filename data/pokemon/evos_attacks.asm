@@ -3435,6 +3435,51 @@ GreninjaEvosAttacks:
 	dbw 70, HAZE
 	db 0 ; no more level-up moves
 
+NincadaEvosAttacks:
+	dbbw EVOLVE_LEVEL, 20, NINJASK
+	dbbw EVOLVE_MYSTERY, 20, SHEDINJA
+	db 0 ; no more evolutions
+	dbw 1, SCRATCH
+	dbw 1, HARDEN
+	dbw 5, LEECH_LIFE
+	dbw 9, SAND_ATTACK
+	dbw 14, FURY_SWIPES
+	dbw 19, MIND_READER
+	dbw 31, MUD_SLAP
+	dbw 38, METAL_CLAW
+	dbw 45, DIG
+	db 0 ; no more level-up moves
+
+NinjaskEvosAttacks:
+	db 0 ; no more evolutions
+	dbw 1, SCRATCH
+	dbw 1, HARDEN
+	dbw 5, LEECH_LIFE
+	dbw 9, SAND_ATTACK
+	dbw 14, FURY_SWIPES
+	dbw 19, MIND_READER
+	dbw 20, SCREECH
+	dbw 20, DOUBLE_TEAM
+	dbw 20, FURY_CUTTER
+	dbw 25, SWORDS_DANCE
+	dbw 31, SLASH
+	dbw 38, AGILITY
+	dbw 45, BATON_PASS
+	db 0 ; no more level-up moves
+
+ShedinjaEvosAttacks:
+	db 0 ; no more evolutions
+	dbw 1, SCRATCH
+	dbw 1, HARDEN
+	dbw 5, LEECH_LIFE
+	dbw 9, SAND_ATTACK
+	dbw 14, FURY_SWIPES
+	dbw 19, MIND_READER
+	dbw 25, SPITE
+	dbw 31, CONFUSE_RAY
+	dbw 38, SHADOW_BALL
+	db 0 ; no more level-up moves
+
 MonEvosAttacks:
 	db 0 ; no more evolutions
 	dbw 1, TACKLE

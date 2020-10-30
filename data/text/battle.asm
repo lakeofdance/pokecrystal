@@ -1137,6 +1137,11 @@ ProtectingItselfText:
 	line "PROTECTING itself!"
 	done
 
+WonderGuardText:
+	text "<TARGET>"
+	line "was GUARDED!"
+	done
+
 SpikesText:
 	text "SPIKES scattered"
 	line "all around"

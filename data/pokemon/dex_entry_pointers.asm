@@ -259,9 +259,9 @@ PokedexDataPointerTable:
 	dw FroakiePokedexEntry
 	dw FrogadierPokedexEntry
 	dw GreninjaPokedexEntry
-	dw Mon_106PokedexEntry
-	dw Mon_107PokedexEntry
-	dw Mon_108PokedexEntry
+	dw NincadaPokedexEntry
+	dw NinjaskPokedexEntry
+	dw ShedinjaPokedexEntry
 	dw Mon_109PokedexEntry
 	dw Mon_10APokedexEntry
 	dw Mon_10BPokedexEntry

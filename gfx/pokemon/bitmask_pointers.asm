@@ -258,9 +258,9 @@ BitmasksPointers:
 	dw FroakieBitmasks
 	dw FrogadierBitmasks
 	dw GreninjaBitmasks
-	dw Mon_106Bitmasks
-	dw Mon_107Bitmasks
-	dw Mon_108Bitmasks
+	dw NincadaBitmasks
+	dw NinjaskBitmasks
+	dw ShedinjaBitmasks
 	dw Mon_109Bitmasks
 	dw Mon_10ABitmasks
 	dw Mon_10BBitmasks

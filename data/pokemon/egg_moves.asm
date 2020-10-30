@@ -816,5 +816,11 @@ FroakieEggMoves:
 	dw MIND_READER
 	db -1 ; end
 
+NincadaEggMoves:
+	dw ENDURE
+	dw FAINT_ATTACK
+	dw GUST
+	db -1 ; end
+
 NoEggMoves:
 	db -1 ; end

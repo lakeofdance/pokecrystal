@@ -150,7 +150,9 @@ AlphabeticalPokedexOrder:
 	dw NIDORAN_M
 	dw NIDORINA
 	dw NIDORINO
+	dw NINCADA
 	dw NINETALES
+	dw NINJASK
 	dw NOCTOWL
 	dw OCTILLERY
 	dw ODDISH
@@ -198,6 +200,7 @@ AlphabeticalPokedexOrder:
 	dw SEAKING
 	dw SEEL
 	dw SENTRET
+	dw SHEDINJA
 	dw SHELLDER
 	dw SHUCKLE
 	dw SKARMORY

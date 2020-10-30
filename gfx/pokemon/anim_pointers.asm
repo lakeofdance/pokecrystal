@@ -258,9 +258,9 @@ AnimationPointers:
 	dw FroakieAnimation
 	dw FrogadierAnimation
 	dw GreninjaAnimation
-	dw Mon_106Animation
-	dw Mon_107Animation
-	dw Mon_108Animation
+	dw NincadaAnimation
+	dw NinjaskAnimation
+	dw ShedinjaAnimation
 	dw Mon_109Animation
 	dw Mon_10AAnimation
 	dw Mon_10BAnimation

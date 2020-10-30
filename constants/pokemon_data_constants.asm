@@ -46,6 +46,8 @@ GENDER_UNKNOWN EQU -1
 	const GROWTH_MEDIUM_SLOW
 	const GROWTH_FAST
 	const GROWTH_SLOW
+	const GROWTH_ERRATIC
+	const GROWTH_FLUCTUATING
 
 ; wBaseEggGroups values
 	const_def 1
@@ -137,6 +139,9 @@ NUM_HOF_TEAMS EQU 30
 	const EVOLVE_TRADE
 	const EVOLVE_HAPPINESS
 	const EVOLVE_STAT
+; abnormal evolutions, which are dealt with outside of the usual function
+; shedinja
+	const EVOLVE_MYSTERY
 
 ; EVOLVE_HAPPINESS triggers
 	const_def 1

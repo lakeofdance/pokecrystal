@@ -1664,6 +1664,22 @@ CalcMonStatC:
 	and $f
 
 .GotDV:
+; if base HP is 1, then HP should always be 1
+	push af
+	ld a, c
+	cp STAT_HP
+	jr nz, .continue
+	ld a, e
+	cp 1
+	jr nz, .continue
+	ld a, 1
+	ldh [hMultiplicand + 2], a
+	xor a
+	ldh [hMultiplicand + 1], a
+	pop af
+	jr .stat_value_okay
+.continue
+	pop af
 	ld d, 0
 	add e
 	ld e, a

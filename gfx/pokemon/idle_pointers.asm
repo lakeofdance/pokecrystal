@@ -258,9 +258,9 @@ AnimationIdlePointers:
 	dw FroakieAnimationIdle
 	dw FrogadierAnimationIdle
 	dw GreninjaAnimationIdle
-	dw Mon_106AnimationIdle
-	dw Mon_107AnimationIdle
-	dw Mon_108AnimationIdle
+	dw NincadaAnimationIdle
+	dw NinjaskAnimationIdle
+	dw ShedinjaAnimationIdle
 	dw Mon_109AnimationIdle
 	dw Mon_10AAnimationIdle
 	dw Mon_10BAnimationIdle

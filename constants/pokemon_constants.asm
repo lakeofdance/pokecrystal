@@ -283,10 +283,10 @@ JOHTO_POKEMON EQU const_value
 	const FROAKIE    ; 103
 	const FROGADIER  ; 104
 	const GRENINJA   ; 105
+	const NINCADA    ; 106
+	const NINJASK    ; 107
+	const SHEDINJA   ; 108
 NUM_DEX_MONS EQU const_value + -6 	;used in the pokedex
-	const MON_106
-	const MON_107
-	const MON_108
 	const MON_109
 	const MON_10A
 	const MON_10B

@@ -257,3 +257,6 @@ NewPokedexOrder:
 	dw FROAKIE
 	dw FROGADIER
 	dw GRENINJA
+	dw NINCADA
+	dw NINJASK
+	dw SHEDINJA

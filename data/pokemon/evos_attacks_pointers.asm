@@ -260,9 +260,9 @@ EvosAttacksPointers::
 	dw FroakieEvosAttacks
 	dw FrogadierEvosAttacks
 	dw GreninjaEvosAttacks
-	dw MonEvosAttacks
-	dw MonEvosAttacks
-	dw MonEvosAttacks
+	dw NincadaEvosAttacks
+	dw NinjaskEvosAttacks
+	dw ShedinjaEvosAttacks
 	dw MonEvosAttacks
 	dw MonEvosAttacks
 	dw MonEvosAttacks

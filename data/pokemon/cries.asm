@@ -266,9 +266,9 @@ PokemonCries::
 	mon_cry CRY_PIDGEY,      $060,  $17f ; FROAKIE
 	mon_cry CRY_PIDGEY,      $030,  $17f ; FROGADIER
 	mon_cry CRY_EKANS,       $110,  $0f0 ; GRENINJA
-	mon_cry CRY_NIDORAN_M,      0,     0 ; 106
-	mon_cry CRY_NIDORAN_M,      0,     0 ; 107
-	mon_cry CRY_NIDORAN_M,      0,     0 ; 108
+	mon_cry CRY_NIDORAN_M,      0,     0 ; NINCADA
+	mon_cry CRY_NIDORAN_M,      0,     0 ; NINJASK
+	mon_cry CRY_NIDORAN_M,      0,     0 ; SHEDINJA
 	mon_cry CRY_NIDORAN_M,      0,     0 ; 109
 	mon_cry CRY_NIDORAN_M,      0,     0 ; 10A
 	mon_cry CRY_NIDORAN_M,      0,     0 ; 10B

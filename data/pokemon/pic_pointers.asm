@@ -527,12 +527,12 @@ PokemonPicPointers::
 	dba FrogadierBackpic
 	dba GreninjaFrontpic
 	dba GreninjaBackpic
-	dba Mon106Frontpic
-	dba Mon106Backpic
-	dba Mon107Frontpic
-	dba Mon107Backpic
-	dba Mon108Frontpic
-	dba Mon108Backpic
+	dba NincadaFrontpic
+	dba NincadaBackpic
+	dba NinjaskFrontpic
+	dba NinjaskBackpic
+	dba ShedinjaFrontpic
+	dba ShedinjaBackpic
 	dba Mon109Frontpic
 	dba Mon109Backpic
 	dba Mon10AFrontpic

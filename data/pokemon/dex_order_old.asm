@@ -252,6 +252,9 @@ OldPokedexOrder:
 	dw LUGIA
 	dw HO_OH
 	dw CELEBI
+	dw NINCADA
+	dw NINJASK
+	dw SHEDINJA
 	dw YAMASK
 	dw COFAGRIGUS
 	dw FROAKIE
