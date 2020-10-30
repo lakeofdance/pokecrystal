@@ -51,6 +51,8 @@ TMHMMoves:
 	dw FIRE_PUNCH
 	dw FURY_CUTTER
 	dw NIGHTMARE
+	dw SOFTBOILED		; temporary
+	dw SOAK			; temporary
 ; HMs
 	dw CUT
 	dw FLY
