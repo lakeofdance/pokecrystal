@@ -93,6 +93,9 @@ EvolveAfterBattle_MasterLoop:
 	cp EVOLVE_HAPPINESS
 	jr z, .happiness
 
+	cp EVOLVE_MEGA
+	jp z, .dont_evolve_2	
+
 	cp EVOLVE_MYSTERY
 	jp z, .dont_evolve_2
 
@@ -445,7 +448,7 @@ Text_StoppedEvolving:
 
 Text_WhatEvolving:
 	; What? @ is evolving!
-	text_far UnknownText_0x1c4be3
+	text_far BattleText_Evolving
 	text_end
 
 LearnLevelMoves:

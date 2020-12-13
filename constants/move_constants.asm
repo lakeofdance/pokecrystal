@@ -573,6 +573,7 @@ NUM_ATTACKS EQU const_value + -1
 	const ANIM_IN_HAIL           ; 
 	const ANIM_IN_NIGHTMARE      ; 
 	const ANIM_IN_WHIRLPOOL      ; 
+	const ANIM_MEGA_EVOLVE
 ; battle anims
 	const ANIM_MISS              ; 
 	const ANIM_ENEMY_DAMAGE      ; 

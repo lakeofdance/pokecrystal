@@ -286,8 +286,13 @@ JOHTO_POKEMON EQU const_value
 	const NINCADA    ; 106
 	const NINJASK    ; 107
 	const SHEDINJA   ; 108
+; Mega pokemon automatically devolve after battle. 
+MEGA_POKEMON_START EQU const_value
+	const VENUSAUR_MEGA
+MEGA_POKEMON_END EQU const_value
+
 NUM_DEX_MONS EQU const_value + -6 	;used in the pokedex
-	const MON_109
+
 	const MON_10A
 	const MON_10B
 	const MON_10C

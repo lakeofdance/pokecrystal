@@ -221,6 +221,10 @@ AI_TryItem:
 	ld hl, wEnemySubStatus3
 	res SUBSTATUS_BIDE, [hl]
 
+	ld hl, wMegaAction
+	res ENEMY_CAN_MEGA, [hl]
+	res ENEMY_WILL_MEGA, [hl]
+
 	xor a
 	ld [wEnemyFuryCutterCount], a
 	ld [wEnemyProtectCount], a
@@ -622,6 +626,10 @@ AI_TrySwitch:
 	ret
 
 AI_Switch:
+	ld hl, wMegaAction
+	res ENEMY_CAN_MEGA, [hl]
+	res ENEMY_WILL_MEGA, [hl]
+
 	ld a, $1
 	ld [wEnemyIsSwitching], a
 	ld [wEnemyGoesFirst], a

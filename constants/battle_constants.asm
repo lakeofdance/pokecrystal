@@ -281,6 +281,15 @@ SUBSTATUS_CURLED EQU 0
 	const BATTLEPLAYERACTION_USEITEM
 	const BATTLEPLAYERACTION_SWITCH
 
+; wMegaAction
+	enum_start 5, -1
+	enum PLAYER_CAN_MEGA
+	enum PLAYER_WILL_MEGA
+	enum PLAYER_HAS_MEGA
+	enum ENEMY_CAN_MEGA
+	enum ENEMY_WILL_MEGA
+	enum ENEMY_HAS_MEGA
+
 ; wBattleResult
 	const_def
 	const WIN

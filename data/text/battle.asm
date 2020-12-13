@@ -1373,3 +1373,9 @@ BurntOutText:
 	text "<USER>"
 	line "burnt itself out!"
 	prompt
+
+MegaEvolvedText:
+	text "<USER>'s"
+	line "power rose"
+	cont "immensely!"
+	prompt

@@ -24,7 +24,7 @@ ItemDescriptions:
 	dw EvoStoneDesc
 	dw EvoStoneDesc
 	dw EvoStoneDesc
-	dw TeruSamaDesc
+	dw MegaStoneDesc
 	dw HPUpDesc
 	dw ProteinDesc
 	dw IronDesc
@@ -283,6 +283,10 @@ BicycleDesc:
 EvoStoneDesc:
 	db   "Evolves certain"
 	next "kinds of #MON.@"
+
+MegaStoneDesc:
+	db   "Evolves certain"
+	next "#MON in battle.@"
 
 AntidoteDesc:
 	db   "Cures poisoned"

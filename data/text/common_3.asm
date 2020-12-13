@@ -344,11 +344,27 @@ UnknownText_0x1c4bc5::
 	line "stopped evolving!"
 	prompt
 
-UnknownText_0x1c4be3::
+BattleText_Evolving::
 	text "What? @"
 	text_ram wStringBuffer2
 	text_start
 	line "is evolving!"
+	done
+
+BattleText_PlayerMegaEvolving::
+	text_ram wStringBuffer2
+	text_start
+	line "is reacting to"
+	para "<PLAYER>'s"
+	line "MEGA BRACELET!"
+	done
+
+BattleText_EnemyMegaEvolving::
+	text_ram wStringBuffer2
+	text_start
+	line "is reacting to"
+	para "<ENEMY>'s"
+	line "MEGA BRACELET!"
 	done
 
 UnknownText_0x1c4bfd::

@@ -171,10 +171,15 @@ INCLUDE "engine/battle/core/hazard_effects.asm"
 INCLUDE "engine/battle/core/taunt_checks.asm"
 INCLUDE "engine/battle/core/speed_check.asm"
 
+SECTION "Mega Evolution", ROMX
+
+INCLUDE "engine/battle/mega_evolution.asm"
+
 SECTION "Enemy AI", ROMX
 
 INCLUDE "engine/battle/ai/items.asm"
 INCLUDE "engine/battle/ai/scoring.asm"
+INCLUDE "engine/battle/ai/mega_evolution.asm"
 INCLUDE "data/types/ai_type_matchups.asm"
 
 SECTION "Enemy Trainers", ROMX

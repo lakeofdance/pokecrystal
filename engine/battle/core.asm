@@ -166,6 +166,7 @@ BattleTurn:
 	call HandleBerserkGene
 	call UpdateBattleMonInParty
 	farcall AIChooseMove
+	farcall AIConsiderMegaEvolution
 
 	call CheckPlayerLockedIn
 	jr c, .skip_iteration
@@ -899,6 +900,7 @@ Battle_EnemyFirst:
 	ld [wEnemyGoesFirst], a
 	callfar AI_SwitchOrTryItem
 	jr c, .switch_item
+	callfar MegaEvolveBattleParticipants
 	call EnemyTurn_EndOpponentProtectEndureDestinyBond
 	ld a, [wForcedSwitch]
 	and a
@@ -909,6 +911,7 @@ Battle_EnemyFirst:
 	jp z, HandleEnemyMonFaint
 
 .switch_item
+	callfar MegaEvolveBattleParticipants
 	call SetEnemyTurn
 	call OctolockDrops
 	call ResidualDamage
@@ -937,6 +940,7 @@ Battle_PlayerFirst:
 	call SetEnemyTurn
 	callfar AI_SwitchOrTryItem
 	push af
+	callfar MegaEvolveBattleParticipants
 	call PlayerTurn_EndOpponentProtectEndureDestinyBond
 	pop bc
 	ld a, [wForcedSwitch]
@@ -2519,7 +2523,9 @@ FaintYourPokemon:
 	lb bc, 5, 11
 	call ClearBox
 	ld hl, BattleText_MonFainted
-	jp StdBattleTextbox
+	call StdBattleTextbox
+	farcall RevertCurMegaPartyMon
+	ret
 
 FaintEnemyPokemon:
 	call WaitSFX
@@ -4136,6 +4142,13 @@ InitBattleMon:
 	call CopyBytes
 	callfar ApplyStatusEffectOnPlayerStats
 	call BadgeStatBoosts
+	call ResetMegaFlags
+	ret
+
+ResetMegaFlags:
+	ld hl, wMegaAction
+	res PLAYER_CAN_MEGA, [hl]
+	res PLAYER_WILL_MEGA, [hl]
 	ret
 
 BattleCheckPlayerShininess:
@@ -4379,6 +4392,8 @@ PursuitSwitch:
 
 	ld a, [wCurBattleMon]
 	push af
+
+	callfar MegaEvolveBattleParticipants
 
 	ld hl, DoPlayerTurn
 	ldh a, [hBattleTurn]
@@ -5623,6 +5638,7 @@ MoveSelectionScreen:
 	ld de, wListMoves_MoveIndicesBuffer
 	ld bc, NUM_MOVES * 2
 	call CopyBytes
+	farcall MegaButton
 	xor a
 	ldh [hBGMapMode], a
 
@@ -5678,15 +5694,15 @@ MoveSelectionScreen:
 	ld c, STATICMENU_ENABLE_LEFT_RIGHT | STATICMENU_ENABLE_START | STATICMENU_WRAP
 	ld a, [wMoveSelectionMenuType]
 	dec a
-	ld b, D_DOWN | D_UP | A_BUTTON
+	ld b, D_DOWN | D_UP | A_BUTTON | START
 	jr z, .okay
 	dec a
-	ld b, D_DOWN | D_UP | A_BUTTON | B_BUTTON
+	ld b, D_DOWN | D_UP | A_BUTTON | B_BUTTON | START
 	jr z, .okay
 	ld a, [wLinkMode]
 	and a
 	jr nz, .okay
-	ld b, D_DOWN | D_UP | A_BUTTON | B_BUTTON | SELECT
+	ld b, D_DOWN | D_UP | A_BUTTON | B_BUTTON | SELECT | START
 
 .okay
 	ld a, b
@@ -5729,6 +5745,8 @@ MoveSelectionScreen:
 	jp nz, .pressed_down
 	bit SELECT_F, a
 	jp nz, .pressed_select
+	bit START_F, a
+	jp nz, .pressed_start
 	bit B_BUTTON_F, a
 	; A button
 	push af
@@ -5857,6 +5875,11 @@ MoveSelectionScreen:
 	add b
 	ld [hl], a
 	jr .swap_moves_in_party_struct
+
+.pressed_start
+; mega
+	farcall OnOffMegaButton
+	jp .menu_loop
 
 .not_swapping_disabled_move
 	ld a, [wMoveSwapBuffer]
@@ -6292,6 +6315,10 @@ ParseEnemyAction:
 	ld [wCurEnemyMove], a
 	ld a, b
 	ld [wCurEnemyMove + 1], a
+; dont mega evolve
+	ld hl, wMegaAction
+	res ENEMY_CAN_MEGA, [hl]
+	res ENEMY_WILL_MEGA, [hl]
 	jr .finish
 
 ResetVarsForSubstatusRage:
@@ -8494,6 +8521,7 @@ ExitBattle:
 	ret
 
 .HandleEndOfBattle:
+	farcall RevertMegaEvolvedPartyMons
 	ld a, [wLinkMode]
 	and a
 	jr z, .not_linked

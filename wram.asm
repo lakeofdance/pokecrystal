@@ -760,6 +760,15 @@ wPlayerJustGotFrozen:: db ; c73c
 wEnemyJustGotFrozen:: db ; c73d
 
 wPlayerJustUsedTurningMove:: db
+wMegaAction:: db
+; mega flags
+; 00 player can mega
+; 01 player will mega
+; 02 player has mega
+; 03 enemy can mega
+; 04 enemy will mega
+; 05 enemy has mega
+
 wBattleEnd::
 
 NEXTU ; c608

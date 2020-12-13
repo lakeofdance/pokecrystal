@@ -51,10 +51,18 @@ _PlayBattleAnim:
 	ret
 
 BattleAnimRunScript:
+; move anims remove the hud
+	ld bc, NUM_ATTACKS
 	ld a, [wFXAnimID + 1]
-	and a
+	sub b
+	jr c, .move
+	jr nz, .hi_byte
+	ld a, [wFXAnimID]
+	cp c
+	jr c, .move
 	jr nz, .hi_byte
 
+.move
 	farcall CheckBattleScene
 	jr c, .disabled
 
@@ -343,6 +351,7 @@ BattleAnimCommands::
 	dw BattleAnimCmd_Loop
 	dw BattleAnimCmd_Call
 	dw BattleAnimCmd_Ret
+	dw BattleAnimCmd_MegaEvolve
 
 BattleAnimCmd_Ret:
 	ld hl, wBattleAnimFlags
@@ -901,6 +910,50 @@ BattleAnimCmd_UpdateActorPic:
 	ld b, 0
 	ld c, 6 * 6
 	call Request2bpp
+	ret
+
+BattleAnimCmd_MegaEvolve:
+; megaevolve
+	ldh a, [rSVBK]
+	push af
+	ld a, BANK(wCurPartySpecies)
+	ldh [rSVBK], a
+	ld a, [wCurPartySpecies]
+	push af
+	ld a, [wCurPartySpecies + 1]
+	push af
+
+	ldh a, [hBattleTurn]
+	and a
+	jr nz, .enemy
+
+	ld a, [wBattleMonSpecies]
+	ld [wCurPartySpecies], a
+	ld a, [wBattleMonSpecies + 1]
+	ld [wCurPartySpecies + 1], a
+	ld hl, wBattleMonDVs
+	predef GetUnownLetter
+	ld de, vTiles0 tile $00
+	predef GetMonBackpic
+	jr .done
+
+.enemy
+	ld a, [wEnemyMonSpecies]
+	ld [wCurPartySpecies], a
+	ld a, [wEnemyMonSpecies + 1]
+	ld [wCurPartySpecies + 1], a
+	ld hl, wEnemyMonDVs
+	predef GetUnownLetter
+	ld de, vTiles0 tile $00
+	predef GetMonFrontpic
+
+.done
+	pop af
+	ld [wCurPartySpecies + 1], a
+	pop af
+	ld [wCurPartySpecies], a
+	pop af
+	ldh [rSVBK], a
 	ret
 
 BattleAnimCmd_RaiseSub:

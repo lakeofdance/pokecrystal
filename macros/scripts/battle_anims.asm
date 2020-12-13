@@ -250,3 +250,8 @@ ENDM
 anim_ret: MACRO
 	db anim_ret_command
 ENDM
+
+	enum anim_megaevolve_command
+anim_megaevolve: MACRO
+	db anim_megaevolve_command
+ENDM
