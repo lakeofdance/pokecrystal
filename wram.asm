@@ -2145,9 +2145,9 @@ wTilesetBlocksBank:: db ; d1dc
 wTilesetBlocksAddress:: dw ; d1dd
 wTilesetCollisionBank:: db ; d1df
 wTilesetCollisionAddress:: dw ; d1e0
+wTilesetAttributesBank:: db
+wTilesetAttributesAddress:: dw
 wTilesetAnim:: dw ; bank 3f ; d1e2
-	ds 2 ; unused, but not removable ; d1e4
-wTilesetPalettes:: dw ; bank 3f ; d1e6
 wTilesetEnd::
 
 wEvolvableFlags:: flag_array PARTY_LENGTH ; d1e8
@@ -2202,6 +2202,8 @@ wOtherDecoration::    db
 	ds 3
 wCurEnemyItem:: db
 ENDU ; d1f7
+
+wTilesetDataAddress:: dw
 
 wLinkBattleRNs:: ds 10 ; d1fa
 
@@ -2750,7 +2752,10 @@ wErinFightCount::    db
 wEventFlags:: flag_array NUM_EVENTS ; da72
 ; db6c
 
-	ds 6
+wRandomOTPartyFlags:: flag_array MAX_RANDOM_POOL
+; flags for OT party mons when drawing at random
+
+	ds 2
 
 wCurBox:: db ; db72
 
@@ -3086,6 +3091,12 @@ w3_dd68:: ds SCREEN_WIDTH * SCREEN_HEIGHT
 
 w3_dfec:: ds $10
 w3_dffc:: ds 4
+
+SECTION "Surrounding Data", WRAMX
+
+wSurroundingTiles:: ds SURROUNDING_WIDTH * SURROUNDING_HEIGHT
+
+wSurroundingAttributes:: ds SURROUNDING_WIDTH * SURROUNDING_HEIGHT
 
 SECTION "GBC Video", WRAMX
 
