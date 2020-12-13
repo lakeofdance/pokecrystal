@@ -21,7 +21,6 @@ BattleCommand_Conversion2:
 	ld c, a
 	ld a, [hl]
 	ld b, a
-	dec bc
 	ld hl, Moves + MOVE_TYPE
 	call GetMoveAttr2
 	and TYPE_MASK
@@ -31,7 +30,7 @@ BattleCommand_Conversion2:
 	jr z, .failed
 	push hl
 	farcall AnimateCurrentMove
-	farcall BattleCommand_SwitchTurn
+	call SwitchTurn
 	pop hl
 
 .loop
@@ -63,7 +62,7 @@ BattleCommand_Conversion2:
 	cp EFFECTIVE
 	jr nc, .loop
 	push hl
-	farcall BattleCommand_SwitchTurn
+	call SwitchTurn
 	pop hl
 
 	ld a, [hl]		;

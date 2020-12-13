@@ -55,6 +55,7 @@ VCreateEffect:
 
 CloseCombatEffect:
 DragonAscentEffect:
+OctolockEffect: ; called in battle/core
 	call LowerDefenseStat
 	call StatDownMessage
 	call LowerSpecialDefenseStat
@@ -78,4 +79,5 @@ HyperspaceFuryEffect:
 StatDownMessage:
 	call BattleCommand_SwitchTurn
 	call BattleCommand_StatDownMessage
+	call ResetMiss
 	jp BattleCommand_SwitchTurn

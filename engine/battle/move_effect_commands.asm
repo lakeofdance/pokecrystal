@@ -1,39 +1,13 @@
-CompareMove2:
-; compares the 2 bytes in bc to those pointed to by hl and hl + 1
-; bc is big endian
-; hl points to a little endian word
-; returns z if equal
-; preserves hl and bc
-	push hl
-	push bc
-	ld a, [hli]
-	sub c
-	ld c, a
-	ld a, [hl]
-	sub b
-	or c
-	pop bc
-	pop hl
-	ret
-
-CallBattleCore2:
-	ld a, BANK("Battle Core")
-	rst FarCall
-	ret
-
 GetMoveAttr2:
 ; Assuming hl = Moves + x, return attribute x of move bc (big endian).
 	push bc
+	dec bc
 	ld a, MOVE_LENGTH
 	call AddNTimes
-	call GetMoveByte2
+	ld a, BANK(Moves)
+	call GetFarByte
 	pop bc
 	ret
-
-GetMoveByte2:
-	ld a, BANK(Moves)
-	jp GetFarByte
-
 
 CheckUserMoveLE:
 ; Return z if the user has move bc (little endian).
@@ -55,7 +29,7 @@ CheckUserMove:
 
 	ld d, NUM_MOVES
 .loop
-	call CompareMove2
+	call CompareMove
 	jr z, .end
 
 	dec d
@@ -84,6 +58,12 @@ AnimateCurrentMoveEitherSide:
 	pop bc
 	pop de
 	pop hl
+	ret
+
+SwitchTurn:
+	ldh a, [hBattleTurn]
+	xor 1
+	ldh [hBattleTurn], a
 	ret
 
 ; Some moves stayed in effect_commands.asm
@@ -123,8 +103,6 @@ INCLUDE "engine/battle/move_effects/foresight.asm"
 INCLUDE "engine/battle/move_effects/frustration.asm"
 
 INCLUDE "engine/battle/move_effects/fury_cutter.asm"
-
-INCLUDE "engine/battle/move_effects/future_sight.asm"
 
 INCLUDE "engine/battle/move_effects/heal_bell.asm"
 
@@ -208,7 +186,7 @@ INCLUDE "engine/battle/move_effects/hazards.asm"
 
 INCLUDE "engine/battle/move_effects/acrobatics.asm"
 
-INCLUDE "engine/battle/move_effects/double_damage.asm"
+INCLUDE "engine/battle/battle_commands/double_damage.asm"
 
 INCLUDE "engine/battle/move_effects/brick_break.asm"
 
@@ -223,6 +201,8 @@ INCLUDE "engine/battle/move_effects/reflect_type.asm"
 INCLUDE "engine/battle/move_effects/burning_envy.asm"
 
 INCLUDE "engine/battle/move_effects/incinerate.asm"
+
+INCLUDE "engine/battle/move_effects/bug_bite.asm"
 
 INCLUDE "data/items/berry_items.asm"
 
@@ -242,3 +222,4 @@ INCLUDE "engine/battle/move_effects/weather_ball.asm"
 
 INCLUDE "engine/battle/move_effects/hail.asm"
 
+INCLUDE "engine/battle/move_effects/snatch.asm"

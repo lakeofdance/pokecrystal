@@ -1,6 +1,7 @@
 CompareBytes::
 ; Compare c bytes at de and hl.
 ; Return z if they all match.
+; c if bytes at de < bytes at hl
 .loop
 	ld a, [de]
 	cp [hl]
@@ -32,4 +33,18 @@ CompareBytesLong::
 
 .diff:
 	and a
+	ret
+
+CompareMove::
+; compares the 2 bytes in bc to those pointed to by hl and hl + 1
+; bc is big endian
+; hl points to a little endian word
+; returns z if equal, c if hl < bc
+; preserves hl and bc
+	inc hl
+	ld a, [hld]
+	cp b
+	ret nz
+	ld a, [hl]
+	cp c
 	ret

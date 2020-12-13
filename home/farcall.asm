@@ -47,3 +47,8 @@ ReturnFarCall::
 
 FarJump_hl::
 	jp hl
+
+CallBattleCore::
+	ld a, BANK("Battle Core")
+	rst FarCall
+	ret

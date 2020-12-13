@@ -42,10 +42,10 @@ BattleCommand_Curse:
 	ld [wKickCounter], a
 	farcall AnimateCurrentMove
 	farcall LowerSpeedStat
-	farcall BattleCommand_SwitchTurn
+	call SwitchTurn
 	farcall BattleCommand_StatDownMessage
 	farcall ResetMiss
-	farcall BattleCommand_SwitchTurn
+	call SwitchTurn
 	farcall BattleCommand_AttackUp
 	farcall BattleCommand_StatUpMessage
 	farcall ResetMiss
@@ -68,9 +68,9 @@ BattleCommand_Curse:
 	set SUBSTATUS_CURSE, [hl]
 	farcall AnimateCurrentMove
 	ld hl, GetHalfMaxHP
-	call CallBattleCore2
+	call CallBattleCore
 	ld hl, SubtractHPFromUser
-	call CallBattleCore2
+	call CallBattleCore
 	call UpdateUserInParty
 	ld hl, PutACurseText
 	jp StdBattleTextbox

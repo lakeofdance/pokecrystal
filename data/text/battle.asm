@@ -69,6 +69,11 @@ LeechSeedSapsText:
 	line "<USER>!"
 	prompt
 
+OctolockedText:
+	text "<USER>"
+	line "is OCTOLOCKED!"
+	prompt
+
 HasANightmareText:
 	text "<USER>"
 	line "has a NIGHTMARE!"
@@ -745,6 +750,11 @@ DestinyBondEffectText:
 	cont "opponent with it!"
 	prompt
 
+SnatchEffectText:
+	text "<USER>"
+	line "SNATCHED a move!"
+	prompt
+
 SpiteEffectText:
 	text "<TARGET>'s"
 	line "@"
@@ -768,6 +778,11 @@ FellAsleepText:
 AlreadyAsleepText:
 	text "<TARGET>'s"
 	line "already asleep!"
+	prompt
+
+AlreadyBurnedText:
+	text "<TARGET>'s"
+	line "already burned!"
 	prompt
 
 WasPoisonedText:
@@ -1092,6 +1107,22 @@ IncineratedText:
 	cont "was incinerated!"
 	prompt
 
+PlayerAteEnemyBerryText:
+	text "<USER> ate"
+	line "<TARGET>'s"
+	cont "@"
+	text_ram wStringBuffer1
+	text "!"
+	prompt
+
+EnemyAtePlayerBerryText:
+	text "<USER>"
+	line "ate <TARGET>'s"
+	cont "@"
+	text_ram wStringBuffer1
+	text "!"
+	prompt
+
 CantEscapeNowText:
 	text "<TARGET>"
 	line "can't escape now!"
@@ -1156,7 +1187,7 @@ StealthRocksText:
 
 StickyWebsText:
 	text "STICKY WEBS were"
-	line "lain around"
+	line "thrown around"
 	cont "<TARGET>!"
 	prompt
 
@@ -1306,9 +1337,20 @@ TransferredStatusText:
 	line "<TARGET>!"
 	prompt
 
+InvertedStatsText:
+	text "<TARGET>'s"
+	line "stat changes"
+	cont "were inverted!"
+	prompt
+
 ForesawAttackText:
 	text "<USER>"
 	line "foresaw an attack!"
+	prompt
+
+CuredOppStatusText:
+	text "<TARGET>'s"
+	line "status was cured!"
 	prompt
 
 BeatUpAttackText:

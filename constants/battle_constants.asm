@@ -213,8 +213,9 @@ SUBSTATUS_CURLED EQU 0
 	enum SUBSTATUS_TOXIC
 
 ; wPlayerSubStatus6 or wEnemySubStatus6 bit flags
-	enum_start 1, -1
-	enum SUBSTATUS_HEAL_BLOCK
+	enum_start 2, -1
+	enum SUBSTATUS_OCTOLOCK
+	enum SUBSTATUS_SNATCH
 	enum SUBSTATUS_KINGS_SHIELD
 
 ; wPlayerScreens or wEnemyScreens bit flags

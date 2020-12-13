@@ -536,6 +536,14 @@ BattleAnimations::
 	dw BattleAnim_Tackle		;sucker punch
 	dw BattleAnim_Sandstorm		;hail
 	dw BattleAnim_Reflect		;aurora veil
+	dw BattleAnim_Tackle		;punishment
+	dw BattleAnim_Tackle		;snatch
+	dw BattleAnim_Tackle		;topsy turvy
+	dw BattleAnim_Recover		;purify
+	dw BattleAnim_Tackle		;octolock
+	dw BattleAnim_Tackle		;meteor assault
+	dw BattleAnim_Tackle		;volt tackle
+	dw BattleAnim_Tackle		;bug bite
 	dw BattleAnim_SweetScent2
 	dw BattleAnim_ThrowPokeBall
 	dw BattleAnim_SendOutMon

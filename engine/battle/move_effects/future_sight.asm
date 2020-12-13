@@ -23,13 +23,12 @@ BattleCommand_CheckFutureSight:
 	ld a, [de]
 	ld [wCurDamage + 1], a
 	ld b, futuresight_command
-	farcall SkipToBattleCommand
-	ret
+	jp SkipToBattleCommand
 
 BattleCommand_FutureSight:
 ; futuresight
 
-	farcall CheckUserIsCharging
+	call CheckUserIsCharging
 	jr nz, .AlreadyChargingFutureSight
 	ld a, BATTLE_VARS_MOVE_ANIM
 	call GetBattleVarAddr
@@ -59,11 +58,11 @@ BattleCommand_FutureSight:
 	jr nz, .failed
 	ld a, 4
 	ld [hl], a
-	farcall BattleCommand_LowerSub
-	farcall BattleCommand_MoveDelay
+	call BattleCommand_LowerSub
+	call BattleCommand_MoveDelay
 	ld hl, ForesawAttackText
 	call StdBattleTextbox
-	farcall BattleCommand_RaiseSub
+	call BattleCommand_RaiseSub
 	ld de, wPlayerFutureSightDamage
 	ldh a, [hBattleTurn]
 	and a
@@ -79,13 +78,10 @@ BattleCommand_FutureSight:
 	ld a, [hl]
 	ld [de], a
 	ld [hl], 0
-	farcall EndMoveEffect
-	ret
+	jp EndMoveEffect
 
 .failed
-	pop bc
 	call ResetDamage
-	farcall AnimateFailedMove
-	farcall PrintButItFailed
-	farcall EndMoveEffect
-	ret
+	call AnimateFailedMove
+	call PrintButItFailed
+	jp EndMoveEffect

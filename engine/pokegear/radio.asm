@@ -1687,7 +1687,7 @@ GetBuenasPassword:
 	ret
 
 .Move:
-	call .GetTheIndex
+	call .GetTheIndexWord
 	call GetMoveName
 	ret
 

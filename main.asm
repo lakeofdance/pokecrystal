@@ -118,7 +118,6 @@ INCLUDE "engine/overworld/decorations.asm"
 INCLUDE "engine/pokemon/level_up_happiness.asm"
 INCLUDE "engine/battle/read_trainer_dvs.asm"
 INCLUDE "engine/battle/returntobattle_useball.asm"
-INCLUDE "engine/battle/consume_held_item.asm"
 INCLUDE "data/moves/effects.asm"
 INCLUDE "engine/events/kurt_selectquantity_interpretjoypad.asm"
 
@@ -152,6 +151,14 @@ INCLUDE "engine/gfx/place_graphic.asm"
 SECTION "Move Effect Commands", ROMX
 
 INCLUDE "engine/battle/move_effect_commands.asm"
+INCLUDE "engine/battle/consume_held_item.asm"
+
+SECTION "Battle Commands", ROMX
+
+INCLUDE "engine/battle/battle_commands/constant_damage.asm"
+INCLUDE "engine/battle/battle_commands/recoil.asm"
+INCLUDE "engine/battle/battle_commands/sap_health.asm"
+INCLUDE "engine/battle/battle_commands/variable_damage.asm"
 
 SECTION "Effect Commands", ROMX
 
@@ -168,6 +175,7 @@ SECTION "Enemy AI", ROMX
 
 INCLUDE "engine/battle/ai/items.asm"
 INCLUDE "engine/battle/ai/scoring.asm"
+INCLUDE "data/types/ai_type_matchups.asm"
 
 SECTION "Enemy Trainers", ROMX
 
@@ -183,7 +191,7 @@ SECTION "Battle Core", ROMX
 
 INCLUDE "engine/battle/core.asm"
 
-SECTION "bank10", ROMX
+SECTION "Move Data and Evolve Engine", ROMX
 
 INCLUDE "data/moves/moves.asm"
 INCLUDE "engine/pokemon/evolve.asm"
@@ -214,8 +222,6 @@ INCLUDE "engine/events/buena_menu.asm"
 
 SECTION "bank13", ROMX
 
-INCLUDE "engine/tilesets/map_palettes.asm"
-INCLUDE "gfx/tileset_palette_maps.asm"
 INCLUDE "data/collision_permissions.asm"
 INCLUDE "engine/menus/empty_sram.asm"
 INCLUDE "engine/menus/savemenu_copytilemapatonce.asm"
@@ -318,7 +324,7 @@ INCLUDE "engine/gfx/player_gfx.asm"
 INCLUDE "engine/events/unown_walls.asm"
 INCLUDE "engine/events/buena.asm"
 INCLUDE "engine/events/dratini.asm"
-INCLUDE "engine/events/battle_tower/rules.asm"
+INCLUDE "engine/battle_tower/rules.asm"
 
 
 SECTION "bank23", ROMX
@@ -550,7 +556,7 @@ INCLUDE "mobile/mobile_46.asm"
 
 SECTION "Battle Tower", ROMX
 
-INCLUDE "engine/events/battle_tower/trainer_text.asm"
+INCLUDE "engine/battle_tower/trainer_text.asm"
 
 
 SECTION "bank5B", ROMX
@@ -560,7 +566,7 @@ INCLUDE "engine/link/link_trade.asm"
 
 SECTION "Mobile 5C", ROMX
 
-INCLUDE "engine/events/battle_tower/battle_tower.asm"
+INCLUDE "engine/battle_tower/battle_tower.asm"
 
 
 SECTION "Crystal Phone Text 2", ROMX
@@ -687,5 +693,5 @@ INCLUDE "data/battle_tower/unknown.asm"
 
 SECTION "Crystal Events", ROMX
 
-INCLUDE "engine/events/battle_tower/load_trainer.asm"
+INCLUDE "engine/battle_tower/load_trainer.asm"
 INCLUDE "engine/events/odd_egg.asm"

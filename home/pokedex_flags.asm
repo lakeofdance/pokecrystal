@@ -1,8 +1,7 @@
 SetSeenAndCaughtMon::
 	push af
 	push de
-; Monspecies now comes in de, big endian
-;	ld c, a
+; Monspecies is in de, big endian
 	ld hl, wPokedexCaught
 	ld b, SET_FLAG
 	call PokedexFlagAction2

@@ -12,4 +12,9 @@ SunnyDayMoves:
 	dw SOLARBEAM
 	dw SOLAR_BLADE
 	dw MELTDOWN
+	dw V_CREATE
+	dw FIERY_DANCE
+	dw FLARE_BLITZ
+	dw SEARING_SHOT
+	dw WEATHER_BALL
 	db -1 ; end

@@ -247,6 +247,7 @@ HandleBetweenTurnEffects:
 
 .NoMoreFaintingConditions:
 	call HandleRoost
+	call HandleSnatch
 	call HandleLeftovers
 	call HandleMysteryberry
 	call HandleDefrost
@@ -832,16 +833,16 @@ CompareMovePriority:
 ; Return carry if the player goes first, or z if they match.
 
 	ld a, [wCurPlayerMove]
-	ld c, a
-	ld a, [wCurPlayerMove + 1]
 	ld b, a
+	ld a, [wCurPlayerMove + 1]
+	ld c, a
 	call GetMovePriority
 	ld b, a
 	push bc
 	ld a, [wCurEnemyMove]
-	ld c, a
-	ld a, [wCurEnemyMove + 1]
 	ld b, a
+	ld a, [wCurEnemyMove + 1]
+	ld c, a
 	call GetMovePriority
 	pop bc
 	cp b
@@ -857,6 +858,9 @@ GetMovePriority:
 	inc hl
 	jr c, .done
 
+	ld a, b
+	ld b, c
+	ld c, a
 	call GetMoveEffect
 	ld hl, MoveEffectPriorities
 .loop
@@ -906,6 +910,7 @@ Battle_EnemyFirst:
 
 .switch_item
 	call SetEnemyTurn
+	call OctolockDrops
 	call ResidualDamage
 	jp z, HandleEnemyMonFaint
 	call RefreshBattleHuds
@@ -918,6 +923,7 @@ Battle_EnemyFirst:
 	call HasPlayerFainted
 	jp z, HandlePlayerMonFaint
 	call SetPlayerTurn
+	call OctolockDrops
 	call ResidualDamage
 	jp z, HandlePlayerMonFaint
 	call RefreshBattleHuds
@@ -942,6 +948,7 @@ Battle_PlayerFirst:
 	jp z, HandlePlayerMonFaint
 	push bc
 	call SetPlayerTurn
+	call OctolockDrops
 	call ResidualDamage
 	pop bc
 	jp z, HandlePlayerMonFaint
@@ -963,6 +970,7 @@ Battle_PlayerFirst:
 
 .switched_or_used_item
 	call SetEnemyTurn
+	call OctolockDrops
 	call ResidualDamage
 	jp z, HandleEnemyMonFaint
 	call RefreshBattleHuds
@@ -1153,6 +1161,53 @@ ResidualDamage:
 	xor a
 	ret
 
+OctolockDrops:
+	ld a, BATTLE_VARS_SUBSTATUS6_OPP
+	call GetBattleVar
+	bit SUBSTATUS_OCTOLOCK, a
+	ret z
+	ldh a, [hBattleTurn]
+	and a
+	jr nz, .enemy
+; only give octolocked message if we can lower stats
+	ld a, [wPlayerDefLevel]
+	dec a
+	jr nz, .do_drops
+	ld a, [wPlayerSDefLevel]
+	dec a
+	jr nz, .do_drops
+	ret
+
+.enemy
+; only give octolocked message if we can lower stats
+	ld a, [wEnemyDefLevel]
+	dec a
+	jr nz, .do_drops
+	ld a, [wEnemySDefLevel]
+	dec a
+	ret z
+
+.do_drops
+; "user is OCTOLOCKED!"
+	ld hl, OctolockedText
+	call StdBattleTextbox
+	farcall OctolockEffect
+
+	ld hl, wPlayerAtkLevel
+	ld de, wPlayerStats
+	ld bc, wBattleMonAttack
+	ldh a, [hBattleTurn]
+	and a
+	jr z, .calc_stats
+	ld hl, wEnemyAtkLevel
+	ld de, wEnemyStats
+	ld bc, wEnemyMonAttack
+
+.calc_stats
+	ld a, 5
+	farcall CalcBattleStats
+	jp BadgeStatBoosts
+
 HandlePerishSong:
 	ldh a, [hSerialConnectionStatus]
 	cp USING_EXTERNAL_CLOCK
@@ -1318,6 +1373,12 @@ HandleRoost:
 	ld [hl], a
 	ret
 
+HandleSnatch:
+	ld hl, wPlayerSubStatus6
+	res SUBSTATUS_SNATCH, [hl]
+	ld hl, wEnemySubStatus6
+	res SUBSTATUS_SNATCH, [hl]
+	ret
 
 HandleLeftovers:
 	ldh a, [hSerialConnectionStatus]
@@ -3588,24 +3649,17 @@ LoadEnemyMonToSwitchTo:
 	ld a, [hl]
 	ld [wCurPartyLevel], a
 	ld a, [wCurPartyMon]
-	inc a
-	ld hl, wOTPartyCount
+	ld hl, wOTPartySpecies
 	ld c, a
 	ld b, 0
 	add hl, bc
-;
    	add hl, bc
-   	dec hl
-;
-;	ld a, [hl]
    	ld a, [hli]
 	ld [wTempEnemyMonSpecies], a
 	ld [wCurPartySpecies], a
-;
     	ld a, [hl]
     	ld [wTempEnemyMonSpecies + 1], a
 	ld [wCurPartySpecies + 1], a
-;
 	call LoadEnemyMon
 
 	ld a, [wCurPartySpecies]
@@ -3805,6 +3859,8 @@ endr
 	ld [wEnemyTurnsTaken], a
 	ld hl, wPlayerSubStatus5
 	res SUBSTATUS_CANT_RUN, [hl]
+	ld hl, wPlayerSubStatus6
+	res SUBSTATUS_OCTOLOCK, [hl]
 	ret
 
 ResetEnemyStatLevels:
@@ -4292,6 +4348,8 @@ endr
 	ld [wPlayerTurnsTaken], a
 	ld hl, wEnemySubStatus5
 	res SUBSTATUS_CANT_RUN, [hl]
+	ld hl, wEnemySubStatus6
+	res SUBSTATUS_OCTOLOCK, [hl]
 	ret
 
 BreakAttraction:
@@ -4302,14 +4360,9 @@ BreakAttraction:
 	ret
 
 HazardsDamage:
-; todo : carefully check
-	ldh a, [hROMBank]
-	push af
 	ld hl, DoHazardsEffects
 	ld a, BANK(DoHazardsEffects)
-	call FarCall
-	pop af
-	rst Bankswitch
+	rst FarCall
 	ret
 
 PursuitSwitch:
@@ -5136,7 +5189,7 @@ BattleMenu_Pack:
 	jr .got_item
 
 .contest
-	ld a, PARK_BALL
+	ld a, [hl]
 	ld [wCurItem], a
 	call DoItemEffect
 
@@ -5331,6 +5384,7 @@ TryPlayerSwitch:
 	ld a, [wCurPartyMon]
 	ld [wCurBattleMon], a
 PlayerSwitch:
+
 	ld a, 1
 	ld [wPlayerIsSwitching], a
 	ld a, [wLinkMode]

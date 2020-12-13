@@ -49,6 +49,11 @@ AI_Redundant:
 	dbw EFFECT_FUTURE_SIGHT, .FutureSight
 	dbw EFFECT_BURN_UP,      .BurnUp
 	dbw EFFECT_SOAK,         .Soak
+	dbw EFFECT_TAUNT,        .Taunt
+	dbw EFFECT_TAILWIND,     .Tailwind
+	dbw EFFECT_HAIL,         .Hail
+	dbw EFFECT_AURORA_VEIL,  .AuroraVeil
+	dbw EFFECT_OCTOLOCK,     .Octolock
 	db -1
 
 .LightScreen:
@@ -159,12 +164,12 @@ AI_Redundant:
 .Sandstorm:
 	ld a, [wBattleWeather]
 	cp WEATHER_SANDSTORM
-	jr z, .Redundant
-	jr .NotRedundant
+	jp z, .Redundant
+	jp .NotRedundant
 
 .Attract:
 	farcall CheckOppositeGender
-	jr c, .Redundant
+	jp c, .Redundant
 	ld a, [wPlayerSubStatus1]
 	bit SUBSTATUS_IN_LOVE, a
 	ret
@@ -198,8 +203,8 @@ AI_Redundant:
 	ret
 
 .FutureSight:
-	ld a, [wEnemyScreens]
-	bit 5, a
+	ld a, [wEnemyFutureSightCount]
+	and a
 	ret
 
 .BurnUp:
@@ -219,6 +224,32 @@ AI_Redundant:
 	jr nz, .NotRedundant
 	jr .Redundant
 
+.Taunt:
+	ld a, [wPlayerSubStatus5]
+	bit SUBSTATUS_TAUNTED, a
+	ret
+
+.Tailwind:
+	ld a, [wEnemyScreens]
+	bit SCREENS_TAILWIND, a
+	ret
+
+.Hail:
+	ld a, [wBattleWeather]
+	cp WEATHER_HAIL
+	jr z, .Redundant
+	jr .NotRedundant
+
+.AuroraVeil:
+	ld a, [wEnemyScreens]
+	bit SCREENS_AURORA_VEIL, a
+	ret
+
+.Octolock:
+	ld a, [wEnemySubStatus6]
+	bit SUBSTATUS_OCTOLOCK, a
+	ret
+
 .Heal:
 .MorningSun:
 .Synthesis:
@@ -230,6 +261,35 @@ AI_Redundant:
 .Teleport:
 .Redundant:
 	ld a, 1
+	and a
+	ret
+
+.NotRedundant:
+	xor a
+	ret
+
+AI_Redundant_Moves:
+; Check if move bc will fail.
+; Return z if the move is a good choice.
+; Return nz if the move is a bad choice.
+	ld e, 3
+	ld hl, .Moves
+	call IsWordInArray
+	jp nc, .NotRedundant
+	inc hl
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	jp hl
+
+.Moves:
+	dw FAKE_OUT,       .FakeOut
+	dw FIRST_IMP,      .FirstImpression
+	db -1
+
+.FakeOut:
+.FirstImpression:
+	ld a, [wEnemyTurnsTaken]
 	and a
 	ret
 

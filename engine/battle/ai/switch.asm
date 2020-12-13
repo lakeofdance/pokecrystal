@@ -33,6 +33,7 @@ CheckPlayerMoveTypeMatchups:
 ; inc hl to point at type
 	inc hl
 	call GetMoveByte
+	and TYPE_MASK
 	ld hl, wEnemyMonType
 	call CheckTypeMatchup
 	ld a, [wTypeMatchup]
@@ -132,6 +133,7 @@ CheckPlayerMoveTypeMatchups:
 
 	inc hl
 	call GetMoveByte
+	and TYPE_MASK
 	ld hl, wBattleMonType1
 	call CheckTypeMatchup
 
@@ -218,8 +220,7 @@ CheckAbleToSwitch:
 	ret
 
 .not_2
-; huh?
-;	call FindAliveEnemyMons
+	call FindAliveEnemyMons
 	sla c
 	sla c
 	ld b, $ff
@@ -299,6 +300,7 @@ CheckAbleToSwitch:
 	call FindEnemyMonsThatResistPlayer
 	call FindAliveEnemyMonsWithASuperEffectiveMove
 
+; Don't switch to the mon we already have out
 	ld a, e
 	cp $2
 	ret nz
@@ -409,6 +411,7 @@ FindEnemyMonsImmuneToLastCounterMove:
 	; inc hl to point to type
 	inc hl
 	call GetMoveByte
+	and TYPE_MASK
 	ld hl, wBaseType
 	call CheckTypeMatchup
 	ld a, [wTypeMatchup]
@@ -511,6 +514,7 @@ FindEnemyMonsWithASuperEffectiveMove:
 	; inc hl to point to type
 	inc hl
 	call GetMoveByte
+	and TYPE_MASK
 	ld hl, wBattleMonType1
 	call CheckTypeMatchup
 
@@ -657,6 +661,7 @@ FindEnemyMonsWithAtLeastQuarterMaxHP:
 
 .loop
 	ld a, [de]
+	inc de
 	inc de
 	cp $ff
 	jr z, .done

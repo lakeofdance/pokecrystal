@@ -19,6 +19,9 @@ BattleCommand_Thief:
 	and a
 	ret z
 
+	cp MEGA_STONE
+	ret z
+
 ; Can't steal mail.
 
 	ld [wNamedObjectIndexBuffer], a
@@ -64,6 +67,9 @@ BattleCommand_Thief:
 	call PlayerItem
 	ld a, [hl]
 	and a
+	ret z
+
+	cp MEGA_STONE
 	ret z
 
 ; Can't steal mail!

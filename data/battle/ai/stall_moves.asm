@@ -37,4 +37,10 @@ StallMoves:
 	dw QUIVER_DANCE
 	dw DRAGON_DANCE
 	dw SOAK
+	dw DEFOG
+	dw ROOST
+	dw REFLECT_TYPE
+	dw TRICK_ROOM
+	dw TAUNT
+	dw BLOCK
 	db -1 ; end

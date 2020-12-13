@@ -1,4 +1,4 @@
-INCLUDE "engine/battle/compare_move.asm"
+INCLUDE "engine/battle/compare.asm"
 
 DoPlayerTurn:
 	call SetPlayerTurn
@@ -29,6 +29,8 @@ DoTurn:
 
 	xor a
 	ld [wTurnEnded], a
+
+	call CheckSnatch
 
 	; Effect command checkturn is called for every move.
 	call CheckTurn
@@ -1090,10 +1092,16 @@ BattleCommand_DoTurn:
 	pop hl
 	ret z
 
+; dont consume pp if looping, rampaging, or biding
 	ld a, [de]
 	and 1 << SUBSTATUS_IN_LOOP | 1 << SUBSTATUS_RAMPAGE | 1 << SUBSTATUS_BIDE
 	ret nz
 
+; dont consume pp if using a snatched move
+	call CheckSnatchUsed
+	ret c
+
+; consume battle/enemymon pp (party pp is dealt with below, and handles mimic)
 	call .consume_pp
 	ld a, b
 	and a
@@ -1204,34 +1212,72 @@ CheckMimicUsed:
 	ld a, [wCurEnemyMoveNum]
 
 .player
+; if we don't have mimic in the current move slot
+; of the party data, ret z
 	ld c, a
 	ld a, MON_MOVES
 	call UserPartyAttr
 
-	push bc
-	push hl
+	ld b, 0
+	add hl, bc
+	add hl, bc
+	ld bc, MIMIC
+	call CompareMove
+	jr z, .check_mimic
+	and a
+	ret
+
+.check_mimic
+; if we have mimic and are using it, ret z
 	ld a, BATTLE_VARS_MOVE
 	call GetBattleVarAddr
 	ld bc, MIMIC
 	call CompareMove
-	pop hl
-	pop bc
-	jr z, .mimic
-;
-	ld b, 0
-	add hl, bc
-	add hl, bc
-	push bc
-	ld bc, MIMIC
-	call CompareMove
-	pop bc
-	jr nz, .mimic
-
+	ret z
 	scf
 	ret
 
-.mimic
+CheckSnatch:
+	ld a, BATTLE_VARS_SUBSTATUS6
+	call GetBattleVar
+	bit SUBSTATUS_SNATCH, a
+	ret z
+
+; set snatch for both user and opp
+; this only occurs when a snatched move is being used,
+; and is used to say that pp should not be decreased 
+	ld a, BATTLE_VARS_SUBSTATUS6_OPP
+	call GetBattleVarAddr
+	set SUBSTATUS_SNATCH, [hl]
+
+	ldh a, [hBattleTurn]
 	and a
+	jr nz, .enemy
+	ld hl, wCurPlayerMove
+	ld de, wCurEnemyMove
+	ld bc, 2
+	call CopyBytes
+	jp SetEnemyTurn
+
+.enemy
+	ld hl, wCurEnemyMove
+	ld de, wCurPlayerMove
+	ld bc, 2
+	call CopyBytes
+	jp SetPlayerTurn
+
+CheckSnatchUsed:
+; If the carry flag is set, then pp does not decrease
+; Preserves hl
+	ld a, BATTLE_VARS_SUBSTATUS6
+	call GetBattleVar
+	bit SUBSTATUS_SNATCH, a
+	ret z
+	ld a, BATTLE_VARS_SUBSTATUS6_OPP
+	call GetBattleVar
+	bit SUBSTATUS_SNATCH, a
+	ret z
+	scf
 	ret
 
 BattleCommand_Critical:
@@ -2636,7 +2682,7 @@ BattleCommand_FailureText:
 	jr .done
 
 .mind_blown
-	call BattleCommand_RecoilHalfMaxHP
+	farcall BattleCommand_RecoilHalfMaxHP
 	jr .done
 
 .fly_dig
@@ -2750,10 +2796,12 @@ GetFailureResultText:
 	jr z, .got_text
 	ld a, BATTLE_VARS_MOVE_EFFECT
 	call GetBattleVar
-	cp EFFECT_FUTURE_SIGHT
+	ld hl, ButItFailedMoves
+	ld de, 1
+	call IsInArray
 	ld hl, ButItFailedText
 	ld de, ItFailedText
-	jr z, .got_text
+	jr c, .got_text
 	ld hl, AttackMissedText
 	ld de, AttackMissed2Text
 	ld a, [wCriticalHit]
@@ -2799,6 +2847,8 @@ endr
 	and a
 	jp nz, DoEnemyDamage
 	jp DoPlayerDamage
+
+INCLUDE "data/moves/failure_text.asm"
 
 FailText_CheckOpponentProtect:
 	ld a, BATTLE_VARS_SUBSTATUS1_OPP
@@ -3660,6 +3710,11 @@ FoulPlayAttackDamage:
 	call ResetDamage
 
 	ld hl, wPlayerMoveStructPower
+	ldh a, [hBattleTurn]
+	and a
+	jr z, .gotpower
+	ld hl, wEnemyMoveStructPower
+.gotpower
 	ld a, [hli]
 	and a
 	ld d, a
@@ -4012,239 +4067,6 @@ BattleCommand_DamageCalc:
 	ret
 
 INCLUDE "data/types/type_boost_items.asm"
-
-BattleCommand_ConstantDamage:
-; constantdamage
-
-	ld hl, wBattleMonLevel
-	ldh a, [hBattleTurn]
-	and a
-	jr z, .got_turn
-	ld hl, wEnemyMonLevel
-
-.got_turn
-	ld a, BATTLE_VARS_MOVE_EFFECT
-	call GetBattleVar
-	cp EFFECT_LEVEL_DAMAGE
-	ld b, [hl]
-	ld a, 0
-	jp z, .got_power
-
-	ld a, BATTLE_VARS_MOVE_EFFECT
-	call GetBattleVar
-	cp EFFECT_PSYWAVE
-	jr z, .psywave
-
-	cp EFFECT_SUPER_FANG
-	jr z, .super_fang
-
-	cp EFFECT_ENDEAVOR
-	jr z, .endeavor
-
-	cp EFFECT_FINAL_GAMBIT
-	jr z, .final_gambit
-
-	ld a, BATTLE_VARS_MOVE_POWER
-	call GetBattleVar
-	ld b, a
-	ld a, $0
-	jr .got_power
-
-.psywave
-	ld a, b
-	srl a
-	add b
-	ld b, a
-.psywave_loop
-	call BattleRandom
-	and a
-	jr z, .psywave_loop
-	cp b
-	jr nc, .psywave_loop
-	ld b, a
-	ld a, 0
-	jr .got_power
-
-.super_fang
-	ld hl, wEnemyMonHP
-	ldh a, [hBattleTurn]
-	and a
-	jr z, .got_hp
-	ld hl, wBattleMonHP
-.got_hp
-	ld a, [hli]
-	srl a
-	ld b, a
-	ld a, [hl]
-	rr a
-	push af
-	ld a, b
-	pop bc
-	and a
-	jr nz, .got_power
-	or b
-	ld a, 0
-	jr nz, .got_power
-	ld b, 1
-	jr .got_power
-
-.final_gambit
-	ld hl, wBattleMonHP
-	ldh a, [hBattleTurn]
-	and a
-	jr z, .got_final_gambit_hp
-	ld hl, wEnemyMonHP
-.got_final_gambit_hp
-	ld a, [hli]
-	ld b, [hl]
-	jr .got_power
-
-.endeavor
-	ld de, wEnemyMonHP
-	ld hl, wBattleMonHP
-	ldh a, [hBattleTurn]
-	and a
-	jr z, .got_endeavor_hp
-	ld de, wBattleMonHP
-	ld hl, wEnemyMonHP
-.got_endeavor_hp
-	ld a, [de]
-	sub [hl]
-	ld b, a
-	jr c, .endeavor_fail
-	jr nz, .endeavor_succeed
-	inc de
-	inc hl
-	ld a, [de]
-	sub [hl]
-	jr z, .endeavor_fail
-	jr nc, .endeavor_got_power
-; fallthrough
-
-.endeavor_fail
-	ld a, 1
-	ld [wAttackMissed], a
-	ret
-
-.endeavor_succeed
-	inc de
-	inc hl
-	ld a, [de]
-	sub [hl]
-.endeavor_got_power
-	push af
-	ld a, b
-	pop bc
-; fallthrough
-
-.got_power
-	ld hl, wCurDamage
-	ld [hli], a
-	ld [hl], b
-	ret	
-
-BattleCommand_VariableDamage:
-; variabledamage
-	ld a, BATTLE_VARS_MOVE_EFFECT
-	call GetBattleVar
-
-	cp EFFECT_REVERSAL
-	jp z, .reversal
-
-	cp EFFECT_TRUMP_CARD
-	jp z, .trump_card
-
-	cp EFFECT_ERUPTION
-	jr z, .eruption
-
-	cp EFFECT_GYRO_BALL
-	jr z, .gyro_ball
-
-	cp EFFECT_STORED_POWER
-	jr z, .stored_power
-
-	cp EFFECT_CRUSH_GRIP
-	jr z, .crush_grip
-
-	cp EFFECT_ELECTRO_BALL
-	jr z, .electro_ball
-
-; we shouldn't ever be here
-	ld a, BATTLE_VARS_MOVE_POWER
-	call GetBattleVar
-	ld b, a
-	jr .calc_damage
-
-.reversal
-	call ReversalEffect
-	jr .extract_power
-
-.trump_card
-	call TrumpCardEffect
-	jr .extract_power
-
-.eruption
-	call EruptionEffect
-	jr .calc_damage
-
-.gyro_ball
-	call GyroBallEffect
-	jr .calc_damage
-
-.stored_power
-; variation is done after the damage calc
-	ld b, 20
-	jr .calc_damage
-
-.crush_grip
-	call BattleCommand_SwitchTurn
-	call EruptionEffect
-	call BattleCommand_SwitchTurn
-	jr .calc_damage
-
-.electro_ball
-	call ElectroBallEffect
-;fallthrough
-
-.extract_power
-	ld b, [hl]
-.calc_damage
-	ldh a, [hBattleTurn]
-	and a
-	ld a, b
-	jr nz, .notPlayersTurn
-
-	ld hl, wPlayerMoveStructPower
-	ld [hl], a
-	push hl
-	call PlayerAttackDamage
-	jr .notEnemysTurn
-
-.notPlayersTurn
-	ld hl, wEnemyMoveStructPower
-	ld [hl], a
-	push hl
-	call EnemyAttackDamage
-
-.notEnemysTurn
-	call BattleCommand_DamageCalc
-	pop hl
-	ld [hl], 1
-	ret
-
-INCLUDE "data/moves/variable_move_power.asm"
-
-INCLUDE "engine/battle/move_effects/reversal.asm"
-
-INCLUDE "engine/battle/move_effects/trump_card.asm"
-
-INCLUDE "engine/battle/move_effects/eruption.asm"
-
-INCLUDE "engine/battle/move_effects/gyro_ball.asm"
-
-INCLUDE "engine/battle/move_effects/stored_power.asm"
-
-INCLUDE "engine/battle/move_effects/electro_ball.asm"
 
 FarPlayBattleAnimation:
 ; play animation de
@@ -4783,111 +4605,6 @@ PoisonOpponent:
 	call GetBattleVarAddr
 	set PSN, [hl]
 	jp UpdateOpponentInParty
-
-BattleCommand_DrainTarget:
-; draintarget
-	call SapHealth
-	ld hl, SuckedHealthText
-	jp StdBattleTextbox
-
-BattleCommand_EatDream:
-; eatdream
-	call SapHealth
-	ld hl, DreamEatenText
-	jp StdBattleTextbox
-
-SapHealth:
-	; Divide damage by 2, store it in hDividend
-	ld hl, wCurDamage
-	ld a, [hli]
-	srl a
-	ldh [hDividend], a
-	ld b, a
-	ld a, [hl]
-	rr a
-	ldh [hDividend + 1], a
-	or b
-	jr nz, .at_least_one
-	ld a, 1
-	ldh [hDividend + 1], a
-.at_least_one
-
-	ld hl, wBattleMonHP
-	ld de, wBattleMonMaxHP
-	ldh a, [hBattleTurn]
-	and a
-	jr z, .battlemonhp
-	ld hl, wEnemyMonHP
-	ld de, wEnemyMonMaxHP
-.battlemonhp
-
-	; Store current HP in little endian wBuffer3/4
-	ld bc, wBuffer4
-	ld a, [hli]
-	ld [bc], a
-	ld a, [hl]
-	dec bc
-	ld [bc], a
-
-	; Store max HP in little endian wBuffer1/2
-	ld a, [de]
-	dec bc
-	ld [bc], a
-	inc de
-	ld a, [de]
-	dec bc
-	ld [bc], a
-
-	; Add hDividend to current HP and copy it to little endian wBuffer5/6
-	ldh a, [hDividend + 1]
-	ld b, [hl]
-	add b
-	ld [hld], a
-	ld [wBuffer5], a
-	ldh a, [hDividend]
-	ld b, [hl]
-	adc b
-	ld [hli], a
-	ld [wBuffer6], a
-	jr c, .max_hp
-
-	; Substract current HP from max HP (to see if we have more than max HP)
-	ld a, [hld]
-	ld b, a
-	ld a, [de]
-	dec de
-	sub b
-	ld a, [hli]
-	ld b, a
-	ld a, [de]
-	inc de
-	sbc b
-	jr nc, .finish
-
-.max_hp
-	; Load max HP into current HP and copy it to little endian wBuffer5/6
-	ld a, [de]
-	ld [hld], a
-	ld [wBuffer5], a
-	dec de
-	ld a, [de]
-	ld [hli], a
-	ld [wBuffer6], a
-	inc de
-
-.finish
-	ldh a, [hBattleTurn]
-	and a
-	hlcoord 10, 9
-	ld a, $1
-	jr z, .hp_bar
-	hlcoord 2, 2
-	xor a
-.hp_bar
-	ld [wWhichHPBar], a
-	predef AnimateHPBar
-	call RefreshBattleHuds
-	jp UpdateBattleMonInParty
 
 BattleCommand_BurnTarget:
 ; burntarget
@@ -6948,124 +6665,6 @@ endr
 	dw INFESTATION,  InfestationTrapText ; 'was infested!'
 	dw THUNDER_CAGE, ThunderCageTrapText ; 'was trapped!'
 
-BattleCommand_Recoil:
-; recoil
-
-	ld hl, wBattleMonMaxHP
-	ldh a, [hBattleTurn]
-	and a
-	jr z, .got_hp
-	ld hl, wEnemyMonMaxHP
-.got_hp
-	ld a, BATTLE_VARS_MOVE_EFFECT
-	call GetBattleVar
-	ld d, a
-; get 1/4 damage or 1 HP, whichever is higher
-	ld a, [wCurDamage]
-	ld b, a
-	ld a, [wCurDamage + 1]
-	ld c, a
-	srl b
-	rr c
-	srl b
-	rr c
-	ld a, b
-	or c
-	jr nz, .min_damage
-	inc c
-.min_damage
-	ld a, [hli]
-	ld [wBuffer2], a
-	ld a, [hld]
-	ld [wBuffer1], a
-	dec hl
-	call ApplyRecoil
-	ld hl, RecoilText
-	jp StdBattleTextbox
-
-ApplyRecoil:
-; deals damage bc to user
-; hl points to wBattleMonHP + 1 or wEnemyMonHP + 1, depending on the turn
-	ld a, [hl]
-	ld [wBuffer3], a
-	sub c
-	ld [hld], a
-	ld [wBuffer5], a
-	ld a, [hl]
-	ld [wBuffer4], a
-	sbc b
-	ld [hl], a
-	ld [wBuffer6], a
-	jr nc, .dont_ko
-	xor a
-	ld [hli], a
-	ld [hl], a
-	ld hl, wBuffer5
-	ld [hli], a
-	ld [hl], a
-.dont_ko
-	hlcoord 10, 9
-	ldh a, [hBattleTurn]
-	and a
-	ld a, 1
-	jr z, .animate_hp_bar
-	hlcoord 2, 2
-	xor a
-.animate_hp_bar
-	ld [wWhichHPBar], a
-	predef AnimateHPBar
-	jp RefreshBattleHuds
-
-BattleCommand_RecoilHalfMaxHP:
-; recoilhalfmaxhp
-; used by EFFECT_MIND_BLOWN
-	ld hl, wBattleMonMaxHP
-	ldh a, [hBattleTurn]
-	and a
-	jr z, .got_hp
-	ld hl, wEnemyMonMaxHP
-.got_hp
-; get max HP
-	ld a, [hli]
-	ld [wBuffer2], a
-	ld b, a
-	ld a, [hld]
-	ld [wBuffer1], a
-	ld c, a
-; halve it, rounded up
-	inc c
-	srl b
-	rr c
-; deal as damage
-	dec hl
-	call ApplyRecoil
-	ld hl, TookHugeDamageText
-	jp StdBattleTextbox
-
-BattleCommand_RecoilAllHP:
-; recoilallhp
-; used by final gambit, memento
-	ld a, [wAttackMissed]
-	and a
-	ret nz
-	ld hl, wBattleMonHP
-	ldh a, [hBattleTurn]
-	and a
-	jr z, .got_hp
-	ld hl, wEnemyMonHP
-.got_hp
-	ld a, [hli]
-	ld b, a
-	ld a, [hli]
-	ld c, a
-; get max hp
-	ld a, [hli]
-	ld [wBuffer2], a
-	ld a, [hld]
-	ld [wBuffer1], a
-	dec hl
-	jp ApplyRecoil
-
 BattleCommand_ConfuseTarget:
 ; confusetarget
 
@@ -7249,6 +6848,88 @@ BattleCommand_Paralyze:
 	call AnimateFailedMove
 	jp PrintDoesntAffect
 
+BattleCommand_Burn:
+; burn
+
+	ld a, BATTLE_VARS_STATUS_OPP
+	call GetBattleVar
+	bit BRN, a
+	jr nz, .burnt
+	ld a, [wTypeModifier]
+	and $7f
+	jr z, .didnt_affect
+	call GetOpponentItem
+	ld a, b
+	cp HELD_PREVENT_BURN
+	jr nz, .no_item_protection
+	ld a, [hl]
+	ld [wNamedObjectIndexBuffer], a
+	call GetItemName
+	call AnimateFailedMove
+	ld hl, ProtectedByText
+	jp StdBattleTextbox
+
+.no_item_protection
+	ldh a, [hBattleTurn]
+	and a
+	jr z, .dont_sample_failure
+
+	ld a, [wLinkMode]
+	and a
+	jr nz, .dont_sample_failure
+
+	ld a, [wInBattleTowerBattle]
+	and a
+	jr nz, .dont_sample_failure
+
+	ld a, [wPlayerSubStatus5]
+	bit SUBSTATUS_LOCK_ON, a
+	jr nz, .dont_sample_failure
+
+;controversial
+	call BattleRandom
+	cp 25 percent + 1 ; 25% chance AI fails
+	jr c, .failed
+
+.dont_sample_failure
+	ld a, BATTLE_VARS_STATUS_OPP
+	call GetBattleVarAddr
+	and a
+	jr nz, .failed
+	ld a, [wAttackMissed]
+	and a
+	jr nz, .failed
+	call CheckSubstituteOpp
+	jr nz, .failed
+	ld c, 30
+	call DelayFrames
+	call AnimateCurrentMove
+	ld a, $1
+	ldh [hBGMapMode], a
+	ld a, BATTLE_VARS_STATUS_OPP
+	call GetBattleVarAddr
+	set BRN, [hl]
+	call UpdateOpponentInParty
+	call ApplyBrnEffectOnAttack
+	call UpdateBattleHuds
+	ld hl, WasBurnedText
+	call StdBattleTextbox
+	ld hl, UseHeldStatusHealingItem
+	jp CallBattleCore
+
+.burnt
+	call AnimateFailedMove
+	ld hl, AlreadyBurnedText
+	jp StdBattleTextbox
+
+.failed
+	jp PrintDidntAffect2
+
+.didnt_affect
+	call AnimateFailedMove
+	jp PrintDoesntAffect
+
+
 CheckMoveTypeMatchesTarget:
 ; Compare move type to opponent type.
 ; Return z if matching the opponent type,
@@ -7287,6 +6968,8 @@ CheckMoveTypeMatchesTarget:
 
 INCLUDE "engine/battle/move_effects/substitute.asm"
 
+INCLUDE "engine/battle/move_effects/future_sight.asm"
+
 INCLUDE "engine/battle/move_effects/strength_sap.asm"
 
 INCLUDE "engine/battle/move_effects/multi_boost_moves.asm"
@@ -7308,6 +6991,10 @@ INCLUDE "engine/battle/move_effects/venom_drench.asm"
 INCLUDE "engine/battle/move_effects/spectral_thief.asm"
 
 INCLUDE "engine/battle/move_effects/memento.asm"
+
+INCLUDE "engine/battle/move_effects/topsy_turvy.asm"
+
+INCLUDE "engine/battle/move_effects/purify.asm"
 
 BattleCommand_RechargeNextTurn:
 ; rechargenextturn
@@ -7677,6 +7364,8 @@ BattleCommand_ArenaTrap:
 	call AnimateFailedMove
 	jp PrintButItFailed
 
+INCLUDE "engine/battle/move_effects/octolock.asm"
+
 BattleCommand_GroundOpponent:
 ; groundopponent
 ; Stop opp using fly or bounce
@@ -7921,7 +7610,7 @@ GetOpponentItem:
 	jp GetItemHeldEffect
 
 GetItemHeldEffect:
-; Return the effect of item b in bc.
+; Return the effect and parameter of item b in bc.
 	ld a, b
 	and a
 	ret z
@@ -8041,11 +7730,6 @@ PlayOpponentBattleAnim:
 	pop bc
 	pop de
 	pop hl
-	ret
-
-CallBattleCore:
-	ld a, BANK("Battle Core")
-	rst FarCall
 	ret
 
 AnimateFailedMove:

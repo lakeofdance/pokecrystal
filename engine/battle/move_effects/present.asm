@@ -58,7 +58,7 @@ BattleCommand_Present:
 	ld a, 3
 	ld [wPresentPower], a
 	farcall AnimateCurrentMove
-	farcall BattleCommand_SwitchTurn
+	call SwitchTurn
 	ld hl, AICheckPlayerMaxHP
 	ldh a, [hBattleTurn]
 	and a
@@ -71,18 +71,18 @@ BattleCommand_Present:
 
 	ld hl, GetQuarterMaxHP
 	farcall CallBattleCore
-	farcall BattleCommand_SwitchTurn
+	call SwitchTurn
 	ld hl, RestoreHP
 	farcall CallBattleCore
-	farcall BattleCommand_SwitchTurn
+	call SwitchTurn
 	ld hl, RegainedHealthText
 	call StdBattleTextbox
-	farcall BattleCommand_SwitchTurn
+	call SwitchTurn
 	farcall UpdateOpponentInParty
 	jr .do_animation
 
 .already_fully_healed
-	farcall BattleCommand_SwitchTurn
+	call SwitchTurn
 	farcall _CheckBattleScene
 	jr nc, .do_animation
 	farcall AnimateFailedMove

@@ -172,6 +172,7 @@ BattleCommandPointers:
 	dba BattleCommand_SuperEffectiveLoopText
 	dba BattleCommand_StartLoop
 	dba BattleCommand_Curl
+;
 	dba BattleCommand_BurnUp
 	dba BattleCommand_BurnUpText
 	dba BattleCommand_StrengthSap
@@ -213,3 +214,9 @@ BattleCommandPointers:
 	dba BattleCommand_Memento
 	dba BattleCommand_WeatherBall
 	dba BattleCommand_StartHail
+	dba BattleCommand_Burn
+	dba BattleCommand_Snatch
+	dba BattleCommand_TopsyTurvy
+	dba BattleCommand_Purify
+	dba BattleCommand_Octolock
+	dba BattleCommand_BugBite

@@ -152,7 +152,8 @@ CheckForLuckyNumberWinners:
 .done
 	pop hl
 	push hl
-	ld de, -6			; good grief
+; hl points to ID, needs to move back to Species
+	ld de, -10 ; hard coded jump size
 	add hl, de
 	ld a, [hld]
 	ld c, a

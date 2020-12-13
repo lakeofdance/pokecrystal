@@ -349,27 +349,13 @@ BattleTower_UbersCheck:
 	ld a, [wPartyCount]
 .loop
 	push af
-	push bc
-	ld bc, MEWTWO
-	call .compare
-	jr z, .uber
-	ld bc, MEW
-	call .compare
-	jr z, .uber
-	ld bc, LUGIA
-	call .compare
-	jr z, .uber
-	push de
-	call IsAPokemon
-	pop de
+	call .UberCheck
 	jr nc, .next
-; c means we are not a pokemon. Fallthrough is a bit odd.
-.uber
+; uber
 	ld a, [hl]
 	cp 70
 	jr c, .uber_under_70
 .next
-	pop bc
 	add hl, bc
 	inc de
 	inc de
@@ -384,7 +370,6 @@ BattleTower_UbersCheck:
 
 .uber_under_70
 	pop af
-	pop bc
 	ld a, [de]
 	ld [wNamedObjectIndexBuffer], a
 	inc de
@@ -402,16 +387,24 @@ BattleTower_UbersCheck:
 	scf
 	ret
 
-.compare
+.UberCheck:
+; return c if uber
+	push bc
+	push hl
+	push de
 	ld a, [de]
-	cp c
-	ret nz
+	ld b, a
 	inc de
 	ld a, [de]
-	dec de
-	cp b
-	ret
-	
+	ld c, a
+	ld e, 1
+	ld hl, BattleTowerUbers
+	call IsWordInArray
+	pop de
+	pop hl
+	pop bc
+
+INCLUDE "data/battle_tower/ubers.asm"
 
 BattleTowerRoomMenu_IncrementJumptable:
 	ld hl, wcf66

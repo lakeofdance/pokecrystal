@@ -10,14 +10,19 @@ BattleCommand_Trick:
 	jr z, .fail
 
 .player
-; fail if neither mon has an item, or one is holding mail
+; fail if neither mon has an item, or one is holding mail or a mega stone
 
 	call PlayerItem
 	ld a, [hl]
+	cp MEGA_STONE
+	jr z, .fail
 	ld b, a
 	ld [wNamedObjectIndexBuffer], a
+
 	call EnemyItem
 	ld a, [hl]
+	cp MEGA_STONE
+	jr z, .fail
 	ld [wNamedObjectIndexBuffer + 1], a
 	or b
 	jr z, .fail

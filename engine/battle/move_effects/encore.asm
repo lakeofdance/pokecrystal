@@ -41,7 +41,7 @@ BattleCommand_Encore:
 	inc d
 	inc hl
 	inc hl
-	call CompareMove2
+	call CompareMove
 	jr nz, .not_got_move
 
 	ld b, 0
@@ -88,7 +88,7 @@ BattleCommand_Encore:
 .find_player_move
 	inc hl
 	inc hl
-	call CompareMove2
+	call CompareMove
 	jr z, .got_player_move
 	inc d
 	ld a, d
@@ -127,7 +127,7 @@ BattleCommand_Encore:
 .find_enemy_move
 	inc hl
 	inc hl
-	call CompareMove2
+	call CompareMove
 	jr z, .got_enemy_move
 	inc d
 	ld a, d

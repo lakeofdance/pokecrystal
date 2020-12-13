@@ -29,7 +29,6 @@ BattleCommand_Conversion:
 	ld c, a
 	ld a, [hl]
 	ld b, a
-	dec bc
 	ld hl, Moves + MOVE_TYPE
 	call GetMoveAttr2
 	and TYPE_MASK

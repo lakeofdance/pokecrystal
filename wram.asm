@@ -359,12 +359,6 @@ SECTION "Miscellaneous", WRAM0
 
 ; This union spans 480 bytes from c608 to c7e8.
 UNION ; c608
-; surrounding tiles
-; This buffer determines the size for the rest of the union;
-; it uses exactly 480 bytes.
-wSurroundingTiles:: ds SURROUNDING_WIDTH * SURROUNDING_HEIGHT
-
-NEXTU ; c608
 ; box save buffer
 ; SaveBoxAddress uses this buffer in three steps because it
 ; needs more space than the buffer can hold.
@@ -487,7 +481,7 @@ wPlayerSubStatus6::
 ; 4 
 ; 3 
 ; 2 
-; 1 heal block
+; 1 snatched
 ; 0 king's shield
 	db
 
@@ -1949,7 +1943,7 @@ wPoisonStepPartyFlags:: ds PARTY_LENGTH
 wPoisonStepDataEnd::
 ENDU ; d04f
 
-;	ds 23
+	ds 23
 ENDU ; d066
 
 wTMHMMoveNameBackup:: ds MOVE_NAME_LENGTH ; d066

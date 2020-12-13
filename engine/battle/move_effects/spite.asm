@@ -32,7 +32,7 @@ BattleCommand_Spite:
 	inc hl
 	inc hl
 	inc e
-	call CompareMove2
+	call CompareMove
 	jr nz, .loop
 	ld a, c
 	ld [wNamedObjectIndexBuffer], a

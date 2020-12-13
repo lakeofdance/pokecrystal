@@ -69,6 +69,9 @@ CheckKnockOffEffect:
 	and a
 	jr z, .fail
 
+	cp MEGA_STONE
+	jr z, .fail
+
 ; Can't knock off mail.
 	ld [wNamedObjectIndexBuffer], a
 	ld d, a
@@ -82,6 +85,9 @@ CheckKnockOffEffect:
 	call PlayerItem
 	ld a, [hl]
 	and a
+	jr z, .fail
+
+	cp MEGA_STONE
 	jr z, .fail
 
 ; Can't knock off mail!

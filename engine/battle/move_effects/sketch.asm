@@ -54,7 +54,7 @@ BattleCommand_Sketch:
 	push de
 	ld d, NUM_MOVES
 .does_user_already_know_move
-	call CompareMove2
+	call CompareMove
 	jp z, .knows_move
 	inc hl
 	inc hl
@@ -75,7 +75,7 @@ BattleCommand_Sketch:
 	dec hl
 	dec d
 	ld bc, SKETCH
-	call CompareMove2
+	call CompareMove
 	jr nz, .find_sketch
 	pop bc
 ; The Sketched move is loaded to that slot.
@@ -86,7 +86,6 @@ BattleCommand_Sketch:
 ; Copy the base PP from that move.
 	push bc
 	push hl
-	dec bc
 	ld hl, Moves + MOVE_PP
 	call GetMoveAttr2
 	pop hl

@@ -214,6 +214,12 @@ ENDM
 	command memento			; d6
 	command weatherball		; d7
 	command starthail		; d8
+	command burn			; d9
+	command snatch			; da
+	command topsyturvy		; db
+	command purify			; dc
+	command octolock		; dd
+	command bugbite			; de
 
 	enum_start $fe
 	command endturn                 ; fe

@@ -42,7 +42,7 @@ BattleCommand_Disable:
 	inc hl
 	inc hl
 	inc e
-	call CompareMove2
+	call CompareMove
 	jr nz, .loop
 	ld c, e
 	pop de

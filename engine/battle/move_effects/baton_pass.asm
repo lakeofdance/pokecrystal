@@ -35,7 +35,7 @@ BattleCommand_BatonPass:
 	call BatonPass_LinkPlayerSwitch
 
 	ld hl, PassedBattleMonEntrance
-	call CallBattleCore2
+	call CallBattleCore
 
 	call ResetBatonPassStatus
 	ret
@@ -57,16 +57,16 @@ BattleCommand_BatonPass:
 	xor a
 	ld [wEnemySwitchMonIndex], a
 	ld hl, EnemySwitch_SetMode
-	call CallBattleCore2
+	call CallBattleCore
 	ld hl, ResetBattleParticipants
-	call CallBattleCore2
+	call CallBattleCore
 	ld a, TRUE
 	ld [wApplyStatLevelMultipliersToEnemy], a
 	ld hl, ApplyStatLevelMultiplierOnAllStats
-	call CallBattleCore2
+	call CallBattleCore
 
 	ld hl, HazardsDamage
-	call CallBattleCore2
+	call CallBattleCore
 
 	jr ResetBatonPassStatus
 
@@ -80,7 +80,7 @@ BatonPass_LinkPlayerSwitch:
 
 	call LoadStandardMenuHeader
 	ld hl, LinkBattleSendReceiveAction
-	call CallBattleCore2
+	call CallBattleCore
 	call CloseWindow
 
 	xor a ; BATTLEPLAYERACTION_USEMOVE
@@ -94,7 +94,7 @@ BatonPass_LinkEnemySwitch:
 
 	call LoadStandardMenuHeader
 	ld hl, LinkBattleSendReceiveAction
-	call CallBattleCore2
+	call CallBattleCore
 
 	ld a, [wOTPartyCount]
 	add BATTLEACTION_SWITCH1

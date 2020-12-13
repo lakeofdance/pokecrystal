@@ -28,7 +28,7 @@ BattleCommand_Mimic:
 	jr z, .fail
 	ld d, NUM_MOVES
 .check_already_knows_move
-	call CompareMove2
+	call CompareMove
 	jr z, .fail
 	inc hl
 	inc hl
@@ -41,7 +41,7 @@ BattleCommand_Mimic:
 	dec hl
 	dec hl
 	dec d
-	call CompareMove2
+	call CompareMove
 	jr nz, .find_mimic
 	pop bc
 	ld a, c

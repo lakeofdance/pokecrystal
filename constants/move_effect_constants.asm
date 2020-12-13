@@ -1,3 +1,12 @@
+; recoil constants
+; see BattleCommand_Recoil
+	const_def
+	const RECOIL_100
+	const RECOIL_75
+	const RECOIL_50
+	const RECOIL_30
+	const RECOIL_25
+
 ; MoveEffectsPointers indexes (see data/moves/effects_pointers.asm)
 	const_def
 	const EFFECT_NORMAL_HIT
@@ -223,4 +232,12 @@
 	const EFFECT_SUCKER_PUNCH
 	const EFFECT_HAIL
 	const EFFECT_AURORA_VEIL
-; 219
+	const EFFECT_BIG_LEECH_HIT
+	const EFFECT_PUNISHMENT
+	const EFFECT_SNATCH
+	const EFFECT_TOPSY_TURVY
+	const EFFECT_PURIFY
+	const EFFECT_OCTOLOCK
+	const EFFECT_VOLT_TACKLE
+	const EFFECT_BUG_BITE
+; 227

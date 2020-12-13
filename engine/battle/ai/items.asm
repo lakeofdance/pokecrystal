@@ -1,6 +1,4 @@
 AI_SwitchOrTryItem:
-	and a
-
 	ld a, [wBattleMode]
 	dec a
 	ret z
@@ -30,11 +28,14 @@ AI_SwitchOrTryItem:
 	ld bc, NUM_TRAINER_ATTRIBUTES
 	call AddNTimes
 .ok
-	bit SWITCH_OFTEN_F, [hl]
+	ld a, BANK(TrainerClassAttributes)
+	call GetFarHalfword
+
+	bit SWITCH_OFTEN_F, l
 	jp nz, SwitchOften
-	bit SWITCH_RARELY_F, [hl]
+	bit SWITCH_RARELY_F, l
 	jp nz, SwitchRarely
-	bit SWITCH_SOMETIMES_F, [hl]
+	bit SWITCH_SOMETIMES_F, l
 	jp nz, SwitchSometimes
 	; fallthrough
 
@@ -165,6 +166,8 @@ AI_TryItem:
 	ld hl, TrainerClassAttributes + TRNATTR_AI_ITEM_SWITCH
 	ld bc, NUM_TRAINER_ATTRIBUTES
 	call AddNTimes
+	ld a, BANK(TrainerClassAttributes)
+	call GetFarHalfword
 	ld b, h
 	ld c, l
 	ld hl, AI_Items
@@ -209,6 +212,7 @@ AI_TryItem:
 	jr c, .loop
 
 .used_item
+
 	xor a
 	ld [de], a
 	inc a
@@ -290,10 +294,10 @@ AI_Items:
 	and a
 	jp z, .DontUse
 
-	ld a, [bc]
+	ld a, c
 	bit CONTEXT_USE_F, a
 	jr nz, .StatusCheckContext
-	ld a, [bc]
+	ld a, c
 	bit ALWAYS_USE_F, a
 	jp nz, .Use
 	call Random
@@ -320,7 +324,7 @@ AI_Items:
 .FullRestore:
 	call .HealItem
 	jp nc, .UseFullRestore
-	ld a, [bc]
+	ld a, c
 	bit CONTEXT_USE_F, a
 	jp z, .DontUse
 	call .Status
@@ -337,12 +341,12 @@ AI_Items:
 	jp .Use
 
 .HealItem:
-	ld a, [bc]
+	ld a, c
 	bit CONTEXT_USE_F, a
 	jr nz, .CheckHalfOrQuarterHP
 	callfar AICheckEnemyHalfHP
 	jp c, .DontUse
-	ld a, [bc]
+	ld a, c
 	bit UNKNOWN_USE_F, a
 	jp nz, .CheckQuarterHP
 	callfar AICheckEnemyQuarterHP
@@ -439,13 +443,13 @@ AI_Items:
 	ld a, [wEnemyTurnsTaken]
 	and a
 	jr nz, .notfirstturnout
-	ld a, [bc]
+	ld a, c
 	bit ALWAYS_USE_F, a
 	jp nz, .Use
 	call Random
 	cp 50 percent + 1
 	jp c, .DontUse
-	ld a, [bc]
+	ld a, c
 	bit CONTEXT_USE_F, a
 	jp nz, .Use
 	call Random
@@ -453,7 +457,7 @@ AI_Items:
 	jp c, .DontUse
 	jp .Use
 .notfirstturnout
-	ld a, [bc]
+	ld a, c
 	bit ALWAYS_USE_F, a
 	jp z, .DontUse
 	call Random

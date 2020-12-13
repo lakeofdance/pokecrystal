@@ -1,5 +1,5 @@
 CopyMonToTempMon:
-; gets the BaseData of a mon
+; gets the BaseData of the current party mon
 ; and copies the party_struct to wTempMon
 
 	ld a, [wCurPartyMon]

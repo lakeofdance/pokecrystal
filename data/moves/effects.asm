@@ -1378,6 +1378,7 @@ Eruption:
 GyroBall:
 CrushGrip:
 ElectroBall:
+Punishment:
 	checkobedience
 	usedmovetext
 	doturn
@@ -2703,8 +2704,7 @@ DoBurn:
 	stab
 	checkhit
 	checksafeguard
-; todo, temporary
-	burntarget
+	burn
 	endmove
 
 KingsShield:
@@ -2860,4 +2860,77 @@ Hail:
 	usedmovetext
 	doturn
 	starthail
+	endmove
+
+Snatch:
+	checkobedience
+	usedmovetext
+	doturn
+	snatch
+	endmove
+
+TopsyTurvy:
+	checkobedience
+	usedmovetext
+	doturn
+	checkhit
+	topsyturvy
+	endmove
+
+Purify:
+	checkobedience
+	usedmovetext
+	doturn
+	purify
+	endmove
+
+Octolock:
+	checkobedience
+	usedmovetext
+	doturn
+	checkhit
+	octolock
+	endmove
+
+VoltTackle:
+	checkobedience
+	usedmovetext
+	doturn
+	critical
+	damagestats
+	damagecalc
+	stab
+	damagevariation
+	checkhit
+	effectchance
+	moveanim
+	failuretext
+	applydamage
+	criticaltext
+	supereffectivetext
+	recoil
+	checkfaint
+	buildopponentrage
+	paralyzetarget
+	endmove
+
+BugBite:
+	checkobedience
+	usedmovetext
+	doturn
+	critical
+	damagestats
+	damagecalc
+	stab
+	damagevariation
+	doubledamage
+	checkhit
+	moveanim
+	failuretext
+	applydamage
+	criticaltext
+	supereffectivetext
+	bugbite
+	checkfaint
+	buildopponentrage
 	endmove

@@ -40,6 +40,7 @@ AlwaysHitMoves:
 	db EFFECT_DEFOG
 	db EFFECT_PHANTOM_FORCE
 	db EFFECT_CLEAR_SMOG
+	db EFFECT_TOPSY_TURVY
 	db -1
 
 HitThroughProtectMoves:

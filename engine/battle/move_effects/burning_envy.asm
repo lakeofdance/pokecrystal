@@ -1,5 +1,6 @@
 BattleCommand_BurningEnvy:
 ; burningenvy
+; opponents with boosted stats get burned
 
 	farcall CheckSubstituteOpp
 	jr nz, .failed

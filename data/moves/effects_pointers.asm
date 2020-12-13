@@ -222,3 +222,11 @@ MoveEffectsPointers:
 	dw NormalHit
 	dw Hail
 	dw AuroraVeil
+	dw LeechHit
+	dw Punishment
+	dw Snatch
+	dw TopsyTurvy
+	dw Purify
+	dw Octolock
+	dw VoltTackle
+	dw BugBite

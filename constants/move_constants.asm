@@ -542,8 +542,18 @@
 	const SUCKER_PUNCH ; 215
 	const HAIL         ; 216
 	const AURORA_VEIL  ; 217
+	const PUNISHMENT   ; 218
+	const SNATCH       ; 219
+	const TOPSY_TURVY  ; 21a
+	const PURIFY       ; 21b
+	const OCTOLOCK     ; 21c
+	const STAR_ASSAULT ; 21d
+	const VOLT_TACKLE  ; 21e
+	const BUG_BITE     ; 21f
 
-; This constant is only used by engine/battle/move_effects/metronome.asm
+; This constant is used by engine/battle/move_effects/metronome.asm, when it randomly
+; selects a move.
+; Also by BattleAnimRunScript, to decide whether it should make the hud disappear.
 NUM_ATTACKS EQU const_value + -1
 
 ; Battle animations use the same constants as the moves up to this point

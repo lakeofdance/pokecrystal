@@ -30,5 +30,4 @@ CheckOpponentBerry:
 	ld a, [hl]
 	ld de, 1
 	ld hl, BerryItems
-	call IsInArray
-	ret
+	jp IsInArray

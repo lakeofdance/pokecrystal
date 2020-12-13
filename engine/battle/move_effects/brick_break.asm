@@ -5,7 +5,7 @@ BattleCommand_BrickBreak:
 	ret
 
 ClearOpponentScreens:
-; returns nz if opponent had reflect up
+; returns nz if opponent had screens up
 	ld hl, wPlayerScreens
 	ld bc, wPlayerLightScreenCount
 	ld de, .your

@@ -48,13 +48,13 @@ BattleCommand_SleepTalk:
 	ld a, BATTLE_VARS_MOVE_ANIM
 	push hl
 	call GetBattleVarAddr
-	call CompareMove2
+	call CompareMove
 	pop hl
 	jr z, .sample_move
 ; Reject disabled move
 	ld h, d
 	ld l, e
-	call CompareMove2
+	call CompareMove
 	jr z, .sample_move
 ; Reject move that takes two turns
 	call .check_two_turn_move
@@ -127,12 +127,12 @@ BattleCommand_SleepTalk:
 	jr z, .carry
 
 ; Check whether move is disabled
-	call CompareMove2
+	call CompareMove
 	jr z, .nope
 	push bc
 ; Check whether move is sleep talk
 	ld bc, SLEEP_TALK
-	call CompareMove2
+	call CompareMove
 	pop bc
 	jr z, .nope
 

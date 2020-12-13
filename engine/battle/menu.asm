@@ -10,7 +10,7 @@ LoadBattleMenu:
 	ret
 
 ContestBattleMenu:
-	ld hl, MenuHeader_0x24f89
+	ld hl, BugContestMenuHeader
 	call LoadMenuHeader
 
 Function24f19:
@@ -25,42 +25,42 @@ Function24f19:
 BattleMenuHeader:
 	db MENU_BACKUP_TILES ; flags
 	menu_coords 8, 12, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1
-	dw MenuData_0x24f34
+	dw BattleMenuData
 	db 1 ; default option
 
-MenuData_0x24f34:
+BattleMenuData:
 	db STATICMENU_CURSOR | STATICMENU_DISABLE_B ; flags
 	dn 2, 2 ; rows, columns
 	db 6 ; spacing
-	dba Strings24f3d
-	dbw BANK(MenuData_0x24f34), 0
+	dba BattleMenuStrings
+	dbw BANK(BattleMenuData), 0
 
-Strings24f3d:
+BattleMenuStrings:
 	db "FIGHT@"
 	db "<PKMN>@"
 	db "PACK@"
 	db "RUN@"
 
-MenuHeader_0x24f89:
+BugContestMenuHeader:
 	db MENU_BACKUP_TILES ; flags
 	menu_coords 2, 12, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1
-	dw MenuData_0x24f91
+	dw BugContestMenuData
 	db 1 ; default option
 
-MenuData_0x24f91:
+BugContestMenuData:
 	db STATICMENU_CURSOR | STATICMENU_DISABLE_B ; flags
 	dn 2, 2 ; rows, columns
 	db 12 ; spacing
-	dba Strings24f9a
-	dba Function24fb2
+	dba BugContestMenuStrings
+	dba PrintRemainingParkBalls
 
-Strings24f9a:
+BugContestMenuStrings:
 	db "FIGHT@"
 	db "<PKMN>@"
 	db "PARKBALL×  @"
 	db "RUN@"
 
-Function24fb2:
+PrintRemainingParkBalls:
 	hlcoord 13, 16
 	ld de, wParkBallsRemaining
 	lb bc, PRINTNUM_LEADINGZEROS | 1, 2

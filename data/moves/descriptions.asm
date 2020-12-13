@@ -535,6 +535,14 @@ MoveDescriptions::
 	dw SuckerPunchDescription
 	dw HailDescription
 	dw AuroraVeilDescription
+	dw PunishmentDescription
+	dw SnatchDescription
+	dw TopsyTurvyDescription
+	dw PurifyDescription
+	dw OctolockDescription
+	dw StarAssaultDescription
+	dw VoltTackleDescription
+	dw BugBiteDescription
 
 MoveFFDescription:
 Move100Description:
@@ -824,6 +832,7 @@ GigaImpactDescription:
 BlastBurnDescription:
 PrismaticLaserDescription:
 RoarOfTimeDescription:
+StarAssaultDescription:
 	db   "1st turn: Attack"
 	next "2nd turn: Rest@"
 
@@ -840,6 +849,7 @@ WoodHammerDescription:
 BraveBirdDescription:
 HeadSmashDescription:
 FlareBlitzDescription:
+VoltTackleDescription:
 	db   "An attack that al-"
 	next "so hurts the user.@"
 
@@ -892,6 +902,10 @@ FireSpinDescription:
 MagmaStormDescription:
 	db   "Traps foe in fire"
 	next "for 2-5 turns.@"
+
+OctolockDescription:
+	db   "Traps foe and"
+	next "lowers DEFENSES.@"
 
 ThundershockDescription:
 ThunderboltDescription:
@@ -2029,6 +2043,10 @@ PowerTripDescription:
 	db   "Gains power from"
 	next "user's stat boosts.@"
 
+PunishmentDescription:
+	db   "Gains power from"
+	next "foe's stat boosts.@"
+
 SynchronoiseDescription:
 	db   "Only damages foes"
 	next "sharing a type.@"
@@ -2117,3 +2135,19 @@ FeintDescription:
 AuroraVeilDescription:
 	db   "Raises DEFENSES"
 	next "with a barrier.@"
+
+SnatchDescription:
+	db   "Steals foe's"
+	next "status move.@"
+
+TopsyTurvyDescription:
+	db   "Inverts the foe's"
+	next "stat changes.@"
+
+PurifyDescription:
+	db   "Cures the foe and"
+	next "restores user's HP.@"
+
+BugBiteDescription:
+	db   "Uses the foe's"
+	next "held berry.@"

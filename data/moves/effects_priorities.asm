@@ -2,6 +2,7 @@ MoveEffectPriorities:
 	db EFFECT_PROTECT,            9
 	db EFFECT_ENDURE,             9
 	db EFFECT_KINGS_SHIELD,       9
+	db EFFECT_SNATCH,             9
 	db EFFECT_EXTRA_PRIORITY_HIT, 7
 	db EFFECT_PRIORITY_HIT,       6
 	db EFFECT_PRIORITY_MULTI_HIT, 6

@@ -67,6 +67,7 @@ ToxicSpikesEffect:
 	ld de, wEnemyToxicCount
 	ld bc, UpdateEnemyHUD
 .cool
+	push bc
 	bit SCREENS_TOXIC_SPIKES_2, [hl]
 	jr z, .poison
 ; toxic poison
@@ -85,9 +86,8 @@ ToxicSpikesEffect:
 	call GetBattleVarAddr
 	set PSN, [hl]
 	call UpdateOpponentInParty
-	push bc
 	pop hl
-	call .hl
+	call CallBattleCore
 	jp WaitBGMap
 
 .absorb
@@ -95,9 +95,6 @@ ToxicSpikesEffect:
 	res SCREENS_TOXIC_SPIKES_2, [hl]
 	ld hl, BattleText_UserAbsorbedToxicSpikes ; "absorbed TOXIC SPIKES!"
 	jp StdBattleTextbox
-
-.hl
-	jp hl
 
 SpikesDamage:
 	ld hl, wPlayerScreens2
@@ -146,22 +143,18 @@ SpikesDamage:
 	pop de
 
 	ld hl, GetSixteenthMaxHP
-	call CallBattleCore2
+	call CallBattleCore
 	ld hl, 0
 	ld a, d
 	call AddNTimes
 	ld b, h
 	ld c, l
 	ld hl, SubtractHPFromTarget
-	call CallBattleCore2
+	call CallBattleCore
 
 	pop hl
-	call .hl
-
+	call CallBattleCore
 	jp WaitBGMap
-
-.hl
-	jp hl
 
 StealthRocksDamage:
 	ld hl, wPlayerScreens2
@@ -222,7 +215,7 @@ StealthRocksDamage:
 	pop de
 
 	ld hl, GetHalfMaxHP
-	call CallBattleCore2
+	call CallBattleCore
 .DamageLoop
 	dec d
 	jr z, .gotDamage
@@ -237,12 +230,10 @@ StealthRocksDamage:
 
 .gotDamage
 	ld hl, SubtractHPFromTarget
-	call CallBattleCore2
+	call CallBattleCore
 	pop hl
-	call .hl
+	call CallBattleCore
 	jp WaitBGMap
-.hl
-	jp hl
 
 INCLUDE "data/types/rocks_damage.asm"
 
@@ -268,14 +259,8 @@ StickyWeb:
 	ret z
 
 	farcall LowerSpeedStat
-	farcall BattleCommand_SwitchTurn
+	call SwitchTurn
 	farcall BattleCommand_StatDownMessage
-	farcall BattleCommand_SwitchTurn
-	ldh a, [hBattleTurn]
-	and a
-	jr nz, .enemy
-	farcall CalcPlayerStats
-	ret
-.enemy
-	farcall CalcEnemyStats
+	call SwitchTurn
+	farcall RecalcAllStats
 	ret

@@ -15,4 +15,5 @@ ResidualMoves:
 	dw SPIKES
 	dw STEALTHROCKS
 	dw TOXIC_SPIKES
+	dw WILL_O_WISP
 	db -1 ; end

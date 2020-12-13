@@ -19,4 +19,6 @@ RainDanceMoves:
 	dw SCALD
 	dw STEAMRUPTION
 	dw WATERSHURIKN
+	dw WATER_SPOUT
+	dw WEATHER_BALL
 	db -1 ; end
