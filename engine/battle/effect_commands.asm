@@ -42,6 +42,14 @@ DoTurn:
 	call UpdateMoveData
 
 DoMove:
+; Some moves have a built-in 25% failure rate when used by the enemy.
+	call EnemyFailChance
+	jr nc, .DontFail
+	call AnimateFailedMove
+	ld hl, DidntAffect1Text
+	jp StdBattleTextbox
+
+.DontFail
 ; Get the user's move effect.
 	ld a, BATTLE_VARS_MOVE_EFFECT
 	call GetBattleVar
@@ -119,7 +127,6 @@ DoMove:
 	ret
 
 CheckTurn:
-
 ; Move $ff immediately ends the turn.
 	ld a, BATTLE_VARS_MOVE
 	call GetBattleVar
@@ -1396,9 +1403,9 @@ INCLUDE "data/battle/critical_hit_chances.asm"
 BattleCommand_Stab:
 ; STAB = Same Type Attack Bonus
 	ld a, BATTLE_VARS_MOVE_ANIM
-	call GetBattleVar
-;todo
-	cp STRUGGLE
+	call GetBattleVarAddr
+	ld bc, STRUGGLE
+	call CompareMove
 	ret z
 
 	ld hl, wBattleMonType1
@@ -1476,7 +1483,6 @@ BattleCommand_Stab:
 	call GetBattleVar
 	and TYPE_MASK
 	ld b, a
-;	ld hl, TypeMatchups
 	call GetMatchup
 
 .TypesLoop:
@@ -1687,16 +1693,12 @@ CheckTypeMatchup:
 	push hl
 	push de
 	push bc
-;	ld a, BATTLE_VARS_MOVE_TYPE
-;	call GetBattleVar
-;	and TYPE_MASK
 	ld d, a
 	ld b, [hl]
 	inc hl
 	ld c, [hl]
 	ld a, 10 ; 1.0
 	ld [wTypeMatchup], a
-;	ld hl, TypeMatchups
 	call GetMatchup
 .TypesLoop:
 	ld a, [hli]
@@ -2167,18 +2169,18 @@ BattleCommand_CheckHit:
 ; Returns z if defending mon matches mon in bc.
 	jr nz, .loop
 ; Check whether a super-effective move is being used.
+; Recalculate matchup here, because fixed-damage moves don't automatically.
+	ld a, [wTypeMatchup]
+	ld b, a
+	push bc
+	call BattleCheckTypeMatchup
 	ld a, [wTypeMatchup]
 	cp SUPER_EFFECTIVE
+	pop bc
 	ret nc
-; Also allow night shade, which will have slipped through here
-; because fixed-damage moves don't calculate type matchup.
-; todo: This assumes that the wonder-guarded mon is weak to ghost.
-	ld a, BATTLE_VARS_MOVE_ANIM
-	call GetBattleVarAddr
-	ld bc, NIGHT_SHADE
-	call CompareMove
-	ret z
 
+	ld a, b
+	ld [wTypeMatchup], a
 	ld c, 40
 	call DelayFrames
 
@@ -4328,10 +4330,6 @@ BattleCommand_SleepTarget:
 	and a
 	jp nz, PrintDidntAffect2
 
-	ld hl, DidntAffect1Text
-	call .CheckAIRandomFail
-	jr c, .fail
-
 	ld a, [de]
 	and a
 	jr nz, .fail
@@ -4370,34 +4368,6 @@ BattleCommand_SleepTarget:
 	call AnimateFailedMove
 	pop hl
 	jp StdBattleTextbox
-
-.CheckAIRandomFail:
-	; Enemy turn
-	ldh a, [hBattleTurn]
-	and a
-	jr z, .dont_fail
-
-	; Not in link battle
-	ld a, [wLinkMode]
-	and a
-	jr nz, .dont_fail
-
-	ld a, [wInBattleTowerBattle]
-	and a
-	jr nz, .dont_fail
-
-	; Not locked-on by the enemy
-	ld a, [wPlayerSubStatus5]
-	bit SUBSTATUS_LOCK_ON, a
-	jr nz, .dont_fail
-
-	call BattleRandom
-	cp 25 percent + 1 ; 25% chance AI fails
-	ret c
-
-.dont_fail
-	xor a
-	ret
 
 BattleCommand_WakeOpponent:
 ; wakeopponent
@@ -4498,27 +4468,6 @@ BattleCommand_Poison:
 	and a
 	jr nz, .failed
 
-	ldh a, [hBattleTurn]
-	and a
-	jr z, .dont_sample_failure
-
-	ld a, [wLinkMode]
-	and a
-	jr nz, .dont_sample_failure
-
-	ld a, [wInBattleTowerBattle]
-	and a
-	jr nz, .dont_sample_failure
-
-	ld a, [wPlayerSubStatus5]
-	bit SUBSTATUS_LOCK_ON, a
-	jr nz, .dont_sample_failure
-
-	call BattleRandom
-	cp 25 percent + 1 ; 25% chance AI fails
-	jr c, .failed
-
-.dont_sample_failure
 	call CheckSubstituteOpp
 	jr nz, .failed
 	ld a, [wAttackMissed]
@@ -5062,39 +5011,10 @@ BattleCommand_StatDown:
 ; Sharply lower the stat if applicable.
 	ld a, [wLoweredStat]
 	and $f0
-	jr z, .ComputerMiss
+	jr z, .DidntMiss
 	dec b
-	jr nz, .ComputerMiss
+	jr nz, .DidntMiss
 	inc b
-
-.ComputerMiss:
-; Computer opponents have a 25% chance of failing.
-	ldh a, [hBattleTurn]
-	and a
-	jr z, .DidntMiss
-
-	ld a, [wLinkMode]
-	and a
-	jr nz, .DidntMiss
-
-	ld a, [wInBattleTowerBattle]
-	and a
-	jr nz, .DidntMiss
-
-; Lock-On still always works.
-	ld a, [wPlayerSubStatus5]
-	bit SUBSTATUS_LOCK_ON, a
-	jr nz, .DidntMiss
-
-; Attacking moves that also lower accuracy are unaffected.
-	ld a, BATTLE_VARS_MOVE_EFFECT
-	call GetBattleVar
-	cp EFFECT_ACCURACY_DOWN_HIT
-	jr z, .DidntMiss
-
-	call BattleRandom
-	cp 25 percent + 1 ; 25% chance AI fails
-	jr c, .Failed
 
 .DidntMiss:
 	call CheckSubstituteOpp
@@ -6790,28 +6710,6 @@ BattleCommand_Paralyze:
 	jp StdBattleTextbox
 
 .no_item_protection
-	ldh a, [hBattleTurn]
-	and a
-	jr z, .dont_sample_failure
-
-	ld a, [wLinkMode]
-	and a
-	jr nz, .dont_sample_failure
-
-	ld a, [wInBattleTowerBattle]
-	and a
-	jr nz, .dont_sample_failure
-
-	ld a, [wPlayerSubStatus5]
-	bit SUBSTATUS_LOCK_ON, a
-	jr nz, .dont_sample_failure
-
-;controversial
-	call BattleRandom
-	cp 25 percent + 1 ; 25% chance AI fails
-	jr c, .failed
-
-.dont_sample_failure
 	ld a, BATTLE_VARS_STATUS_OPP
 	call GetBattleVarAddr
 	and a
@@ -7814,3 +7712,40 @@ _CheckBattleScene:
 	pop de
 	pop hl
 	ret
+
+EnemyFailChance:
+; Enemy has a 25% chance of failing when using some moves.
+; Return carry if move fails
+	ld a, BATTLE_VARS_MOVE_EFFECT
+	call GetBattleVar
+	ld hl, EnemyFailChanceMoves
+	ld de, 1
+	call IsInArray
+	ret nc
+
+	ldh a, [hBattleTurn]
+	and a
+	jr z, .DidntMiss
+
+	ld a, [wLinkMode]
+	and a
+	jr nz, .DidntMiss
+
+	ld a, [wInBattleTowerBattle]
+	and a
+	jr nz, .DidntMiss
+
+; Lock-On still always works.
+	ld a, [wPlayerSubStatus5]
+	bit SUBSTATUS_LOCK_ON, a
+	jr nz, .DidntMiss
+
+	call BattleRandom
+	cp 25 percent + 1 ; 25% chance AI fails
+	ret
+
+.DidntMiss:
+	xor a
+	ret
+
+INCLUDE "data/moves/enemy_fail_chance_moves.asm"
