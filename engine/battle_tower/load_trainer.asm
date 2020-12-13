@@ -98,7 +98,9 @@ Function_LoadRandomBattleTowerMon:
 	ld a, BANK(sBTMonPrevTrainer1)
 	call GetSRAMBank
 
+	push hl
 .FindARandomBattleTowerMon:
+	pop hl
 	; From Which LevelGroup are the mon loaded
 	; a = 1..10
 	ld a, [wBTChoiceOfLvlGroup]
@@ -123,70 +125,47 @@ Function_LoadRandomBattleTowerMon:
 	; Check current and the 2 previous teams
 	ld bc, NICKNAMED_MON_STRUCT_LENGTH
 	call AddNTimes
-	ld a, [hli]
-	ld b, a
+
 	ld a, [hli]
 	ld c, a
-	ld a, [wBT_OTMon1]
-	cp b
-	jr nz, .checkitem
-	ld a, [wBT_OTMon1 + 1]
-	cp c
+	ld a, [hli]
+	ld b, a
+	push hl
+	ld hl, wBT_OTMon1
+	call CompareMove
 	jr z, .FindARandomBattleTowerMon
-	ld a, [wBT_OTMon2]
-	cp b
-	jr nz, .checkitem
-	ld a, [wBT_OTMon2 + 1]
-	cp c
+	ld hl, wBT_OTMon2
+	call CompareMove
 	jr z, .FindARandomBattleTowerMon
-	ld a, [wBT_OTMon3]
-	cp b
-	jr nz, .checkitem
-	ld a, [wBT_OTMon3 + 1]
-	cp c
+	ld hl, wBT_OTMon3
+	call CompareMove
 	jr z, .FindARandomBattleTowerMon
-	ld a, [sBTMonPrevTrainer1]
-	cp b
-	jr nz, .checkitem
-	ld a, [sBTMonPrevTrainer1 + 1]
-	cp c
+	ld hl, sBTMonPrevTrainer1
+	call CompareMove
 	jr z, .FindARandomBattleTowerMon
-	ld a, [sBTMonPrevTrainer2]
-	cp b
-	jr nz, .checkitem
-	ld a, [sBTMonPrevTrainer2 + 1]
-	cp c
+	ld hl, sBTMonPrevTrainer2
+	call CompareMove
 	jr z, .FindARandomBattleTowerMon
-	ld a, [sBTMonPrevTrainer3]
-	cp b
-	jr nz, .checkitem
-	ld a, [sBTMonPrevTrainer3 + 1]
-	cp c
+	ld hl, sBTMonPrevTrainer3
+	call CompareMove
 	jr z, .FindARandomBattleTowerMon
-	ld a, [sBTMonPrevPrevTrainer1]
-	cp b
-	jr nz, .checkitem
-	ld a, [sBTMonPrevPrevTrainer1 + 1]
-	cp c
+	ld hl, sBTMonPrevPrevTrainer1
+	call CompareMove
 	jr z, .FindARandomBattleTowerMon
-	ld a, [sBTMonPrevPrevTrainer2]
-	cp b
-	jr nz, .checkitem
-	ld a, [sBTMonPrevPrevTrainer2 + 1]
-	cp c
-	jp z, .FindARandomBattleTowerMon
-	ld a, [sBTMonPrevPrevTrainer3]
-	cp b
-	jr nz, .checkitem
-	ld a, [sBTMonPrevPrevTrainer3 + 1]
-	cp c
-	jp z, .FindARandomBattleTowerMon
+	ld hl, sBTMonPrevPrevTrainer2
+	call CompareMove
+	jr z, .FindARandomBattleTowerMon
+	ld hl, sBTMonPrevPrevTrainer3
+	call CompareMove
+	jr z, .FindARandomBattleTowerMon
 
 	; check for duplicate items in team
 .checkitem
+	pop hl
 	ld a, [hld]
 	ld c, a
 	dec hl
+	push hl
 	ld a, [wBT_OTMon1Item]
 	cp c
 	jp z, .FindARandomBattleTowerMon
@@ -197,6 +176,7 @@ Function_LoadRandomBattleTowerMon:
 	cp c
 	jp z, .FindARandomBattleTowerMon
 
+	pop hl
 	ld bc, NICKNAMED_MON_STRUCT_LENGTH
 	call CopyBytes
 
@@ -230,18 +210,24 @@ Function_LoadRandomBattleTowerMon:
 	dec c
 	jp nz, .loop
 
-	ld a, [sBTMonPrevTrainer1]
-	ld [sBTMonPrevPrevTrainer1], a
-	ld a, [sBTMonPrevTrainer2]
-	ld [sBTMonPrevPrevTrainer2], a
-	ld a, [sBTMonPrevTrainer3]
-	ld [sBTMonPrevPrevTrainer3], a
+	ld hl, sBTMonPrevTrainer1
+	ld de, sBTMonPrevPrevTrainer1
+	ld bc, 6
+	call CopyBytes
+
+	ld hl, sBTMonPrevTrainer1
 	ld a, [wBT_OTMon1]
-	ld [sBTMonPrevTrainer1], a
+	ld [hli], a
+	ld a, [wBT_OTMon1 + 1]
+	ld [hli], a
 	ld a, [wBT_OTMon2]
-	ld [sBTMonPrevTrainer2], a
+	ld [hli], a
+	ld a, [wBT_OTMon2 + 1]
+	ld [hli], a
 	ld a, [wBT_OTMon3]
-	ld [sBTMonPrevTrainer3], a
+	ld [hli], a
+	ld a, [wBT_OTMon3 + 1]
+	ld [hl], a
 	call CloseSRAM
 	ret
 
