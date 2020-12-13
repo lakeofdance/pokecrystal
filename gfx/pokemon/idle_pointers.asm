@@ -261,7 +261,7 @@ AnimationIdlePointers:
 	dw NincadaAnimationIdle
 	dw NinjaskAnimationIdle
 	dw ShedinjaAnimationIdle
-	dw Mon_109AnimationIdle
+	dw MegaVenusaurAnimationIdle
 	dw Mon_10AAnimationIdle
 	dw Mon_10BAnimationIdle
 	dw Mon_10CAnimationIdle

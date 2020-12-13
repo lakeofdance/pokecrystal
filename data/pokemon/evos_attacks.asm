@@ -54,6 +54,8 @@ IvysaurEvosAttacks:
 	db 0 ; no more level-up moves
 
 VenusaurEvosAttacks:
+	dbbw EVOLVE_MEGA, MEGA_STONE, VENUSAUR_MEGA
+MegaVenusaurEvosAttacks:
 	db 0 ; no more evolutions
 	dbw 1, TACKLE
 	dbw 1, GROWL

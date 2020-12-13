@@ -263,7 +263,7 @@ PokemonNames::
 	db "NINCADA@@@"
 	db "NINJASK@@@"
 	db "SHEDINJA@@"
-	db "MON109@@@@"
+	db "VENUSAUR@@"
 	db "MON10A@@@@"
 	db "MON10B@@@@"
 	db "MON10C@@@@"

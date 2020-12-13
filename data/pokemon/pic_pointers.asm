@@ -533,8 +533,8 @@ PokemonPicPointers::
 	dba NinjaskBackpic
 	dba ShedinjaFrontpic
 	dba ShedinjaBackpic
-	dba Mon109Frontpic
-	dba Mon109Backpic
+	dba MegaVenusaurFrontpic
+	dba MegaVenusaurBackpic
 	dba Mon10AFrontpic
 	dba Mon10ABackpic
 	dba Mon10BFrontpic

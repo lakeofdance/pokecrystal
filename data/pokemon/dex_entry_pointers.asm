@@ -262,7 +262,7 @@ PokedexDataPointerTable:
 	dw NincadaPokedexEntry
 	dw NinjaskPokedexEntry
 	dw ShedinjaPokedexEntry
-	dw Mon_109PokedexEntry
+	dw MegaVenusaurPokedexEntry
 	dw Mon_10APokedexEntry
 	dw Mon_10BPokedexEntry
 	dw Mon_10CPokedexEntry

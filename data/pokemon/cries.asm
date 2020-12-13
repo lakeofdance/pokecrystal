@@ -269,7 +269,7 @@ PokemonCries::
 	mon_cry CRY_NIDORAN_M,      0,     0 ; NINCADA
 	mon_cry CRY_NIDORAN_M,      0,     0 ; NINJASK
 	mon_cry CRY_NIDORAN_M,      0,     0 ; SHEDINJA
-	mon_cry CRY_NIDORAN_M,      0,     0 ; 109
+	mon_cry CRY_BULBASAUR,   $000,  $140 ; VENUSAUR_MEGA
 	mon_cry CRY_NIDORAN_M,      0,     0 ; 10A
 	mon_cry CRY_NIDORAN_M,      0,     0 ; 10B
 	mon_cry CRY_NIDORAN_M,      0,     0 ; 10C

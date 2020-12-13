@@ -263,7 +263,7 @@ EvosAttacksPointers::
 	dw NincadaEvosAttacks
 	dw NinjaskEvosAttacks
 	dw ShedinjaEvosAttacks
-	dw MonEvosAttacks
+	dw MegaVenusaurEvosAttacks
 	dw MonEvosAttacks
 	dw MonEvosAttacks
 	dw MonEvosAttacks

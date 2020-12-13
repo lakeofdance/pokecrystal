@@ -605,7 +605,7 @@ INCBIN "gfx/footprints/mon_106.1bpp",    footprint_bottom
 INCBIN "gfx/footprints/mon_107.1bpp",    footprint_bottom
 INCBIN "gfx/footprints/mon_108.1bpp",    footprint_bottom
 ; 265-272 top halves
-INCBIN "gfx/footprints/mon_109.1bpp",    footprint_top
+INCBIN "gfx/footprints/venusaur_mega.1bpp",    footprint_top
 INCBIN "gfx/footprints/mon_10A.1bpp",    footprint_top
 INCBIN "gfx/footprints/mon_10B.1bpp",    footprint_top
 INCBIN "gfx/footprints/mon_10C.1bpp",    footprint_top
@@ -614,7 +614,7 @@ INCBIN "gfx/footprints/mon_10E.1bpp",    footprint_top
 INCBIN "gfx/footprints/mon_10F.1bpp",    footprint_top
 INCBIN "gfx/footprints/mon_110.1bpp",    footprint_top
 ; 265-272 bottom halves
-INCBIN "gfx/footprints/mon_109.1bpp",    footprint_bottom
+INCBIN "gfx/footprints/venusaur_mega.1bpp",    footprint_bottom
 INCBIN "gfx/footprints/mon_10A.1bpp",    footprint_bottom
 INCBIN "gfx/footprints/mon_10B.1bpp",    footprint_bottom
 INCBIN "gfx/footprints/mon_10C.1bpp",    footprint_bottom

@@ -261,7 +261,7 @@ AnimationPointers:
 	dw NincadaAnimation
 	dw NinjaskAnimation
 	dw ShedinjaAnimation
-	dw Mon_109Animation
+	dw MegaVenusaurAnimation
 	dw Mon_10AAnimation
 	dw Mon_10BAnimation
 	dw Mon_10CAnimation
