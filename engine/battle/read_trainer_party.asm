@@ -86,6 +86,7 @@ TrainerTypes:
 	dw TrainerType2 ; level, species, moves
 	dw TrainerType3 ; level, species, item
 	dw TrainerType4 ; level, species, item, moves
+	dw TrainerType5 ; level, species, moves - random
 
 TrainerType1:
 ; normal (level, species)
@@ -99,10 +100,8 @@ TrainerType1:
 	ld [wCurPartyLevel], a
 	ld a, [hli]
 	ld [wCurPartySpecies], a
-;
 	ld a, [hli]
 	ld [wCurPartySpecies + 1], a
-;
 	ld a, OTPARTYMON
 	ld [wMonType], a
 	push hl
@@ -119,13 +118,15 @@ TrainerType2:
 	cp $ff
 	ret z
 
+	call LoadType2Mon
+	jr .loop
+
+LoadType2Mon:
 	ld [wCurPartyLevel], a
 	ld a, [hli]
 	ld [wCurPartySpecies], a
-;
 	ld a, [hli]
 	ld [wCurPartySpecies + 1], a
-;
 	ld a, OTPARTYMON
 	ld [wMonType], a
 
@@ -197,7 +198,7 @@ TrainerType2:
 .copied_pp
 
 	pop hl
-	jr .loop
+	ret
 
 TrainerType3:
 ; item
@@ -211,10 +212,8 @@ TrainerType3:
 	ld [wCurPartyLevel], a
 	ld a, [hli]
 	ld [wCurPartySpecies], a
-;
 	ld a, [hli]
 	ld [wCurPartySpecies + 1], a
-;
 	ld a, OTPARTYMON
 	ld [wMonType], a
 	push hl
@@ -243,10 +242,8 @@ TrainerType4:
 	ld [wCurPartyLevel], a
 	ld a, [hli]
 	ld [wCurPartySpecies], a
-;
 	ld a, [hli]
 	ld [wCurPartySpecies + 1], a
-;
 
 	ld a, OTPARTYMON
 	ld [wMonType], a
@@ -334,6 +331,72 @@ TrainerType4:
 
 	pop hl
 	jp .loop
+
+TrainerType5:
+; moves, random
+	ld h, d
+	ld l, e
+
+	ld a, [hli]
+	ld d, a ; number of mons to take, assumed 0 < d < 7
+	ld a, [hli]
+	ld e, a ; number to choose from, assumed (d - 1) < e < (MAX_RANDOM_POOL + 1)
+.loop
+	call Random
+	and $1f
+	cp e
+	jr nc, .loop
+
+	push de
+	push hl
+; Here we need to check that we haven't already got this mon.
+; For this we use a flag array at wRandomTeamFlags.
+	ld d, 0
+	ld e, a
+	ld hl, wRandomOTPartyFlags
+	ld b, CHECK_FLAG
+	push de
+	call FlagAction
+	pop de
+	ld a, c
+	and a
+	jr nz, .next
+
+	ld hl, wRandomOTPartyFlags
+	ld b, SET_FLAG
+	push de
+	call FlagAction
+	pop de
+
+	pop hl
+	push hl
+	ld a, e
+	ld bc, 11
+	call AddNTimes
+
+
+	ld a, [hli]
+	call LoadType2Mon
+	pop hl
+	pop de
+	dec d
+	jr nz, .loop
+; full team
+	jr ResetRandomOTPartyFlags
+
+.next
+	pop hl
+	pop de
+	jr .loop
+
+ResetRandomOTPartyFlags::
+	xor a
+	ld hl, wRandomOTPartyFlags
+	ld [hli], a
+	ld [hli], a
+	ld [hli], a
+	ld [hl], a
+	ret
 
 ComputeTrainerReward:
 	ld hl, hProduct

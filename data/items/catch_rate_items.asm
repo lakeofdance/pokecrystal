@@ -12,7 +12,5 @@ TimeCapsule_CatchRateItems:
 	db ITEM_87, BERRY
 	db ITEM_BE, BERRY
 	db ITEM_FA, BERRY
-	db $f1,     BERRY         ; TM_51
-	db $f2,     BERRY         ; TM_52
 	db -1,      BERRY
 	db 0 ; end

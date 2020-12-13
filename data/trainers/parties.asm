@@ -8,6 +8,9 @@ Trainers:
 ;    * for TRAINERTYPE_MOVES:      trainermoves level, species, 4 moves
 ;    * for TRAINERTYPE_ITEM:       dbwb  level, species, item
 ;    * for TRAINERTYPE_ITEM_MOVES: traineritemmoves level, species, item, 4 moves
+;    * for TRAINERTYPE_MOVES_RANDOM: 
+;	As with TRAINERTYPE_MOVES, but the two numbers following specify 
+;	party size and pool size.
 ; - db -1 ; end
 
 trainermoves: MACRO
