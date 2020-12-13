@@ -1,44 +1,37 @@
 IsAPokemon::
 ; Return carry if species pointed to by de is not a Pokemon.
-; de points to the lower byte
-; and de + 1 to the upper
-	push hl
-	ld hl, NUM_POKEMON	;big-endian
-; Upper
+; de points to the lower byte, and de + 1 to the upper
+; Preserves de, hl.
+; Allows that EGG is a pokemon.
+	ld bc, NUM_POKEMON	;big-endian
 	inc de
 	ld a, [de]
-	cp h
 	dec de
+	cp b
+	jr c, .check_exceptions
+	jr nz, .NotAPokemon
 	ld a, [de]
-	jr z, .equal
-	jr c, .strictly_less
-	jr .NotAPokemon		;strictly greater
-
-.equal
-; Lower
 	dec a
-	cp l
-	inc a
-	jr nc, .NotAPokemon
+	cp c
+	jr c, .check_exceptions
 
-.strictly_less
-	and a
-	jr z, .NotAPokemon
-	cp $ff
-	jr z, .NotAPokemon
-;	cp EGG
-;	jr z, .Pokemon
-; EGG returns pokemon anyway
-	jr .Pokemon
-
-.NotAPokemon:
-	pop hl
+.NotAPokemon
 	scf
 	ret
 
-.Pokemon:
-	pop hl
+.check_exceptions
+; lower byte of species cannot be 0 or -1
+	ld a, [de]
 	and a
+	jr z, .NotAPokemon
+	inc a
+	and a
+	jr z, .NotAPokemon
+; Uncomment these two lines to disallow EGG.
+;	cp EGG
+;	jr z, .NotAPokemon
+; otherwise we're good
+	xor a
 	ret
 
 DrawBattleHPBar::
