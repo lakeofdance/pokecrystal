@@ -1,4 +1,6 @@
 EnemyFailChanceMoves:
+; Moves with these effects have a 25% chance of
+; failure when used by the AI.
 	db EFFECT_ATTACK_DOWN
 	db EFFECT_DEFENSE_DOWN
 	db EFFECT_SPEED_DOWN

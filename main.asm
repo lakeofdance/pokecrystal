@@ -280,7 +280,7 @@ SECTION "Base Stats 2", ROMX
 INCLUDE "data/pokemon/base_stats2.asm"
 
 
-SECTION "Crystal Phone Text", ROMX
+SECTION "Pokemon Party Engine", ROMX
 
 INCLUDE "engine/pokemon/party_menu.asm"
 INCLUDE "engine/pokemon/switchpartymons.asm"
@@ -289,6 +289,10 @@ INCLUDE "engine/pokemon/mon_stats.asm"
 INCLUDE "engine/pokemon/types.asm"
 INCLUDE "engine/pokemon/move_categories.asm"
 INCLUDE "engine/pokemon/tempmon.asm"
+
+
+SECTION "Crystal Phone Text", ROMX
+
 INCLUDE "data/phone/text/irwin_caller.asm"
 INCLUDE "data/phone/text/arnie_caller.asm"
 INCLUDE "data/phone/text/alan_caller.asm"

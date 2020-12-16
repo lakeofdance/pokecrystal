@@ -35,6 +35,11 @@ CalcLevel:
 CalcExpAtLevel:
 ; (a/b)*n**3 + c*n**2 + d*n - e
 	ld a, [wBaseGrowthRate]
+	ld hl, ErraticGrowthRate
+	cp GROWTH_ERRATIC
+	jp z, .ErraticFluctuating
+	ld hl, FluctuatingGrowthRate
+	jp nc, .ErraticFluctuating
 	add a
 	add a
 	ld c, a
@@ -160,5 +165,22 @@ CalcExpAtLevel:
 	ldh [hMultiplicand + 2], a
 	ldh [hMultiplier], a
 	jp Multiply
+
+.ErraticFluctuating
+	ld c, d
+	ld b, 0
+	dec c
+	add hl, bc
+	add hl, bc
+	add hl, bc
+	xor a
+	ldh [hProduct + 0], a
+	ld a, [hli]
+	ldh [hProduct + 1], a
+	ld a, [hli]
+	ldh [hProduct + 2], a
+	ld a, [hli]
+	ldh [hProduct + 3], a
+	ret
 
 INCLUDE "data/growth_rates.asm"

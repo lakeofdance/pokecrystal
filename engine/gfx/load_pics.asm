@@ -143,13 +143,11 @@ GetFrontpicPointer:
 
 .ok
 	ld hl, PokemonPicPointers ; UnownPicPointers
-;	ld bc, 6
 	ld c, a
 	ld a, [wCurPartySpecies + 1]
 	ld b, a
 	ld a, 6
 	dec bc
-;
 	call AddNTimes
 	ld a, d
 	call GetFarByte
