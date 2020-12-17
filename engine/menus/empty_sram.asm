@@ -1,13 +1,12 @@
 EmptyAllSRAMBanks:
 	ld a, 0
-	call .EmptyBank
-	ld a, 1
-	call .EmptyBank
-	ld a, 2
-	call .EmptyBank
-	ld a, 3
-	call .EmptyBank
-	ret
+.loop
+	cp NUM_SRAM_BANKS
+	ret nc
+	cp 4 ; skip mobile
+	call nz, .EmptyBank
+	inc a
+	jr .loop
 
 .EmptyBank:
 	call GetSRAMBank
