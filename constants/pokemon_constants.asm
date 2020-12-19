@@ -288,10 +288,11 @@ JOHTO_POKEMON EQU const_value
 	const SHEDINJA   ; 108
 ; Mega pokemon automatically devolve after battle. 
 MEGA_POKEMON_START EQU const_value
-	const VENUSAUR_MEGA
+	const VENUSAUR_MEGA ; 109
 MEGA_POKEMON_END EQU const_value
 
-NUM_DEX_MONS EQU const_value + -6 	;used in the pokedex
+; Used in the pokedex. Subtract 5 constants $fc to $100.
+NUM_DEX_MONS EQU const_value + -6 ; 103
 
 	const MON_10A
 	const MON_10B

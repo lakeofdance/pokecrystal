@@ -47,8 +47,6 @@ GetClock::
 	ld a, [de]
 	ldh [hRTCDayLo], a
 
-; SameBoy sometimes introduces a bug here, which leads to FixDays
-; decrementing wCurDays by 24.
 	ld [hl], RTC_DH
 	ld a, [de]
 	ldh [hRTCDayHi], a

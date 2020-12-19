@@ -1028,7 +1028,7 @@ NEXTU ; c800
 ; bill's pc data
 wBillsPCData::
 wBillsPCPokemonList::
-; (species, box number, list index) x30     ;todo
+; (species, box number, list index) x30
 	ds 4 * 30
 	ds 720
 wBillsPC_ScrollPosition:: db

@@ -17,10 +17,9 @@ GrowthRates:
 	growth_rate 6, 5, -15, 100, 140 ; Medium Slow
 	growth_rate 4, 5,   0,   0,   0 ; Fast
 	growth_rate 5, 4,   0,   0,   0 ; Slow
-	growth_rate 5, 4,   0,   0,   0 ; Erratic
-	growth_rate 5, 4,   0,   0,   0 ; Fluctuating
 
 ErraticGrowthRate:
+; Erratic
 	dt      0 ; L:1
 	dt     15 ; L:2
 	dt     52 ; L:3
@@ -123,6 +122,7 @@ ErraticGrowthRate:
 	dt 600000 ; L:100
 
 FluctuatingGrowthRate:
+; Fluctuating
 	dt       0 ; L:1
 	dt       4 ; L:2
 	dt      13 ; L:3
