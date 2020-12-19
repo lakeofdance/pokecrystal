@@ -42,14 +42,6 @@ DoTurn:
 	call UpdateMoveData
 
 DoMove:
-; Some moves have a built-in 25% failure rate when used by the enemy.
-	call EnemyFailChance
-	jr nc, .DontFail
-	call AnimateFailedMove
-	ld hl, DidntAffect1Text
-	jp StdBattleTextbox
-
-.DontFail
 ; Get the user's move effect.
 	ld a, BATTLE_VARS_MOVE_EFFECT
 	call GetBattleVar
@@ -1114,6 +1106,15 @@ BattleCommand_DoTurn:
 	and a
 	jp nz, EndMoveEffect
 
+; Some moves have a built-in 25% failure rate when used by the enemy.
+	call EnemyFailChance
+	jr nc, .DontFail
+	call AnimateFailedMove
+	ld hl, ButItFailedText
+	call StdBattleTextbox
+	jp EndMoveEffect
+
+.DontFail
 	; SubStatus5
 	inc de
 	inc de
@@ -7716,12 +7717,6 @@ _CheckBattleScene:
 EnemyFailChance:
 ; Enemy has a 25% chance of failing when using some moves.
 ; Return carry if move fails
-	ld a, BATTLE_VARS_MOVE_EFFECT
-	call GetBattleVar
-	ld hl, EnemyFailChanceMoves
-	ld de, 1
-	call IsInArray
-	ret nc
 
 	ldh a, [hBattleTurn]
 	and a
@@ -7739,6 +7734,15 @@ EnemyFailChance:
 	ld a, [wPlayerSubStatus5]
 	bit SUBSTATUS_LOCK_ON, a
 	jr nz, .DidntMiss
+
+	ld a, BATTLE_VARS_MOVE_EFFECT
+	call GetBattleVar
+	ld hl, EnemyFailChanceMoves
+	push de
+	ld de, 1
+	call IsInArray
+	pop de
+	ret nc
 
 	call BattleRandom
 	cp 25 percent + 1 ; 25% chance AI fails
