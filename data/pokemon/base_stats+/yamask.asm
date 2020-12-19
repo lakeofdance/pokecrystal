@@ -1,4 +1,4 @@
-	dw YAMASK ; 257
+	dw 562 ; YAMASK
 
 	db  38,  30,  85,  30,  55,  65
 	;   hp  atk  def  spd  sat  sdf

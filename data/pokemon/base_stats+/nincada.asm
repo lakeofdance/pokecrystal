@@ -1,4 +1,4 @@
-	dw NINCADA ; 106
+	dw 290 ; NINCADA
 
 	db  31,  45,  90,  40,  30,  30
 	;   hp  atk  def  spd  sat  sdf

@@ -378,9 +378,9 @@ UpdateSpeciesNameIfNotNicknamed:
 	push af
 	ld a, [wCurSpecies]
 	push af
-	ld a, [wBaseDexNo]
+	ld a, [wBaseSpecies]
 	ld [wNamedObjectIndexBuffer], a
-	ld a, [wBaseDexNo + 1]
+	ld a, [wBaseSpecies + 1]
 	ld [wNamedObjectIndexBuffer + 1], a
 	call GetPokemonName
 	pop af

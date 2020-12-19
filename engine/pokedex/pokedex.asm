@@ -1700,31 +1700,19 @@ Pokedex_PrintNumberIfOldMode:
 
 .printnum
 	push hl
+	ld hl, wTempSpecies
+	ld de, wCurSpecies
+	ld bc, 2
+	call CopyBytes
+	call GetBaseData
+	pop hl
+	push hl
 	ld de, -SCREEN_WIDTH
 	add hl, de
-	ld de, wTempSpecies
-	call .swap
-	push de
+	ld de, wBaseDexNo
 	lb bc, PRINTNUM_LEADINGZEROS | 2, 3
 	call PrintNum
-	pop de
-	call .swap
-.dontprint
 	pop hl
-	ret
-
-.swap
-;swap de
-	ld a, [de]
-	ld b, a
-	inc de
-	ld a, [de]
-	ld c, a
-	ld a, b
-	ld [de], a
-	dec de
-	ld a, c
-	ld [de], a
 	ret
 
 Pokedex_PlaceCaughtSymbolIfCaught:
@@ -2132,7 +2120,7 @@ INCLUDE "data/types/search_strings.asm"
 Pokedex_SearchForMons:
 	ld hl, OldPokedexOrder
 	ld bc, NUM_DEX_MONS
-;
+
 	ld a, [wDexSearchMonType2]
 	and a
 	call nz, .Search

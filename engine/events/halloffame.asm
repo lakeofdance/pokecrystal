@@ -469,10 +469,11 @@ DisplayHOFMon:
 	call Textbox
 	ld a, [wTempMonSpecies]
 	ld [wCurPartySpecies], a
-	ld [wDeciramBuffer], a
+	ld [wCurSpecies], a
 	ld a, [wTempMonSpecies + 1]
 	ld [wCurPartySpecies + 1], a
-	ld [wDeciramBuffer + 1], a
+	ld [wCurSpecies + 1], a
+	call GetBaseData
 	ld hl, wTempMonDVs
 	predef GetUnownLetter
 	xor a
@@ -487,11 +488,9 @@ DisplayHOFMon:
 	ld [hli], a
 	ld [hl], "<DOT>"
 	hlcoord 3, 13
-	ld de, wDeciramBuffer
+	ld de, wBaseDexNo
 	lb bc, PRINTNUM_LEADINGZEROS | 2, 3
-	call .swap
-	call PrintNum			
-	call .swap
+	call PrintNum
 	call GetBasePokemonName
 	hlcoord 7, 13
 	call PlaceString
@@ -526,15 +525,6 @@ DisplayHOFMon:
 	ld de, wTempMonID
 	lb bc, PRINTNUM_LEADINGZEROS | 2, 5
 	call PrintNum
-	ret
-
-.swap
-	ld a, [wDeciramBuffer + 1]
-	push af
-	ld a, [wDeciramBuffer]
-	ld [wDeciramBuffer + 1], a
-	pop af
-	ld [wDeciramBuffer], a
 	ret
 
 HOF_AnimatePlayerPic:

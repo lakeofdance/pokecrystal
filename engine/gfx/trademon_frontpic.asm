@@ -8,22 +8,17 @@ GetTrademonFrontpic:
 	pop af
 	ld [wCurPartySpecies], a
 	ld [wCurSpecies], a
-;
 	ld a, [wOTTrademonSpecies + 1]
 	ld [wCurPartySpecies + 1], a
 	ld [wCurSpecies + 1], a
-;
 	call GetBaseData
 	pop de
 	predef GetAnimatedFrontpic
 	ret
 
 AnimateTrademonFrontpic:
-;	ld a, [wOTTrademonSpecies]
-	push de
 	ld de, wOTTrademonSpecies
 	call IsAPokemon
-	pop de
 	ret c
 	farcall ShowOTTrademonStats
 	ld a, [wOTTrademonSpecies]
@@ -42,7 +37,7 @@ AnimateTrademonFrontpic:
 	ld a, [wOTTrademonSpecies]
 	ld [wCurPartySpecies], a
 	ld a, [wOTTrademonSpecies + 1]
-	ld [wCurPartySpecies], a
+	ld [wCurPartySpecies + 1], a
 	hlcoord 7, 2
 	ld d, $0
 	ld e, ANIM_MON_TRADE

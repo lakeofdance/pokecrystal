@@ -1,4 +1,4 @@
-	dw SHEDINJA ; 108
+	dw 292 ; SHEDINJA
 
 	db   1,  90,  45,  40,  30,  30
 	;   hp  atk  def  spd  sat  sdf

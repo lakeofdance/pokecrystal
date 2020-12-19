@@ -1,4 +1,4 @@
-	dw COFAGRIGUS ; 258
+	dw 563 ; COFAGRIGUS
 
 	db  58,  50, 145,  30,  95, 105
 	;   hp  atk  def  spd  sat  sdf

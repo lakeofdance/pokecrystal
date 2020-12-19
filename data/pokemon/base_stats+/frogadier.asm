@@ -1,4 +1,4 @@
-	dw FROGADIER ; 260
+	dw 657 ; FROGADIER
 
 	db  54,  63,  52,  97,  83,  56
 	;   hp  atk  def  spd  sat  sdf

@@ -834,8 +834,6 @@ TradeAnim_GetFrontpic:
 	push af
 	predef GetUnownLetter
 	pop af
-;	ld [wCurPartySpecies], a
-;	ld [wCurSpecies], a
 	call GetBaseData
 	pop de
 	predef GetMonFrontpic
@@ -843,7 +841,6 @@ TradeAnim_GetFrontpic:
 
 TradeAnim_GetNickname:
 	push de
-;	ld [wNamedObjectIndexBuffer], a
 	call GetPokemonName
 	ld hl, wStringBuffer1
 	pop de
@@ -994,30 +991,18 @@ TrademonStats_WaitBGMap:
 	ret
 
 TrademonStats_PrintSpeciesNumber:
-	call .swap
-	push de
+	ld hl, wCurSpecies
+	ld a, [de]
+	ld [hli], a
+	inc de
+	ld a, [de]
+	ld [hl], a
+	call GetBaseData
 	hlcoord 10, 0
 	lb bc, PRINTNUM_LEADINGZEROS | 2, 3
 	call PrintNum
 	ld [hl], " "
-	pop de
-	call .swap
 	ret
-
-.swap
-;swap de
-	ld a, [de]
-	ld b, a
-	inc de
-	ld a, [de]
-	ld c, a
-	ld a, b
-	ld [de], a
-	dec de
-	ld a, c
-	ld [de], a
-	ret
-;
 
 TrademonStats_PrintSpeciesName:
 	hlcoord 4, 2

@@ -2256,7 +2256,7 @@ wMoveSelectionMenuType:: db
 
 ; corresponds to the data/pokemon/base_stats/*.asm contents
 wCurBaseData:: ; d236
-wBaseDexNo:: dw ; d236	;could separate.. todo
+wBaseSpecies:: dw ; d236
 wBaseStats:: ; d237
 wBaseHP:: db ; d237
 wBaseAttack:: db ; d238
@@ -2282,6 +2282,9 @@ wBaseGrowthRate:: db ; d24c
 wBaseEggGroups:: db ; d24d
 wBaseTMHM:: flag_array NUM_TM_HM_TUTOR ; d24e
 wCurBaseDataEnd::
+
+; Number shown in pokedex, stats screen, trade screen, hall of fame.
+wBaseDexNo:: dw 
 
 wCurDamage:: dw ; d256
 

@@ -1,4 +1,4 @@
-	dw FROAKIE ; 259
+	dw 656 ; FROAKIE
 
 	db  41,  56,  40,  71,  62,  44
 	;   hp  atk  def  spd  sat  sdf

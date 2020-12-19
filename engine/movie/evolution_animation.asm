@@ -8,17 +8,17 @@ EvolutionAnimation:
 	push af
 	ldh a, [rOBP0]
 	push af
-	ld a, [wBaseDexNo + 1]
+	ld a, [wBaseSpecies + 1]
 	push af
-	ld a, [wBaseDexNo]
+	ld a, [wBaseSpecies]
 	push af
 
 	call .EvolutionAnimation
 
 	pop af
-	ld [wBaseDexNo], a
+	ld [wBaseSpecies], a
 	pop af
-	ld [wBaseDexNo + 1], a
+	ld [wBaseSpecies + 1], a
 	pop af
 	ldh [rOBP0], a
 	pop af

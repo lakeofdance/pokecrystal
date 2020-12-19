@@ -336,38 +336,25 @@ StatsScreen_InitUpperHalf:
 	call .PlaceHPBar
 	xor a
 	ldh [hBGMapMode], a
+; Dex number
 	ld a, [wBaseDexNo]
 	ld [wDeciramBuffer], a
-	ld [wCurSpecies], a
-;
 	ld a, [wBaseDexNo + 1]
 	ld [wDeciramBuffer + 1], a
+; Species
+	ld a, [wBaseSpecies]
+	ld [wCurSpecies], a
+	ld a, [wBaseSpecies + 1]
 	ld [wCurSpecies + 1], a
-;
 	hlcoord 8, 0
 	ld [hl], "№"
 	inc hl
 	ld [hl], "."
 	inc hl
 	hlcoord 10, 0
-; swap
-	ld a, [wDeciramBuffer + 1]
-	ld b, a
-	ld a, [wDeciramBuffer]
-	ld [wDeciramBuffer + 1], a
-	ld a, b
-	ld [wDeciramBuffer], a
 	lb bc, PRINTNUM_LEADINGZEROS | 2, 3
 	ld de, wDeciramBuffer
 	call PrintNum
-;swap back
-	ld a, [wDeciramBuffer + 1]
-	ld b, a
-	ld a, [wDeciramBuffer]
-	ld [wDeciramBuffer + 1], a
-	ld a, b
-	ld [wDeciramBuffer], a
-;
 	hlcoord 14, 0
 	call PrintLevel
 	ld hl, .NicknamePointers
@@ -380,9 +367,9 @@ StatsScreen_InitUpperHalf:
 	hlcoord 9, 4
 	ld a, "/"
 	ld [hli], a
-	ld a, [wBaseDexNo]
+	ld a, [wBaseSpecies]
 	ld [wNamedObjectIndexBuffer], a
-	ld a, [wBaseDexNo + 1]
+	ld a, [wBaseSpecies + 1]
 	ld [wNamedObjectIndexBuffer + 1], a
 	call GetPokemonName
 	call PlaceString
@@ -452,14 +439,12 @@ StatsScreen_PlaceShinyIcon:
 	ret
 
 StatsScreen_LoadGFX:
-	ld a, [wBaseDexNo]
+	ld a, [wBaseSpecies]
 	ld [wTempSpecies], a
 	ld [wCurSpecies], a
-;
-	ld a, [wBaseDexNo + 1]
+	ld a, [wBaseSpecies + 1]
 	ld [wTempSpecies + 1], a
 	ld [wCurSpecies + 1], a
-;
 	xor a
 	ldh [hBGMapMode], a
 	call .ClearBox
@@ -827,7 +812,6 @@ StatsScreen_PlaceFrontpic:
 	ret
 
 .get_animation
-;	ld a, [wCurPartySpecies]
 	push de
 	ld de, wCurPartySpecies
 	call IsAPokemon

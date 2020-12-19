@@ -1,4 +1,4 @@
-	dw VENUSAUR_MEGA ; 000
+	dw 003 ; VENUSAUR_MEGA
 
 	db  80, 100, 123,  80, 122, 120
 	;   hp  atk  def  spd  sat  sdf

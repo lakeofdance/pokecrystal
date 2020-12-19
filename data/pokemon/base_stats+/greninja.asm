@@ -1,4 +1,4 @@
-	dw GRENINJA ; 261
+	dw 658 ; GRENINJA
 
 	db  72,  95,  67, 122, 103,  71
 	;   hp  atk  def  spd  sat  sdf

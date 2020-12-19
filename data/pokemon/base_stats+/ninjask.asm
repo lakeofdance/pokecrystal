@@ -1,4 +1,4 @@
-	dw NINJASK ; 107	
+	dw 291 ; NINJASK	
 
 	db  61,  90,  45, 160,  50,  50
 	;   hp  atk  def  spd  sat  sdf

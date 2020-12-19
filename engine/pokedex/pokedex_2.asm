@@ -98,13 +98,14 @@ DisplayDexEntry:
 	ld [hli], a
 	ld a, $5d ; .
 	ld [hli], a
-	ld de, wTempSpecies
-	call .swap
-	push de
+	ld a, [wTempSpecies]
+	ld [wCurSpecies], a
+	ld a, [wTempSpecies + 1]
+	ld [wCurSpecies + 1], a
+	call GetBaseData
+	ld de, wBaseDexNo
 	lb bc, PRINTNUM_LEADINGZEROS | 2, 3
 	call PrintNum
-	pop de
-	call .swap
 ; Check to see if we caught it.  Get out of here if we haven't.
 	ld a, [wTempSpecies]
 	ld e, a
@@ -116,10 +117,6 @@ DisplayDexEntry:
 	pop bc
 	ret z
 ; Get the height of the Pokemon.
-	ld a, [wCurPartySpecies]
-	ld [wCurSpecies], a
-	ld a, [wCurPartySpecies + 1]
-	ld [wCurSpecies + 1], a
 	inc hl
 	ld a, b
 	push af
@@ -220,20 +217,6 @@ DisplayDexEntry:
 	pop af
 	hlcoord 2, 11
 	call FarString
-	ret
-
-.swap
-;swap de
-	ld a, [de]
-	ld b, a
-	inc de
-	ld a, [de]
-	ld c, a
-	ld a, b
-	ld [de], a
-	dec de
-	ld a, c
-	ld [de], a
 	ret
 
 GetDexEntryPointer:

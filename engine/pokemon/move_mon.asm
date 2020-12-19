@@ -103,10 +103,10 @@ GeneratePartyMonStats:
 	ld a, [wCurPartySpecies + 1]
 	ld [wCurSpecies + 1], a
 	call GetBaseData
-	ld a, [wBaseDexNo]
+	ld a, [wBaseSpecies]
 	ld [de], a
 	inc de
-	ld a, [wBaseDexNo + 1]
+	ld a, [wBaseSpecies + 1]
 	ld [de], a
 	inc de
 
