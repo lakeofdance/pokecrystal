@@ -26,15 +26,8 @@ Function_LoadOpponentTrainerAndPokemons:
 	ldh a, [hRandomAdd]
 	add b
 	ld b, a ; b contains the nr of the trainer
-if DEF(_CRYSTAL11)
 	maskbits BATTLETOWER_NUM_UNIQUE_TRAINERS
 	cp BATTLETOWER_NUM_UNIQUE_TRAINERS
-else
-; Crystal 1.0 used the wrong constant here, so only the first 21
-; trainers in BattleTowerTrainers can be sampled.
-	maskbits BATTLETOWER_NUM_UNIQUE_MON
-	cp BATTLETOWER_NUM_UNIQUE_MON
-endc
 	jr nc, .resample
 	ld b, a
 
@@ -68,7 +61,7 @@ endc
 	ld bc, NAME_LENGTH
 	call CopyBytes
 
-	call Function_LoadRandomBattleTowerMon
+	call Function_LoadRandomBattleTowerTeam
 	pop af
 
 	ld hl, BattleTowerTrainerData
@@ -91,7 +84,7 @@ endc
 
 	ret
 
-Function_LoadRandomBattleTowerMon:
+Function_LoadRandomBattleTowerTeam:
 	ld c, BATTLETOWER_PARTY_LENGTH
 .loop
 	push bc
@@ -119,11 +112,11 @@ Function_LoadRandomBattleTowerMon:
 	maskbits BATTLETOWER_NUM_UNIQUE_MON
 	cp BATTLETOWER_NUM_UNIQUE_MON
 	jr nc, .resample
-	; in register 'a' is the chosen mon of the LevelGroup
+	; in register 'a' is the chosen mon of the LevelGroup, between 1 and 21
 
 	; Check if mon was already loaded before
 	; Check current and the 2 previous teams
-	ld bc, NICKNAMED_MON_STRUCT_LENGTH
+	ld bc, BATTLETOWER_MON_STRUCT_LENGTH
 	call AddNTimes
 
 	ld a, [hli]
@@ -176,9 +169,11 @@ Function_LoadRandomBattleTowerMon:
 	cp c
 	jp z, .FindARandomBattleTowerMon
 
+; Copy the mon data from hl to wBT_OTTrainerMon1, 2, or 3
 	pop hl
-	ld bc, NICKNAMED_MON_STRUCT_LENGTH
-	call CopyBytes
+
+	call AddBattleTowerMonToParty
+;	jr .use_nick ; uncomment this line to use nicknames
 
 	ld a, [wNamedObjectIndexBuffer]
 	push af
@@ -206,6 +201,8 @@ Function_LoadRandomBattleTowerMon:
 	ld [wNamedObjectIndexBuffer + 1], a
 	pop af
 	ld [wNamedObjectIndexBuffer], a
+
+.use_nick
 	pop bc
 	dec c
 	jp nz, .loop

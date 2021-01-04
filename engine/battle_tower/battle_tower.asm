@@ -115,7 +115,10 @@ ReadBTTrainerParty:
 	inc bc
 .otpartymon_loop
 	push af
-	ld a, [hl]
+	ld a, [hli]
+	ld [bc], a
+	inc bc
+	ld a, [hld]
 	ld [bc], a
 	inc bc
 	push bc
@@ -135,11 +138,9 @@ ReadBTTrainerParty:
 	pop de
 	pop bc
 	pop af
-	inc bc
 	dec a
 	and a
 	jr nz, .otpartymon_loop
-	inc bc
 	ld a, -1
 	ld [bc], a
 	ret

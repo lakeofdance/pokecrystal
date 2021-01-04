@@ -560,12 +560,14 @@ INCBIN "gfx/intro/logo.2bpp.lz"
 SECTION "Title", ROMX
 
 INCLUDE "engine/movie/title.asm"
-INCLUDE "mobile/mobile_46.asm"
 
 
 SECTION "Battle Tower", ROMX
 
+INCLUDE "engine/battle_tower/battle_tower.asm"
+INCLUDE "engine/battle_tower/room_menu.asm"
 INCLUDE "engine/battle_tower/trainer_text.asm"
+INCLUDE "engine/battle_tower/ubers_check.asm"
 
 
 SECTION "bank5B", ROMX
@@ -573,9 +575,12 @@ SECTION "bank5B", ROMX
 INCLUDE "engine/link/link_trade.asm"
 
 
-SECTION "Mobile 5C", ROMX
+SECTION "Mobile 46", ROMX
 
-INCLUDE "engine/battle_tower/battle_tower.asm"
+INCLUDE "mobile/mobile_46.asm"
+INCLUDE "engine/battle_tower/add_mon_to_party.asm"
+INCLUDE "engine/battle_tower/load_trainer.asm"
+INCLUDE "engine/events/odd_egg.asm"
 
 
 SECTION "Crystal Phone Text 2", ROMX
@@ -698,9 +703,3 @@ INCLUDE "data/battle_tower/trainer_text.asm"
 SECTION "Battle Tower Trainer Data", ROMX
 
 INCLUDE "data/battle_tower/unknown.asm"
-
-
-SECTION "Crystal Events", ROMX
-
-INCLUDE "engine/battle_tower/load_trainer.asm"
-INCLUDE "engine/events/odd_egg.asm"

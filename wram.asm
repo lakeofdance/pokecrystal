@@ -3092,14 +3092,24 @@ w3_d8a2:: ds 1
 w3_d8a3:: ds 1
 ENDU ; d8a4
 
-SECTION "moved from Battle Tower RAM", WRAMX
-
 	ds $1c0
 
 w3_dc00:: ds SCREEN_WIDTH * SCREEN_HEIGHT
 w3_dd68:: ds SCREEN_WIDTH * SCREEN_HEIGHT
 
-	ds $11c
+wBTCurLevel:: db
+wBTCurSpecies:: dw
+
+wBTStatExperience::
+wBTHPExp:: db
+wBTAtkExp:: db
+wBTDefExp:: db
+wBTSpdExp:: db
+wBTSpcExp:: db
+
+wBTDVs:: dw
+
+;	ds $11c
 
 w3_dfec:: ds $10
 w3_dffc:: ds 4
