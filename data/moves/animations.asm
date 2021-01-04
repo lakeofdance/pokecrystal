@@ -544,6 +544,10 @@ BattleAnimations::
 	dw BattleAnim_Tackle		;meteor assault
 	dw BattleAnim_Tackle		;volt tackle
 	dw BattleAnim_Tackle		;bug bite
+	dw BattleAnim_Tackle		;mud bomb
+	dw BattleAnim_Tackle		;mud shot
+	dw BattleAnim_Tackle		;rock tomb
+	dw BattleAnim_Tackle		;heat wave
 	dw BattleAnim_SweetScent2
 	dw BattleAnim_ThrowPokeBall
 	dw BattleAnim_SendOutMon

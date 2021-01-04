@@ -550,6 +550,10 @@
 	const STAR_ASSAULT ; 21d
 	const VOLT_TACKLE  ; 21e
 	const BUG_BITE     ; 21f
+	const MUD_BOMB     ; 220
+	const MUD_SHOT     ; 220
+	const ROCK_TOMB    ; 222
+	const HEAT_WAVE    ; 223
 
 ; This constant is used by engine/battle/move_effects/metronome.asm, when it randomly
 ; selects a move.

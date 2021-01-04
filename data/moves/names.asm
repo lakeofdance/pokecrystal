@@ -542,3 +542,7 @@ MoveNames::
 	db "STAR ASSAULT@"
 	db "VOLT TACKLE@"
 	db "BUG BITE@"
+	db "MUD BOMB@"
+	db "MUD SHOT@"
+	db "ROCK TOMB@"
+	db "HEAT WAVE@"

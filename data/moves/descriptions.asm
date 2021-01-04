@@ -543,6 +543,10 @@ MoveDescriptions::
 	dw StarAssaultDescription
 	dw VoltTackleDescription
 	dw BugBiteDescription
+	dw MudBombDescription
+	dw MudShotDescription
+	dw RockTombDescription
+	dw HeatWaveDescription
 
 MoveFFDescription:
 Move100Description:
@@ -787,6 +791,7 @@ ScorchinSandDescription:
 BlueFlareDescription:
 LavaPlumeDescription:
 SearingShotDescription:
+HeatWaveDescription:
 	db   "An attack that may"
 	next "inflict a burn.@"
 
@@ -1358,6 +1363,7 @@ MuddyWaterDescription:
 MirrorShotDescription:
 NightDazeDescription:
 LeafTornadoDescription:
+MudBombDescription:
 	db   "An attack that may"
 	next "reduce accuracy.@"
 
@@ -1689,6 +1695,8 @@ ElectrowebDescription:
 BulldozeDescription:
 GlaciateDescription:
 LowSweepDescription:
+RockTombDescription:
+MudShotDescription:
 	db   "Hurts the foe and"
 	next "lowers SPEED.@"
 
