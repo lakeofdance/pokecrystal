@@ -3050,6 +3050,14 @@ BattleCommand_CheckFaint:
 .checkenemy
 	call CheckEnemyHasMonToSwitchTo
 	jr c, .finish
+	ld hl, FaintEnemyPokemon
+	call CallBattleCore
+	xor a
+	ld [wWhichMonFaintedFirst], a
+	ld hl, UpdateBattleStateAndExperienceAfterEnemyFaint
+	call CallBattleCore
+	ld a, 2
+	ld [wPlayerJustUsedTurningMove], a
 	ret
 
 .fellstinger
@@ -5973,6 +5981,7 @@ BattleCommand_Turn:
 	hlcoord 1, 0
 	lb bc, 4, 10
 	call ClearBox
+	call BattleCommand_ClearText
 	ld c, 20
 	call DelayFrames
 ; Need to end move here, else interactions with pursuit get messy
@@ -5998,6 +6007,7 @@ BattleCommand_Turn:
 	hlcoord 9, 7
 	lb bc, 5, 11
 	call ClearBox
+	call BattleCommand_ClearText
 	ld c, 20
 	call DelayFrames
 .player_choose_switch_mon
@@ -6023,9 +6033,12 @@ BattleCommand_Turn:
 	call EndMoveEffect
 	ld hl, TurnedBattleMonEntrance
 	call CallBattleCore
-.end
+	ld a, [wPlayerJustUsedTurningMove]
+	cp 2
+	jr z, .end
 	ld a, 1
 	ld [wPlayerJustUsedTurningMove], a
+.end
 	xor a
 	ld [wPlayerIsSwitching], a
 	ld [wEnemyIsSwitching], a

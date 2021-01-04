@@ -2264,6 +2264,16 @@ UpdateHPBar:
 	ret
 
 HandleEnemyMonFaint:
+	; Check whether the player has already received exp when using a turn hit move.
+	ld a, [wPlayerJustUsedTurningMove]
+	cp 2
+	jr nz, .proceed
+	; Only prevents the first faint.
+	dec a
+	ld [wPlayerJustUsedTurningMove], a
+	jr .player_mon_not_fainted
+
+.proceed
 	call FaintEnemyPokemon
 	ld hl, wBattleMonHP
 	ld a, [hli]
@@ -3700,8 +3710,8 @@ CheckWhetherToAskSwitch:
 ; If wPartyCount is greater than 1 and the player just used a turning move
 ; then they just switched, and shouldn't be given the option again.
 	ld a, [wPlayerJustUsedTurningMove]
-	dec a
-	jp z, .return_nc
+	and a
+	jp nz, .return_nc
 	ld a, [wLinkMode]
 	and a
 	jp nz, .return_nc
