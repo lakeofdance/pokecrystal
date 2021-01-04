@@ -561,5 +561,5 @@ Moves:
 	move MUD_SHOT,     EFFECT_SPEED_DOWN_HIT,     55, GROUND,   SPECIAL,   NO_CONTACT,  95, 15, 100
 	move ROCK_TOMB,    EFFECT_SPEED_DOWN_HIT,     60, ROCK,     PHYSICAL,  NO_CONTACT,  95, 15, 100
 	move HEAT_WAVE,    EFFECT_BURN_HIT,           90, FIRE,     SPECIAL,   NO_CONTACT,  90, 10,  10
-; Total moves: 543 - 4 = 539
-; Total added moves: 539 - 251 = 288
+; Total moves: 547 - 4 = 543
+; Total added moves: 543 - 251 = 292
