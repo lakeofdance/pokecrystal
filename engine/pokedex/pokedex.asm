@@ -123,86 +123,67 @@ Pokedex_CheckUnlockedUnownMode:
 	ret
 
 Pokedex_InitCursorPosition:
-;	ld hl, wPokedexOrder
-	ld a, [wPrevDexEntry]		;species, little endian
-	and a
+	push hl
+	ld hl, wPrevDexEntry
+	ld bc, 0
+	call CompareMove
 	jr z, .done
-	ld d, a
-	ld a, [wPrevDexEntry + 1]
-	ld e, a
+	ld bc, NUM_POKEMON
+	call CompareMove
+	jr nc, .done
 
-	ld bc, NUM_POKEMON		;big endian
-	ld a, b
-	cp e
-	jr c, .done
-	jr nz, .ok
-	ld a, c
-	cp d
-	jr c, .done
-
-.ok
-;	ld b, a
 	xor a
-	ld c, a
 	ld [wDexListingScrollOffset], a
-	ld [wDexListingScrollOffset + 1], a	
-	ld a, [wDexListingEnd]
-	and a
-	ld a, [wDexListingEnd + 1]		;dex entry offset, big endian
-	jr nz, .more_than_one_page
-	cp $8
-	jr c, .only_one_page
+	ld [wDexListingScrollOffset + 1], a
 
-.more_than_one_page
+	ld hl, wPrevDexEntry
+	ld a, [hli]
+	ld c, a
+	ld a, [hl]
+	ld b, a
+
+	pop hl
+	ld de, 0
+.loop
+	call CompareMove
+	jr z, .gotit
+	inc de
+	inc hl
+	inc hl
+	jr .loop
+
+.gotit
+	ld a, e
+	ld [wDexListingScrollOffset], a
+	ld a, d
+	ld [wDexListingScrollOffset + 1], a
+
+	ld hl, wDexListingEnd ;dex entry offset, big endian
+	inc hl
+	ld a, [hld]
 	sub $7
 	ld c, a
-	ld a, [wDexListingEnd]
+	ld a, [hl]
 	sbc 0
 	ld b, a
-.loop1
-	ld a, d
-	cp [hl]
-	inc hl
-	jr nz, .no1
-;	ld c, a
-	ld a, e
-	cp [hl]
-	jr z, .done
-.no1
-	inc hl
-	ld a, [wDexListingScrollOffset]
-	inc a
-	ld [wDexListingScrollOffset], a
-	and a
-	ld a, [wDexListingScrollOffset + 1]
-	adc a
-	ld [wDexListingScrollOffset + 1], a
-	dec bc
-	ld a, c
-	and a
-	or b
-	jr nz, .loop1
 
-.only_one_page
-	ld c, $7
-	ld b, 0
-.loop2
-	ld a, d
-	cp [hl]
-	inc hl
-	jr nz, .no2
-;	ld a, c
-	ld a, e
-	cp [hl]
-	jr z, .done
-.no2
-	inc hl
-	ld a, [wDexListingCursor]
-	inc a
+	ld hl, wDexListingScrollOffset
+	call CompareMove
+	ret c
+
+; We are on the last page, and possibly need to adjust the cursor position
+	ld a, [hl]
+	sub c
 	ld [wDexListingCursor], a
-	dec c
-	jr nz, .loop2
+
+	ld a, c
+	ld [wDexListingScrollOffset], a
+	ld a, b
+	ld [wDexListingScrollOffset + 1], a
+	ret
+
 .done
+	pop hl
 	ret
 
 Pokedex_GetLandmark:
@@ -550,6 +531,8 @@ DexEntryScreen_MenuActionJumptable:
 	ldh [hSCX], a
 	ld a, [wPrevDexEntryBackup]
 	push af
+	ld a, [wPrevDexEntryBackup + 1]
+	push af
 	ld a, [wPrevDexEntryJumptableIndex]
 	push af
 	ld a, [wJumptableIndex]
@@ -559,6 +542,8 @@ DexEntryScreen_MenuActionJumptable:
 	ld [wJumptableIndex], a
 	pop af
 	ld [wPrevDexEntryJumptableIndex], a
+	pop af
+	ld [wPrevDexEntryBackup + 1], a
 	pop af
 	ld [wPrevDexEntryBackup], a
 	call ClearBGPalettes
