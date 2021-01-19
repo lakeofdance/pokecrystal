@@ -181,7 +181,7 @@ ShellSmashEffect:
 	inc bc
 	ld a, [bc]
 	cp MAX_STAT_LEVEL
-	jr c, .raise
+	jp nc, CantRaise
 
 .raise
 ; Sharply raise Attack, Speed, and Special Attack

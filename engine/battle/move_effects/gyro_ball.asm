@@ -14,12 +14,12 @@ GyroBallEffect:
 	ld a, [hli]
 	ld c, a
 ;user speed
-	ld h, d
-	ld l, e
+	push de
 	ld a, [hli]
 	ld d, a
 	ld a, [hl]
 	ld e, a
+	pop hl
 .loop
 ; we want 8-bit speed values
 ; the ratio of target speed to user speed is (almost) preserved

@@ -22,3 +22,20 @@ ElectroBallPower:
 	db 2,        80
 	db 1,        60
 	db 0,        40
+
+GrassKnotPower:
+	; target weight * 10 in lbs, power
+	dwb 4407,   120 ; 200kg or more
+	dwb 2202,   100 ; 100 - 199.9kg
+	dwb 1110,    80 ; 50  -  99.9kg
+	dwb 549,     60 ; 25  -  49.9kg
+	dwb 218,     40 ; 10  -  24.9kg
+	dwb 0,       20 ; 0   -   9.9kg
+
+HeavySlamPower:
+	; user weight / target weight, power
+	db 5,       120
+	db 4,       100
+	db 3,        80
+	db 2,        60
+	db 0,        40

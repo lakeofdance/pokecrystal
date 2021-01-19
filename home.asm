@@ -103,34 +103,30 @@ IsInArray::
 
 IsWordInArray::
 ; Find value bc for every e bytes (well, that's the skip) in array hl.
-; Return index in a and carry if found.
+; Return index in wArrayOffset and carry if found.
 
 	xor a
+	ld d, a
 .loop
-	push af
-	ld a, [hli]
+	ld a, [hl]
 	cp -1
 	jr z, .NotInArray
-	sub b
-	ld d, a
-	ld a, [hl]
-	sub c
-	or d
+	call CompareMove
 	jr z, .InArray
-	xor a
-	ld d, a
+	inc hl
+	push de
+	ld d, 0
 	add hl, de
-	pop af
-	inc a
+	pop de
+	inc d
 	jr .loop
 
 .NotInArray:
-	pop af
+	xor a
 	and a
 	ret
 
 .InArray:
-	pop af
 	scf
 	ret
 

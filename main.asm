@@ -142,11 +142,16 @@ INCLUDE "engine/battle/ai/redundant.asm"
 INCLUDE "engine/events/move_deleter.asm"
 INCLUDE "engine/link/mystery_gift_2.asm"
 INCLUDE "engine/items/tmhm.asm"
-INCLUDE "engine/pokemon/print_move_description.asm"
-INCLUDE "data/moves/descriptions.asm"
 INCLUDE "engine/events/pokerus/pokerus.asm"
 INCLUDE "engine/battle/start_battle.asm"
 INCLUDE "engine/gfx/place_graphic.asm"
+
+
+SECTION "Move Descriptions", ROMX
+
+INCLUDE "engine/pokemon/print_move_description.asm"
+INCLUDE "data/moves/descriptions.asm"
+
 
 SECTION "Move Effect Commands", ROMX
 
@@ -167,8 +172,10 @@ INCLUDE "engine/battle/core/status_effect_on_stats.asm"
 
 SECTION "Misc Battle Core", ROMX
 
+INCLUDE "engine/battle/core/determine_move_order.asm"
 INCLUDE "engine/battle/core/hazard_effects.asm"
 INCLUDE "engine/battle/core/taunt_checks.asm"
+INCLUDE "engine/battle/core/terrain.asm"
 INCLUDE "engine/battle/core/speed_check.asm"
 
 SECTION "Mega Evolution", ROMX
@@ -196,10 +203,17 @@ SECTION "Battle Core", ROMX
 
 INCLUDE "engine/battle/core.asm"
 
-SECTION "Move Data and Evolve Engine", ROMX
+SECTION "Move Data", ROMX
 
 INCLUDE "data/moves/moves.asm"
+
+SECTION "Evolve Engine", ROMX
+
 INCLUDE "engine/pokemon/evolve.asm"
+
+SECTION "Mega Evolution", ROMX
+
+INCLUDE "engine/battle/mega_evolution.asm"
 
 SECTION "Dex Engine", ROMX
 INCLUDE "engine/pokedex/pokedex.asm"

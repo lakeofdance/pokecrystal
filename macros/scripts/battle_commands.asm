@@ -220,6 +220,7 @@ ENDM
 	command purify			; dc
 	command octolock		; dd
 	command bugbite			; de
+	command setterrain		; df
 
 	enum_start $fe
 	command endturn                 ; fe

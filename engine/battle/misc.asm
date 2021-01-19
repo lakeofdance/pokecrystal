@@ -67,7 +67,7 @@ DoWeatherModifiers:
 
 	ld a, [de]
 	cp c
-	jr z, .ApplyModifier
+	jr z, ApplyWeatherTerrainModifier
 
 .NextWeatherType:
 	inc de
@@ -92,14 +92,16 @@ DoWeatherModifiers:
 
 	ld a, [de]
 	cp c
-	jr z, .ApplyModifier
+	jr z, ApplyWeatherTerrainModifier
 
 .NextWeatherMove:
 	inc de
 	inc de
 	jr .CheckWeatherMove
+.done
+	ret
 
-.ApplyModifier:
+ApplyWeatherTerrainModifier:
 	xor a
 	ldh [hMultiplicand + 0], a
 	ld hl, wCurDamage
@@ -138,11 +140,65 @@ DoWeatherModifiers:
 	ld [wCurDamage], a
 	ld a, c
 	ld [wCurDamage + 1], a
-
-.done
 	ret
 
 INCLUDE "data/battle/weather_modifiers.asm"
+
+DoTerrainModifiers:
+	ld de, TerrainTypeModifiers
+	ld hl, wBattleArenaEffects
+	ld a, [wCurType]
+	ld c, a
+
+.CheckTerrainType:
+	ld a, [de]
+	inc de
+	cp -1
+	jr z, .done_terrain_types
+; check whether the 'a-th' bit of hl is set
+	ld b, 1
+.loop
+	and a
+	jr z, .break
+	dec a
+	rl b
+	jr .loop
+.break
+	ld a, [hl]
+	and b
+	jr z, .NextTerrainType
+	ld a, [de]
+	cp c
+	jp z, ApplyWeatherTerrainModifier
+.NextTerrainType:
+	inc de
+	inc de
+	jr .CheckTerrainType
+
+.done_terrain_types
+	ld de, TerrainMoveModifiers
+	ld a, BATTLE_VARS_MOVE_EFFECT
+	call GetBattleVar
+	ld c, a
+.CheckTerrainMove:
+	ld a, [de]
+	inc de
+	cp -1
+	jr z, .done
+	cp b
+	jr nz, .NextTerrainMove
+	ld a, [de]
+	cp c
+	jp z, ApplyWeatherTerrainModifier
+
+.NextTerrainMove:
+	inc de
+	inc de
+	jr .CheckTerrainMove
+.done
+	ret
+
+INCLUDE "data/battle/terrain_modifiers.asm"
 
 DoBadgeTypeBoosts:
 	ld a, [wLinkMode]

@@ -109,6 +109,12 @@ BattleText_TargetRecoveredWithItem:
 	text "."
 	prompt
 
+BattleText_TargetRecoveredWithGrassyTerrain:
+	text "<TARGET>"
+	line "was healed by the"
+	cont "grassy terrain."
+	prompt
+
 BattleText_UserRecoveredPPUsing:
 	text "<USER>"
 	line "recovered PP using"
@@ -206,8 +212,9 @@ BattleText_TrickRoomEnded:
 	prompt
 
 BattleText_TerrainEnded:
-	text "Terrain returned"
-	line "to normal."
+	text "The battlefield"
+	line "terrain returned"
+	cont "to normal."
 	prompt
 
 BattleText_EnemyMonFainted:
@@ -1173,6 +1180,24 @@ WonderGuardText:
 	line "was GUARDED!"
 	done
 
+ProtectedByPsychicTerrainText:
+	text "<TARGET>'s"
+	line "protected by the"
+	cont "PSYCHIC TERRAIN!"
+	done
+
+ProtectedByMistyTerrainText:
+	text "<TARGET>'s"
+	line "protected by the"
+	cont "MISTY TERRAIN!"
+	done
+
+ProtectedByElectricTerrainText:
+	text "<TARGET>'s"
+	line "protected by the"
+	cont "ELECTRIC TERRAIN!"
+	done
+
 SpikesText:
 	text "SPIKES scattered"
 	line "all around"
@@ -1299,6 +1324,27 @@ HailstormBrewingText:
 
 WeirdDimensionsText:
 	text "The dimensions"
+	line "got weird!"
+	prompt
+
+ElectricTerrainText:
+; a dumb joke, yes
+	text "An currant ran"
+	line "across the field!"
+	prompt
+
+GrassyTerrainText:
+	text "Grass grew to"
+	line "cover the field!"
+	prompt
+
+MistyTerrainText:
+	text "Mist swirled"
+	line "about the field!"
+	prompt
+
+PsychicTerrainText:
+	text "The battlefield"
 	line "got weird!"
 	prompt
 

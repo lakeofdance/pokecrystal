@@ -27,6 +27,12 @@ BattleCommand_VariableDamage:
 	cp EFFECT_PUNISHMENT
 	jr z, .punishment
 
+	cp EFFECT_GRASS_KNOT
+	jr z, .grass_knot
+
+	cp EFFECT_HEAVY_SLAM
+	jr z, .heavy_slam
+
 ; we shouldn't ever be here
 	ld a, BATTLE_VARS_MOVE_POWER
 	call GetBattleVar
@@ -63,6 +69,14 @@ BattleCommand_VariableDamage:
 
 .punishment
 	call PunishmentEffect
+	jr .calc_damage
+
+.grass_knot
+	call GrassKnotEffect
+	jr .extract_power
+
+.heavy_slam
+	call HeavySlamEffect
 	jr .calc_damage
 
 .electro_ball
@@ -110,3 +124,7 @@ INCLUDE "engine/battle/move_effects/stored_power.asm"
 INCLUDE "engine/battle/move_effects/electro_ball.asm"
 
 INCLUDE "engine/battle/move_effects/punishment.asm"
+
+INCLUDE "engine/battle/move_effects/grass_knot.asm"
+
+INCLUDE "engine/battle/move_effects/heavy_slam.asm"

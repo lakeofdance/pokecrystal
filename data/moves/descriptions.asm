@@ -547,6 +547,13 @@ MoveDescriptions::
 	dw MudShotDescription
 	dw RockTombDescription
 	dw HeatWaveDescription
+	dw GrassKnotDescription
+	dw HeavySlamDescription
+	dw HeatCrashDescription
+	dw ElecTerainDescription
+	dw GrassTerainDescription
+	dw MistyTerainDescription
+	dw PsychTerainDescription
 
 MoveFFDescription:
 Move100Description:
@@ -1089,10 +1096,6 @@ SludgeDescription:
 	db   "An attack that may"
 	next "poison the foe.@"
 
-FireBlastDescription:
-	db   "An attack that"
-	next "may cause a burn.@"
-
 WaterfallDescription:
 	db   "An aquatic charge"
 	next "attack.@"
@@ -1293,6 +1296,7 @@ NightmareDescription:
 	db   "A sleeper loses"
 	next "1/4 HP every turn.@"
 
+FireBlastDescription:
 FlameWheelDescription:
 	db   "An attack that may"
 	next "cause a burn.@"
@@ -2159,3 +2163,28 @@ PurifyDescription:
 BugBiteDescription:
 	db   "Uses the foe's"
 	next "held berry.@"
+
+GrassKnotDescription:
+	db   "Hits heavy foes"
+	next "hard.@"
+
+HeavySlamDescription:
+HeatCrashDescription:
+	db   "Hits light foes"
+	next "hard.@"
+
+ElecTerainDescription:
+	db   "Electrifies the"
+	next "battlefield.@"
+
+GrassTerainDescription:
+	db   "Turns the ground"
+	next "to grass.@"
+
+MistyTerainDescription:
+	db   "Covers the ground"
+	next "with mist.@"
+
+PsychTerainDescription:
+	db   "Psychic energy"
+	next "fills the field.@"

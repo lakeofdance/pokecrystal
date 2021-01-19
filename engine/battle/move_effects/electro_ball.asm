@@ -46,6 +46,8 @@ ElectroBallEffect:
 	inc hl
 	ld a, [hli]
 	ld c, a
+	and a
+	ret z
 	ld a, b
 	cp c
 	jr c, .loop2

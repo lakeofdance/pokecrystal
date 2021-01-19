@@ -20,7 +20,7 @@ BattleCommand_ReflectType:
 	ld a, [hl]
 	ld [de], a	
 	farcall AnimateCurrentMove
-; Target was soaked!
+; "Target's type was reflected!"
 	ld hl, ReflectTypeText
 	jp StdBattleTextbox
 

@@ -220,3 +220,4 @@ BattleCommandPointers:
 	dba BattleCommand_Purify
 	dba BattleCommand_Octolock
 	dba BattleCommand_BugBite
+	dba BattleCommand_SetTerrain

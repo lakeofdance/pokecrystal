@@ -230,3 +230,6 @@ MoveEffectsPointers:
 	dw Octolock
 	dw VoltTackle
 	dw BugBite
+	dw GrassKnot
+	dw HeavySlam
+	dw SetTerrain

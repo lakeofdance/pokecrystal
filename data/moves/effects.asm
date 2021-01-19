@@ -1379,6 +1379,8 @@ GyroBall:
 CrushGrip:
 ElectroBall:
 Punishment:
+GrassKnot:
+HeavySlam:
 	checkobedience
 	usedmovetext
 	doturn
@@ -2933,4 +2935,11 @@ BugBite:
 	bugbite
 	checkfaint
 	buildopponentrage
+	endmove
+
+SetTerrain:
+	checkobedience
+	usedmovetext
+	doturn
+	setterrain
 	endmove

@@ -223,3 +223,5 @@ INCLUDE "engine/battle/move_effects/weather_ball.asm"
 INCLUDE "engine/battle/move_effects/hail.asm"
 
 INCLUDE "engine/battle/move_effects/snatch.asm"
+
+INCLUDE "engine/battle/move_effects/terrain.asm"

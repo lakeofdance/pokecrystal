@@ -548,6 +548,13 @@ BattleAnimations::
 	dw BattleAnim_Tackle		;mud shot
 	dw BattleAnim_Tackle		;rock tomb
 	dw BattleAnim_Tackle		;heat wave
+	dw BattleAnim_Tackle		;grass knot
+	dw BattleAnim_Tackle		;heavy slam
+	dw BattleAnim_Tackle		;heat crash
+	dw BattleAnim_Tackle		;elec terain
+	dw BattleAnim_Tackle		;grass terain
+	dw BattleAnim_Tackle		;misty terain
+	dw BattleAnim_Tackle		;psych terain
 	dw BattleAnim_SweetScent2
 	dw BattleAnim_ThrowPokeBall
 	dw BattleAnim_SendOutMon

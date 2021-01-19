@@ -551,9 +551,16 @@
 	const VOLT_TACKLE  ; 21e
 	const BUG_BITE     ; 21f
 	const MUD_BOMB     ; 220
-	const MUD_SHOT     ; 220
+	const MUD_SHOT     ; 221
 	const ROCK_TOMB    ; 222
 	const HEAT_WAVE    ; 223
+	const GRASS_KNOT   ; 224
+	const HEAVY_SLAM   ; 225
+	const HEAT_CRASH   ; 226
+	const ELEC_TERAIN  ; 227
+	const GRASS_TERAIN ; 228
+	const MISTY_TERAIN ; 229
+	const PSYCH_TERAIN ; 22a
 
 ; This constant is used by engine/battle/move_effects/metronome.asm, when it randomly
 ; selects a move.

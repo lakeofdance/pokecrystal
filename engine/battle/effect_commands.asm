@@ -1445,6 +1445,14 @@ BattleCommand_Stab:
 	pop de
 	pop hl
 
+	push hl
+	push de
+	push bc
+	farcall DoTerrainModifiers
+	pop bc
+	pop de
+	pop hl
+
 	push de
 	push bc
 	farcall DoBadgeTypeBoosts
@@ -1840,7 +1848,7 @@ BattleCommand_CheckHit:
 	jp nz, .Miss
 
 	call .FirstTurnOnly
-	jp c, .Miss
+	jp c, .Fail
 
 	call .Poltergeist
 	jp z, .Miss
@@ -1856,6 +1864,9 @@ BattleCommand_CheckHit:
 
 	call .WonderGuard
 	jp c, .Miss
+
+	call .PsychicTerrain
+	jp nz, .Miss
 
 	call .LockOn
 	ret nz
@@ -1933,6 +1944,12 @@ BattleCommand_CheckHit:
 	ld a, 1
 	ld [wAttackMissed], a
 	ret
+
+.Fail
+; todo: works as intended?
+	call AnimateFailedMove
+	call PrintButItFailed
+	jp EndMoveEffect
 
 .DreamEater:
 ; Return z if we're trying to eat the dream of
@@ -2195,6 +2212,49 @@ BattleCommand_CheckHit:
 	xor a
 	ld [wTypeModifier], a
 	cp 1
+	ret
+
+.PsychicTerrain:
+	ld a, [wBattleArenaEffects]
+	bit ARENA_PSYCHIC_TERRAIN, a
+	ret z
+
+	farcall IsOpponentAffectedByTerrain
+	ret z
+
+	ld a, BATTLE_VARS_MOVE_ANIM
+	call GetBattleVarAddr
+	ld a, [hli]
+	ld b, a
+	ld a, [hl]
+	ld c, a
+	ldh a, [hROMBank]
+	callfar IsMoveIncreasedPriority
+	jr nc, .check_effect
+	xor a
+	ret
+
+.check_effect
+; some priority moves still go ahead
+	ld a, BATTLE_VARS_MOVE_EFFECT
+	call GetBattleVar
+	cp EFFECT_PROTECT
+	ret z
+	cp EFFECT_ENDURE
+	ret z
+	cp EFFECT_KINGS_SHIELD
+	ret z
+
+	ld c, 40
+	call DelayFrames
+; 'protected by the PSYCHIC TERRAIN!'
+	ld hl, ProtectedByPsychicTerrainText
+	call StdBattleTextbox
+	ld c, 40
+	call DelayFrames
+
+	ld a, 1
+	and a
 	ret
 
 .FlyDigMoves:
@@ -4311,8 +4371,30 @@ UpdateMoveData:
 	call GetMoveName
 	jp CopyName1
 
+FailProtectedByMistyTerrain:
+	call AnimateFailedMove
+; 'protected by the MISTY TERRAIN!'
+	ld hl, ProtectedByMistyTerrainText
+	jp StdBattleTextbox
+
+FailProtectedByElectricTerrain:
+	call AnimateFailedMove
+; 'protected by the ELECTRIC TERRAIN!'
+	ld hl, ProtectedByElectricTerrainText
+	jp StdBattleTextbox
+
 BattleCommand_SleepTarget:
 ; sleeptarget
+
+	farcall IsOpponentAffectedByTerrain
+	jr z, .not_affected
+	ld a, [wBattleArenaEffects]
+	and 1 << ARENA_ELECTRIC_TERRAIN
+	jp nz, FailProtectedByElectricTerrain
+	ld a, [wBattleArenaEffects]
+	and 1 << ARENA_MISTY_TERRAIN
+	jp nz, FailProtectedByMistyTerrain
+.not_affected
 
 	call GetOpponentItem
 	ld a, b
@@ -4412,6 +4494,12 @@ BattleCommand_PoisonTarget:
 	ret nz
 	call SafeCheckSafeguard
 	ret nz
+	farcall IsOpponentAffectedByTerrain
+	jr z, .not_affected
+	ld a, [wBattleArenaEffects]
+	bit ARENA_MISTY_TERRAIN, a
+	ret nz
+.not_affected
 
 	ld a, BATTLE_VARS_MOVE_ANIM
 	call GetBattleVarAddr
@@ -4469,6 +4557,12 @@ BattleCommand_Poison:
 	call GetItemName
 	ld hl, ProtectedByText
 	jr .failed
+
+	farcall IsOpponentAffectedByTerrain
+	jr z, .do_poison
+	ld a, [wBattleArenaEffects]
+	bit ARENA_MISTY_TERRAIN, a
+	jp nz, FailProtectedByMistyTerrain
 
 .do_poison
 	ld hl, DidntAffect1Text
@@ -4589,6 +4683,12 @@ BattleCommand_BurnTarget:
 	ret nz
 	call SafeCheckSafeguard
 	ret nz
+	farcall IsOpponentAffectedByTerrain
+	jr z, .not_affected
+	ld a, [wBattleArenaEffects]
+	bit ARENA_MISTY_TERRAIN, a
+	ret nz
+.not_affected
 	ld a, BATTLE_VARS_STATUS_OPP
 	call GetBattleVarAddr
 	set BRN, [hl]
@@ -4657,6 +4757,12 @@ BattleCommand_FreezeTarget:
 	ret nz
 	call SafeCheckSafeguard
 	ret nz
+	farcall IsOpponentAffectedByTerrain
+	jr z, .not_affected
+	ld a, [wBattleArenaEffects]
+	bit ARENA_MISTY_TERRAIN, a
+	ret nz
+.not_affected
 	ld a, BATTLE_VARS_STATUS_OPP
 	call GetBattleVarAddr
 	set FRZ, [hl]
@@ -4705,6 +4811,12 @@ BattleCommand_ParalyzeTarget:
 	ret nz
 	call SafeCheckSafeguard
 	ret nz
+	farcall IsOpponentAffectedByTerrain
+	jr z, .not_affected
+	ld a, [wBattleArenaEffects]
+	bit ARENA_MISTY_TERRAIN, a
+	ret nz
+.not_affected
 	ld a, BATTLE_VARS_STATUS_OPP
 	call GetBattleVarAddr
 	set PAR, [hl]
@@ -6733,6 +6845,12 @@ BattleCommand_Paralyze:
 	jr nz, .failed
 	call CheckSubstituteOpp
 	jr nz, .failed
+	farcall IsOpponentAffectedByTerrain
+	jr z, .not_affected
+	ld a, [wBattleArenaEffects]
+	bit ARENA_MISTY_TERRAIN, a
+	jp nz, FailProtectedByMistyTerrain
+.not_affected
 	ld c, 30
 	call DelayFrames
 	call AnimateCurrentMove
@@ -6782,28 +6900,6 @@ BattleCommand_Burn:
 	jp StdBattleTextbox
 
 .no_item_protection
-	ldh a, [hBattleTurn]
-	and a
-	jr z, .dont_sample_failure
-
-	ld a, [wLinkMode]
-	and a
-	jr nz, .dont_sample_failure
-
-	ld a, [wInBattleTowerBattle]
-	and a
-	jr nz, .dont_sample_failure
-
-	ld a, [wPlayerSubStatus5]
-	bit SUBSTATUS_LOCK_ON, a
-	jr nz, .dont_sample_failure
-
-;controversial
-	call BattleRandom
-	cp 25 percent + 1 ; 25% chance AI fails
-	jr c, .failed
-
-.dont_sample_failure
 	ld a, BATTLE_VARS_STATUS_OPP
 	call GetBattleVarAddr
 	and a
@@ -6813,6 +6909,12 @@ BattleCommand_Burn:
 	jr nz, .failed
 	call CheckSubstituteOpp
 	jr nz, .failed
+	farcall IsOpponentAffectedByTerrain
+	jr z, .not_affected
+	ld a, [wBattleArenaEffects]
+	bit ARENA_MISTY_TERRAIN, a
+	jp nz, FailProtectedByMistyTerrain
+.not_affected
 	ld c, 30
 	call DelayFrames
 	call AnimateCurrentMove
@@ -7013,6 +7115,13 @@ BattleCommand_Heal:
 	ld bc, REST
 	call CompareMove
 	jr nz, .not_rest
+
+	farcall IsUserAffectedByTerrain
+	jr z, .not_affected
+	ld a, [wBattleArenaEffects]
+	and 1 << ARENA_ELECTRIC_TERRAIN | 1 << ARENA_MISTY_TERRAIN
+	jp nz, BattleEffect_ButItFailed
+.not_affected
 
 	push hl
 	push de
