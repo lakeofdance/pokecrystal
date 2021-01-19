@@ -36,7 +36,7 @@ AddBattleTowerMonToParty:
 
 	; Copy stat exp. (gen II equivalent of EVs)
 	ld bc, wBTStatExperience
-rept 5
+rept NUM_STATS
 	ld a, [hli]
 	ld [bc], a
 	inc bc
@@ -218,12 +218,6 @@ BTCalcMonStatC:
 	ldh [rSVBK], a
 	pop hl
 
-	ld a, c
-	cp STAT_SDEF ; last stat
-	jr nz, .not_spdef
-	dec hl
-
-.not_spdef
 ; Take stat exp into account
 	add hl, bc
 	dec hl

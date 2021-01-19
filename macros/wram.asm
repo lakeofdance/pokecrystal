@@ -5,18 +5,20 @@ flag_array: MACRO
 ENDM
 
 box_struct: MACRO
-; length: 37
+; length: 34
 \1Species::        dw
 \1Item::           db
 \1Moves::          ds NUM_MOVES * 2
 \1ID::             dw
 \1Exp::            ds 3
 \1StatExp::
-\1HPExp::          dw
-\1AtkExp::         dw
-\1DefExp::         dw
-\1SpdExp::         dw
-\1SpcExp::         dw
+\1HPExp::          db
+\1AtkExp::         db
+\1DefExp::         db
+\1SpdExp::         db
+\1SpcAtkExp::      db
+\1SpcDefExp::      db
+\1Padding::        db
 \1DVs::            dw
 \1PP::             ds NUM_MOVES
 \1Happiness::      db
@@ -31,7 +33,7 @@ box_struct: MACRO
 ENDM
 
 party_struct: MACRO
-; length: 37 + 16 = 53
+; length: 34 + 16 = 50
 	box_struct \1
 \1Status::         db
 \1Unused::         db
