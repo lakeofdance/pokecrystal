@@ -729,7 +729,7 @@ wEnemyFutureSightCount:: db ; c71e
 
 wGivingExperienceToExpShareHolders:: db ; c71f
 
-wBackupEnemyMonBaseStats:: ds 5 ; c720
+wBackupEnemyMonBaseStats:: ds NUM_STATS ; c720
 wBackupEnemyMonCatchRate:: db ; c725
 wBackupEnemyMonBaseExp:: db ; c726
 
@@ -2220,7 +2220,7 @@ wTempEnemyMonSpecies::  dw ; d204
 wTempBattleMonSpecies:: dw ; d205
 
 wEnemyMon:: battle_struct wEnemyMon ; d206
-wEnemyMonBaseStats:: ds 5 ; d226
+wEnemyMonBaseStats:: ds NUM_STATS ; d226
 wEnemyMonCatchRate:: db ; d22b
 wEnemyMonBaseExp::   db ; d22c
 wEnemyMonEnd::

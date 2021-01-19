@@ -372,13 +372,11 @@ SRAM $01
 	"SRAM Crystal Data"
 	"SRAM Battle Tower"
 SRAM $02
-	"Boxes 1-5"
+	"Boxes 1-7"
 SRAM $03
-	"Boxes 6-10"
+	"Boxes 8-14"
 SRAM $04
 	"SRAM Mobile 1"
 	"SRAM Mobile 2"
-SRAM $05
-	"Boxes 11-14"
 HRAM
 	"HRAM"

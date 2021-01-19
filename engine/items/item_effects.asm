@@ -1256,13 +1256,13 @@ StatStrings:
 	dw .attack
 	dw .defense
 	dw .speed
-	dw .special
+	dw .sp_atk
 
 .health  db "HEALTH@"
 .attack  db "ATTACK@"
 .defense db "DEFENSE@"
 .speed   db "SPEED@"
-.special db "SPECIAL@"
+.sp_atk  db "SPCL.ATK@"
 
 GetStatExpRelativePointer:
 	ld a, [wCurItem]
@@ -1285,7 +1285,7 @@ Table_eeeb:
 	db PROTEIN, MON_ATK_EXP - MON_STAT_EXP
 	db IRON,    MON_DEF_EXP - MON_STAT_EXP
 	db CARBOS,  MON_SPD_EXP - MON_STAT_EXP
-	db CALCIUM, MON_SPC_EXP - MON_STAT_EXP
+	db CALCIUM, MON_SAT_EXP - MON_STAT_EXP
 
 RareCandy_StatBooster_GetParameters:
 	ld a, [wCurPartySpecies]

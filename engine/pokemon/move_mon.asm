@@ -1286,25 +1286,19 @@ GiveEgg::
 	call AddNTimes
 	ld a, [wCurPartySpecies]
 	ld [hli], a
-;
 	ld a, [wCurPartySpecies + 1]
 	ld [hl], a
-;
 	ld hl, wPartyCount
 	ld a, [hl]
 	ld b, 0
 	ld c, a
 	add hl, bc
-;
 	add hl, bc
 	dec hl
-;
 	ld a, EGG
 	ld [hli], a
-;
 	xor a
 	ld [hl], a
-;
 	ld a, [wPartyCount]
 	dec a
 	ld hl, wPartyMonNicknames
@@ -1357,15 +1351,11 @@ RemoveMonFromPartyOrBox:
 	ld c, a
 	ld b, 0
 	add hl, bc
-;
 	add hl, bc
-;
 	ld e, l
 	ld d, h
 	inc de
-;
   	inc de
-;
 .loop
 	ld a, [de]
 	inc de
@@ -1375,7 +1365,6 @@ RemoveMonFromPartyOrBox:
 	ld a, [de]
 	inc de
 	ld [hli], a
-;	jr nz, .loop           ; i.e. a was not -1
 	jr .loop
 .noloop
 	ld hl, wPartyMonOT
@@ -1576,27 +1565,15 @@ CalcMonStatC:
 	ld e, a
 	pop hl
 	push hl
-	ld a, c
-	cp STAT_SDEF ; last stat
-	jr nz, .not_spdef
-	dec hl
-	dec hl
 
-.not_spdef
-	sla c
 	ld a, d
 	and a
 	jr z, .no_stat_exp
 	add hl, bc
-	push de
-	ld a, [hld]
-	ld e, a
-	ld d, [hl]
-	farcall GetSquareRoot
-	pop de
+	ld a, [hl]
+	ld b, a
 
 .no_stat_exp
-	srl c
 	pop hl
 	push bc
 	ld bc, MON_DVS - MON_HP_EXP + 1
@@ -1799,10 +1776,8 @@ GivePoke::
 .failed
 	ld a, [wCurPartySpecies]
 	ld [wTempEnemyMonSpecies], a
-;
 	ld a, [wCurPartySpecies + 1]
 	ld [wTempEnemyMonSpecies + 1], a
-;
 	callfar LoadEnemyMon
 	call SendMonIntoBox
 	jp nc, .FailedToGiveMon

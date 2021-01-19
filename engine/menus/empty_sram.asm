@@ -3,8 +3,7 @@ EmptyAllSRAMBanks:
 .loop
 	cp NUM_SRAM_BANKS
 	ret nc
-	cp 4 ; skip mobile
-	call nz, .EmptyBank
+	call .EmptyBank
 	inc a
 	jr .loop
 
