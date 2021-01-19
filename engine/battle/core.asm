@@ -4113,7 +4113,7 @@ InitEnemyMon:
 	ld [de], a
 	ld hl, wBaseStats
 	ld de, wEnemyMonBaseStats
-	ld b, 5
+	ld b, NUM_STATS
 .loop
 	ld a, [hli]
 	ld [de], a
@@ -6653,10 +6653,9 @@ endr
 	call CopyBytes
 
 .Finish:
-; Only the first five base stats are copied..
 	ld hl, wBaseStats
 	ld de, wEnemyMonBaseStats
-	ld b, wBaseSpecialDefense - wBaseStats
+	ld b, NUM_STATS
 .loop
 	ld a, [hli]
 	ld [de], a
@@ -7151,6 +7150,49 @@ FinishBattleAnim:
 	pop af
 	ret
 
+AddStatExp:
+; Due to rounding error, tends to give slightly more
+; experience than in vanilla
+; Returns z if stat exp is maxed out
+	push de
+	push bc
+; Square stat exp
+	push hl
+	ld a, [de]
+	ld b, 0
+	ld c, a
+	ld hl, 0
+	call AddNTimes
+	ld b, h
+	ld c, l
+	pop hl
+; Add stat value at hl
+	ld de, 0
+	ld a, [hl]
+	add c
+	ld e, a
+	ld a, 0
+	adc b
+	ld d, a
+	jr c, .max
+
+; Square root new value
+	push hl
+	farcall GetSquareRoot
+	ld a, b
+	pop hl
+	pop bc
+	pop de
+; Save new stat exp
+	ld [de], a
+	ld a, 1
+	and a
+	ret
+.max
+	pop bc
+	pop de
+	ret
+
 GiveExperiencePoints:
 ; Give experience.
 ; Don't give experience if linked or in the Battle Tower.
@@ -7187,27 +7229,17 @@ GiveExperiencePoints:
 	jp z, .next_mon
 
 ; give stat exp
-	ld hl, MON_STAT_EXP + 1
+	ld hl, MON_STAT_EXP
 	add hl, bc
 	ld d, h
 	ld e, l
-	ld hl, wEnemyMonBaseStats - 1
+	ld hl, wEnemyMonBaseStats
 	push bc
-	ld c, NUM_EXP_STATS
+	ld c, NUM_STATS
 .stat_exp_loop
-	inc hl
-	ld a, [de]
-	add [hl]
-	ld [de], a
-	jr nc, .no_carry_stat_exp
-	dec de
-	ld a, [de]
-	inc a
+	call AddStatExp
 	jr z, .stat_exp_maxed_out
-	ld [de], a
-	inc de
 
-.no_carry_stat_exp
 	push hl
 	push bc
 	ld a, MON_PKRUS
@@ -7217,27 +7249,16 @@ GiveExperiencePoints:
 	pop bc
 	pop hl
 	jr z, .stat_exp_awarded
-	ld a, [de]
-	add [hl]
-	ld [de], a
-	jr nc, .stat_exp_awarded
-	dec de
-	ld a, [de]
-	inc a
-	jr z, .stat_exp_maxed_out
-	ld [de], a
-	inc de
-	jr .stat_exp_awarded
+	call AddStatExp
+	jr nz, .stat_exp_awarded
 
 .stat_exp_maxed_out
 	ld a, $ff
 	ld [de], a
-	inc de
-	ld [de], a
 
 .stat_exp_awarded
 	inc de
-	inc de
+	inc hl
 	dec c
 	jr nz, .stat_exp_loop
 	xor a
