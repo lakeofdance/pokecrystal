@@ -243,7 +243,7 @@ ENDM
 	enum anim_call_command ; $fe
 anim_call: MACRO
 	db anim_call_command
-	dw \1 ; address
+	dab \1 ; address, bank
 ENDM
 
 	enum anim_ret_command ; $ff

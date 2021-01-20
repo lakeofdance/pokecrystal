@@ -216,6 +216,35 @@ BATTLEANIM_BASE_TILE EQU 7 * 7  ; Maximum size of a pokemon picture
 	const ANIM_OBJ_PLAYERHEAD_1ROW
 	const ANIM_OBJ_ENEMYFEET_2ROW
 	const ANIM_OBJ_PLAYERHEAD_2ROW
+; from polished crystal
+	const ANIM_OBJ_MOON
+	const ANIM_OBJ_ENERGY_BALL
+	const ANIM_OBJ_HAIL
+	const ANIM_OBJ_GEM
+	const ANIM_OBJ_ICICLE
+	const ANIM_OBJ_BIG_ICE_CHUNK
+	const ANIM_OBJ_SMALL_ICE_CHUNK
+	const ANIM_OBJ_HONE_CLAWS_LEFT
+	const ANIM_OBJ_HONE_CLAWS_RIGHT
+	const ANIM_OBJ_ROCK_BLAST
+	const ANIM_OBJ_SKILL_SWAP_FROM
+	const ANIM_OBJ_SKILL_SWAP_TO
+	const ANIM_OBJ_STONE_EDGE
+	const ANIM_OBJ_TRICK_FROM
+	const ANIM_OBJ_TRICK_TO
+	const ANIM_OBJ_U_TURN_LAUNCH
+	const ANIM_OBJ_U_TURN_RISE
+	const ANIM_OBJ_U_TURN_FALL
+	const ANIM_OBJ_WATER_PULSE
+	const ANIM_OBJ_CHARGE
+	const ANIM_OBJ_DAZZLE
+	const ANIM_OBJ_TRICK_ROOM
+	const ANIM_OBJ_SWEAT
+	const ANIM_OBJ_GUNKSHOT
+	const ANIM_OBJ_SPLASH
+	const ANIM_OBJ_HEX
+	const ANIM_OBJ_BLUE_FLAME
+	const ANIM_OBJ_SHELL_SMASH
 
 ; DoBattleAnimFrame arguments (see engine/battle_anims/functions.asm)
 	const_def
@@ -760,13 +789,13 @@ BATTLEANIM_BASE_TILE EQU 7 * 7  ; Maximum size of a pokemon picture
 	const ANIM_GFX_SMOKE
 	const ANIM_GFX_EXPLOSION
 	const ANIM_GFX_ROCKS
-	const ANIM_GFX_ICE
+	const ANIM_GFX_ICE ; $a
 	const ANIM_GFX_POKE_BALL
 	const ANIM_GFX_POISON
 	const ANIM_GFX_BUBBLE
 	const ANIM_GFX_NOISE
 	const ANIM_GFX_POWDER
-	const ANIM_GFX_BEAM
+	const ANIM_GFX_BEAM ; $10
 	const ANIM_GFX_SPEED
 	const ANIM_GFX_CHARGE
 	const ANIM_GFX_WIND
@@ -781,8 +810,8 @@ BATTLEANIM_BASE_TILE EQU 7 * 7  ; Maximum size of a pokemon picture
 	const ANIM_GFX_HAZE
 	const ANIM_GFX_HORN
 	const ANIM_GFX_FLOWER
-	const ANIM_GFX_MISC
-	const ANIM_GFX_SKY_ATTACK
+	const ANIM_GFX_MISC ; $1f
+	const ANIM_GFX_SKY_ATTACK ; $20
 	const ANIM_GFX_GLOBE
 	const ANIM_GFX_SHAPES
 	const ANIM_GFX_OBJECTS
@@ -790,7 +819,7 @@ BATTLEANIM_BASE_TILE EQU 7 * 7  ; Maximum size of a pokemon picture
 	const ANIM_GFX_ANGELS
 	const ANIM_GFX_AEROBLAST
 	const ANIM_GFX_PLAYERHEAD
-	const ANIM_GFX_ENEMYFEET
+	const ANIM_GFX_ENEMYFEET ; $28
 
 ; battle_bg_effect struct members (see macros/wram.asm)
 	const_def

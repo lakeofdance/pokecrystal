@@ -364,6 +364,8 @@ BattleAnimCmd_Ret:
 	ld [hl], e
 	inc hl
 	ld [hl], d
+	ld a, [wBattleAnimParentBank]
+	ld [wBattleAnimBank], a
 	ret
 
 BattleAnimCmd_Call:
@@ -371,6 +373,10 @@ BattleAnimCmd_Call:
 	ld e, a
 	call GetBattleAnimByte
 	ld d, a
+	ld a, [wBattleAnimBank]
+	ld [wBattleAnimParentBank], a
+	call GetBattleAnimByte
+	ld [wBattleAnimBank], a
 	push de
 	ld hl, wBattleAnimAddress
 	ld e, [hl]
@@ -1353,6 +1359,7 @@ ClearBattleAnims::
 	inc hl
 	ld d, [hl]
 	ld hl, BattleAnimations
+	add hl, de
 	add hl, de
 	add hl, de
 	call GetBattleAnimPointer
