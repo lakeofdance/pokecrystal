@@ -189,3 +189,5 @@
 	const SFX_GAME_FREAK_PRESENTS         ; c9
 	const SFX_TINGLE                      ; ca
 	const SFX_INTRO_WHOOSH                ; cb
+;
+	const SFX_BOOMBURST                   ; cc

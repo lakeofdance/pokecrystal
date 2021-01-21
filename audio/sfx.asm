@@ -4580,3 +4580,18 @@ Sfx_GlassTing_Ch5:
 	dutycycle $2
 	sound C#,  1, $d1, $07dc
 	endchannel
+
+Sfx_Boomburst:
+	musicheader 2, 5, Sfx_Boomburst_Ch5
+	musicheader 1, 8, Sfx_Boomburst_Ch8
+
+Sfx_Boomburst_Ch5:
+	soundinput $ac
+	sound __, 13, $ff, $02b0
+	loopchannel 4, Sfx_Boomburst_Ch5
+	soundinput $8
+	endchannel
+
+Sfx_Boomburst_Ch8:
+	noise __, 13, $b1, $6c
+	endchannel

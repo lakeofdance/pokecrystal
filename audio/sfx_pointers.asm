@@ -187,3 +187,5 @@ SFX:
 	dba Sfx_GameFreakPresents
 	dba Sfx_Tingle
 	dba Sfx_IntroWhoosh
+;
+	dba Sfx_Boomburst

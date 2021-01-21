@@ -254,38 +254,38 @@ BattleAnimations::
 	dba BattleAnim_Whirlpool
 	dba BattleAnim_BeatUp
 	dba BattleAnim_FlameWheel	;burn up
-	dba BattleAnim_LeechLife	;strength sap
+	dba BattleAnim_StrengthSap
 	dba BattleAnim_UTurn
 	dba BattleAnim_ff		;don't use
 	dba BattleAnim_100		;don't use
-	dba BattleAnim_IceBeam		;freeze dry
-	dba BattleAnim_JumpKick  	;flying press
+	dba BattleAnim_FreezeDry
+	dba BattleAnim_FlyingPress
 	dba BattleAnim_VoltSwitch
-	dba BattleAnim_KarateChop	;circle throw
-	dba BattleAnim_Tackle		;dragon tail
+	dba BattleAnim_CircleThrow
+	dba BattleAnim_DragonTail
 	dba BattleAnim_Avalanche
-	dba BattleAnim_Tackle		;revenge
+	dba BattleAnim_Revenge
 	dba BattleAnim_KnockOff
 	dba BattleAnim_BugBuzz
-	dba BattleAnim_Tackle		;lunge
+	dba BattleAnim_Lunge
 	dba BattleAnim_Tackle		;quiver dance
-	dba BattleAnim_Tackle		;signal beam
+	dba BattleAnim_SignalBeam
 	dba BattleAnim_SilverWind
 	dba BattleAnim_XScissor
 	dba BattleAnim_DarkPulse
-	dba BattleAnim_Tackle		;foul play
+	dba BattleAnim_FoulPlay
 	dba BattleAnim_NastyPlot
-	dba BattleAnim_Tackle		;discharge
-	dba BattleAnim_Tackle		;electroweb
-	dba BattleAnim_Tackle		;nuzzle
-	dba BattleAnim_Tackle		;shock wave
+	dba BattleAnim_Discharge
+	dba BattleAnim_Electroweb
+	dba BattleAnim_Nuzzle
+	dba BattleAnim_ShockWave
 	dba BattleAnim_WildCharge
 	dba BattleAnim_DragonClaw
 	dba BattleAnim_DragonDance
-	dba BattleAnim_Tackle		;dragon darts
+	dba BattleAnim_DragonDarts
 	dba BattleAnim_DragonPulse
-	dba BattleAnim_Tackle		;dragon rush
-	dba BattleAnim_Tackle		;dual chop
+	dba BattleAnim_DragonRush
+	dba BattleAnim_DualChop
 	dba BattleAnim_DazzlingGleam
 	dba BattleAnim_DisarmingCry
 	dba BattleAnim_DrainingKiss
@@ -293,19 +293,19 @@ BattleAnimations::
 	dba BattleAnim_Moonblast
 	dba BattleAnim_Tackle		;nature's cure
 	dba BattleAnim_PlayRough
-	dba BattleAnim_Tackle		;spirit break
-	dba BattleAnim_Tackle		;strangesteam
+	dba BattleAnim_SpiritBreak
+	dba BattleAnim_StrangeSteam
 	dba BattleAnim_Tackle		;apple acid
-	dba BattleAnim_Tackle		;bullet seed
+	dba BattleAnim_BulletSeed
 	dba BattleAnim_EnergyBall
 	dba BattleAnim_Tackle		;grav apple
-	dba BattleAnim_Tackle		;horn leech
+	dba BattleAnim_HornLeech
 	dba BattleAnim_LeafBlade
-	dba BattleAnim_Tackle		;leafage
-	dba BattleAnim_Tackle		;magical leaf
+	dba BattleAnim_Leafage
+	dba BattleAnim_MagicalLeaf
 	dba BattleAnim_PetalBlizzard
 	dba BattleAnim_PowerWhip
-	dba BattleAnim_Tackle		;solar blade
+	dba BattleAnim_SolarBlade
 	dba BattleAnim_Tackle		;wood hammer
 	dba BattleAnim_AquaJet
 	dba BattleAnim_AquaTail
@@ -313,9 +313,9 @@ BattleAnimations::
 	dba BattleAnim_Tackle		;bolt beak
 	dba BattleAnim_Tackle		;super bloom
 	dba BattleAnim_Tackle		;meltdown
-	dba BattleAnim_Tackle		;flip turn
+	dba BattleAnim_FlipTurn
 	dba BattleAnim_Tackle		;liquidation
-	dba BattleAnim_Surf		;muddy water
+	dba BattleAnim_MuddyWater
 	dba BattleAnim_Scald
 	dba BattleAnim_Tackle		;soak
 	dba BattleAnim_Tackle		;steamruption
@@ -365,7 +365,7 @@ BattleAnimations::
 	dba BattleAnim_Tackle		;feather dance
 	dba BattleAnim_Hurricane
 	dba BattleAnim_Roost
-	dba BattleAnim_Tackle		;boomburst
+	dba BattleAnim_Boomburst
 	dba BattleAnim_Tackle		;court change
 	dba BattleAnim_Tackle		;endeavor
 	dba BattleAnim_GigaImpact
