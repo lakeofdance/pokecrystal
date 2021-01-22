@@ -262,36 +262,36 @@ PokedexDataPointerTable:
 	dw NincadaPokedexEntry
 	dw NinjaskPokedexEntry
 	dw ShedinjaPokedexEntry
+	dw AronPokedexEntry
+	dw LaironPokedexEntry
+	dw AggronPokedexEntry
+	dw BeldumPokedexEntry
+	dw MetangPokedexEntry
+	dw MetagrossPokedexEntry
+	dw NosepassPokedexEntry
+	dw ProbopassPokedexEntry
+	dw JoltikPokedexEntry
+	dw GalvantulaPokedexEntry
+	dw FletchlingPokedexEntry
+	dw FletchindrPokedexEntry
+	dw TalonflamePokedexEntry
+	dw LittenPokedexEntry
+	dw TorracatPokedexEntry
+	dw IncineroarPokedexEntry
+	dw ApplinPokedexEntry
+	dw FlapplePokedexEntry
+	dw AppletunPokedexEntry
+	dw DreepyPokedexEntry
+	dw DrakloakPokedexEntry
+	dw DragapultPokedexEntry
+	dw MudkipPokedexEntry
+	dw MarshtompPokedexEntry
+	dw SwampertPokedexEntry
+	dw WeavilePokedexEntry
+	dw HonchkrowPokedexEntry
+	dw GalarianArticunoPokedexEntry
 	dw MegaVenusaurPokedexEntry
-	dw Mon_10APokedexEntry
-	dw Mon_10BPokedexEntry
-	dw Mon_10CPokedexEntry
-	dw Mon_10DPokedexEntry
-	dw Mon_10EPokedexEntry
-	dw Mon_10FPokedexEntry
-	dw Mon_110PokedexEntry
-	dw Mon_111PokedexEntry
-	dw Mon_112PokedexEntry
-	dw Mon_113PokedexEntry
-	dw Mon_114PokedexEntry
-	dw Mon_115PokedexEntry
-	dw Mon_116PokedexEntry
-	dw Mon_117PokedexEntry
-	dw Mon_118PokedexEntry
-	dw Mon_119PokedexEntry
-	dw Mon_11APokedexEntry
-	dw Mon_11BPokedexEntry
-	dw Mon_11CPokedexEntry
-	dw Mon_11DPokedexEntry
-	dw Mon_11EPokedexEntry
-	dw Mon_11FPokedexEntry
-	dw Mon_120PokedexEntry
-	dw Mon_121PokedexEntry
-	dw Mon_122PokedexEntry
-	dw Mon_123PokedexEntry
-	dw Mon_124PokedexEntry
-	dw Mon_125PokedexEntry
-	dw Mon_126PokedexEntry
+	dw MegaAmpharosPokedexEntry
 	dw Mon_127PokedexEntry
 	dw Mon_128PokedexEntry
 	dw Mon_129PokedexEntry

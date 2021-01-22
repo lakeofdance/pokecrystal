@@ -1,3 +1,8 @@
+GetFarEvosAttacksByte:
+	ld a, [wEvosAttacksBank]
+	call GetFarByte
+	ret
+
 EvolvePokemon:
 	ld hl, wEvolvableFlags
 	xor a
@@ -30,11 +35,9 @@ EvolveAfterBattle_MasterLoop:
 	jp z, .ReturnToMap
 
 	ld [wEvolutionOldSpecies], a
-;
 	inc hl
 	ld a, [hl]
 	ld [wEvolutionOldSpecies + 1], a
-;
 
 	push hl
 	ld a, [wCurPartyMon]
@@ -54,9 +57,13 @@ EvolveAfterBattle_MasterLoop:
 	ld hl, EvosAttacksPointers
 	add hl, bc
 	add hl, bc
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
+	add hl, bc
+	ld a, BANK(EvosAttacksPointers)
+	call GetFarByte
+	ld [wEvosAttacksBank], a
+	inc hl
+	ld a, BANK(EvosAttacksPointers)
+	call GetFarHalfword
 
 	push hl
 	xor a
@@ -65,14 +72,15 @@ EvolveAfterBattle_MasterLoop:
 	pop hl
 
 .loop
-	ld a, [hli]
+	call GetFarEvosAttacksByte
+	inc hl
 	and a
 	jr z, EvolveAfterBattle_MasterLoop
 
 	ld b, a
 
 	cp EVOLVE_TRADE
-	jr z, .trade
+	jp z, .trade
 
 	ld a, [wLinkMode]
 	and a
@@ -100,8 +108,10 @@ EvolveAfterBattle_MasterLoop:
 	jp z, .dont_evolve_2
 
 ; EVOLVE_STAT
+	call GetFarEvosAttacksByte
+	ld b, a
 	ld a, [wTempMonLevel]
-	cp [hl]
+	cp b
 	jp c, .dont_evolve_1
 
 	call IsMonHoldingEverstone
@@ -121,11 +131,13 @@ EvolveAfterBattle_MasterLoop:
 	pop hl
 
 	inc hl
-	cp [hl]
+	ld b, a
+	call GetFarEvosAttacksByte
+	cp b
 	jp nz, .dont_evolve_2
 
 	inc hl
-	jr .proceed
+	jp .proceed
 
 .happiness
 	ld a, [wTempMonHappiness]
@@ -135,7 +147,8 @@ EvolveAfterBattle_MasterLoop:
 	call IsMonHoldingEverstone
 	jp z, .dont_evolve_2
 
-	ld a, [hli]
+	call GetFarEvosAttacksByte
+	inc hl
 	cp TR_ANYTIME
 	jr z, .proceed
 	cp TR_MORNDAY
@@ -161,7 +174,8 @@ EvolveAfterBattle_MasterLoop:
 	call IsMonHoldingEverstone
 	jp z, .dont_evolve_2
 
-	ld a, [hli]
+	call GetFarEvosAttacksByte
+	inc hl
 	ld b, a
 	inc a
 	jr z, .proceed
@@ -179,7 +193,8 @@ EvolveAfterBattle_MasterLoop:
 	jr .proceed
 
 .item
-	ld a, [hli]
+	call GetFarEvosAttacksByte
+	inc hl
 	ld b, a
 	ld a, [wCurItem]
 	cp b
@@ -194,7 +209,8 @@ EvolveAfterBattle_MasterLoop:
 	jr .proceed
 
 .level
-	ld a, [hli]
+	call GetFarEvosAttacksByte
+	inc hl
 	ld b, a
 	ld a, [wTempMonLevel]
 	cp b
@@ -210,9 +226,10 @@ EvolveAfterBattle_MasterLoop:
 
 	push hl
 
-	ld a, [hli]
+	call GetFarEvosAttacksByte
 	ld [wEvolutionNewSpecies], a
-	ld a, [hl]
+	inc hl
+	call GetFarEvosAttacksByte
 	ld [wEvolutionNewSpecies + 1], a
 	ld a, [wCurPartyMon]
 	ld hl, wPartyMonNicknames
@@ -246,12 +263,14 @@ EvolveAfterBattle_MasterLoop:
 
 	pop hl
 
-	ld a, [hli]
+	call GetFarEvosAttacksByte
+	inc hl
 	ld [wCurSpecies], a
 	ld [wTempMonSpecies], a
 	ld [wEvolutionNewSpecies], a
 	ld [wNamedObjectIndexBuffer], a
-	ld a, [hld]
+	call GetFarEvosAttacksByte
+	dec hl
 	ld [wCurSpecies + 1], a
 	ld [wTempMonSpecies + 1], a
 	ld [wEvolutionNewSpecies + 1], a
@@ -462,12 +481,17 @@ LearnLevelMoves:
 	ld hl, EvosAttacksPointers
 	add hl, bc
 	add hl, bc
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
+	add hl, bc
+	ld a, BANK(EvosAttacksPointers)
+	call GetFarByte
+	ld [wEvosAttacksBank], a
+	inc hl
+	ld a, BANK(EvosAttacksPointers)
+	call GetFarHalfword
 
 .skip_evos
-	ld a, [hli]
+	call GetFarEvosAttacksByte
+	inc hl
 	and a
 	jr z, .find_move
 	cp EVOLVE_STAT
@@ -480,17 +504,20 @@ LearnLevelMoves:
 	jr .skip_evos
 
 .find_move
-	ld a, [hli]
+	call GetFarEvosAttacksByte
+	inc hl
 	and a
 	jr z, .done
 
 	ld b, a
+	call GetFarEvosAttacksByte
+	inc hl
+	ld d, a
+	call GetFarEvosAttacksByte
+	inc hl
+	ld e, a
 	ld a, [wCurPartyLevel]
 	cp b
-	ld a, [hli]
-	ld d, a
-	ld a, [hli]
-	ld e, a
 	jr nz, .find_move
 
 	push hl
@@ -550,11 +577,16 @@ FillMoves:
 	dec bc
 	add hl, bc
 	add hl, bc
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
+	add hl, bc
+	ld a, BANK(EvosAttacksPointers)
+	call GetFarByte
+	ld [wEvosAttacksBank], a
+	inc hl
+	ld a, BANK(EvosAttacksPointers)
+	call GetFarHalfword
 .GoToAttacks:
-	ld a, [hli]
+	call GetFarEvosAttacksByte
+	inc hl
 	and a
 	jr z, .GetLevel
 	cp EVOLVE_STAT
@@ -571,7 +603,8 @@ FillMoves:
 .GetMove:
 	inc hl
 .GetLevel:
-	ld a, [hli]
+	call GetFarEvosAttacksByte
+	inc hl
 	and a
 	jp z, .done
 	ld b, a
@@ -590,12 +623,16 @@ FillMoves:
 	ld c, NUM_MOVES
 .CheckRepeat:
 	ld a, [de]
+	ld b, a
 	inc de
-	cp [hl]
+	call GetFarEvosAttacksByte
+	cp b
 	jr nz, .norepeat
 	inc hl
 	ld a, [de]
-	cp [hl]
+	ld b, a
+	call GetFarEvosAttacksByte
+	cp b
 	jr z, .NextMove
 	dec hl
 .norepeat
@@ -634,10 +671,11 @@ FillMoves:
 	pop hl
 
 .LearnMove:
-	ld a, [hli]
+	call GetFarEvosAttacksByte
+	inc hl
 	ld [de], a
 	inc de
-	ld a, [hl]
+	call GetFarEvosAttacksByte
 	ld [de], a
 	ld a, [wEvolutionOldSpecies]
 	and a
@@ -656,7 +694,7 @@ FillMoves:
 	pop hl
 	ld [hl], a
 	pop hl
-	jr .NextMove
+	jp .NextMove
 
 .done
 	pop bc
@@ -710,11 +748,16 @@ GetPreEvolution:
 	ld hl, EvosAttacksPointers
 	add hl, bc
 	add hl, bc
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
+	add hl, bc
+	ld a, BANK(EvosAttacksPointers)
+	call GetFarByte
+	ld [wEvosAttacksBank], a
+	inc hl
+	ld a, BANK(EvosAttacksPointers)
+	call GetFarHalfword
 .loop2 ; For each evolution...
-	ld a, [hli]
+	call GetFarEvosAttacksByte
+	inc hl
 	and a
 	jr z, .no_evolve ; If we jump, this Pokemon does not evolve into wCurPartySpecies.
 	cp EVOLVE_STAT ; This evolution type has the extra parameter of stat comparison.
@@ -723,13 +766,21 @@ GetPreEvolution:
 
 .not_tyrogue
 	inc hl
-	ld a, [wCurPartySpecies]
-	cp [hl]
+	push bc
+	push hl
+	call GetFarEvosAttacksByte
+	ld c, a
 	inc hl
-	jr z, .ok_so_far
-.no_good
+	call GetFarEvosAttacksByte
+	ld b, a
+	ld hl, wCurPartySpecies
+	call CompareMove
+	pop hl
+	pop bc
+	jr z, .found_preevo
 	inc hl
-	ld a, [hl]
+	inc hl
+	call GetFarEvosAttacksByte
 	and a
 	jr nz, .loop2
 
@@ -746,11 +797,6 @@ GetPreEvolution:
 	jr nc, .loop
 	and a
 	ret
-
-.ok_so_far
-	ld a, [wCurPartySpecies + 1]
-	cp [hl]
-	jr nz, .no_good
 
 .found_preevo
 	inc bc

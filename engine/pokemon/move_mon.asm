@@ -19,10 +19,8 @@ TryAddMonToParty:
 	ld [de], a
 	ld a, [de] ; Why are we doing this?
 	ldh [hMoveMon], a ; HRAM backup
-;
 	add a
 	dec a
-;
 	add e
 	ld e, a
 	jr nc, .loadspecies
@@ -412,7 +410,6 @@ FillPP:
 	pop de
 	pop hl
 	ld a, [wStringBuffer1 + MOVE_PP]
-;	ld a, 10
 
 .next
 	inc hl
@@ -1038,7 +1035,7 @@ SendMonIntoBox:
 	ld [de], a
 	inc de
 	inc a
-	jr nz, .loop		; not sure this is necessary
+	jr nz, .loop
 .done
 
 	call GetBaseData
@@ -1237,18 +1234,13 @@ GiveEgg::
 	and a
 	jr nz, .skip_caught_flag
 	ld a, [wCurPartySpecies]
-;
+
 	ld e, a
 	ld a, [wCurPartySpecies + 1]
 	ld d, a
 	dec de
-;	ld a, e
-;
-;	ld c, a
-;	ld d, $0
 	ld hl, wPokedexCaught
 	ld b, RESET_FLAG
-;	predef SmallFarFlagAction
 	predef FlagAction
 
 .skip_caught_flag
@@ -1260,18 +1252,13 @@ GiveEgg::
 	and a
 	jr nz, .skip_seen_flag
 	ld a, [wCurPartySpecies]
-;
 	ld e, a
 	ld a, [wCurPartySpecies + 1]
 	ld d, a
 	dec de
-;	ld a, e
-;
-;	ld c, a
-;	ld d, $0
+
 	ld hl, wPokedexSeen
 	ld b, RESET_FLAG
-;	predef SmallFarFlagAction
 	predef FlagAction
 
 .skip_seen_flag

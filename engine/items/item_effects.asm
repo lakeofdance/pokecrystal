@@ -914,12 +914,16 @@ MoonBallMultiplier:
 	ld hl, EvosAttacksPointers
 	add hl, bc
 	add hl, bc
+	add hl, bc
+	ld a, BANK(EvosAttacksPointers)
+	call GetFarByte
+	ld d, a
 	ld a, BANK(EvosAttacksPointers)
 	call GetFarHalfword
 	pop bc
 
 	push bc
-	ld a, BANK("Evolutions and Attacks")
+	ld a, d
 	call GetFarByte
 	cp EVOLVE_ITEM
 	pop bc
@@ -933,7 +937,7 @@ MoonBallMultiplier:
 ; No Pokémon evolve with Burn Heal,
 ; so Moon Balls always have a catch rate of 1×.
 	push bc
-	ld a, BANK("Evolutions and Attacks")
+	ld a, d
 	call GetFarByte
 	cp MOON_STONE_RED ; BURN_HEAL
 	pop bc
@@ -1208,6 +1212,7 @@ VitaminEffect:
 	call GetStatExpRelativePointer
 
 	ld hl, StatStrings
+	add hl, bc
 	add hl, bc
 	ld a, [hli]
 	ld h, [hl]

@@ -286,43 +286,43 @@ JOHTO_POKEMON EQU const_value
 	const NINCADA    ; 106
 	const NINJASK    ; 107
 	const SHEDINJA   ; 108
+	const ARON       ; 109
+	const LAIRON     ; 10a
+	const AGGRON     ; 10b
+	const BELDUM     ; 10c
+	const METANG     ; 10d
+	const METAGROSS  ; 10e
+	const NOSEPASS   ; 10f
+	const PROBOPASS  ; 110
+	const JOLTIK     ; 111
+	const GALVANTULA ; 112
+	const FLETCHLING ; 113
+	const FLETCHINDR ; 114
+	const TALONFLAME ; 115
+	const LITTEN     ; 116
+	const TORRACAT   ; 117
+	const INCINEROAR ; 118
+	const APPLIN     ; 119
+	const FLAPPLE    ; 11a
+	const APPLETUN   ; 11b
+	const DREEPY     ; 11c
+	const DRAKLOAK   ; 11d
+	const DRAGAPULT  ; 11e
+	const MUDKIP     ; 11f
+	const MARSHTOMP  ; 120
+	const SWAMPERT   ; 121
+	const WEAVILE    ; 122
+	const HONCHKROW  ; 123
+	const ARTICUNO_GALAR ; 124
 ; Mega pokemon automatically devolve after battle. 
 MEGA_POKEMON_START EQU const_value
-	const VENUSAUR_MEGA ; 109
+	const VENUSAUR_MEGA ; 125
+	const AMPHAROS_MEGA ; 126
 MEGA_POKEMON_END EQU const_value
 
 ; Used in the pokedex. Subtract 5 constants $fc to $100.
-NUM_DEX_MONS EQU const_value + -6 ; 103
+NUM_DEX_MONS EQU const_value + -6 ; 120
 
-	const MON_10A
-	const MON_10B
-	const MON_10C
-	const MON_10D
-	const MON_10E
-	const MON_10F
-	const MON_110
-	const MON_111
-	const MON_112
-	const MON_113
-	const MON_114
-	const MON_115
-	const MON_116
-	const MON_117
-	const MON_118
-	const MON_119
-	const MON_11A
-	const MON_11B
-	const MON_11C
-	const MON_11D
-	const MON_11E
-	const MON_11F
-	const MON_120
-	const MON_121
-	const MON_122
-	const MON_123
-	const MON_124
-	const MON_125
-	const MON_126
 	const MON_127
 	const MON_128
 	const MON_129

@@ -261,7 +261,7 @@ BitmasksPointers:
 	dw NincadaBitmasks
 	dw NinjaskBitmasks
 	dw ShedinjaBitmasks
-	dw MegaVenusaurBitmasks
+	dw Mon_109Bitmasks
 	dw Mon_10ABitmasks
 	dw Mon_10BBitmasks
 	dw Mon_10CBitmasks
@@ -289,7 +289,7 @@ BitmasksPointers:
 	dw Mon_122Bitmasks
 	dw Mon_123Bitmasks
 	dw Mon_124Bitmasks
-	dw Mon_125Bitmasks
+	dw MegaVenusaurBitmasks
 	dw Mon_126Bitmasks
 	dw Mon_127Bitmasks
 	dw Mon_128Bitmasks

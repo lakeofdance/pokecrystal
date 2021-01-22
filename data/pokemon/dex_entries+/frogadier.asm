@@ -1,4 +1,4 @@
-	db "BUBBLEFROG@" ; species name
+	db "BUBBLE FROG@" ; species name
 	dw  200, 240 ; height, weight
 
 	db   "Its swiftness is"

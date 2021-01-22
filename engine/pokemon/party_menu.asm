@@ -375,6 +375,7 @@ PlacePartyMonEvoStoneCompatibility:
 	ld hl, EvosAttacksPointers
 	add hl, de
 	add hl, de
+	add hl, de
 	call .DetermineCompatibility
 	pop hl
 	call PlaceString
@@ -392,15 +393,19 @@ PlacePartyMonEvoStoneCompatibility:
 .DetermineCompatibility:
 	ld de, wStringBuffer1
 	ld a, BANK(EvosAttacksPointers)
+	call GetFarByte
+	push af
+	ld a, BANK(EvosAttacksPointers)
 	ld bc, 2
+	inc hl
 	call FarCopyBytes
 	ld hl, wStringBuffer1
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
 	ld de, wStringBuffer1
-	ld a, BANK("Evolutions and Attacks")
-	ld bc, 10
+	pop af
+	ld bc, 20
 	call FarCopyBytes
 	ld hl, wStringBuffer1
 .loop2
@@ -409,23 +414,17 @@ PlacePartyMonEvoStoneCompatibility:
 	jr z, .nope
 	inc hl
 	inc hl
-;
 	inc hl
-;
 	cp EVOLVE_ITEM
 	jr nz, .loop2
 	dec hl
 	dec hl
-;
 	dec hl
-;
 	ld a, [wCurItem]
 	cp [hl]
 	inc hl
 	inc hl
-;
 	inc hl
-;
 	jr nz, .loop2
 	ld de, .string_able
 	ret

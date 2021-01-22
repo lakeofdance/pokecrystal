@@ -551,35 +551,37 @@ GetEggMove:
 	ld hl, EvosAttacksPointers
 	add hl, bc
 	add hl, bc
+	add hl, bc
 	ld a, BANK(EvosAttacksPointers)
+	call GetFarByte
+	ld b, a ; Contains the bank of this mons evos and attacks
+	ld a, BANK(EvosAttacksPointers)
+	inc hl
 	call GetFarHalfword
 .loop3
-	ld a, BANK("Evolutions and Attacks")
+	ld a, b
 	call GetFarByte
 	inc hl
 	and a
 	jr nz, .loop3
 .loop4
-	ld a, BANK("Evolutions and Attacks")
+	ld a, b
 	call GetFarByte
 	and a
 	jr z, .inherit_tmhm
 	inc hl
-	ld a, BANK("Evolutions and Attacks")
-	call GetFarByte
-	ld b, a
-	inc hl
-	ld a, BANK("Evolutions and Attacks")
-	call GetFarByte
-	ld c, a
+	ld a, b
+	push hl
+	call GetFarHalfword
 	ld a, [de]
-	sub b
-	ld b, a
+	sub l
+	ld l, a
 	inc de
 	ld a, [de]
 	dec de
-	sub c
-	or b	
+	sub h
+	or l
+	pop hl
 	jr z, .done_carry
 	inc hl
 	jr .loop4

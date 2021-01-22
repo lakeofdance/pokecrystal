@@ -178,10 +178,6 @@ INCLUDE "engine/battle/core/taunt_checks.asm"
 INCLUDE "engine/battle/core/terrain.asm"
 INCLUDE "engine/battle/core/speed_check.asm"
 
-SECTION "Mega Evolution", ROMX
-
-INCLUDE "engine/battle/mega_evolution.asm"
-
 SECTION "Enemy AI", ROMX
 
 INCLUDE "engine/battle/ai/items.asm"

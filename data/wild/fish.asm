@@ -205,9 +205,9 @@ FishGroups:
 	dbbw  100 percent,     40,  REMORAID
 
 TimeFishGroups:
-	;  day
+	; day
 	dbw 20, CORSOLA
-	;nite
+	; night
 	dbw 20, STARYU	 	; 0
 ;
 	dbw 40, CORSOLA  

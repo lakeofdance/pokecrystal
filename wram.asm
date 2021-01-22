@@ -679,6 +679,7 @@ wBattleArenaEffects::
 ; 2 grassy terrain
 ; 1 misty terrain
 ; 0 psychic terrain
+	db
 
 wTerrainCount::
 ; # turns remaining
@@ -1431,12 +1432,8 @@ wCreditsLYOverride:: db
 NEXTU ; cf64
 ; pokedex
 wPrevDexEntryJumptableIndex:: db
-if DEF(_CRYSTAL11)
-wPrevDexEntryBackup:: dw
-else
 wPrevDexEntryBackup::
 wPokedexStatus:: dw
-endc
 
 NEXTU ; cf64
 ; pokegear
@@ -1798,8 +1795,8 @@ wEndFlypoint:: db
 
 NEXTU ; d002
 ; unidentified
-wd002:: dw		;now a word because used by prof oaks pc as num seen
-wd003:: dw		;now a word because used by prof oaks pc as num caught
+wd002:: dw		;used by prof oaks pc as num seen
+wd003:: dw		;used by prof oaks pc as num caught
 wd004:: db
 
 ; mobile?
@@ -2193,14 +2190,14 @@ wEvolutionCanceled:: db ; d1ed
 
 NEXTU ; d1ea
 ; mobile
-;	ds 2
-;wd1ec:: ds 1
-;wd1ed:: ds 1
-;wd1ee:: ds 1
-;wd1ef:: ds 1
-;wd1f0:: ds 1
-;wd1f1:: ds 1
-;wd1f2:: ds 1
+	ds 2
+wd1ec:: ds 1
+wd1ed:: ds 1
+wd1ee:: ds 1
+wd1ef:: ds 1
+wd1f0:: ds 1
+wd1f1:: ds 1
+wd1f2:: ds 1
 wd1f3:: ds 4
 
 NEXTU ; d1ea
@@ -2288,7 +2285,8 @@ wBaseDexNo:: dw
 
 wCurDamage:: dw ; d256
 
-	ds 1
+; Used by evolve.asm
+wEvosAttacksBank:: db
 
 wMornEncounterRate::  db ; d25a
 wDayEncounterRate::   db ; d25b

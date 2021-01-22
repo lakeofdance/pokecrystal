@@ -261,7 +261,7 @@ FramesPointers:
 	dw NincadaFrames
 	dw NinjaskFrames
 	dw ShedinjaFrames
-	dw MegaVenusaurFrames
+	dw Mon_109Frames
 	dw Mon_10AFrames
 	dw Mon_10BFrames
 	dw Mon_10CFrames
@@ -289,7 +289,7 @@ FramesPointers:
 	dw Mon_122Frames
 	dw Mon_123Frames
 	dw Mon_124Frames
-	dw Mon_125Frames
+	dw MegaVenusaurFrames
 	dw Mon_126Frames
 	dw Mon_127Frames
 	dw Mon_128Frames

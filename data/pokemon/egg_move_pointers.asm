@@ -261,30 +261,29 @@ EggMovePointers::
 	dw NincadaEggMoves
 	dw NoEggMoves
 	dw NoEggMoves
-	dw NoEggMoves
-;end
-	dw NoEggMoves
+	dw AronEggMoves
 	dw NoEggMoves
 	dw NoEggMoves
 	dw NoEggMoves
 	dw NoEggMoves
 	dw NoEggMoves
+	dw NosepassEggMoves
 	dw NoEggMoves ;110
+	dw JoltikEggMoves
+	dw NoEggMoves
+	dw FletchlingEggMoves
 	dw NoEggMoves
 	dw NoEggMoves
+	dw LittenEggMoves
 	dw NoEggMoves
 	dw NoEggMoves
+	dw ApplinEggMoves
 	dw NoEggMoves
 	dw NoEggMoves
+	dw DreepyEggMoves
 	dw NoEggMoves
 	dw NoEggMoves
-	dw NoEggMoves
-	dw NoEggMoves
-	dw NoEggMoves
-	dw NoEggMoves
-	dw NoEggMoves
-	dw NoEggMoves
-	dw NoEggMoves
+	dw MudkipEggMoves
 	dw NoEggMoves ;120
 	dw NoEggMoves
 	dw NoEggMoves
@@ -292,6 +291,7 @@ EggMovePointers::
 	dw NoEggMoves
 	dw NoEggMoves
 	dw NoEggMoves
+;end
 	dw NoEggMoves
 	dw NoEggMoves
 	dw NoEggMoves

@@ -73,6 +73,8 @@ CanPlayerMegaEvolve:
 ;fallthrough
 
 FindUserMega:
+; Returns z if mon can mega.
+; Also, b:hl and b:hl+1 point to the mega species.
 ; point to mon's EvosAttacks
 	ld a, [hli]
 	ld c, a
@@ -82,16 +84,23 @@ FindUserMega:
 	ld hl, EvosAttacksPointers
 	add hl, bc
 	add hl, bc
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
+	add hl, bc
+	ld a, BANK(EvosAttacksPointers)
+	call GetFarByte
+	ld b, a ; EvosAttacks Bank
+	inc hl
+	ld a, BANK(EvosAttacksPointers)
+	call GetFarHalfword
 ;check whether mon has a mega evolution
 .loop
-	ld a, [hli]
+	ld a, b
+	call GetFarByte
+	inc hl
 	and a
 	jr z, .fail
 	cp EVOLVE_MEGA
 	jr .foundmegaevo
+	inc hl
 	inc hl
 	inc hl
 	inc hl
@@ -102,11 +111,14 @@ FindUserMega:
 
 .foundmegaevo
 ; now check if mon is holding the required item
+	ld a, b
+	call GetFarByte
+	inc hl
+	ld c, a
 	ld a, [de]
-	cp [hl]
+	cp c
 	ret z
 ; no need to deal with EVOLVE_STAT, because we have EVOLVE_MEGA
-	inc hl
 	inc hl
 	inc hl
 	jr .loop
@@ -120,10 +132,11 @@ AI_GetMegaBaseData:
 	ld hl, wEnemyMon
 	ld de, wEnemyMonItem
 	call FindUserMega
-	inc hl
-	ld a, [hli]
+	ld a, b
+	call GetFarHalfword
+	ld a, l
 	ld [wCurSpecies], a
-	ld a, [hl]
+	ld a, h
 	ld [wCurSpecies + 1], a
 	jp GetBaseData
 
@@ -164,14 +177,19 @@ PlayerMegaEvolve:
 
 	ld hl, wBattleMon
 	ld de, wBattleMonItem
-	call FindUserMega ; returns species in [hl + 1]
-	inc hl
+	call FindUserMega ; returns species in b:[hl]
+	ld a, b
+;
+;	ld bc, -3
+;	add hl, bc
+;
+	call GetFarHalfword
 
-	ld a, [hli]
+	ld a, l
 	ld [wCurSpecies], a
 	ld [wTempBattleMonSpecies], a ; used by LoadSGBLayoutCGB
 	ld [wTempMonSpecies], a
-	ld a, [hl]
+	ld a, h
 	ld [wCurSpecies + 1], a
 	ld [wTempMonSpecies + 1], a
 	ld [wTempBattleMonSpecies + 1], a
@@ -294,14 +312,15 @@ EnemyMegaEvolve:
 
 	ld hl, wEnemyMon
 	ld de, wEnemyMonItem
-	call FindUserMega ; returns species in [hl + 1]
-	inc hl
+	call FindUserMega ; returns species in b:[hl]
+	ld a, b
+	call GetFarHalfword
 
-	ld a, [hli]
+	ld a, l
 	ld [wCurSpecies], a
 	ld [wTempEnemyMonSpecies], a ; used by LoadSGBLayoutCGB
 	ld [wTempMonSpecies], a
-	ld a, [hl]
+	ld a, h
 	ld [wCurSpecies + 1], a
 	ld [wTempMonSpecies + 1], a
 	ld [wTempEnemyMonSpecies + 1], a

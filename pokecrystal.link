@@ -53,7 +53,7 @@ ROMX $09
 ROMX $0a
 	"bankA"
 ROMX $0b
-	"bankB"
+	"Move Descriptions"
 ROMX $0c
 	"Tileset Data 4"
 	"Pics 27"
@@ -64,20 +64,20 @@ ROMX $0e
 ROMX $0f
 	"Battle Core"
 ROMX $10
-	"Move Data and Evolve Engine"
-	"Evolutions and Attacks"
+	"Move Data"
+	"Evolve Engine"
 	"Mega Evolution"
-ROMX $11
-	"bank11"
-; prev in $12
+	"Evolutions and Attacks Pointers"
 	"Crystal Features 1"
+	"bankB"
+ROMX $11
+	"Evolutions and Attacks 1"
 ROMX $12
 	"Base Stats 2"
 	"Effect Command Pointers"
 ROMX $13
 	"bank13"
 ROMX $14
-; Base Stats 1
 	"bank14"
 ROMX $15
 	"Map Scripts 1"
@@ -238,23 +238,18 @@ ROMX $5a
 	"Pics 19"
 ROMX $5b
 	"bank5B"
-	"Pics 20"
+	"bank11"
 ROMX $5c
-	"Mobile 5C"
 	"Pics 21"
 ROMX $5d
 	"Crystal Phone Text 2"
-	"Pics 22"
 ROMX $5e
 	"UpdateBattleHUDs"
 	"Songs 5"
 	"Crystal Sound Effects"
-	"Pics 23"
 ROMX $5f
-	"Mobile 5F"
 	"Pokedex Entries 257-320"
 	"Pokedex Entries 321-384"
-	"Pokedex Entries 385-448"
 ROMX $60
 	"Map Scripts 13"
 	"Pokedex Entries 001-064"
@@ -284,6 +279,7 @@ ROMX $6b
 ROMX $6c
 	"Phone Text 2"
 	"Map Scripts 25"
+	"Pokedex Entries 385-448"
 ROMX $6d
 	"Special Phone Text"
 ROMX $6e
@@ -324,8 +320,12 @@ ROMX $7b
 ROMX $7c
 	"Battle Tower Trainer Data"
 	"Enemy AI"
+ROMX $7d
+	"Pics 20"
 ROMX $7e
-	"Crystal Events"
+	"Pics 22"
+ROMX $7f
+	"Pics 23"
 WRAM0
 	"Stack"
 	"Audio RAM"
@@ -343,7 +343,6 @@ WRAMX 1
 	"Party"
 WRAMX 2
 	"Pic Animations"
-	"moved from Battle Tower RAM"
 WRAMX 3
 	"Battle Tower RAM"
 WRAMX 4

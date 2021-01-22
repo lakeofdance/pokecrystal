@@ -809,17 +809,107 @@ LarvitarEggMoves:
 	db -1 ; end
 
 YamaskEggMoves:
+	dw DISABLE
+	dw ENDURE
+	dw FAKE_TEARS
+	dw MEMENTO
+	dw NASTY_PLOT
+	dw NIGHTMARE
 	dw PAIN_SPLIT
+	dw TOXIC_SPIKES
 	db -1 ; end
 
 FroakieEggMoves:
 	dw MIND_READER
+	dw POWERUPPUNCH
+	dw TOXIC_SPIKES
 	db -1 ; end
 
 NincadaEggMoves:
+	dw BUG_BITE
+	dw BUG_BUZZ
 	dw ENDURE
 	dw FAINT_ATTACK
+	dw FINAL_GAMBIT
 	dw GUST
+	dw NIGHT_SLASH
+	dw SILVER_WIND
+	db -1 ; end
+
+AronEggMoves:
+	dw BODY_SLAM
+	dw CURSE
+	dw DRAGON_RUSH
+	dw ENDEAVOR
+	dw HEAD_SMASH
+	dw IRON_HEAD
+	dw REVERSAL
+	dw SCREECH
+	dw STEALTHROCKS
+	dw STOMP
+	dw SUPERPOWER
+	db -1 ; end
+
+NosepassEggMoves:
+	dw DOUBLE_EDGE
+	dw ENDURE
+	dw MAGNITUDE
+	dw ROLLOUT
+	dw STEALTHROCKS
+	db -1 ; end
+
+JoltikEggMoves:
+	dw CROSS_POISON
+	dw DISABLE
+	dw FAINT_ATTACK
+	dw LUNGE
+	dw PIN_MISSILE
+	dw POISON_STING
+	dw PURSUIT
+	db -1 ; end
+
+FletchlingEggMoves:
+	dw SNATCH
+	db -1 ; end
+
+LittenEggMoves:
+	dw BODY_SLAM
+	dw CRUNCH
+	dw FAKE_OUT
+;	dw HEATWAVE
+	dw NASTY_PLOT
+	dw POWER_TRIP
+	dw REVENGE
+	db -1 ; end
+
+ApplinEggMoves:
+	dw DEFENSE_CURL
+	dw ROLLOUT
+	dw SUCKER_PUNCH
+	db -1 ; end
+
+DreepyEggMoves:
+	dw CONFUSE_RAY
+	dw CURSE
+	dw DISABLE
+	dw DOUBLE_TEAM
+	dw DRAGON_TAIL
+	dw SUCKER_PUNCH
+	db -1 ; end
+
+MudkipEggMoves:
+	dw ANCIENTPOWER
+	dw AVALANCHE
+	dw BARRIER
+	dw BITE
+	dw COUNTER
+	dw CURSE
+	dw DOUBLE_EDGE
+	dw ICE_BALL
+	dw MIRROR_COAT
+	dw SLUDGE
+	dw STOMP
+	dw WHIRLPOOL
 	db -1 ; end
 
 NoEggMoves:
