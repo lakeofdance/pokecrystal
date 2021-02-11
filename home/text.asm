@@ -224,7 +224,7 @@ ENDM
 	dict "<PKMN>",    PlacePKMN
 	dict "<POKE>",    PlacePOKE
 	dict "%",         NextChar
-	dict "¯",         " "
+	dict "¯",         SpaceChar
 	dict "<DEXEND>",  PlaceDexEnd
 	dict "<TARGET>",  PlaceMoveTargetsName
 	dict "<USER>",    PlaceMoveUsersName
@@ -482,6 +482,13 @@ PlaceDexEnd::
 	ld [hl], "."
 	pop hl
 	ret
+    
+SpaceChar::
+	ld a, " "
+	ld [hli], a
+	call PrintLetterDelay
+	inc de
+	jp PlaceNextChar
 
 PromptText::
 	ld a, [wLinkMode]
