@@ -56,7 +56,6 @@ ROMX $0b
 	"Move Descriptions"
 ROMX $0c
 	"Tileset Data 4"
-	"Pics 27"
 ROMX $0d
 	"Effect Commands"
 ROMX $0e
@@ -255,7 +254,6 @@ ROMX $60
 	"Pokedex Entries 001-064"
 ROMX $61
 	"Map Scripts 14"
-	"Pokedex Entries 449-509"
 ROMX $62
 	"Map Scripts 15"
 ROMX $63
@@ -279,41 +277,26 @@ ROMX $6b
 ROMX $6c
 	"Phone Text 2"
 	"Map Scripts 25"
-	"Pokedex Entries 385-448"
 ROMX $6d
 	"Special Phone Text"
 ROMX $6e
-	"Pics 24"
 	"Pokedex Entries 065-128"
 ROMX $6f
 	"Text 1"
 	"Text 2"
-ROMX $70
-	"Pics 25"
 ROMX $71
 	"Text 3"
-	"Pics 26"
 ROMX $72
 	"Miscellaneous Text"
 ROMX $73
 	"Pokedex Entries 129-192"
 	"Pokedex Entries 193-253"
-ROMX $74
-	"Pics 28"
-ROMX $75
-	"Pics 29"
-ROMX $76
-	"Pics 30"
 ROMX $77
 	"bank77"
 	"Tileset Data 7"
 	"bank77_2"
 ROMX $78
 	"Tileset Data 8"
-ROMX $79
-	"Pics 31"
-ROMX $7a
-	"Pics 32"
 ROMX $7b
 	"Battle Tower Text"
 	"Dex Engine"
@@ -322,10 +305,6 @@ ROMX $7c
 	"Enemy AI"
 ROMX $7d
 	"Pics 20"
-ROMX $7e
-	"Pics 22"
-ROMX $7f
-	"Pics 23"
 WRAM0
 	"Stack"
 	"Audio RAM"

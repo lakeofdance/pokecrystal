@@ -1,4 +1,4 @@
-roms := pokeruth.gbc pokecrystal11.gbc pokecrystal_au.gbc pokecrystal_debug.gbc pokecrystal11_debug.gbc
+roms := pokecrystal.gbc pokecrystal11.gbc pokecrystal_au.gbc pokecrystal_debug.gbc pokecrystal11_debug.gbc
 
 rom_obj := \
 audio.o \
@@ -47,7 +47,7 @@ RGBLINK ?= $(RGBDS)rgblink
 .SECONDARY:
 
 all: crystal
-crystal:         pokeruth.gbc
+crystal:         pokecrystal.gbc
 crystal11:       pokecrystal11.gbc
 crystal_au:      pokecrystal_au.gbc
 crystal_debug:   pokecrystal_debug.gbc

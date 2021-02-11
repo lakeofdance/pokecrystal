@@ -707,8 +707,6 @@ PokedexShow_GetDexEntryBank:
 	db BANK("Pokedex Entries 193-253")
 	db BANK("Pokedex Entries 257-320")
 	db BANK("Pokedex Entries 321-384")
-	db BANK("Pokedex Entries 385-448")
-	db BANK("Pokedex Entries 449-509")
 
 PokedexShow1:
 	call StartRadioStation
