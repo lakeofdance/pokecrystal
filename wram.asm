@@ -382,7 +382,7 @@ wBattleMon:: battle_struct wBattleMon ; c62c
 
 	ds 2
 
-wWildMon:: dw ; c64e		;don't think this needs to be a word
+wWildMon:: dw ; c64e
 	ds 1
 wEnemyTrainerItem1:: db ; c650
 wEnemyTrainerItem2:: db ; c651

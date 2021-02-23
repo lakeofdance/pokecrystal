@@ -4,7 +4,7 @@ BattleTowerMons:
 ; species
 ; held item
 ; moves
-; stat exp: 0 to 255 (but only the value mod 4 counts, so max 252)
+; stat exp: 0 to 255 (but only the value/4 counts, so max 252)
 ;     hp
 ;     attack
 ;     defense

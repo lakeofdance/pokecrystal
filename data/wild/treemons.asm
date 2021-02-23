@@ -12,8 +12,7 @@ TreeMons:
 
 ; Two tables each (common, rare).
 ; Structure:
-;	db  %, level
-;	dw species
+;	dbbw  %, level, species
 
 TreeMonSet_City:
 TreeMonSet_Canyon:
@@ -82,7 +81,7 @@ TreeMonSet_Kanto:
 ; rare
 	dbbw 50, 10, HOOTHOOT
 	dbbw 15, 10, PINECO
-	dbbw 15,10, PINECO
+	dbbw 15, 10, PINECO
 	dbbw 10, 10, EXEGGCUTE
 	dbbw  5, 10, EXEGGCUTE
 	dbbw  5, 10, EXEGGCUTE

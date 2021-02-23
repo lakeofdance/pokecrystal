@@ -1,6 +1,6 @@
-#!/usr/bin/gawk -f
+#!/opt/homebrew/Cellar/gawk/5.1.0/bin/gawk -f
 
-# Usage:  tools/free_space.awk [BANK=<bank_spec>] pokecrystal.map
+# Usage: tools/free_space.awk [BANK=<bank_spec>] pokecrystal.map
 
 # The BANK argument allows printing free space in one, all, or none of the ROM's banks.
 # Valid arguments are numbers (in decimal "42" or hexadecimal "0x2a"), "all" or "none".
