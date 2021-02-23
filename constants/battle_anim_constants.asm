@@ -57,7 +57,7 @@ BATTLEANIM_BASE_TILE EQU 7 * 7  ; Maximum size of a pokemon picture
 	const ANIM_OBJ_POKE_BALL_BLOCKED
 	const ANIM_OBJ_17
 	const ANIM_OBJ_18
-	const ANIM_OBJ_19
+	const ANIM_OBJ_ACID
 	const ANIM_OBJ_1A
 	const ANIM_OBJ_1B
 	const ANIM_OBJ_BALL_POOF
@@ -71,8 +71,8 @@ BATTLEANIM_BASE_TILE EQU 7 * 7  ; Maximum size of a pokemon picture
 	const ANIM_OBJ_WATER_GUN
 	const ANIM_OBJ_HYDRO_PUMP
 	const ANIM_OBJ_POWDER
-	const ANIM_OBJ_27
-	const ANIM_OBJ_28
+	const ANIM_OBJ_BEAM
+	const ANIM_OBJ_BEAM_END
 	const ANIM_OBJ_ICE_BUILDUP
 	const ANIM_OBJ_FROZEN
 	const ANIM_OBJ_MASTER_BALL_SPARKLE
@@ -215,15 +215,13 @@ BATTLEANIM_BASE_TILE EQU 7 * 7  ; Maximum size of a pokemon picture
 	const ANIM_OBJ_ENEMYFEET_1ROW
 	const ANIM_OBJ_PLAYERHEAD_1ROW
 	const ANIM_OBJ_ENEMYFEET_2ROW
-	const ANIM_OBJ_PLAYERHEAD_2ROW
+	const ANIM_OBJ_PLAYERHEAD_2ROW ;$ba
 ; from polished crystal
 	const ANIM_OBJ_MOON
 	const ANIM_OBJ_ENERGY_BALL
 	const ANIM_OBJ_HAIL
 	const ANIM_OBJ_GEM
 	const ANIM_OBJ_ICICLE
-	const ANIM_OBJ_BIG_ICE_CHUNK
-	const ANIM_OBJ_SMALL_ICE_CHUNK
 	const ANIM_OBJ_HONE_CLAWS_LEFT
 	const ANIM_OBJ_HONE_CLAWS_RIGHT
 	const ANIM_OBJ_ROCK_BLAST
@@ -244,10 +242,37 @@ BATTLEANIM_BASE_TILE EQU 7 * 7  ; Maximum size of a pokemon picture
 	const ANIM_OBJ_SPLASH
 	const ANIM_OBJ_HEX
 	const ANIM_OBJ_BLUE_FLAME
-	const ANIM_OBJ_SHELL_SMASH
+	const ANIM_OBJ_SHELL_SMASH ; $d5
+; new
 	const ANIM_OBJ_BULLET_SEED
 	const ANIM_OBJ_MAGICAL_LEAF
 	const ANIM_OBJ_MUDDY_WATER
+	const ANIM_OBJ_KINGSSHIELD
+	const ANIM_OBJ_MAGMA
+	const ANIM_OBJ_LAVA_PLUME
+	const ANIM_OBJ_SANDS
+	const ANIM_OBJ_BLUE_FLARE1
+	const ANIM_OBJ_BLUE_FLARE2
+	const ANIM_OBJ_GEOMANCY
+	const ANIM_OBJ_BIG_DIAMOND1
+	const ANIM_OBJ_BIG_DIAMOND2
+	const ANIM_OBJ_SMALL_DIAMOND
+	const ANIM_OBJ_SEED_FLARE
+	const ANIM_OBJ_NATURES_MADNESS
+	const ANIM_OBJ_STEALTH_ROCK
+	const ANIM_OBJ_COIL
+	const ANIM_OBJ_METEOR
+	const ANIM_OBJ_METEOR_BEAM
+	const ANIM_OBJ_FEATHER
+	const ANIM_OBJ_APPLE
+	const ANIM_OBJ_APPLE_ACID
+	const ANIM_OBJ_LEAF_STORM
+    const ANIM_OBJ_XMARK
+    const ANIM_OBJ_CHARGE_BEAM
+    const ANIM_OBJ_COURT_CHANGE1
+    const ANIM_OBJ_COURT_CHANGE2
+    const ANIM_OBJ_HEAT_WAVE
+    const ANIM_OBJ_MYSTICAL_FIRE ; f2
 
 ; DoBattleAnimFrame arguments (see engine/battle_anims/functions.asm)
 	const_def
@@ -329,6 +354,8 @@ BATTLEANIM_BASE_TILE EQU 7 * 7  ; Maximum size of a pokemon picture
 	const BATTLEANIMFUNC_4D
 	const BATTLEANIMFUNC_4E
 	const BATTLEANIMFUNC_4F
+	const BATTLEANIMFUNC_METEOR
+	const BATTLEANIMFUNC_METEOR_BEAM
 
 ; BattleAnimFrameData indexes (see data/battle_anims/framesets.asm)
 	const_def
@@ -511,6 +538,11 @@ BATTLEANIM_BASE_TILE EQU 7 * 7  ; Maximum size of a pokemon picture
 	const BATTLEANIMFRAMESET_B7
 	const BATTLEANIMFRAMESET_B8
 	const BATTLEANIMFRAMESET_B9
+	const BATTLEANIMFRAMESET_BA
+	const BATTLEANIMFRAMESET_BB
+	const BATTLEANIMFRAMESET_BC
+	const BATTLEANIMFRAMESET_BD
+    const BATTLEANIMFRAMESET_BE
 
 ; BattleAnimOAMData indexes (see data/battle_anims/oam.asm)
 	const_def
@@ -729,6 +761,11 @@ BATTLEANIM_BASE_TILE EQU 7 * 7  ; Maximum size of a pokemon picture
 	const BATTLEANIMOAMSET_D6
 	const BATTLEANIMOAMSET_D7
 	const BATTLEANIMOAMSET_D8
+	const BATTLEANIMOAMSET_D9
+	const BATTLEANIMOAMSET_DA
+	const BATTLEANIMOAMSET_DB
+	const BATTLEANIMOAMSET_DC
+	const BATTLEANIMOAMSET_DD
 
 ; BattleBGEffects indexes (see engine/battle_anims/bg_effects.asm)
 	const_def 1
@@ -759,23 +796,23 @@ BATTLEANIM_BASE_TILE EQU 7 * 7  ; Maximum size of a pokemon picture
 	const ANIM_BG_1A
 	const ANIM_BG_1C
 	const ANIM_BG_1D
-	const ANIM_BG_1F
-	const ANIM_BG_20
+	const ANIM_BG_VERTICAL_SHAKE
+	const ANIM_BG_HORIZONTAL_SHAKE
 	const ANIM_BG_WITHDRAW
 	const ANIM_BG_BOUNCE_DOWN
 	const ANIM_BG_DIG
 	const ANIM_BG_TACKLE
-	const ANIM_BG_25
-	const ANIM_BG_26
-	const ANIM_BG_27
+	const ANIM_BG_TACKLE2
+	const ANIM_BG_SHAKE_USER
+	const ANIM_BG_PULL_BACK_USER
 	const ANIM_BG_WAVE_DEFORM_USER
 	const ANIM_BG_PSYCHIC
 	const ANIM_BG_2A
 	const ANIM_BG_2B
-	const ANIM_BG_2C
+	const ANIM_BG_FLAIL
 	const ANIM_BG_2D
-	const ANIM_BG_2E
-	const ANIM_BG_2F
+	const ANIM_BG_RUMBLE
+	const ANIM_BG_STEP_BACK_USER
 	const ANIM_BG_30
 	const ANIM_BG_31
 	const ANIM_BG_32
@@ -816,7 +853,8 @@ BATTLEANIM_BASE_TILE EQU 7 * 7  ; Maximum size of a pokemon picture
 	const ANIM_GFX_HORN
 	const ANIM_GFX_FLOWER
 	const ANIM_GFX_MISC ; $1f
-	const ANIM_GFX_SKY_ATTACK ; $20
+	const ANIM_GFX_MISC2 ; $20
+	const ANIM_GFX_SKY_ATTACK
 	const ANIM_GFX_GLOBE
 	const ANIM_GFX_SHAPES
 	const ANIM_GFX_OBJECTS
@@ -824,7 +862,7 @@ BATTLEANIM_BASE_TILE EQU 7 * 7  ; Maximum size of a pokemon picture
 	const ANIM_GFX_ANGELS
 	const ANIM_GFX_AEROBLAST
 	const ANIM_GFX_PLAYERHEAD
-	const ANIM_GFX_ENEMYFEET ; $28
+	const ANIM_GFX_ENEMYFEET ; $29
 
 ; battle_bg_effect struct members (see macros/wram.asm)
 	const_def

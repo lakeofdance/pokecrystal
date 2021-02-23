@@ -120,7 +120,7 @@ RunBattleAnimScript:
 	cp ROLLOUT
 	jr nz, .not_rollout
 
-	ld a, ANIM_BG_2E
+	ld a, ANIM_BG_RUMBLE
 	ld b, NUM_BG_EFFECTS
 	ld de, BG_EFFECT_STRUCT_LENGTH
 	ld hl, wBGEffect1Function
@@ -617,9 +617,8 @@ BattleAnimCmd_ResetObp0:
 	ret
 
 BattleAnimCmd_ClearObjs:
-; BUG: This function only clears the first 6⅔ objects
 	ld hl, wActiveAnimObjects
-	ld a, $a0 ; should be NUM_ANIM_OBJECTS * BATTLEANIMSTRUCT_LENGTH
+	ld a, NUM_ANIM_OBJECTS * BATTLEANIMSTRUCT_LENGTH
 .loop
 	ld [hl], 0
 	inc hl

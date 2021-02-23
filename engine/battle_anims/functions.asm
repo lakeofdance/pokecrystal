@@ -91,6 +91,8 @@ DoBattleAnimFrame:
 	dw BattleAnimFunction_4D ; 4d
 	dw BattleAnimFunction_4E ; 4e
 	dw BattleAnimFunction_4F ; 4f
+	dw BattleAnimFunction_Meteor ; 50
+	dw BattleAnimFunction_MeteorBeam ;51
 
 BattleAnimFunction_Null:
 	call BattleAnim_AnonJumptable
@@ -4028,6 +4030,74 @@ BattleAnimFunction_4D:
 	ret
 
 .asm_ce6ed
+	call DeinitBattleAnimation
+	ret
+
+BattleAnimFunction_Meteor:	
+	call BattleAnim_AnonJumptable
+.anon_dw
+	dw .zero
+	dw .one
+.one
+	call DeinitBattleAnimation
+	ret
+
+.zero
+	ld hl, BATTLEANIMSTRUCT_XCOORD
+	add hl, bc
+	ld a, [hl]
+	cp $84
+	ret nc
+	ld hl, BATTLEANIMSTRUCT_PARAM
+	add hl, bc
+	ld a, [hl]
+
+	and $f
+	ld e, a
+	ld hl, BATTLEANIMSTRUCT_XCOORD
+	add hl, bc
+	add [hl]
+	ld [hl], a
+	srl e
+	ld hl, BATTLEANIMSTRUCT_YCOORD
+	add hl, bc
+.loop
+	inc [hl]
+	dec e
+	jr nz, .loop
+	ret
+
+BattleAnimFunction_MeteorBeam:
+	call BattleAnim_AnonJumptable
+.anon_dw
+	dw FunctionMeteorBeam1
+	dw FunctionMeteorBeam2
+
+FunctionMeteorBeam1:
+	call BattleAnim_IncAnonJumptableIndex
+	ld hl, BATTLEANIMSTRUCT_0F
+	add hl, bc
+	ld [hl], $0
+FunctionMeteorBeam2:
+	ld hl, BATTLEANIMSTRUCT_0F
+	add hl, bc
+	ld a, [hl]
+	cp $48
+	jr nc, .end
+	ld d, a
+	add $3
+	ld [hl], a
+	ld hl, BATTLEANIMSTRUCT_PARAM
+	add hl, bc
+	ld a, [hl]
+	push de
+	call BattleAnim_Sine
+	ld hl, BATTLEANIMSTRUCT_YOFFSET
+	add hl, bc
+	ld [hl], a
+	pop de
+	ret
+.end
 	call DeinitBattleAnimation
 	ret
 

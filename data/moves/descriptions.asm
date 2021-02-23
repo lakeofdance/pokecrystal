@@ -309,8 +309,6 @@ MoveDescriptions::
 	dw AquaTailDescription
 	dw FishiousrendDescription
 	dw BoltBeakDescription
-	dw SuperBloomDescription
-	dw MeltdownDescription
 	dw FlipTurnDescription
 	dw LiquidationDescription
 	dw MuddyWaterDescription
@@ -509,11 +507,11 @@ MoveDescriptions::
 	dw TailwindDescription
 	dw HoneClawsDescription
 	dw NightDazeDescription
+	dw CrushGripDescription
+	dw WringOutDescription
 	dw NightSlashDescription
 	dw Move1FFDescription
 	dw Move200Description
-	dw CrushGripDescription
-	dw WringOutDescription
 	dw MementoDescription
 	dw WeatherBallDescription
 	dw AromatherapyDescription
@@ -1767,8 +1765,6 @@ AquaTailDescription:
 
 FishiousrendDescription:
 BoltBeakDescription:
-SuperBloomDescription:
-MeltdownDescription:
 	db   "Strikes heavily if"
 	next "the user goes 1st.@"
 

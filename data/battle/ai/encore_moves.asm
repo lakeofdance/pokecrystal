@@ -35,7 +35,7 @@ EncoreMoves:
 	dw QUIVER_DANCE
 	dw NUZZLE
 	dw DRAGON_DANCE
-	dw NATURES_CURE
+	dw NATURES_RAGE
 	dw SOAK
 	dw STEALTHROCKS
 	db -1 ; end

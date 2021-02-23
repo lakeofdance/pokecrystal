@@ -107,23 +107,23 @@ BattleBGEffects:
 	dw BattleBGEffect_1a
 	dw BattleBGEffect_1c
 	dw BattleBGEffect_1d
-	dw BattleBGEffect_1f
-	dw BattleBGEffect_20
+	dw BattleBGEffect_VerticalShake
+	dw BattleBGEffect_HorizontalShake
 	dw BattleBGEffect_Withdraw
 	dw BattleBGEffect_BounceDown
 	dw BattleBGEffect_Dig
 	dw BattleBGEffect_Tackle
-	dw BattleBGEffect_25
-	dw BattleBGEffect_26
-	dw BattleBGEffect_27
+	dw BattleBGEffect_Tackle2
+	dw BattleBGEffect_ShakeUser
+	dw BattleBGEffect_PullBackUser
 	dw BattleBGEffect_WaveDeformUser
 	dw BattleBGEffect_Psychic
 	dw BattleBGEffect_2a
 	dw BattleBGEffect_2b
-	dw BattleBGEffect_2c
+	dw BattleBGEffect_Flail
 	dw BattleBGEffect_2d
-	dw BattleBGEffect_2e
-	dw BattleBGEffect_2f
+	dw BattleBGEffect_Rumble
+	dw BattleBGEffect_StepBackUser
 	dw BattleBGEffect_30
 	dw BattleBGEffect_31
 	dw BattleBGEffect_32
@@ -514,7 +514,7 @@ _QueueBattleAnimation:
 	callfar QueueBattleAnimation
 	ret
 
-BattleBGEffect_27:
+BattleBGEffect_PullBackUser:
 	call BattleBGEffects_AnonJumptable
 .anon_dw
 	dw .zero
@@ -1406,7 +1406,7 @@ BattleBGEffect_Tackle:
 	call BattleAnim_ResetLCDStatCustom
 	ret
 
-BattleBGEffect_25:
+BattleBGEffect_Tackle2:
 	call BattleBGEffects_AnonJumptable
 .anon_dw
 	dw .zero
@@ -1567,7 +1567,7 @@ BGEffect2d_2f_zero:
 	ld [hl], a
 	ret
 
-BattleBGEffect_2f:
+BattleBGEffect_StepBackUser:
 	call BattleBGEffects_AnonJumptable
 .anon_dw
 	dw BGEffect2d_2f_zero
@@ -1581,7 +1581,7 @@ BattleBGEffect_2f:
 .two
 	ret
 
-BattleBGEffect_26:
+BattleBGEffect_ShakeUser:
 	call BattleBGEffects_AnonJumptable
 .anon_dw
 	dw .zero
@@ -1619,7 +1619,7 @@ BattleBGEffect_26:
 	call BattleAnim_ResetLCDStatCustom
 	ret
 
-BattleBGEffect_2c:
+BattleBGEffect_Flail:
 	call BattleBGEffects_AnonJumptable
 .anon_dw
 	dw .zero
@@ -2116,7 +2116,7 @@ BattleBGEffect_WobbleMon:
 	call BattleAnim_ResetLCDStatCustom
 	ret
 
-BattleBGEffect_2e:
+BattleBGEffect_Rumble:
 	call Functionc8d0b
 	jr c, .xor_a
 	bit 7, a
@@ -2133,7 +2133,7 @@ BattleBGEffect_2e:
 	ld [wAnimObject01YOffset], a
 	ret
 
-BattleBGEffect_1f:
+BattleBGEffect_HorizontalShake:
 	call Functionc8d0b
 	jr nc, .skip
 	xor a
@@ -2141,7 +2141,7 @@ BattleBGEffect_1f:
 	ldh [hSCX], a
 	ret
 
-BattleBGEffect_20:
+BattleBGEffect_VerticalShake:
 	call Functionc8d0b
 	jr nc, .skip
 	xor a

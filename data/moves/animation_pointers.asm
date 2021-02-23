@@ -1,6 +1,6 @@
 BattleAnimations::
 ; entries correspond to constants/move_constants.asm
-; Seee data/moves/animations.asm
+; See data/moves/animations.asm
 	dba BattleAnim_0
 	dba BattleAnim_Pound
 	dba BattleAnim_KarateChop
@@ -34,7 +34,10 @@ BattleAnimations::
 	dba BattleAnim_HornAttack
 	dba BattleAnim_FuryAttack
 	dba BattleAnim_HornDrill
-	dba BattleAnim_Tackle
+;	dba BattleAnim_Tackle
+;
+	dba BattleAnim_MagnetBomb
+;
 	dba BattleAnim_BodySlam
 	dba BattleAnim_Wrap
 	dba BattleAnim_TakeDown
@@ -44,7 +47,9 @@ BattleAnimations::
 	dba BattleAnim_PoisonSting
 	dba BattleAnim_Twineedle
 	dba BattleAnim_PinMissile
-	dba BattleAnim_Leer
+;	dba BattleAnim_Leer
+	dba BattleAnim_DragonRage
+;
 	dba BattleAnim_Bite
 	dba BattleAnim_Growl
 	dba BattleAnim_Roar
@@ -253,11 +258,11 @@ BattleAnimations::
 	dba BattleAnim_RockSmash
 	dba BattleAnim_Whirlpool
 	dba BattleAnim_BeatUp
-	dba BattleAnim_FlameWheel	;burn up
+	dba BattleAnim_BurnUp
 	dba BattleAnim_StrengthSap
 	dba BattleAnim_UTurn
-	dba BattleAnim_ff		;don't use
-	dba BattleAnim_100		;don't use
+	dba BattleAnim_Pound		;ff
+	dba BattleAnim_Pound		;100
 	dba BattleAnim_FreezeDry
 	dba BattleAnim_FlyingPress
 	dba BattleAnim_VoltSwitch
@@ -268,7 +273,7 @@ BattleAnimations::
 	dba BattleAnim_KnockOff
 	dba BattleAnim_BugBuzz
 	dba BattleAnim_Lunge
-	dba BattleAnim_Tackle		;quiver dance
+	dba BattleAnim_QuiverDance
 	dba BattleAnim_SignalBeam
 	dba BattleAnim_SilverWind
 	dba BattleAnim_XScissor
@@ -291,14 +296,14 @@ BattleAnimations::
 	dba BattleAnim_DrainingKiss
 	dba BattleAnim_FairyWind
 	dba BattleAnim_Moonblast
-	dba BattleAnim_Tackle		;nature's cure
+	dba BattleAnim_NaturesMadness
 	dba BattleAnim_PlayRough
 	dba BattleAnim_SpiritBreak
 	dba BattleAnim_StrangeSteam
-	dba BattleAnim_Tackle		;apple acid
+	dba BattleAnim_AppleAcid
 	dba BattleAnim_BulletSeed
 	dba BattleAnim_EnergyBall
-	dba BattleAnim_Tackle		;grav apple
+	dba BattleAnim_GravApple
 	dba BattleAnim_HornLeech
 	dba BattleAnim_LeafBlade
 	dba BattleAnim_Leafage
@@ -306,134 +311,132 @@ BattleAnimations::
 	dba BattleAnim_PetalBlizzard
 	dba BattleAnim_PowerWhip
 	dba BattleAnim_SolarBlade
-	dba BattleAnim_Tackle		;wood hammer
+	dba BattleAnim_WoodHammer
 	dba BattleAnim_AquaJet
 	dba BattleAnim_AquaTail
-	dba BattleAnim_Tackle		;fishiousrend
-	dba BattleAnim_Tackle		;bolt beak
-	dba BattleAnim_Tackle		;super bloom
-	dba BattleAnim_Tackle		;meltdown
+	dba BattleAnim_FishiousRend
+	dba BattleAnim_BoltBeak
 	dba BattleAnim_FlipTurn
-	dba BattleAnim_Tackle		;liquidation
+	dba BattleAnim_Liquidation
 	dba BattleAnim_MuddyWater
 	dba BattleAnim_Scald
-	dba BattleAnim_Tackle		;soak
-	dba BattleAnim_Tackle		;steamruption
-	dba BattleAnim_Tackle		;watershurikn
-	dba BattleAnim_Spikes		;stealthrocks
+	dba BattleAnim_Soak
+	dba BattleAnim_SteamEruption
+	dba BattleAnim_WaterShuriken
+	dba BattleAnim_StealthRocks
 	dba BattleAnim_ToxicSpikes
-	dba BattleAnim_Tackle		;clanging scales
-	dba BattleAnim_Tackle		;hyperspace fury
-	dba BattleAnim_Tackle		;draco meteor
-	dba BattleAnim_Tackle		;overheat
-	dba BattleAnim_Tackle		;leaf storm
-	dba BattleAnim_Tackle		;psycho boost
-	dba BattleAnim_Tackle		;fleur cannon
+	dba BattleAnim_ClangingScales
+	dba BattleAnim_HyperspaceFury
+	dba BattleAnim_DracoMeteor
+	dba BattleAnim_Overheat
+	dba BattleAnim_LeafStorm
+	dba BattleAnim_PsychoBoost
+	dba BattleAnim_FleurCannon
 	dba BattleAnim_CloseCombat
-	dba BattleAnim_Tackle		;dragon ascent
-	dba BattleAnim_Tackle		;hammer arm
-	dba BattleAnim_Tackle		;superpower
-	dba BattleAnim_Tackle		;ice hammer
-	dba BattleAnim_Tackle		;v-create
-	dba BattleAnim_Tackle		;fell stinger
-	dba BattleAnim_Tackle		;fake out
-	dba BattleAnim_Tackle		;first impression
-	dba BattleAnim_FocusEnergy	;geomancy
+	dba BattleAnim_DragonAscent
+	dba BattleAnim_HammerArm
+	dba BattleAnim_Superpower
+	dba BattleAnim_IceHammer
+	dba BattleAnim_VCreate
+	dba BattleAnim_FellStinger
+	dba BattleAnim_FakeOut
+	dba BattleAnim_FirstImpression
+	dba BattleAnim_Geomancy
 	dba BattleAnim_Acrobatics
 	dba BattleAnim_Facade
 	dba BattleAnim_Hex
 	dba BattleAnim_Venoshock
-	dba BattleAnim_Tackle		;parting shot
-	dba BattleAnim_Tackle		;charge beam
+	dba BattleAnim_PartingShot
+	dba BattleAnim_ChargeBeam
 	dba BattleAnim_ThunderFang
 	dba BattleAnim_AuraSphere
-	dba BattleAnim_Tackle		;brick break
+	dba BattleAnim_BrickBreak
 	dba BattleAnim_BulkUp
 	dba BattleAnim_DrainPunch
 	dba BattleAnim_FocusBlast
-	dba BattleAnim_Tackle		;poweruppunch
-	dba BattleAnim_Tackle		;sky uppercut
-	dba BattleAnim_Tackle		;storm throw
-	dba BattleAnim_Tackle		;vacuum wave
-	dba BattleAnim_Tackle		;wake up slap
+	dba BattleAnim_PowerUpPunch
+	dba BattleAnim_SkyUppercut
+	dba BattleAnim_StormThrow
+	dba BattleAnim_VacuumWave
+	dba BattleAnim_WakeUpSlap
 	dba BattleAnim_AerialAce
 	dba BattleAnim_AirSlash
-	dba BattleAnim_Fly		;bounce
+	dba BattleAnim_Bounce
 	dba BattleAnim_BraveBird
-	dba BattleAnim_Tackle		;defog
-	dba BattleAnim_Tackle		;dual wingbeat
-	dba BattleAnim_Tackle		;feather dance
+	dba BattleAnim_Defog
+	dba BattleAnim_DualWingbeat
+	dba BattleAnim_FeatherDance
 	dba BattleAnim_Hurricane
 	dba BattleAnim_Roost
 	dba BattleAnim_Boomburst
-	dba BattleAnim_Tackle		;court change
-	dba BattleAnim_Tackle		;endeavor
+	dba BattleAnim_CourtChange
+	dba BattleAnim_Endeavor
 	dba BattleAnim_GigaImpact
 	dba BattleAnim_HyperVoice
-	dba BattleAnim_Tackle		;reflect type
+	dba BattleAnim_ReflectType
 	dba BattleAnim_ShellSmash
-	dba BattleAnim_Recover		;slack off
-	dba BattleAnim_Tackle		;trump card
-	dba BattleAnim_Tackle		;work up
+	dba BattleAnim_SlackOff
+	dba BattleAnim_TrumpCard
+	dba BattleAnim_WorkUp
 	dba BattleAnim_Bulldoze
 	dba BattleAnim_DrillRun
 	dba BattleAnim_EarthPower
-	dba BattleAnim_Tackle		;scorchinsand
-	dba BattleAnim_Tackle		;1000 arrows
-	dba BattleAnim_Tackle		;1000 waves
-	dba BattleAnim_Tackle		;accelerock
-	dba BattleAnim_Tackle		;diamondstorm
+	dba BattleAnim_ScorchingSands
+	dba BattleAnim_ThousandArrows
+	dba BattleAnim_ThousandWaves
+	dba BattleAnim_Accelerock
+	dba BattleAnim_DiamondStorm
 	dba BattleAnim_HeadSmash
-	dba BattleAnim_Tackle		;meteor beam
+	dba BattleAnim_MeteorBeam
 	dba BattleAnim_PowerGem
 	dba BattleAnim_RockBlast
-	dba BattleAnim_Tackle		;rock polish
-	dba BattleAnim_Tackle		;smack down
+	dba BattleAnim_RockPolish
+	dba BattleAnim_SmackDown
 	dba BattleAnim_StoneEdge
 	dba BattleAnim_Astonish
-	dba BattleAnim_Tackle		;ominous wind
-	dba BattleAnim_Tackle		;phantomforce
-	dba BattleAnim_Tackle		;poltergeist
-	dba BattleAnim_Tackle		;shadow bone
+	dba BattleAnim_OminousWind
+	dba BattleAnim_PhantomForce
+	dba BattleAnim_Poltergeist
+	dba BattleAnim_ShadowBone
 	dba BattleAnim_ShadowClaw
-	dba BattleAnim_Tackle		;shadow force
-	dba BattleAnim_Tackle		;shadow punch
-	dba BattleAnim_Tackle		;shadow sneak
-	dba BattleAnim_Tackle		;spectral thief
-	dba BattleAnim_Tackle		;spirit shackle
-	dba BattleAnim_Ember		;blast burn
-	dba BattleAnim_Ember		;blaze kick
-	dba BattleAnim_Ember		;blue flare
-	dba BattleAnim_Ember		;burning envy
-	dba BattleAnim_Ember		;eruption
-	dba BattleAnim_WaterGun		;water spout
-	dba BattleAnim_Ember		;fiery dance
+	dba BattleAnim_ShadowForce
+	dba BattleAnim_ShadowPunch
+	dba BattleAnim_ShadowSneak
+	dba BattleAnim_SpectralThief
+	dba BattleAnim_SpiritShackle
+	dba BattleAnim_BlastBurn
+	dba BattleAnim_BlazeKick
+	dba BattleAnim_BlueFlare
+	dba BattleAnim_BurningJealousy
+	dba BattleAnim_Eruption
+	dba BattleAnim_WaterSpout
+	dba BattleAnim_FieryDance
 	dba BattleAnim_FireFang
-	dba BattleAnim_Ember		;fire lash
+	dba BattleAnim_FireLash
 	dba BattleAnim_FlameCharge
 	dba BattleAnim_FlareBlitz
-	dba BattleAnim_Ember		;incinerate
-	dba BattleAnim_Ember		;inferno
-	dba BattleAnim_Ember		;lava plume
-	dba BattleAnim_Ember		;magma storm
-	dba BattleAnim_Ember		;mind blown
-	dba BattleAnim_Ember		;mysticalfire
-	dba BattleAnim_Ember		;searing shot
+	dba BattleAnim_Incinerate
+	dba BattleAnim_Inferno
+	dba BattleAnim_LavaPlume
+	dba BattleAnim_MagmaStorm
+	dba BattleAnim_MindBlown
+	dba BattleAnim_MysticalFire
+	dba BattleAnim_SearingShot
 	dba BattleAnim_WillOWisp
-	dba BattleAnim_Tackle		;anchor shot
+	dba BattleAnim_AnchorShot
 	dba BattleAnim_BulletPunch
 	dba BattleAnim_FlashCannon
-	dba BattleAnim_Tackle		;gear grind
+	dba BattleAnim_GearGrind
 	dba BattleAnim_GyroBall
-	dba BattleAnim_Tackle		;iron defense
+	dba BattleAnim_IronDefense
 	dba BattleAnim_IronHead
-	dba BattleAnim_Protect		;kings shield
-	dba BattleAnim_Tackle		;magnet bomb
-	dba BattleAnim_Tackle		;meteor mash
-	dba BattleAnim_Tackle		;mirror shot
+	dba BattleAnim_KingsShield
+	dba BattleAnim_MagnetBomb
+	dba BattleAnim_MeteorMash
+	dba BattleAnim_MirrorShot
 	dba BattleAnim_Tackle		;shift gear
 	dba BattleAnim_Tackle		;smart strike
-	dba BattleAnim_Tackle		;steel beam
+	dba BattleAnim_SteelBeam
 	dba BattleAnim_CalmMind
 	dba BattleAnim_CosmicPower
 	dba BattleAnim_Extrasensory
@@ -441,55 +444,55 @@ BattleAnimations::
 	dba BattleAnim_Tackle		;heart swap
 	dba BattleAnim_Tackle		;hyperspace hole
 	dba BattleAnim_Tackle		;luster purge
-	dba BattleAnim_Tackle		;mist ball
+	dba BattleAnim_MistBall
 	dba BattleAnim_Tackle		;prism laser
-	dba BattleAnim_Tackle		;psychic fang
+	dba BattleAnim_PsychicFang
 	dba BattleAnim_PsychoCut
 	dba BattleAnim_Tackle		;psycho shift
-	dba BattleAnim_Tackle		;psyshock
+	dba BattleAnim_Psyshock
 	dba BattleAnim_Psystrike
-	dba BattleAnim_Tackle		;stored power
+	dba BattleAnim_StoredPower
 	dba BattleAnim_Tackle		;synchronoise
 	dba BattleAnim_Trick
 	dba BattleAnim_TrickRoom
 	dba BattleAnim_ZenHeadbutt
-	dba BattleAnim_Tackle		;sticky web
+	dba BattleAnim_StickyWeb
 	dba BattleAnim_Tackle		;acid spray
 	dba BattleAnim_Tackle		;clear smog
-	dba BattleAnim_Tackle		;coil
-	dba BattleAnim_Tackle		;cross poison
+	dba BattleAnim_Coil
+	dba BattleAnim_CrossPoison
 	dba BattleAnim_PoisonFang
 	dba BattleAnim_PoisonJab
-	dba BattleAnim_Tackle		;poison tail
+	dba BattleAnim_PoisonTail
 	dba BattleAnim_Tackle		;sludge wave
-	dba BattleAnim_Tackle		;toxic thread
+	dba BattleAnim_ToxicThread
 	dba BattleAnim_Tackle		;venom drench
 	dba BattleAnim_GunkShot
 	dba BattleAnim_Tackle		;arm thrust
 	dba BattleAnim_Tackle		;final gambit
-	dba BattleAnim_Tackle		;force palm
-	dba BattleAnim_Tackle		;oblivion wing
+	dba BattleAnim_ForcePalm
+	dba BattleAnim_OblivionWing
 	dba BattleAnim_Tackle		;attack order
 	dba BattleAnim_Tackle		;defend order
 	dba BattleAnim_Recover		;heal order
 	dba BattleAnim_Tackle		;infestation
 	dba BattleAnim_Tackle		;skitter smack
-	dba BattleAnim_Tackle		;struggle bug
+	dba BattleAnim_StruggleBug
 	dba BattleAnim_Tackle		;steamroller
-	dba BattleAnim_Tackle		;bolt strike
+	dba BattleAnim_BoltStrike
 	dba BattleAnim_Tackle		;eerie impulse
-	dba BattleAnim_Tackle		;zing zap
-	dba BattleAnim_Tackle		;spacial rend
+	dba BattleAnim_ZingZap
+	dba BattleAnim_SpacialRend
 	dba BattleAnim_RoarOfTime
 	dba BattleAnim_Tackle		;brutal swing
 	dba BattleAnim_Tackle		;fake tears
-	dba BattleAnim_Tackle		;secret sword
-	dba BattleAnim_Tackle		;sacred sword
+	dba BattleAnim_SecretSword
+	dba BattleAnim_SacredSword
 	dba BattleAnim_Tackle		;chip away
 	dba BattleAnim_Tackle		;dark lariat
-	dba BattleAnim_Tackle		;frost breath
+	dba BattleAnim_FrostBreath
 	dba BattleAnim_Tackle		;glaciate
-	dba BattleAnim_Tackle		;ice ball
+	dba BattleAnim_IceBall
 	dba BattleAnim_IceFang
 	dba BattleAnim_IceShard
 	dba BattleAnim_IcicleCrash
@@ -497,37 +500,37 @@ BattleAnimations::
 	dba BattleAnim_Tackle		;triple axel
 	dba BattleAnim_Tackle		;thunder cage
 	dba BattleAnim_Tackle		;drake energy
-	dba BattleAnim_Tackle		;freeze glare
+	dba BattleAnim_FreezeGlare
 	dba BattleAnim_Tackle		;fiery wrath
-	dba BattleAnim_Tackle		;thunder kick
-	dba BattleAnim_Tackle		;wicked blow
+	dba BattleAnim_ThunderKick
+	dba BattleAnim_WickedBlow
 	dba BattleAnim_Tackle		;switcheroo
 	dba BattleAnim_Tackle		;snarl
 	dba BattleAnim_Tackle		;power trip
-	dba BattleAnim_Tackle		;seed flare
+	dba BattleAnim_SeedFlare
 	dba BattleAnim_Tackle		;trop kick
-	dba BattleAnim_Tackle		;needle arm
+	dba BattleAnim_NeedleArm
 	dba BattleAnim_Tackle		;taunt
 	dba BattleAnim_Tackle		;tailwind
 	dba BattleAnim_HoneClaws
 	dba BattleAnim_Tackle		;night daze
+	dba BattleAnim_Tackle		;crush grip
+	dba BattleAnim_Tackle		;wring out
 	dba BattleAnim_NightSlash
 	dba BattleAnim_Pound		;1ff
 	dba BattleAnim_Pound		;200
-	dba BattleAnim_Tackle		;crush grip
-	dba BattleAnim_Tackle		;wring out
 	dba BattleAnim_Tackle		;memento
 	dba BattleAnim_Tackle		;weather ball
 	dba BattleAnim_Tackle		;aromatherapy
 	dba BattleAnim_Tackle		;block
 	dba BattleAnim_Tackle		;covet
 	dba BattleAnim_Tackle		;crush claw
-	dba BattleAnim_Tackle		;howl
+	dba BattleAnim_Howl
 	dba BattleAnim_Tackle		;feint
-	dba BattleAnim_Tackle		;electro ball
-	dba BattleAnim_Tackle		;head charge
+	dba BattleAnim_ElectroBall
+	dba BattleAnim_HeadCharge
 	dba BattleAnim_Tackle		;leaf tornado
-	dba BattleAnim_Tackle		;low sweep
+	dba BattleAnim_LowSweep
 	dba BattleAnim_Tackle		;razor shell
 	dba BattleAnim_Tackle		;baby-doll eyes
 	dba BattleAnim_Tackle		;land's wrath
@@ -538,17 +541,17 @@ BattleAnimations::
 	dba BattleAnim_Hail
 	dba BattleAnim_Reflect		;aurora veil
 	dba BattleAnim_Tackle		;punishment
-	dba BattleAnim_Tackle		;snatch
+	dba BattleAnim_Snatch
 	dba BattleAnim_Tackle		;topsy turvy
 	dba BattleAnim_Recover		;purify
-	dba BattleAnim_Tackle		;octolock
+	dba BattleAnim_Octolock
 	dba BattleAnim_Tackle		;meteor assault
 	dba BattleAnim_Tackle		;volt tackle
 	dba BattleAnim_BugBite
 	dba BattleAnim_Tackle		;mud bomb
-	dba BattleAnim_Tackle		;mud shot
-	dba BattleAnim_Tackle		;rock tomb
-	dba BattleAnim_Tackle		;heat wave
+	dba BattleAnim_MudShot
+	dba BattleAnim_RockTomb
+	dba BattleAnim_HeatWave
 	dba BattleAnim_Tackle		;grass knot
 	dba BattleAnim_Tackle		;heavy slam
 	dba BattleAnim_Tackle		;heat crash

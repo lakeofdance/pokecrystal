@@ -179,6 +179,11 @@ BattleAnimFrameData:
 	dw .Frameset_b7 ; BATTLEANIMFRAMESET_B7
 	dw .Frameset_b8 ; BATTLEANIMFRAMESET_B8
 	dw .Frameset_b9 ; BATTLEANIMFRAMESET_B9
+	dw .Frameset_ba ; BATTLEANIMFRAMESET_BA
+	dw .Frameset_bb ; BATTLEANIMFRAMESET_BB
+	dw .Frameset_bc ; BATTLEANIMFRAMESET_BC
+	dw .Frameset_bd ; BATTLEANIMFRAMESET_BD
+	dw .Frameset_be ; BATTLEANIMFRAMESET_BE
 
 .Frameset_00:
 	frame BATTLEANIMOAMSET_00,  6
@@ -1229,4 +1234,32 @@ BattleAnimFrameData:
 
 .Frameset_b9:
 	frame BATTLEANIMOAMSET_D8,  8
+	endanim
+
+.Frameset_ba:
+	frame BATTLEANIMOAMSET_D9,  8
+	endanim
+
+.Frameset_bb:
+	frame BATTLEANIMOAMSET_18, 20
+	frame BATTLEANIMOAMSET_19,  4
+	frame BATTLEANIMOAMSET_1A,  4
+	delanim
+
+.Frameset_bc:
+	frame BATTLEANIMOAMSET_1B, 24
+	delanim
+    
+.Frameset_bd:
+	frame BATTLEANIMOAMSET_DA,  24
+	frame BATTLEANIMOAMSET_DB,  24
+	frame BATTLEANIMOAMSET_DC,  24
+	frame BATTLEANIMOAMSET_DD,  24
+	endanim
+    
+.Frameset_be:
+	frame BATTLEANIMOAMSET_DD,  24, OAM_X_FLIP, OAM_Y_FLIP
+	frame BATTLEANIMOAMSET_DC,  24, OAM_X_FLIP, OAM_Y_FLIP
+	frame BATTLEANIMOAMSET_DB,  24, OAM_X_FLIP, OAM_Y_FLIP
+	frame BATTLEANIMOAMSET_DA,  24, OAM_X_FLIP, OAM_Y_FLIP
 	endanim
