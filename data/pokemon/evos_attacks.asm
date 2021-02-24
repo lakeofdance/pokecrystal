@@ -3597,7 +3597,7 @@ MetagrossEvosAttacks:
 	db 0 ; no more level-up moves
 
 NosepassEvosAttacks:
-;	dbbw EVOLVE_LOCATION, MAGNETIC_FIELD, PROBOPASS ;todo
+	dbbw EVOLVE_LOCATION, MAGNETIC_MAPS, PROBOPASS
 	db 0 ; no more evolutions
 	dbw 1, TACKLE
 	dbw 4, HARDEN

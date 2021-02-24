@@ -100,6 +100,9 @@ EvolveAfterBattle_MasterLoop:
 
 	cp EVOLVE_HAPPINESS
 	jr z, .happiness
+    
+    cp EVOLVE_LOCATION
+    jr z, .location
 
 	cp EVOLVE_MEGA
 	jp z, .dont_evolve_2	
@@ -138,6 +141,34 @@ EvolveAfterBattle_MasterLoop:
 
 	inc hl
 	jp .proceed
+    
+.location
+	call GetFarEvosAttacksByte
+    inc hl
+    push hl
+    ld hl, MagneticMaps
+    cp MAGNETIC_MAPS
+    jr z, .check_location
+    ld hl, MossyMaps
+    cp MOSSY_MAPS
+    jr z, .check_location
+    ld hl, IcyMaps
+    cp ICY_MAPS
+    jr z, .check_location
+    pop hl
+    jp .dont_evolve_3
+
+.check_location
+	ld a, [wMapGroup]
+	ld b, a
+	ld a, [wMapNumber]
+	ld c, a
+	call GetWorldMapLocation
+    ld de, 1
+    call IsInArray
+    pop hl
+    jp nc, .dont_evolve_3
+    jp .proceed
 
 .happiness
 	ld a, [wTempMonHappiness]
@@ -859,3 +890,5 @@ GiveShedinja:
 	ld a, b
 	ld [wBattleMode], a
 	ret
+    
+INCLUDE "data/maps/evolution_locations.asm"

@@ -141,6 +141,7 @@ NUM_HOF_TEAMS EQU 30
 	const EVOLVE_TRADE
 	const EVOLVE_HAPPINESS
 	const EVOLVE_STAT
+    const EVOLVE_LOCATION
 	const EVOLVE_MEGA
 ; abnormal evolutions, which are dealt with outside of the usual function
 ; shedinja
@@ -157,6 +158,12 @@ NUM_HOF_TEAMS EQU 30
 	const ATK_GT_DEF
 	const ATK_LT_DEF
 	const ATK_EQ_DEF
+    
+; EVOLVE_LOCATION triggers
+    const_def 1
+    const MAGNETIC_MAPS
+    const MOSSY_MAPS
+    const ICY_MAPS
 
 ; wild data
 
