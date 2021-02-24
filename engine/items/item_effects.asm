@@ -788,10 +788,11 @@ HeavyBallMultiplier:
 ; else add 30 to catch rate if weight < 409.6 kg
 ; else add 40 to catch rate (never happens)
 	ld a, [wEnemyMonSpecies]
-	ld hl, PokedexDataPointerTable
-	dec a
 	ld e, a
-	ld d, 0
+	ld a, [wEnemyMonSpecies + 1]
+	ld d, a
+	ld hl, PokedexDataPointerTable
+	dec de
 	add hl, de
 	add hl, de
 	ld a, BANK(PokedexDataPointerTable)

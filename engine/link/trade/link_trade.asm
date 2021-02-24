@@ -197,7 +197,6 @@ LinkTrade:
 	ld [wPlayerTrademonSpecies], a
 	ld a, [hl]
 	ld [wPlayerTrademonSpecies + 1], a
-	push af
 	ld a, [wd002]
 	ld hl, wPartyMonOT
 	call SkipNames
@@ -275,7 +274,8 @@ LinkTrade:
 	ld c, a
 	add hl, bc
 	add hl, bc
-	ld a, [hl]	;todo, maybe
+	ld a, [hl]
+; Why? Maybe todo.
 	ld [wd002], a
 	xor a ; REMOVE_PARTY
 	ld [wPokemonWithdrawDepositParameter], a
@@ -292,7 +292,8 @@ LinkTrade:
 	ld c, a
 	add hl, bc
 	add hl, bc
-	ld a, [hl]	;todo, maybe
+	ld a, [hl]
+; Why? Maybe todo.
 	ld [wd003], a
 	ld c, 100
 	call DelayFrames
@@ -328,7 +329,7 @@ LinkTrade:
 	ld de, wTempMonSpecies
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call CopyBytes
-	predef AddTempmonToParty ; TODO: herein lies the problem
+	predef AddTempmonToParty
 	ld a, [wPartyCount]
 	dec a
 	ld [wCurPartyMon], a
@@ -337,22 +338,25 @@ LinkTrade:
 	call LoadTradeScreenBorder
 	call SetTradeRoomBGPals
 	farcall Link_WaitBGMap
-	ld b, $1
-	pop af
-	ld c, a
-	cp MEW
+	ld d, $1
+	ld hl, wPlayerTrademonSpecies
+	ld bc, MEW
+	call CompareMove
 	jr z, .loop
-	ld a, [wCurPartySpecies]		;todo, maybe
-	cp MEW
+	ld hl, wCurPartySpecies
+	ld bc, MEW
+	call CompareMove
 	jr z, .loop
-	ld b, $2
-	ld a, c
-	cp CELEBI
+	ld d, $2
+	ld hl, wPlayerTrademonSpecies
+	ld bc, CELEBI
+	call CompareMove
 	jr z, .loop
-	ld a, [wCurPartySpecies]		;todo, maybe
-	cp CELEBI
+	ld hl, wCurPartySpecies
+	ld bc, CELEBI
+	call CompareMove
 	jr z, .loop
-	ld b, $0
+	ld d, $0
 
 .loop
 	ld a, b
