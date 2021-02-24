@@ -1,21 +1,23 @@
-; These functions seem to be related to backwards compatibility
-
 ValidateOTTrademon:
 	ld a, [wd003]
 	ld hl, wOTPartyMon1Species
 	call GetPartyLocation
 	push hl
 	ld a, [wd003]
-	inc a
 	ld c, a
 	ld b, 0
-	ld hl, wOTPartyCount
+	ld hl, wOTPartySpecies
 	add hl, bc
-	ld a, [hl]
+    add hl, bc
+	ld a, [hli]
+    ld c, a
+    ld a, [hl]
+    ld b, a
 	pop hl
+    ld a, c
 	cp EGG
 	jr z, .matching_or_egg
-	cp [hl]
+	call CompareMove
 	jr nz, .abnormal
 
 .matching_or_egg
@@ -34,16 +36,21 @@ ValidateOTTrademon:
 	ld c, a
 	ld b, 0
 	add hl, bc
-	ld a, [hl]
+	add hl, bc
 
 	; Magnemite and Magneton's types changed
 	; from Electric to Electric/Steel.
-	cp MAGNEMITE
+	ld bc, MAGNEMITE
+    call CompareMove
 	jr z, .normal
-	cp MAGNETON
+	ld bc, MAGNETON
+    call CompareMove
 	jr z, .normal
 
+    ld a, [hli]
 	ld [wCurSpecies], a
+    ld a, [hl]
+	ld [wCurSpecies + 1], a
 	call GetBaseData
 	ld hl, wLinkOTPartyMonTypes
 	add hl, bc
@@ -99,46 +106,3 @@ Functionfb5dd:
 .done
 	and a
 	ret
-
-PlaceTradePartnerNamesAndParty:
-	hlcoord 4, 0
-	ld de, wPlayerName
-	call PlaceString
-	ld a, $14
-	ld [bc], a
-	hlcoord 4, 8
-	ld de, wOTPlayerName
-	call PlaceString
-	ld a, $14
-	ld [bc], a
-	hlcoord 7, 1
-	ld de, wPartySpecies
-	call .PlaceSpeciesNames
-	hlcoord 7, 9
-	ld de, wOTPartySpecies
-.PlaceSpeciesNames:
-	ld c, $0
-.loop
-	ld a, [de]
-	cp -1
-	ret z
-	ld [wNamedObjectIndexBuffer], a
-	push bc
-	push hl
-	push de
-	push hl
-	ld a, c
-	ldh [hProduct], a
-	call GetPokemonName
-	pop hl
-	call PlaceString
-	pop de
-	inc de
-	pop hl
-	ld bc, SCREEN_WIDTH
-	add hl, bc
-	pop bc
-	inc c
-	jr .loop
-
-INCLUDE "data/pokemon/gen1_base_special.asm"

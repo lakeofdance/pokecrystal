@@ -428,7 +428,7 @@ AddTempmonToParty:
 	ret z
 
 	inc a
-	ld [hl], a
+	ld [hld], a
 	ld c, a
 	ld b, 0
 	add hl, bc
