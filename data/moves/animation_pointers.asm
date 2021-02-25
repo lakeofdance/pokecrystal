@@ -36,7 +36,7 @@ BattleAnimations::
 	dba BattleAnim_HornDrill
 ;	dba BattleAnim_Tackle
 ;
-	dba BattleAnim_MagnetBomb
+	dba BattleAnim_Facade
 ;
 	dba BattleAnim_BodySlam
 	dba BattleAnim_Wrap
@@ -48,7 +48,7 @@ BattleAnimations::
 	dba BattleAnim_Twineedle
 	dba BattleAnim_PinMissile
 ;	dba BattleAnim_Leer
-	dba BattleAnim_DragonRage
+	dba BattleAnim_LockOn
 ;
 	dba BattleAnim_Bite
 	dba BattleAnim_Growl
@@ -434,37 +434,37 @@ BattleAnimations::
 	dba BattleAnim_MagnetBomb
 	dba BattleAnim_MeteorMash
 	dba BattleAnim_MirrorShot
-	dba BattleAnim_Tackle		;shift gear
-	dba BattleAnim_Tackle		;smart strike
+	dba BattleAnim_ShiftGear
+	dba BattleAnim_SmartStrike
 	dba BattleAnim_SteelBeam
 	dba BattleAnim_CalmMind
 	dba BattleAnim_CosmicPower
 	dba BattleAnim_Extrasensory
-	dba BattleAnim_Tackle		;heart stamp
-	dba BattleAnim_Tackle		;heart swap
-	dba BattleAnim_Tackle		;hyperspace hole
-	dba BattleAnim_Tackle		;luster purge
+	dba BattleAnim_HeartStamp
+	dba BattleAnim_HeartSwap
+	dba BattleAnim_HyperspaceHole
+	dba BattleAnim_LusterPurge
 	dba BattleAnim_MistBall
-	dba BattleAnim_Tackle		;prism laser
+	dba BattleAnim_PrismaticLaser
 	dba BattleAnim_PsychicFang
 	dba BattleAnim_PsychoCut
-	dba BattleAnim_Tackle		;psycho shift
+	dba BattleAnim_PsychoShift
 	dba BattleAnim_Psyshock
 	dba BattleAnim_Psystrike
 	dba BattleAnim_StoredPower
-	dba BattleAnim_Tackle		;synchronoise
+	dba BattleAnim_Synchronoise
 	dba BattleAnim_Trick
 	dba BattleAnim_TrickRoom
 	dba BattleAnim_ZenHeadbutt
 	dba BattleAnim_StickyWeb
-	dba BattleAnim_Tackle		;acid spray
-	dba BattleAnim_Tackle		;clear smog
+	dba BattleAnim_AcidSpray
+	dba BattleAnim_ClearSmog
 	dba BattleAnim_Coil
 	dba BattleAnim_CrossPoison
 	dba BattleAnim_PoisonFang
 	dba BattleAnim_PoisonJab
 	dba BattleAnim_PoisonTail
-	dba BattleAnim_Tackle		;sludge wave
+	dba BattleAnim_SludgeWave
 	dba BattleAnim_ToxicThread
 	dba BattleAnim_Tackle		;venom drench
 	dba BattleAnim_GunkShot

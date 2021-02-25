@@ -114,7 +114,7 @@ BattleBGEffects:
 	dw BattleBGEffect_Dig
 	dw BattleBGEffect_Tackle
 	dw BattleBGEffect_Tackle2
-	dw BattleBGEffect_ShakeUser
+	dw BattleBGEffect_ShakeMon
 	dw BattleBGEffect_PullBackUser
 	dw BattleBGEffect_WaveDeformUser
 	dw BattleBGEffect_Psychic
@@ -1581,7 +1581,7 @@ BattleBGEffect_StepBackUser:
 .two
 	ret
 
-BattleBGEffect_ShakeUser:
+BattleBGEffect_ShakeMon:
 	call BattleBGEffects_AnonJumptable
 .anon_dw
 	dw .zero
