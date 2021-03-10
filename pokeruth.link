@@ -143,19 +143,16 @@ ROMX $31
 	"Sprites 2"
 ROMX $32
 	"bank32"
-	"Battle Animations 1"
 ROMX $33
 	"Move Animations"
 ROMX $34
 	"Pic Animations 1"
 	"Battle Animation Pointers"
-	"Battle Animations 2"
 ROMX $35
 	"Pic Animations 2"
 ROMX $36
 	"Font Inversed"
 	"Pic Animations 3"
-	"Battle Animations 3"
 ROMX $37
 	"Tileset Data 6"
 	"Extra Songs 2"
@@ -171,7 +168,6 @@ ROMX $3b
 ROMX $3c
 	"Songs 3"
 	"Sound Effects"
-	"Battle Animations 4"
 ROMX $3d
 	"Songs 4"
 ROMX $3e
